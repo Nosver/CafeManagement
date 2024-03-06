@@ -1,2 +1,4 @@
 
 management/src/main/resources/application.properties
+*.properties
+*.properties
