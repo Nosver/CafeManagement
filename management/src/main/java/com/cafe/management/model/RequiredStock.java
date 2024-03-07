@@ -11,7 +11,7 @@ import lombok.*;
 @Data
 public class RequiredStock {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy =GenerationType.IDENTITY)
     private Long id;
 
     private Double requiredAmount;
