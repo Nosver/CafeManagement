@@ -15,7 +15,7 @@ import lombok.*;
 @Data
 public class InventoryItem {
     @Id
-    @GeneratedValue(strategy =GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String itemName;

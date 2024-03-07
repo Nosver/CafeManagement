@@ -16,7 +16,6 @@ public class InventoryItemController {
 
     @PostMapping("/addInventoryItem")
     public InventoryItem addItem(@RequestBody InventoryItem inventoryItem){
-
         return inventoryItemService.addInventoryItem(inventoryItem);
     }
 }

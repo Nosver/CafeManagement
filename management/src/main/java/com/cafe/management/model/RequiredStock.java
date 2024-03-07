@@ -1,5 +1,6 @@
 package com.cafe.management.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -16,6 +17,8 @@ public class RequiredStock {
 
     private Double requiredAmount;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "inventory_item_id", nullable = true)
+    @JsonIgnore
     private InventoryItem inventoryItem;
 }
