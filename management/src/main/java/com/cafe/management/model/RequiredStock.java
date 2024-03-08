@@ -19,6 +19,5 @@ public class RequiredStock {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "inventory_item_id", nullable = true)
-    @JsonIgnore
     private InventoryItem inventoryItem;
 }
