@@ -13,6 +13,7 @@ public class RequiredStockService {
     private RequiredStockRepository requiredStockRepository;
 
     public void addRequiredStock(RequiredStock requiredStock){
+        if(requiredStock.getInventoryItem() == null)return;
         requiredStockRepository.save(requiredStock);
     }
 

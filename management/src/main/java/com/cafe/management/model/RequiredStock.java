@@ -17,7 +17,11 @@ public class RequiredStock {
 
     private Double requiredAmount;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "inventory_item_id", nullable = true)
+    @OneToOne
     private InventoryItem inventoryItem;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "product_id", referencedColumnName = "id")
+    private Product product;
+
 }
