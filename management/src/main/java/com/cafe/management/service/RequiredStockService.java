@@ -1,6 +1,5 @@
 package com.cafe.management.service;
 
-import com.cafe.management.model.InventoryItem;
 import com.cafe.management.model.RequiredStock;
 import com.cafe.management.repository.RequiredStockRepository;
 import org.springframework.beans.factory.annotation.Autowired;

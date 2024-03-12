@@ -1,7 +1,6 @@
 package com.cafe.management.controller;
 
 import com.cafe.management.model.InventoryItem;
-import com.cafe.management.repository.InventoryItemRepository;
 import com.cafe.management.service.InventoryItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
