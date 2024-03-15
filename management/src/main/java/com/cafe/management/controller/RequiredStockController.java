@@ -17,6 +17,7 @@ public class RequiredStockController {
     public void addRequiredStock(@RequestBody RequiredStock requiredStock){
         requiredStockService.addRequiredStock(requiredStock);
     }
+    
 
 
 }

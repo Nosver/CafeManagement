@@ -18,8 +18,11 @@ public class Cart {
     @Column(name = "cart_id")
     private Long id;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(referencedColumnName = "cart_id")
+    @ManyToMany
+    @JoinTable(name="product_chart",
+    		joinColumns=@JoinColumn(name="chart_id"),
+    		inverseJoinColumns = @JoinColumn(name ="product_id")
+    		)
     private List<Product> productList;
 
     private Double totalPrice;

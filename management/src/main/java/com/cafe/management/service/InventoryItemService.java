@@ -1,5 +1,7 @@
 package com.cafe.management.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,5 +30,9 @@ public class InventoryItemService {
         } else {
             throw new IllegalArgumentException("Item with name " + itemName + " not found.");
         }
+    }
+    
+    public List<InventoryItem> getAll(){
+    	return inventoryItemRepository.findAll();
     }
 }
