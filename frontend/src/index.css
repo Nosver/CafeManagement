@@ -1,29 +1,3 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
-}
-
-.item-table {
-  border-collapse: collapse; /* Collapse borders into a single border */
-  width: 100%;
-}
-
-.item-table th,
-.item-table td {
-  border: 1px solid #ddd; /* Add 1px solid border to table cells */
-  padding: 8px; /* Add padding for better spacing */
-}
-
-.item-table th {
-  background-color: #f2f2f2; /* Add background color for table header */
-  text-align: left; /* Align text to the left in table headers */
-}
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
