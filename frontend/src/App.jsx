@@ -5,9 +5,9 @@ const App = () => {
   return (<>
   <div className='text-3xl font-bold underline'>
       Apps
-      <MenuItem></MenuItem>
+      
     </div>
-    
+    <MenuItem></MenuItem>
   </>
     
   )
