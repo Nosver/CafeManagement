@@ -11,6 +11,7 @@ import HomePage from './pages/HomePage';
 import MainLayout from './layouts/MainLayout';
 import { WelcomePage } from './pages/WelcomePage';
 import { TestPage } from './pages/TestPage';
+import Dashboard from './pages/Personel/Dashboard';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -20,6 +21,7 @@ const router = createBrowserRouter(
       <Route path='/LoginPage' element = {<LoginPage/>} />
       <Route path='/Welcome' element = {<WelcomePage/>} />
       <Route path='/test' element = {<TestPage/>} />
+      <Route path='/dashboard' element = {<Dashboard/>} />
     </Route>
   )
 )
