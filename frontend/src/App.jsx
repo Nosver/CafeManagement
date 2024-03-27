@@ -12,6 +12,7 @@ import MainLayout from './layouts/MainLayout';
 import { WelcomePage } from './pages/WelcomePage';
 import { TestPage } from './pages/TestPage';
 import Dashboard from './pages/Personel/Dashboard';
+import { SignUpPage } from './pages/SignUpPage';
 
 
 const router = createBrowserRouter(
@@ -20,6 +21,7 @@ const router = createBrowserRouter(
       <Route index element = {<WelcomePage/>} />
       <Route path='/HomePage' element = {<HomePage/>} />
       <Route path='/LoginPage' element = {<LoginPage/>} />
+      <Route path='/SignUpPage' element = {<SignUpPage/>} />
       <Route path='/Welcome' element = {<WelcomePage/>} />
       <Route path='/test' element = {<TestPage/>} />
       <Route path='/dashboard' element = {<Dashboard/>} />

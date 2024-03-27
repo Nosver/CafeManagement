@@ -2,6 +2,7 @@ import React from 'react'
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import { Link } from 'react-router-dom';
 
 
 const LoginPage = () => {
@@ -60,6 +61,8 @@ const LoginPage = () => {
                 onChange={(event) => setPassword(event.target.value)}
               />
             </div>
+
+            <p className='text-center mb-3'>Don't have an account yet?<Link className='text-indigo-500 hover:italic' to="/SignUpPage"> Sign Up</Link></p>
 
 
             <div>
