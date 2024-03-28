@@ -14,6 +14,7 @@ import Dashboard from './pages/Personel/Dashboard';
 import { SignUpPage } from './pages/SignUpPage';
 import CustomerLayout from './layouts/CustomerLayout';
 import PersonelLayout from './layouts/PersonelLayout';
+import { Orders } from './pages/Personel/Orders';
 
 
 
@@ -30,13 +31,14 @@ const router = createBrowserRouter(
 
       <Route path = '/' element = {<PersonelLayout/>}>
         <Route path='/test' element = {<TestPage/>} />
+        <Route path='/orders' element = {<Orders/>} />
+        <Route path='/dashboard' element = {<Dashboard />} />
       </Route>
 
 
       <Route path='/LoginPage' element = {<LoginPage/>} />
       <Route path='/SignUpPage' element = {<SignUpPage/>} />
       <Route path='/Welcome' element = {<WelcomePage/>} />
-      <Route path='/dashboard' element = {<Dashboard />} />
     </Route>
   )
 )

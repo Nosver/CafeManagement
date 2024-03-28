@@ -5,3 +5,4 @@ management/src/main/resources/application.properties
 .DS_Store
 management/src/main/resources/application.properties
 management/src/main/resources/application.properties
+/management/src/main/frontend/build
