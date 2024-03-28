@@ -5,7 +5,6 @@ import {Outlet} from 'react-router-dom'
 
 const PersonelLayout = () => {
 
-
   return (
     <>
       <Outlet/>
