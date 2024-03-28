@@ -1,12 +1,10 @@
 import React from 'react'
-// import tailwind from 'tailwindcss'
-im
 
 export const Orders = () => {
     return (
         <>
 
-                <h1 className='text-5xl font-extrabold dark:text-white underline-offset-1 shadow-lg mb-4 text-center leading-none tracking-tight text-black md:text-5xl lg:text-6xl underline underline-offset-3 decoration-8 decoration-custom-green dark:decoration-blue-600'>Orders</h1>
+            <h1 className='text-5xl font-extrabold dark:text-white shadow-lg mb-4 text-center leading-none tracking-tight text-black md:text-5xl lg:text-6xl decoration-8 decoration-custom-green dark:decoration-blue-600'>Orders</h1>
             <div className='bg-custom-light-orange'>
 
 

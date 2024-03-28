@@ -35,83 +35,83 @@ export const WelcomePage = () => {
                         <span className="shadow- backdrop-blur-xl text-custom-green text-2xl font-bold me-2 px-2.5 py-0.5 rounded dark:bg-blue-200 dark:text-blue-800 ms-2">
                             Easier to manage.
                         </span>
-                        <Spinner/>
+                        <Spinner />
                     </div>
                 </div>
 
                 <div className="flex justify-center">
 
 
-                <Dropdown color='blue' label="Links ">
+                    <Dropdown color='blue' label="Links ">
 
-                    <DropdownItem>
-                        <button
-                            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded m-2"
-                            onClick={() => navigate('/LoginPage')}
-                        >
-                            Login Page
-                        </button>
-                    </DropdownItem>
+                        <DropdownItem>
+                            <button
+                                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded m-2"
+                                onClick={() => navigate('/LoginPage')}
+                            >
+                                Login Page
+                            </button>
+                        </DropdownItem>
 
-                    <DropdownItem>
-                        <button
-                            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded m-2"
-                            onClick={() => navigate('/Welcome')}
-                        >
-                            Welcome Page (same)
-                        </button>
-                    </DropdownItem>
+                        <DropdownItem>
+                            <button
+                                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded m-2"
+                                onClick={() => navigate('/Welcome')}
+                            >
+                                Welcome Page (same)
+                            </button>
+                        </DropdownItem>
 
-                    <DropdownItem>
-                        <button
-                            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded m-2"
-                            onClick={() => navigate('/HomePage')}
-                        >
-                            Home Page
-                        </button>
-                    </DropdownItem>
+                        <DropdownItem>
+                            <button
+                                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded m-2"
+                                onClick={() => navigate('/HomePage')}
+                            >
+                                Home Page
+                            </button>
+                        </DropdownItem>
 
-                    <DropdownItem>
-                        <button
-                            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded m-2"
-                            onClick={() => navigate('/test')}
-                        >
-                            Test Page
-                        </button>
-                    </DropdownItem>
+                        <DropdownItem>
+                            <button
+                                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded m-2"
+                                onClick={() => navigate('/test')}
+                            >
+                                Test Page
+                            </button>
+                        </DropdownItem>
 
-                    <DropdownItem>
-                        <button
-                            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded m-2"
-                            onClick={() => navigate('/dashboard')}
-                        >
-                            Dashboard
-                        </button>
-                    </DropdownItem>
+                        <DropdownItem>
+                            <button
+                                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded m-2"
+                                onClick={() => navigate('/dashboard')}
+                            >
+                                Dashboard
+                            </button>
+                        </DropdownItem>
 
-                    <DropdownItem>
-                        <button
-                            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded m-2"
-                            onClick={() => navigate('/Orders')}
-                        >
-                            Orders Page
-                        </button>
-                    </DropdownItem>
+                        <DropdownItem>
+                            <button
+                                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded m-2"
+                                onClick={() => navigate('/Orders')}
+                            >
+                                Orders Page
+                            </button>
+                        </DropdownItem>
 
-                    <DropdownItem>
-                        <button
-                            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded m-2"
-                            onClick={() => navigate('/menu')}
-                        >
-                            Menu Page
-                        </button>
-                    </DropdownItem>
-
-
-                </Dropdown>
+                        <DropdownItem>
+                            <button
+                                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded m-2"
+                                onClick={() => navigate('/menu')}
+                            >
+                                Menu Page
+                            </button>
+                        </DropdownItem>
 
 
-</div>
+                    </Dropdown>
+
+
+                </div>
             </div>
 
         </>
