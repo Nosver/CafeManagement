@@ -5,7 +5,6 @@ createBrowserRouter,
 createRoutesFromElements,
 RouterProvider
 } from 'react-router-dom'
-import MenuItem from './components/MenuItem';
 import LoginPage from './pages/LoginPage';
 import HomePage from './pages/Customer/HomePage';
 import MainLayout from './layouts/MainLayout';
