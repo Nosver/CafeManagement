@@ -18,6 +18,8 @@ function isPasswordStrong(password) {
 export const SignUpPage = () => {
 
     const [email, setEmail] = useState('');
+    const [fullName, setfullName] = useState('');
+
     const [password, setPassword] = useState('');
     const [passwordRepeat, setPasswordRepeat] = useState('');
 
@@ -35,11 +37,26 @@ export const SignUpPage = () => {
     
   return (
     <section className='bg-indigo-50'>
-    <div className='container m-auto max-w-2xl py-24'>
-      <div className='bg-white px-6 py-8 mb-4 shadow-md rounded-md border m-4 md:m-0'>
+    <div className='container m-auto max-w-2xl py-20'>
+      <div className='bg-white px-6 py-4 mb-4 shadow-md rounded-md border m-4 md:m-0'>
         <form onSubmit={signUpButtonClicked}>
   
           <h2 className='text-3xl text-center font-semibold mb-6'>Create Account</h2>
+
+          <div className='mb-4'>
+            <label className='block text-gray-700 font-bold mb-2'>
+              Full Name
+            </label>
+            <input
+              type='text'
+              id='fullNameField'
+              name='fullNameField'
+              className='border rounded w-full py-2 px-3 mb-2'
+              placeholder='Full Name'
+              required
+              onChange={(event) => setfullName(event.target.value)}
+            />
+          </div>
 
           <div className='mb-4'>
             <label className='block text-gray-700 font-bold mb-2'>
@@ -96,8 +113,9 @@ export const SignUpPage = () => {
               Sign up
             </button>
           </div>
+          <p className='text-center my-3'>Or</p>
 
-          <div className="flex items-center justify-center dark:bg-gray-800 mt-7">
+          <div className="flex items-center justify-center dark:bg-gray-800">
             <button className="px-4 py-2 border flex gap-2 border-slate-200 dark:border-slate-700 rounded-full text-slate-700 dark:text-slate-200 hover:border-slate-400 dark:hover:border-slate-500 hover:text-slate-900 dark:hover:text-slate-300 hover:shadow transition duration-150">
                 <img className="w-6 h-6" src="https://www.svgrepo.com/show/475656/google-color.svg" loading="lazy" alt="google logo"/>
                 <span>Continue with Google</span>
