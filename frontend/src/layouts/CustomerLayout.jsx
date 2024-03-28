@@ -5,8 +5,9 @@ import CustomerNavbar from '../components/CustomerNavbar'
 const CustomerLayout = () => {
   return (
     <>
-      <Outlet/>
       <CustomerNavbar/>
+      <Outlet/>
+      
     </>
   )
 }

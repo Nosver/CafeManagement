@@ -14,7 +14,7 @@ import Dashboard from './pages/Personel/Dashboard';
 import { SignUpPage } from './pages/SignUpPage';
 import CustomerLayout from './layouts/CustomerLayout';
 import PersonelLayout from './layouts/PersonelLayout';
-
+import Menu from './pages/Menu';
 
 
 
@@ -25,6 +25,8 @@ const router = createBrowserRouter(
 
       <Route path='/' element = {<CustomerLayout/>}>
         <Route path='/HomePage' element = {<HomePage/>} />
+        <Route path='/Menu' element = {<Menu/>} />
+
 
       </Route>
 

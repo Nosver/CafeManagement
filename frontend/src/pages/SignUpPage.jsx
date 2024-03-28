@@ -46,10 +46,10 @@ export const SignUpPage = () => {
         backdropFilter: 'blur(10px)',
         height: '100vh'
       }}>
-        <div className='container m-auto max-w-2xl py-20'>
+        <div className='container m-auto max-w-2xl py-10'>
           <div className='bg-white/80 px-6 py-4 mb-4 shadow-md rounded-md border m-4 md:m-0'>
             <form onSubmit={signUpButtonClicked}>
-      
+
               <h2 className='text-3xl text-center font-semibold mb-6'>Create Account</h2>
 
               <div className='mb-4'>
@@ -125,7 +125,7 @@ export const SignUpPage = () => {
               <p className='text-center my-3'>Or</p>
 
               <div className="flex items-center justify-center dark:bg-gray-800">
-                <button className="px-4 py-2 border flex gap-2 border-slate-200 dark:border-slate-700 rounded-full text-slate-700 dark:text-slate-200 hover:border-slate-400 dark:hover:border-slate-500 hover:text-slate-900 dark:hover:text-slate-300 hover:shadow transition duration-150">
+                <button className="px-4 py-2 border flex gap-2 border-slate-900 dark:border-slate-700 rounded-full text-slate-700 dark:text-slate-200 hover:border-slate-400 dark:hover:border-slate-500 hover:text-slate-900 dark:hover:text-slate-300 hover:shadow transition duration-150">
                   <img className="w-6 h-6" src="https://www.svgrepo.com/show/475656/google-color.svg" loading="lazy" alt="google logo" />
                   <span>Continue with Google</span>
                 </button>
