@@ -21,6 +21,7 @@ export default {
         'custom-light-white': '#EFDFCC',
         'custom-brown': '#BA8E7A',
         'custom-green': '#66796B',
+        'custom-coffe-brown': '#6F4E37'
       }
     }
   },
