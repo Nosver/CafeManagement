@@ -15,7 +15,7 @@ const CustomerNavbar = () => {
             <NavLink className='flex flex-shrink-0 items-center mr-4' to='/homepage'>
               <img className='h-10 w-auto' src={logo}/>
               <span className='hidden md:block text-white text-2xl font-bold ml-2'>
-                Coffe-in 
+                Cafe-in 
               </span>
             </NavLink>
             <div className='md:ml-auto'>
@@ -25,7 +25,7 @@ const CustomerNavbar = () => {
                   Home
                 </NavLink>
 
-                <NavLink to='/products' className={linkClass}>
+                <NavLink to='/Menu' className={linkClass}>
                   Menu
                 </NavLink>
 
