@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Sidebar from '../../imported-assets/partials/Sidebar';
 import Header from '../../imported-assets/partials/Header';
+import Popup from '../../components/Popup';
 
 
 const OrderStatus = {
@@ -9,7 +10,6 @@ const OrderStatus = {
     SERVED: 'Served',
     CANCELED: 'Canceled',
     ORDER_TAKEN: 'Order Taken',
-    // Add more statuses as needed
 };
 
 const Category = {
@@ -23,54 +23,71 @@ const Category = {
     OTHER: 'Other'
 };
 
+const PaymentType = {
+    CASH: 'Cash',
+    CREDIT_CARD: 'Credit Card',
+    COFFE_CARD: 'Coffee Card',
+}
 
-class OrderItem {
-    constructor(customer, product, size, category, progress, date, price) {
+class Order {
+
+    constructor(id, customer, payment_type, status, date, total_price) {
+        this.id = Math.random().toString(36).substring(7);
         this.customer = customer;
-        this.product = product;
-        this.size = size;
-        this.category = category;
-        this.progress = progress;
+        this.payment_type = payment_type;
+        this.status = status;
         this.date = date;
-        this.price = price;
+        this.total_price = total_price;
     }
-    
-    static generateRandomOrderItem(){
-        const customers = ['Kemal', 'Doğukan', 'Masis', 'Güney', 'Ahmet', 'John', 'Jane', 'Doe', 'Smith', 'Brown', 'Alice', 'Bob', 'Charlie', 'David', 'Eve', 'Frank', 'Grace', 'Heidi'];
-        const products = ['Cappuccino', 'Latte', 'Espresso', 'Mocha', 'Americano', 'Macchiato', 'Flat White', 'Iced Coffee', 'Green Tea', 'Chai Latte', 'Hot Chocolate', 'Iced Tea', 'Black Tea', 'Fruit Smoothie', 'Lemonade', 'Milkshake', 'Matcha Latte', 'Bubble Tea', 'Iced Latte', 'Frappuccino'];
-        const sizes = ['Small', 'Medium', 'Large'];
-        const categories = [Category.HOT_BEVERAGE, Category.COLD_BEVERAGE, Category.DESSERT, Category._PASTRY, Category.SANDWICH, Category.PASTRY, Category.SMOOTIE, Category.OTHER];
-        const progresses = [OrderStatus.READY, OrderStatus.PREPARING, OrderStatus.SERVED, OrderStatus.CANCELED, OrderStatus.ORDER_TAKEN];
-        const prices = ['$1.50', '$2.00', '$2.50', '$3.00', '$3.50', '$4.00', '$4.50', '$5.00', '$5.50', '$6.00', '$6.50', '$7.00', '$7.50', '$8.00', '$8.50', '$9.00', '$9.50', '$10.00'];
-        
+
+    static generateRandomOrder() {
+        const id = Math.random().toString(36).substring(7);
+        const customers = ['Kemal Yıldırım', 'Doğukan Yılmaz', 'Masis Aramyan', 'Güney Kırcı', 'Ahmet Demir', 'John Doe', 'Jane Smith', 'Doe Johnson', 'Smith Brown', 'Alice Williams', 'Bob Johnson', 'Charlie Davis', 'David Wilson', 'Eve Taylor', 'Frank Anderson', 'Grace Thomas', 'Heidi Jackson'];
+        const statuses = [OrderStatus.READY, OrderStatus.PREPARING, OrderStatus.SERVED, OrderStatus.CANCELED, OrderStatus.ORDER_TAKEN];
+        const payment_types = [PaymentType.CASH, PaymentType.CREDIT_CARD, PaymentType.COFFE_CARD];
+        const randomPaymentType = payment_types[Math.floor(Math.random() * payment_types.length)];
         const randomCustomer = customers[Math.floor(Math.random() * customers.length)];
-        const randomProduct = products[Math.floor(Math.random() * products.length)];
-        const randomSize = sizes[Math.floor(Math.random() * sizes.length)];
-        const randomCategory = categories[Math.floor(Math.random() * categories.length)];
-        const randomProgress = progresses[Math.floor(Math.random() * progresses.length)];
+        const randomstatus = statuses[Math.floor(Math.random() * statuses.length)];
         const randomDate = Date.now();
-        const randomPrice = prices[Math.floor(Math.random() * prices.length)];
-    
-        return new OrderItem(randomCustomer, randomProduct, randomSize, randomCategory, randomProgress, randomDate, randomPrice);
+        const randomtotal_price = Math.floor(Math.random() * 100.0) + 1.0;
+
+        return new Order(id, randomCustomer, randomPaymentType, randomstatus, randomDate, randomtotal_price);
     }
 }
 
-
+const closePopup = () => {
+    setIsPopupOpen(false);
+};
 
 export const Orders = () => {
 
-
-    // put all orders in an array
     const orders = [];
 
-    for(let i = 0; i < 100; i++){
-        orders.push(OrderItem.generateRandomOrderItem());
+    for (let i = 0; i < 100; i++) {
+        orders.push(Order.generateRandomOrder());
     }
 
     const [sidebarOpen, setSidebarOpen] = useState(true);
+    const [isPopupOpen, setIsPopupOpen] = useState(null);
+    const [selectedOrder, setSelectedOrder] = useState(null); // Add this line
+
 
     return (
         <>
+
+            {/* FIX THIS POP UP !!! */}
+            {selectedOrder && (
+                <Popup isOpen={true} onClose={() => setSelectedOrder(null)}>
+                    {/* Display selectedOrder details */}
+                    <h2>Order Details</h2>
+                    <p>Customer: {selectedOrder.customer}</p>
+                    <p>Payment Type: {selectedOrder.payment_type}</p>
+                    <p>Status: {selectedOrder.status}</p>
+                    <p>Date: {new Date(selectedOrder.date).toString().substring(0, 24)}</p>
+                    <p>Total Price: ${selectedOrder.total_price.toFixed(2)}</p>
+                </Popup>
+            )}
+
 
             <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
 
@@ -81,10 +98,7 @@ export const Orders = () => {
                     {/* Content area */}
                     <div className="relative flex flex-col flex-1 overflow-y-auto overflow-x-hidden">
 
-                        <h1 className="text-base font-extrabold dark:text-white shadow-lg mb-4 text-center leading-none tracking-tight text-black md:text-5xl lg:text-4xl decoration-8 decoration-custom-green dark:decoration-blue-600">
-                            Order Management
-                        </h1>
-                                <h2 className="text-base dark:text-white shadow-lg mb-4 text-center leading-none tracking-tight text-black md:text-5xl lg:text-4xl decoration-8 decoration-custom-green dark:decoration-blue-600" > Customer: {orders[0].customer} </h2>
+                
                         <Header sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
 
                         <main>
@@ -98,22 +112,19 @@ export const Orders = () => {
                                             </div>
                                         </th>
                                         <th scope="col" class="px-6 py-3">
-                                            Product
+                                            Customer Name
                                         </th>
                                         <th scope="col" class="px-6 py-3">
-                                            Size
+                                            Payment Type
                                         </th>
                                         <th scope="col" class="px-6 py-3">
-                                            Category
-                                        </th>
-                                        <th scope="col" class="px-6 py-3">
-                                            Progress
+                                            Status
                                         </th>
                                         <th scope="col" class="px-6 py-3">
                                             Date of Creation
                                         </th>
                                         <th scope="col" class="px-6 py-3">
-                                            Price
+                                            Total Price
                                         </th>
                                         <th scope="col" class="px-6 py-3">
                                             Action
@@ -122,31 +133,36 @@ export const Orders = () => {
                                 </thead>
                                 <tbody>
                                     {orders.map((order, index) => (
-                                        <tr key={index} class={`${order.progress == OrderStatus.READY ? 'bg-green-200' : 'bg-white'} border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 ${order.progress === OrderStatus.READY ? 'bg-green-200' : ''}`}>                                            
+                                        <tr
+                                            key={index}
+                                            onClick={() => setSelectedOrder(order)}
+                                            class={`
+                                        ${order.status === OrderStatus.READY ? 'bg-green-300' :
+                                                    order.status === OrderStatus.PREPARING ? 'bg-yellow-100' :
+                                                        order.status === OrderStatus.DELIVERED ? 'bg-purple-200' :
+                                                            order.status === OrderStatus.CANCELED ? 'bg-red-200' :
+                                                                order.status === OrderStatus.SERVED ? 'bg-violet-200' :
+                                                                    'bg-gray-200'} border-b dark:bg-gray-800 dark:border-black-700 hover:bg-white dark:hover:bg-gray-600 }`}>
                                             <td class="w-4 p-4">
                                                 <div class="flex items-center">
                                                     <input id={`checkbox-table-${index}`} type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
                                                     <label for={`checkbox-table-${index}`} class="sr-only">checkbox</label>
                                                 </div>
                                             </td>
-                                  
                                             <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                                {order.product}
+                                                {order.customer}
                                             </th>
                                             <td class="px-6 py-4">
-                                                {order.size}
+                                                {order.payment_type.toString()}
                                             </td>
                                             <td class="px-6 py-4">
-                                                {order.category}
-                                            </td>
-                                            <td class="px-6 py-4">
-                                                {order.progress}
+                                                {order.status.toString()}
                                             </td>
                                             <td class="px-6 py-4">
                                                 {new Date(order.date).toString().substring(0, 24)}
                                             </td>
                                             <td class="px-6 py-4">
-                                                {order.price}
+                                                ${order.total_price.toFixed(2)}
                                             </td>
                                             <td class="px-6 py-4">
                                                 <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
