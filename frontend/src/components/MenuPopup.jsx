@@ -1,5 +1,7 @@
 import React from 'react';
 import { useState } from 'react';
+import { toast } from 'react-toastify';
+
 
 
 const Popup = ({ onClose, itemName, itemDescription, itemPrice, imagePath }) => {
@@ -8,11 +10,19 @@ const Popup = ({ onClose, itemName, itemDescription, itemPrice, imagePath }) => 
 
   const [priceArr, setPriceArr] = useState(['-10', itemPrice, '+10']);
 
+  const showToast = (message) => {
+   
+    toast.success(message);
+  };
 
+  const [selectedOption, setSelectedOption] = useState(null); // State to store the selected option
+
+  
   
 
   const handleRadioButtonChange = (index) => {
-    const newPrices = [...priceArr]; // Create a copy of the array
+    setSelectedOption(index);
+    const newPrices = [...priceArr]; 
     switch (index) {
       case 0:
         newPrices[0] = (parseInt(itemPrice) - 10).toString();
@@ -34,24 +44,41 @@ const Popup = ({ onClose, itemName, itemDescription, itemPrice, imagePath }) => 
       default:
         break;
     }
-    setPriceArr(newPrices); // Update state with new prices
+    setPriceArr(newPrices); 
   };
   
-  
+  function processAddToCart(){
+    if(selectedOption == null){
+      showToast(`Please select size to continue`);
+      return;
+    }
+
+
+    if(quantityValue !== 0){
+      //post API Call
+      showToast(`Added ${quantityValue} ${itemName}(s) to cart`);
+      onClose();
+      return;
+    }
+
+      showToast("Please select a quantity greater than 0");
+
+    
+  } 
 
   function decreaseQuantity() {
-    setQuantityValue(prevQuantity => Math.max(prevQuantity - 1, 0));
+    setQuantityValue(Math.max(quantityValue - 1, 0));
 
   }
   const increaseQuantity = () =>{
-    setQuantityValue(prevQuantity => prevQuantity+1 );
+    setQuantityValue(quantityValue+1 );
 
   };
 
   return (
-    <div className="overlay fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-800 bg-opacity-75 z-50"  >
-      <div className="bg-white rounded-lg p-8 w-auto ">
-        <button className="bg-gray-700 hover:bg-black  text-white px-4 py-2 rounded-md mb-2" onClick={onClose}>X</button>
+    <div className="overlay fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-800 bg-opacity-75 z-50 "  >
+      <div className="bg-white rounded-lg p-8 w-auto relative">
+        <button className="bg-gray-700 hover:bg-black  text-white px-4 py-2 rounded-md  absolute top-0 right-0 mr-4 mt-4" onClick={onClose}>X</button>
 
         <h2 className="text-2xl font-bold mb-4">{itemName}</h2>
         <div className='flex flex-row gap-10'>
@@ -111,7 +138,7 @@ const Popup = ({ onClose, itemName, itemDescription, itemPrice, imagePath }) => 
 
 
               <div className='flex items-center space-x-7 mt-5'>
-                <button className="bg-gray-700 hover:bg-black  text-white px-4 py-2 rounded-md ">Add to Chart</button>
+                <button className="bg-gray-700 hover:bg-black  text-white px-4 py-2 rounded-md " onClick={ processAddToCart}>Add to Cart</button>
                 <div class="py-2 px-3 inline-block bg-white border border-gray-200 rounded-lg dark:bg-slate-900 dark:border-gray-700" data-hs-input-number>
                   <div class="flex items-center gap-x-1.5">
                     <button type="button" class="size-6 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-md border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-white dark:hover:bg-gray-800 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600" onClick={decreaseQuantity}>
