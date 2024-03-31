@@ -10,9 +10,13 @@ const Popup = ({ onClose, itemName, itemDescription, itemPrice, imagePath }) => 
 
   const [priceArr, setPriceArr] = useState(['-10', itemPrice, '+10']);
 
-  const showToast = (message) => {
+  const showToastSuccess = (message) => {
    
     toast.success(message);
+  };
+  const showToastWarning = (message) => {
+   
+    toast.warn(message);
   };
 
   const [selectedOption, setSelectedOption] = useState(null); // State to store the selected option
@@ -49,19 +53,19 @@ const Popup = ({ onClose, itemName, itemDescription, itemPrice, imagePath }) => 
   
   function processAddToCart(){
     if(selectedOption == null){
-      showToast(`Please select size to continue`);
+      showToastWarning(`Please select size to continue`);
       return;
     }
 
 
     if(quantityValue !== 0){
       //post API Call
-      showToast(`Added ${quantityValue} ${itemName}(s) to cart`);
+      showToastSuccess(`Added ${quantityValue} ${itemName}(s) to cart`);
       onClose();
       return;
     }
 
-      showToast("Please select a quantity greater than 0");
+      showToastWarning("Please select a quantity greater than 0");
 
     
   } 
@@ -100,7 +104,7 @@ const Popup = ({ onClose, itemName, itemDescription, itemPrice, imagePath }) => 
 
                       </div>
 
-                      <div class="w-full">A quick pick-me-up with bold flavor</div>
+                      <div class="w-full">Light and flavorful! Perfect for a quick energy boost.</div>
                     </div>
                   </label>
                 </li>
@@ -115,7 +119,7 @@ const Popup = ({ onClose, itemName, itemDescription, itemPrice, imagePath }) => 
 
                       </div>
 
-                      <div class="w-full">A quick pick-me-up with bold flavor</div>
+                      <div class="w-full">Just right for satisfaction. Enjoy more flavor and fulfillment in every sip or bite.</div>
                     </div>
 
                   </label>
@@ -130,7 +134,7 @@ const Popup = ({ onClose, itemName, itemDescription, itemPrice, imagePath }) => 
 
                       </div>
 
-                      <div class="w-full">A quick pick-me-up with bold flavor</div>
+                      <div class="w-full">For those craving more, our large size offers the perfect solution.</div>
                     </div>
                   </label>
                 </li>
