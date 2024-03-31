@@ -25,7 +25,7 @@ const CustomerNavbar = () => {
                   Home
                 </NavLink>
 
-                <NavLink to='/products' className={linkClass}>
+                <NavLink to='/menu' className={linkClass}>
                   Menu
                 </NavLink>
 
@@ -33,7 +33,7 @@ const CustomerNavbar = () => {
                   Cart
                 </NavLink>
 
-                <NavLink to='/orders' className={linkClass}>
+                <NavLink to='/OrdersPage' className={linkClass}>
                   Orders
                 </NavLink>
 

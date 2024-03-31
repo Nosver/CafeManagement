@@ -15,21 +15,22 @@ import { SignUpPage } from './pages/SignUpPage';
 import CustomerLayout from './layouts/CustomerLayout';
 import PersonelLayout from './layouts/PersonelLayout';
 import { Orders } from './pages/Personel/Orders';
+import OrdersPage from './pages/Customer/OrdersPage';
+
 
 import Menu from './pages/Menu';
-
 
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path='/' element = {<MainLayout/>}>
+
       <Route index element = {<WelcomePage/>} />
 
       <Route path='/' element = {<CustomerLayout/>}>
         <Route path='/HomePage' element = {<HomePage/>} />
         <Route path='/Menu' element = {<Menu/>} />
-
-
+        <Route path='/OrdersPage' element = {<OrdersPage/>} />
       </Route>
 
       <Route path = '/' element = {<PersonelLayout/>}>
@@ -37,7 +38,6 @@ const router = createBrowserRouter(
         <Route path='/orders' element = {<Orders/>} />
         <Route path='/dashboard' element = {<Dashboard />} />
       </Route>
-
 
       <Route path='/LoginPage' element = {<LoginPage/>} />
       <Route path='/SignUpPage' element = {<SignUpPage/>} />
