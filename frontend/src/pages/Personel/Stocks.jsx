@@ -95,7 +95,7 @@ export const Stocks = () => {
                                             key={index}
                                             onClick={() => setSelectedOrder(order)}
                                             class={`
-                                        ${stock.quantity < 20 ? 'bg-red-100' : 'bg-white'} border-b dark:bg-gray-800 dark:border-black-700 hover:bg-white dark:hover:bg-gray-600 }`}
+                                            ${stock.quantity == 1 ? 'bg-red-400': stock.quantity < 5 ? 'bg-red-300' : stock.quantity < 10 ? 'bg-red-200' : stock.quantity < 20 ? 'bg-red-100' : 'bg-white'} border-b dark:bg-gray-800 dark:border-black-700 hover:bg-white dark:hover:bg-gray-600 }`}
                                         >
                                             <td class="w-4 p-4">
                                                 <div class="flex items-center">
