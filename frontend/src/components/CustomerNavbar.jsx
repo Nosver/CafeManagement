@@ -48,6 +48,9 @@ const CustomerNavbar = () => {
                   <NavLink to='/profile' className={linkClass}>
                     Profile
                   </NavLink>
+                  <NavLink to='/about-us' className={linkClass}>
+                    About Us
+                  </NavLink>
 
                 </div>
               </div>
