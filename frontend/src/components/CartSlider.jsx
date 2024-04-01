@@ -1,6 +1,8 @@
 import { Fragment, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import { XMarkIcon } from '@heroicons/react/24/outline'
+import { NavLink } from 'react-router-dom';
+
 
 const cartItems = [
   {
@@ -8,7 +10,7 @@ const cartItems = [
     name: 'Espresso', 
     size: 'Small',
     price: '12.00',
-    quantity: 0,
+    quantity: 2,
     imageSrc: 'https://example.com/espresso.jpg',
   },
   {
@@ -16,7 +18,7 @@ const cartItems = [
     name: 'Cappuccino',
     size: 'Medium',
     price: '15.00',
-    quantity: 0,
+    quantity: 1,
     imageSrc: 'https://example.com/cappuccino.jpg',
   },
   {
@@ -24,7 +26,7 @@ const cartItems = [
     name: 'Latte',
     size: 'Medium',
     price: '18.00',
-    quantity: 0,
+    quantity: 3,
     imageSrc: 'https://example.com/latte.jpg',
   },
   {
@@ -32,7 +34,7 @@ const cartItems = [
     name: 'Mocha',
     size: 'Large',
     price: '20.00',
-    quantity: 0,
+    quantity: 1,
     imageSrc: 'https://example.com/mocha.jpg',
   },
   {
@@ -40,12 +42,15 @@ const cartItems = [
     name: 'Tea',
     size: 'Small',
     price: '10.00',
-    quantity: 0,
+    quantity: 1,
     imageSrc: 'https://example.com/tea.jpg',
   },
   // Daha fazla ürün eklenebilir.
 ];
 
+function removeItem(name){
+    console.log(name);
+}
       
 
 export const CartSlider = () => {
@@ -123,7 +128,7 @@ export const CartSlider = () => {
                                     <p className="text-gray-500">Quantity {item.quantity}</p>
                                     
                                     <div className="flex">
-                                      <button
+                                      <button onClick={() => removeItem(item.name)}
                                         type="button"
                                         className="font-medium text-custom-brown hover:text-black"
                                       >
@@ -145,12 +150,13 @@ export const CartSlider = () => {
                         <p>262.00 ₺</p>
                       </div>
                       <div className="mt-6">
-                        <a
-                          href="#"
+                        <NavLink
+                          to="/cart"
+                          onClick={() => setOpen(false)}
                           className="flex items-center justify-center rounded-md border border-transparent bg-custom-coffe-brown px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-slate-950"
                         >
                           Checkout
-                        </a>
+                        </NavLink>
                       </div>
                       <div className="mt-6 flex justify-center text-center text-sm text-gray-500">
                         <p>
