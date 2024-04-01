@@ -20,6 +20,7 @@ import OrdersPage from './pages/Customer/OrdersPage';
 
 import Menu from './pages/Menu';
 import { Stocks } from './pages/Personel/Stocks';
+import { CartPage } from './pages/Customer/CartPage';
 
 
 const router = createBrowserRouter(
@@ -32,6 +33,7 @@ const router = createBrowserRouter(
         <Route path='/HomePage' element = {<HomePage/>} />
         <Route path='/Menu' element = {<Menu/>} />
         <Route path='/OrdersPage' element = {<OrdersPage/>} />
+        <Route path='/cart' element = {<CartPage/>} />
       </Route>
 
       <Route path = '/' element = {<PersonelLayout/>}>
