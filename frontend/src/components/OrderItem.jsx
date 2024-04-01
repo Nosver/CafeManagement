@@ -1,24 +1,36 @@
-
 import React from 'react'
 
-const OrderItem = () => {
+import image from '../img/Hot-Chocolate.jpg'; 
+import { DateTime } from './DateTime';
+import { Price } from './Price';
+import { Link } from 'react-router-dom';
+
+const OrderItem = ({order}) => {
   return (
-    <div className = "flex justify-center items-center flex-col">
+    <div className = "flex justify-center items-center flex-col w-4/6 my-3 border-2 rounded-lg">
 
-        <div className = "flex justify-center items-center flex-row">
+      <div className = "flex justify-between flex-row w-5/6 mt-2">
+        <span>{order.id}</span>
+        <span><DateTime date={order.createdAt}/></span>
+        <span>{order.status}</span>
+      </div>
 
-        </div>
+      <div className = "flex justify-start flex-row w-5/6 mt-3">
+        {
+          order.items.map( item =>
+            <img className='rounded-lg mb-4 mx-2' src={image} width={55}></img>
+          )
+        }
+      </div>
 
-        <div className = "flex justify-center items-center flex-row">
-
-        </div>
-        
-        <div className = "flex justify-center items-center flex-row">
-
-        </div>
+      <div className = "flex justify-between flex-row w-5/6 mb-2">
+        <Link className= 'text-gray-500' >Show Order</Link>
+          <span>
+            <Price price={order.totalPrice}/>
+          </span>
+      </div>
 
     </div>
-
   )
 }
 
