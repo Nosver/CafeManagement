@@ -22,6 +22,7 @@ import Menu from './pages/Menu';
 import { Stocks } from './pages/Personel/Stocks';
 import { CartPage } from './pages/Customer/CartPage';
 import { Products } from './pages/Personel/Products';
+import { AboutUsPage } from './pages/Customer/AboutUsPage';
 
 
 const router = createBrowserRouter(
@@ -35,6 +36,8 @@ const router = createBrowserRouter(
         <Route path='/Menu' element = {<Menu/>} />
         <Route path='/OrdersPage' element = {<OrdersPage/>} />
         <Route path='/cart' element = {<CartPage/>} />
+        <Route path='/about-us' element = {<AboutUsPage/>} />
+
       </Route>
 
       <Route path = '/' element = {<PersonelLayout/>}>
