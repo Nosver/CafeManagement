@@ -75,7 +75,7 @@ export const Products = () => {
                                                 </div>
                                             </th>
                                             <th scope="col" class="px-6 py-3">
-                                                Product Id
+                                                Id
                                             </th>
                                             <th scope="col" class="px-6 py-3">
                                                 Product Name
