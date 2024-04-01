@@ -4,6 +4,7 @@ import Header from '../../imported-assets/partials/Header';
 import { useState } from 'react';
 import { CButton } from '../../components/CButton';
 import { Siderbar_1 } from '../../components/Siderbar_1';
+import { Edit_Product_Popup } from '../../components/Edit_Product_Popup';
 
 class stock {
 
@@ -41,12 +42,13 @@ export const Stocks = () => {
 
     const [sidebarOpen, setSidebarOpen] = React.useState(true);
     const [quantity, setQuantity] = useState(stock.quantity);
-
+    const [isPopupOpen, setIsPopupOpen] = useState(false);
 
     return (
         <div>
 
             <Siderbar_1 />
+
 
             <div class="p-4 sm:ml-64">
                 <div class="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700">
@@ -84,6 +86,9 @@ export const Stocks = () => {
                                 </tr>
                             </thead>
                             <tbody>
+
+                            {isPopupOpen && <Edit_Product_Popup closePopup={() => setIsPopupOpen(false)} />}
+
                                 {stocks.map((stock, index) => (
                                     <tr
                                         key={index}
@@ -104,9 +109,7 @@ export const Stocks = () => {
                                             {stock.name.toString()}
                                         </td>
                                         <td class="px-6 py-4">
-                                            <CButton color='red' name='-' onclick={() => setQuantity(quantity - 1)} />
-                                            {'  ' + stock.quantity.toString()}
-                                            <CButton color='green' name='+' onclick={() => setQuantity(quantity + 1)} />
+                                            {stock.quantity.toString()}
                                         </td>
                                         <td class="px-6 py-4">
                                             {stock.price.toString()}€
@@ -118,7 +121,12 @@ export const Stocks = () => {
                                             ${stock.total_price.toFixed(2)}
                                         </td>
                                         <td class="px-6 py-4">
-                                            <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
+                                            <div
+                                                onClick={() => setIsPopupOpen(true)}
+                                                className="font-medium text-blue-600 dark:text-blue-500 hover:underline cursor-pointer"
+                                            >
+                                                Edit
+                                            </div>                                       
                                         </td>
                                     </tr>
                                 ))}
