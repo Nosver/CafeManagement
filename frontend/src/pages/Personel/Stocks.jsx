@@ -129,7 +129,7 @@ export const Stocks = () => {
 
                                     </th>
                                     <th scope="col" class="px-6 py-3">
-                                        Stock ID
+                                        ID
                                     </th>
                                     <th scope="col" class="px-6 py-3">
                                         Name
@@ -138,7 +138,7 @@ export const Stocks = () => {
                                         Quantity
                                     </th>
                                     <th scope="col" class="px-6 py-3">
-                                        Price
+                                        Unit Price
                                     </th>
                                     <th scope="col" class="px-6 py-3">
                                         Ongoing Order
