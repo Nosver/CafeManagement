@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Header from '../../imported-assets/partials/Header';
 import Popup from '../../components/MenuPopup';
-import { Siderbar_1 } from '../../components/Siderbar_1';
+import { Siderbar_1 } from '../../components/personel/Siderbar_1';
 
 
 const OrderStatus = {

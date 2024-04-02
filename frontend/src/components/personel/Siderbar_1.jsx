@@ -77,6 +77,13 @@ export const Siderbar_1 = () => {
                             <span class="flex-1 ms-3 whitespace-nowrap text-white">Products</span>
                         </SidebarItem>
 
+                        <SidebarItem
+                            path="/customers"
+                            handleActiveTab={handleActiveTab}
+                        >
+                            <span class="flex-1 ms-3 whitespace-nowrap text-white">Customers</span>
+                        </SidebarItem>  
+
                     </ul>
                 </div>
             </aside>

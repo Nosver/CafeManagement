@@ -3,7 +3,7 @@ import Sidebar from '../../imported-assets/partials/Sidebar';
 import Header from '../../imported-assets/partials/Header';
 import { useState } from 'react';
 import { CButton } from '../../components/CButton';
-import { Siderbar_1 } from '../../components/Siderbar_1';
+import { Siderbar_1 } from '../../components/personel/Siderbar_1';
 import { Edit_Product_Popup } from '../../components/personel/Edit_Product_Popup';
 import { Create_Stock } from '../../components/Create_Stock';
 import { InsertButton } from '../../components/personel/InsertButton';
@@ -98,20 +98,12 @@ export const Stocks = () => {
 
     // Create random stocks for cafe
     const stocks = stock.getAllStocks();
-
     const [sidebarOpen, setSidebarOpen] = React.useState(true);
     const [quantity, setQuantity] = useState(stock.quantity);
     const [isPopupOpen, setIsPopupOpen] = useState(false);
-
-    const [showPopup, setShowPopup] = useState(false)
-
-    const openPopup = () => {
-        setShowPopup(true)
-    }
-
-    const closePopup = () => {
-        setShowPopup(false)
-    }
+    const [showPopup, setShowPopup] = useState(false);
+    const openPopup = () => setShowPopup(true);
+    const closePopup = () => setShowPopup(false);
 
     return (
         <div>

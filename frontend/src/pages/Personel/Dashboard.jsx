@@ -20,7 +20,7 @@ import DashboardCard11 from '../../imported-assets/partials/dashboard/DashboardC
 import DashboardCard12 from '../../imported-assets/partials/dashboard/DashboardCard12';
 import DashboardCard13 from '../../imported-assets/partials/dashboard/DashboardCard13';
 import Banner from '../../imported-assets/partials/Banner';
-import { Siderbar_1 } from '../../components/Siderbar_1';
+import { Siderbar_1 } from '../../components/personel/Siderbar_1';
 
 function Dashboard() {
 
