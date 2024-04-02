@@ -7,6 +7,7 @@ import { Siderbar_1 } from '../../components/Siderbar_1';
 import { Edit_Product_Popup } from '../../components/personel/Edit_Product_Popup';
 import { Create_Stock } from '../../components/Create_Stock';
 import { InsertButton } from '../../components/personel/InsertButton';
+import { AddItemPopup } from '../../components/personel/AddItemPopup';
 
 class stock {
 
@@ -102,6 +103,16 @@ export const Stocks = () => {
     const [quantity, setQuantity] = useState(stock.quantity);
     const [isPopupOpen, setIsPopupOpen] = useState(false);
 
+    const [showPopup, setShowPopup] = useState(false)
+
+    const openPopup = () => {
+        setShowPopup(true)
+    }
+
+    const closePopup = () => {
+        setShowPopup(false)
+    }
+
     return (
         <div>
 
@@ -115,7 +126,7 @@ export const Stocks = () => {
                             <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                                 <tr>
                                     <th scope="col" class="p-4">
-                                        <InsertButton description="Add new stock" />
+                                        <InsertButton description="Add new stock" onClick={openPopup} />
                                     </th>
                                     <th scope="col" class="px-6 py-3">
                                         ID
@@ -141,6 +152,18 @@ export const Stocks = () => {
                                 </tr>
                             </thead>
                             <tbody>
+
+                                {showPopup &&
+                                    <AddItemPopup
+                                        title="Add new stock"
+                                        closePopup={closePopup}
+                                        inputs={[
+                                            { id: 'name', name: 'name', type: 'text', label: 'Name', placeholder: 'Enter the name' },
+                                            { id: 'quantity', name: 'quantity', type: 'number', label: 'Quantity', placeholder: 'Enter the quantity' },
+                                            { id: 'unit_price', name: 'unit_price', type: 'number', label: 'Unit Price', placeholder: 'Enter the unit price' },
+                                        ]}
+                                    />
+                                }
 
                                 {isPopupOpen && <Edit_Product_Popup closePopup={() => setIsPopupOpen(false)} />}
 
