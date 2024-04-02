@@ -1,7 +1,20 @@
 import React from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTrashAlt } from '@fortawesome/free-solid-svg-icons';
+
 
 // Product card component
-export const CartProductItem = ({ product }) => {
+export const CartProductItem = ({ product, onDecreaseQuantity, onIncreaseQuantity }) => {
+
+    const decreaseQuantity = () => {
+        if (product.quantity >= 1) {
+            onDecreaseQuantity(product);
+        }
+    }
+
+    const increaseQuantity = () => {
+        onIncreaseQuantity(product);
+    }
     return (
         <div className="flex flex-col min-[500px]:flex-row min-[500px]:items-center gap-5 py-6  border-b border-gray-200">
             <div className="w-full md:max-w-[126px]">
@@ -17,23 +30,23 @@ export const CartProductItem = ({ product }) => {
                 </div>
                 <div className="flex items-center max-[500px]:justify-center h-full max-md:mt-3">
                     <div class="flex items-center h-full">
-                        <button
-                            class="group rounded-l-full px-5 py-[18px] border border-gray-200 flex items-center justify-center shadow-sm shadow-transparent transition-all duration-500 hover:bg-gray-50 hover:border-gray-300 hover:shadow-gray-300 focus-within:outline-gray-300">
-                            <svg class="stroke-gray-900 transition-all duration-500 group-hover:stroke-black"
-                                xmlns="http://www.w3.org/2000/svg" width="22" height="22"
-                                viewBox="0 0 22 22" fill="none">
-                                <path d="M16.5 11H5.5" stroke="" stroke-width="1.6"
-                                    stroke-linecap="round" />
-                                <path d="M16.5 11H5.5" stroke="" stroke-opacity="0.2" stroke-width="1.6"
-                                    stroke-linecap="round" />
-                                <path d="M16.5 11H5.5" stroke="" stroke-opacity="0.2" stroke-width="1.6"
-                                    stroke-linecap="round" />
-                            </svg>
+                        <button onClick={decreaseQuantity} className="group rounded-l-full px-5 py-[18px] border border-gray-200 flex items-center justify-center shadow-sm shadow-transparent transition-all duration-500 hover:bg-gray-50 hover:border-gray-300 hover:shadow-gray-300 focus-within:outline-gray-300">
+                            {product.quantity === 1 ? (
+                                <FontAwesomeIcon icon={faTrashAlt} className="stroke-gray-900 text-lg transition-all duration-500 group-hover:stroke-black" />
+                            ) : (
+                                <svg className="stroke-gray-900 transition-all duration-500 group-hover:stroke-black" xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22" fill="none">
+                                    <path d="M16.5 11H5.5" stroke="" strokeWidth="1.6" strokeLinecap="round" />
+                                    <path d="M16.5 11H5.5" stroke="" strokeOpacity="0.2" strokeWidth="1.6" strokeLinecap="round" />
+                                    <path d="M16.5 11H5.5" stroke="" strokeOpacity="0.2" strokeWidth="1.6" strokeLinecap="round" />
+                                </svg>
+                            )}
                         </button>
+
+
                         <input type="text"
                             class="border-y border-gray-200 outline-none text-gray-900 font-semibold text-lg w-full max-w-[73px] min-w-[60px] placeholder:text-gray-900 py-[15px]  text-center bg-transparent"
                             placeholder={product.quantity} />
-                        <button
+                        <button onClick={increaseQuantity}
                             class="group rounded-r-full px-5 py-[18px] border border-gray-200 flex items-center justify-center shadow-sm shadow-transparent transition-all duration-500 hover:bg-gray-50 hover:border-gray-300 hover:shadow-gray-300 focus-within:outline-gray-300">
                             <svg class="stroke-gray-900 transition-all duration-500 group-hover:stroke-black"
                                 xmlns="http://www.w3.org/2000/svg" width="22" height="22"
@@ -49,7 +62,7 @@ export const CartProductItem = ({ product }) => {
                     </div>
                 </div>
                 <div className="flex items-center max-[500px]:justify-center md:justify-end max-md:mt-3 h-full">
-                    <p className="font-bold text-lg leading-8 text-indigo-600 text-center">{parseFloat(product.price) * parseInt(product.quantity)}₺</p>
+                    <p className="font-bold text-lg leading-8 text-indigo-600 text-center">{parseFloat(product.price) * product.quantity}₺</p>
                 </div>
             </div>
         </div>

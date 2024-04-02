@@ -4,57 +4,71 @@ import { XMarkIcon } from '@heroicons/react/24/outline'
 import { NavLink } from 'react-router-dom';
 
 
-const cartItems = [
-  {
-    id: 1,
-    name: 'Espresso', 
-    size: 'Small',
-    price: '12.00',
-    quantity: 2,
-    imageSrc: 'https://example.com/espresso.jpg',
-  },
-  {
-    id: 2,
-    name: 'Cappuccino',
-    size: 'Medium',
-    price: '15.00',
-    quantity: 1,
-    imageSrc: 'https://example.com/cappuccino.jpg',
-  },
-  {
-    id: 3,
-    name: 'Latte',
-    size: 'Medium',
-    price: '18.00',
-    quantity: 3,
-    imageSrc: 'https://example.com/latte.jpg',
-  },
-  {
-    id: 4,
-    name: 'Mocha',
-    size: 'Large',
-    price: '20.00',
-    quantity: 1,
-    imageSrc: 'https://example.com/mocha.jpg',
-  },
-  {
-    id: 5,
-    name: 'Tea',
-    size: 'Small',
-    price: '10.00',
-    quantity: 1,
-    imageSrc: 'https://example.com/tea.jpg',
-  },
-  // Daha fazla ürün eklenebilir.
-];
 
-function removeItem(name){
-    console.log(name);
-}
-      
+
+
 
 export const CartSlider = () => {
-  const [open, setOpen] = useState(true)
+
+  const [cartItems, setCartItems] = useState([
+    {
+      id: 1,
+      name: 'Espresso',
+      size: 'Small',
+      price: '12.00',
+      quantity: 2,
+      imageSrc: 'https://example.com/espresso.jpg',
+    },
+    {
+      id: 2,
+      name: 'Cappuccino',
+      size: 'Medium',
+      price: '15.00',
+      quantity: 1,
+      imageSrc: 'https://example.com/cappuccino.jpg',
+    },
+    {
+      id: 3,
+      name: 'Latte',
+      size: 'Medium',
+      price: '18.00',
+      quantity: 3,
+      imageSrc: 'https://example.com/latte.jpg',
+    },
+    {
+      id: 4,
+      name: 'Mocha',
+      size: 'Large',
+      price: '20.00',
+      quantity: 1,
+      imageSrc: 'https://example.com/mocha.jpg',
+    },
+    {
+      id: 5,
+      name: 'Tea',
+      size: 'Small',
+      price: '10.00',
+      quantity: 1,
+      imageSrc: 'https://example.com/tea.jpg',
+    }
+    // Daha fazla ürün eklenebilir.
+  ]);
+
+  function removeItem(item) {
+    const updatedProducts = cartItems.map(p => {
+      if (p.id === item.id) {
+        //api delete call
+        return null; 
+      }
+      return p;    
+    }).filter(Boolean);
+    setCartItems(updatedProducts);
+  }
+
+  const [open, setOpen] = useState(true);
+
+  const totalPrice = cartItems.reduce((acc, product) => acc + parseFloat(product.price) * product.quantity, 0);
+
 
   return (
     <Transition.Root show={open} as={Fragment}>
@@ -104,7 +118,7 @@ export const CartSlider = () => {
                       <div className="mt-8">
                         <div className="flow-root">
                           <ul role="list" className="-my-6 divide-y divide-gray-200">
-                            {cartItems.map((item) => (
+                            {cartItems.length > 0 ? cartItems.map((item) => (
                               <li key={item.id} className="flex py-6">
                                 <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
                                   <img
@@ -120,15 +134,15 @@ export const CartSlider = () => {
                                       <h3>
                                         <a href={item.href}>{item.name}</a>
                                       </h3>
-                                      <p className="ml-4">{item.price} ₺</p>
-                                    </div>
+                                      <p className="ml-4" dangerouslySetInnerHTML={{ __html: item.price + ' X ' + item.quantity + '&nbsp;&nbsp;&nbsp;' + (parseFloat(item.price) * parseFloat(item.quantity)).toString() + ' ₺' }}>
+                                      </p>                                    </div>
                                     <p className="mt-1 text-sm text-gray-500">{item.size}</p>
                                   </div>
                                   <div className="flex flex-1 items-end justify-between text-sm">
                                     <p className="text-gray-500">Quantity {item.quantity}</p>
-                                    
+
                                     <div className="flex">
-                                      <button onClick={() => removeItem(item.name)}
+                                      <button onClick={() => removeItem(item)}
                                         type="button"
                                         className="font-medium text-custom-brown hover:text-black"
                                       >
@@ -138,7 +152,7 @@ export const CartSlider = () => {
                                   </div>
                                 </div>
                               </li>
-                            ))}
+                            )) : <p>no items in the cart</p>}
                           </ul>
                         </div>
                       </div>
@@ -147,7 +161,7 @@ export const CartSlider = () => {
                     <div className="border-t border-gray-200 px-4 py-6 sm:px-6">
                       <div className="flex justify-between text-base font-medium text-gray-900">
                         <p>Total</p>
-                        <p>262.00 ₺</p>
+                        <p>{totalPrice} ₺</p>
                       </div>
                       <div className="mt-6">
                         <NavLink

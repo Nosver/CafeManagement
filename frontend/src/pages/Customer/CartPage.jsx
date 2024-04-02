@@ -1,16 +1,17 @@
 import React from 'react'
 import { CartProductItem } from '../../components/CartProductItem'
+import { useState } from 'react';
 
 export const CartPage = () => {
 
     
 
-    const products = [
+     const [products, setProducts] = useState([
         {
             id: 1,
             name: 'Mocha',
             size: 'Small',
-            quantity:'2',
+            quantity: 2,
             price: 90.00,
             image: "https://cdn.dsmcdn.com/mrktng/seo/22ekim6/evde-mocha-yapimi-1.jpg"
         },
@@ -18,7 +19,7 @@ export const CartPage = () => {
             id: 2,
             name: 'Ice Americano',
             size: 'Medium',
-            quantity:'1',
+            quantity: 1,
             price: 120.00,
             image: "https://www.pinoscoffee.com/wp-content/uploads/2022/05/pinos-coffee-ayvalik-iced-americano-150x150.jpg",
 
@@ -27,13 +28,43 @@ export const CartPage = () => {
             id: 3,
             name: 'Turkish coffe',
             size: 'Large',
-            quantity:'2',
+            quantity: 2,
             price: 80.00,
             image: 'https://www.hazerbaba.com/1219-home_default/turkish-coffee-.jpg',
         }
-    ];
+    ]);
 
-    const totalPrice = products.reduce((acc, product) => acc + parseFloat(product.price) * parseInt(product.quantity), 0);
+    const totalPrice = products.reduce((acc, product) => acc + parseFloat(product.price) * product.quantity, 0);
+
+
+    const handleDecreaseQuantity = (product) => {
+        const updatedProducts = products.map(p => {
+            if (p.id === product.id) {
+                if (p.quantity > 1) {
+                    //api put call
+                    return { ...p, quantity: p.quantity - 1 };
+                } else {
+                    //api delete call
+                    return null; // Remove the product if the quantity is 1
+                }
+            }
+            return p;
+        }).filter(Boolean); // Filter out null values (removed products)
+        setProducts(updatedProducts);
+    };
+    
+
+    const handleIncreaseQuantity = (product) => {
+        const updatedProducts = products.map(p => {
+            if (p.id === product.id) {
+
+                //api put call
+                return { ...p, quantity: p.quantity + 1 };
+            }
+            return p;
+        });
+        setProducts(updatedProducts);
+    };
 
 
     return (<section
@@ -45,8 +76,8 @@ export const CartPage = () => {
                     <div class="flex items-center justify-between pb-8 border-b border-gray-300">
                         <h2 class="font-manrope font-bold text-3xl leading-10 text-black">Shopping Cart</h2>
                         <h2 class="font-manrope font-bold text-3xl leading-10 text-black">{products.length} Item(s)</h2>
-                    </div>
-                    <div class="grid grid-cols-12 mt-8 max-md:hidden pb-6 border-b border-gray-200">
+                    </div>{
+                        products.length>0 ? <div class="grid grid-cols-12 mt-8 max-md:hidden pb-6 border-b border-gray-200">
                         <div class="col-span-12 md:col-span-7">
                             <p class="font-normal text-lg leading-8 text-gray-400">Product Details</p>
                         </div>
@@ -60,13 +91,18 @@ export const CartPage = () => {
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div>: <p class="font-normal text-lg leading-8 text-gray-400 mt-5">No items in the cart</p>
+                    }
+                    
 
 
 
                     <div>
                         {products.map(product => (
-                            <CartProductItem key={product.id} product={product} />
+                            <CartProductItem key={product.id}
+                            product={product}
+                            onDecreaseQuantity={()=>handleDecreaseQuantity(product)}
+                            onIncreaseQuantity={()=> handleIncreaseQuantity(product)} />
                         ))}
                     </div>
 
@@ -82,6 +118,16 @@ export const CartPage = () => {
                             <p class="font-normal text-lg leading-8 text-black">{products.length} Item(s)</p>
                             <p class="font-medium text-lg leading-8 text-black">{totalPrice}₺</p>
                         </div>
+                        <p>{
+                            products.map(product => (
+                                <span key={product.id}>
+                                  {product.name} x{product.quantity}<br />
+                                </span>
+                              ))
+                            
+                            }
+                        </p>
+                        <br></br>
                         <form>
                            
                             
@@ -117,10 +163,10 @@ export const CartPage = () => {
                             </div>
                             <div class="flex items-center justify-between py-8">
                                 <p class="font-medium text-xl leading-8 text-black">{products.length} Item(s)</p>
-                                <p class="font-semibold text-xl leading-8 text-indigo-600">{totalPrice}₺</p>
+                                <p class="font-semibold text-xl leading-8 text-green-700">{totalPrice}₺</p>
                             </div>
                             <button
-                                class="w-full text-center bg-indigo-600 rounded-full py-4 px-6 font-semibold text-lg text-white transition-all duration-500 hover:bg-indigo-700">Checkout</button>
+                                class="w-full text-center bg-green-700 rounded-full py-4 px-6 font-semibold text-lg text-white transition-all duration-500 hover:bg-green-900">Checkout</button>
                         </form>
                     </div>
                 </div>
