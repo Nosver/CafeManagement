@@ -87,7 +87,7 @@ export const Products = () => {
                                                 Quantity
                                             </th>
                                             <th scope="col" class="px-6 py-3">
-                                                Price
+                                                Unit Price
                                             </th>
                                             <th scope="col" class="px-6 py-3">
                                                 Total Price
