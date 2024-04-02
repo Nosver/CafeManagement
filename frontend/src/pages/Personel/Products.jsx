@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import Header from '../../imported-assets/partials/Header';
 import Popup from '../../components/MenuPopup';
 import { Siderbar_1 } from '../../components/Siderbar_1';
+import { InsertButton } from '../../components/personel/InsertButton';
+import { AddItemPopup } from '../../components/personel/AddItemPopup';
 
 class product {
     constructor(id, name, quantity, price, total_price, category) {
@@ -52,6 +54,17 @@ export const Products = () => {
     // Create random products for cafe
     const products = product.getAllProducts();
 
+    const [showPopup, setShowPopup] = useState(false)
+
+    const openPopup = () => {
+        setShowPopup(true)
+    }
+
+    const closePopup = () => {
+        setShowPopup(false)
+    }
+
+
     return (
         <div>
 
@@ -69,10 +82,7 @@ export const Products = () => {
                                     <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                                         <tr>
                                             <th scope="col" class="p-4">
-                                                <div class="flex items-center">
-                                                    <input id="checkbox-all" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
-                                                    <label for="checkbox-all" class="sr-only">checkbox</label>
-                                                </div>
+                                                <InsertButton description="Add new product" onClick={openPopup} />
                                             </th>
                                             <th scope="col" class="px-6 py-3">
                                                 Id
@@ -99,43 +109,22 @@ export const Products = () => {
                                     </thead>
 
                                     <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
-                                        <tr
 
-                                            onClick={() => setSelectedOrder(order)}
-                                            class={`
-                                            'bg-white'} border-b dark:bg-gray-800 dark:border-black-700 hover:bg-white dark:hover:bg-gray-600 }`}
-                                        >
-                                            <td class="w-4 p-4">
-                                                <div class="flex items-center">
-                                                    <input type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
-                                                    <label class="sr-only">checkbox</label>
-                                                </div>
-                                            </td>
-                                            <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                            </th>
-                                            <td class="px-6 py-4">
-                                                <input type="text" class="border rounded-lg px-1 py-1 mt-1 mb-2 w-3/4" placeholder="Enter text" />                                            
-                                            </td>
-                                            <td class="px-6 py-4">
-                                                <input type="text" class="border rounded-lg px-1 py-1 mt-1 mb-2 w-3/4" placeholder="Enter text" />
-                                            </td>
-                                            <td class="px-6 py-4">
-                                                <input type="text" class="border rounded-lg px-1 py-1 mt-1 mb-2 w-3/4" placeholder="Enter text" />
-                                            </td>
-                                            <td class="px-6 py-4">
-                                                <input type="text" class="border rounded-lg px-1 py-1 mt-1 mb-2 w-3/4" placeholder="Enter text" />
-                                            </td>
-                                            <td class="px-6 py-4">
-                                                <input type="text" class="border rounded-lg px-1 py-1 mt-1 mb-2 w-3/4" placeholder="$" />
-                                            </td>
-                                            <td class="px-6 py-4">
-                                                <div
-                                                    onClick="..."
-                                                    className="font-medium text-white bg-blue-800 hover:bg-blue-900 dark:bg-blue-700 dark:hover:bg-blue-600 px-4 py-2 rounded cursor-pointer"                                                >
-                                                    Submit
-                                                </div>
-                                            </td>
-                                        </tr>
+                                        {showPopup &&
+                                            <AddItemPopup
+                                                title="Add New Product"
+                                                closePopup={closePopup}
+                                                inputs={[
+                                                    { id: 'name', label: 'Name', type: 'text', placeholder: 'Type product name' },
+                                                    { id: 'price', label: 'Price', type: 'number', placeholder: '$2999' },
+                                                    { id: 'category', label: 'Category', type: 'select', placeholder: 'Select category' },
+                                                    { id: 'quantity', label: 'Quantity', type: 'number', placeholder: 'Type quantity'},
+                                                    { id: 'img_path', label: 'Image Path', type: 'text', placeholder: 'Type image path'},
+                                                    { id: 'description', label: 'Product Description', type: 'textarea', placeholder: 'Write product description here' }
+                                                ]}
+                                            />
+                                        }
+
                                         {products.map((product, index) => (
                                             <tr
                                                 key={index}

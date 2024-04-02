@@ -4,8 +4,9 @@ import Header from '../../imported-assets/partials/Header';
 import { useState } from 'react';
 import { CButton } from '../../components/CButton';
 import { Siderbar_1 } from '../../components/Siderbar_1';
-import { Edit_Product_Popup } from '../../components/Edit_Product_Popup';
+import { Edit_Product_Popup } from '../../components/personel/Edit_Product_Popup';
 import { Create_Stock } from '../../components/Create_Stock';
+import { InsertButton } from '../../components/personel/InsertButton';
 
 class stock {
 
@@ -22,30 +23,30 @@ class stock {
     static getRandomStock() {
         const id = Math.floor(Math.random() * 1000);
         const names = [
-            'Arabic Bean', 
-            'Milk', 
-            'Water', 
-            'Syrup', 
-            'Sugar', 
-            'Ice', 
-            'Turkish Coffee', 
-            'Tea Leafs', 
-            'Raw Chocolate', 
-            'Yoghurt', 
-            'Cake', 
-            'Vanilla Extract', 
-            'Cinnamon', 
-            'Whipped Cream', 
-            'Caramel Sauce', 
-            'Hazelnut Syrup', 
-            'Almond Milk', 
-            'Oat Milk', 
-            'Soy Milk', 
-            'Matcha Powder', 
-            'Cocoa Powder', 
-            'Espresso Shot', 
-            'Chai Concentrate', 
-            'Pumpkin Spice', 
+            'Arabic Bean',
+            'Milk',
+            'Water',
+            'Syrup',
+            'Sugar',
+            'Ice',
+            'Turkish Coffee',
+            'Tea Leafs',
+            'Raw Chocolate',
+            'Yoghurt',
+            'Cake',
+            'Vanilla Extract',
+            'Cinnamon',
+            'Whipped Cream',
+            'Caramel Sauce',
+            'Hazelnut Syrup',
+            'Almond Milk',
+            'Oat Milk',
+            'Soy Milk',
+            'Matcha Powder',
+            'Cocoa Powder',
+            'Espresso Shot',
+            'Chai Concentrate',
+            'Pumpkin Spice',
             'Peppermint Syrup'
         ];
         const randomName = names[Math.floor(Math.random() * names.length)];
@@ -58,30 +59,30 @@ class stock {
     static getAllStocks() {
         const stocks = [];
         const names = [
-            'Arabic Bean', 
-            'Milk', 
-            'Water', 
-            'Syrup', 
-            'Sugar', 
-            'Ice', 
-            'Turkish Coffee', 
-            'Tea Leafs', 
-            'Raw Chocolate', 
-            'Yoghurt', 
-            'Cake', 
-            'Vanilla Extract', 
-            'Cinnamon', 
-            'Whipped Cream', 
-            'Caramel Sauce', 
-            'Hazelnut Syrup', 
-            'Almond Milk', 
-            'Oat Milk', 
-            'Soy Milk', 
-            'Matcha Powder', 
-            'Cocoa Powder', 
-            'Espresso Shot', 
-            'Chai Concentrate', 
-            'Pumpkin Spice', 
+            'Arabic Bean',
+            'Milk',
+            'Water',
+            'Syrup',
+            'Sugar',
+            'Ice',
+            'Turkish Coffee',
+            'Tea Leafs',
+            'Raw Chocolate',
+            'Yoghurt',
+            'Cake',
+            'Vanilla Extract',
+            'Cinnamon',
+            'Whipped Cream',
+            'Caramel Sauce',
+            'Hazelnut Syrup',
+            'Almond Milk',
+            'Oat Milk',
+            'Soy Milk',
+            'Matcha Powder',
+            'Cocoa Powder',
+            'Espresso Shot',
+            'Chai Concentrate',
+            'Pumpkin Spice',
             'Peppermint Syrup'
         ];
         for (name in names) {
@@ -114,19 +115,7 @@ export const Stocks = () => {
                             <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                                 <tr>
                                     <th scope="col" class="p-4">
-
-                                        <button 
-                                        type="button" 
-                                        class="text-blue-700 border border-blue-700 hover:bg-blue-700 hover:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm p-2.5 text-center inline-flex items-center me-2 dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:focus:ring-blue-800 dark:hover:bg-blue-500"
-                                        >
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                                <line x1="12" y1="5" x2="12" y2="19"></line>
-                                                <line x1="5" y1="12" x2="19" y2="12"></line>
-                                            </svg>
-                                            <span class="sr-only">Icon description</span>
-                                        </button>
-
-
+                                        <InsertButton description="Add new stock" />
                                     </th>
                                     <th scope="col" class="px-6 py-3">
                                         ID
