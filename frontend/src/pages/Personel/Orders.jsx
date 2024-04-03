@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Header from '../../imported-assets/partials/Header';
 import Popup from '../../components/MenuPopup';
 import { Siderbar_1 } from '../../components/personel/Siderbar_1';
-import { AddItemPopup } from '../../components/personel/AddItemPopup';
+import { ItemPopup } from '../../components/personel/ItemPopup';
 
 
 const OrderStatus = {
@@ -124,7 +124,7 @@ export const Orders = () => {
 
                                         {
                                             showPopup_edit &&
-                                            <AddItemPopup
+                                            <ItemPopup
                                                 title="Edit Order"
                                                 submitButtonDescription='Submit'
                                                 closePopup={closePopup_edit}

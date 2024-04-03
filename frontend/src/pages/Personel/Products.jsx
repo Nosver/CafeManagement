@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Siderbar_1 } from '../../components/personel/Siderbar_1';
 import { InsertButton } from '../../components/personel/InsertButton';
-import { AddItemPopup } from '../../components/personel/AddItemPopup';
+import { ItemPopup } from '../../components/personel/ItemPopup';
 
 class product {
     constructor(id, name, quantity, price, total_price, category) {
@@ -107,7 +107,7 @@ export const Products = () => {
                                     <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
 
                                         {showPopup &&
-                                            <AddItemPopup
+                                            <ItemPopup
                                                 title="Add New Product"
                                                 closePopup={closePopup}
                                                 inputs={[
@@ -122,7 +122,7 @@ export const Products = () => {
                                         }
 
                                         {showPopup_edit &&
-                                            <AddItemPopup
+                                            <ItemPopup
                                                 title="Edit Product"
                                                 submitButtonDescription='Edit Product'
                                                 closePopup={closePopup_edit}

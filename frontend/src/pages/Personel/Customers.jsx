@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Siderbar_1 } from '../../components/personel/Siderbar_1';
 import { InsertButton } from '../../components/personel/InsertButton';
-import { AddItemPopup } from '../../components/personel/AddItemPopup';
+import { ItemPopup } from '../../components/personel/ItemPopup';
 
 class Customer {
     constructor(id, name, coffePayBalance, moneySpendLastMonth, phone, totalSpendings) {
@@ -104,7 +104,7 @@ export const Customers = () => {
                                     <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
 
                                         {showPopup &&
-                                            <AddItemPopup
+                                            <ItemPopup
                                                 title="Add new customer"
                                                 inputs={[
                                                     {

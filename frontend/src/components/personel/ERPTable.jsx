@@ -45,7 +45,7 @@ export const ERPTable = () => {
                                     <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
 
                                         {showPopup &&
-                                            <AddItemPopup
+                                            <ItemPopup
                                                 title="Add New Product"
                                                 closePopup={closePopup}
                                                 inputs={[

@@ -2,7 +2,7 @@ import React from 'react'
 import { Siderbar_1 } from '../../components/personel/Siderbar_1'
 import { useState } from 'react'
 import faker from 'faker';
-import { AddItemPopup } from '../../components/personel/AddItemPopup';
+import { ItemPopup } from '../../components/personel/ItemPopup';
 import { InsertButton } from '../../components/personel/InsertButton';
 
 class Employee {
@@ -99,7 +99,7 @@ export const Employees = () => {
                   <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
 
                     {showPopup &&
-                      <AddItemPopup
+                      <ItemPopup
                         title="Add New Employee"
                         closePopup={closePopup}
                         inputs={[
@@ -113,7 +113,7 @@ export const Employees = () => {
                     }
 
                   {showPopup_edit &&
-                      <AddItemPopup
+                      <ItemPopup
                         title="Edit Employee"
                         submitButtonDescription='Edit Employee'
                         closePopup={closePopup_edit}

@@ -1,6 +1,6 @@
 import React from 'react'
 
-export const AddItemPopup = ({ title, inputs, closePopup, submitButtonDescription="Add new item" }) => {
+export const ItemPopup = ({ title, inputs, closePopup, submitButtonDescription="Add new item" }) => {
 
     const bg_color = "bg-slate-300"
 

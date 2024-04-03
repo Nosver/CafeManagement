@@ -7,7 +7,7 @@ import { Siderbar_1 } from '../../components/personel/Siderbar_1';
 import { Edit_Product_Popup } from '../../components/personel/Edit_Product_Popup';
 import { Create_Stock } from '../../components/Create_Stock';
 import { InsertButton } from '../../components/personel/InsertButton';
-import { AddItemPopup } from '../../components/personel/AddItemPopup';
+import { ItemPopup } from '../../components/personel/ItemPopup';
 
 class stock {
 
@@ -101,13 +101,14 @@ export const Stocks = () => {
     const [sidebarOpen, setSidebarOpen] = React.useState(true);
     const [quantity, setQuantity] = useState(stock.quantity);
     const [isPopupOpen, setIsPopupOpen] = useState(false);
+
     const [showPopup, setShowPopup] = useState(false);
     const openPopup = () => setShowPopup(true);
     const closePopup = () => setShowPopup(false);
 
-    const [showPopup_edit, setShowPopup_edit] = useState(false);
-    const openPopup_edit = () => setShowPopup_edit(true);
-    const closePopup_edit = () => setShowPopup_edit(false);
+    const [showPopup_edit, setShowPopup_edit] = useState({ show: false, stock: null });
+    const openPopup_edit = (stock) => setShowPopup_edit({ show: true, stock });
+    const closePopup_edit = () => setShowPopup_edit({ show: false, stock: null });
 
     return (
         <div>
@@ -149,15 +150,28 @@ export const Stocks = () => {
                             </thead>
                             <tbody>
 
-                                {showPopup_edit &&
-                                    <AddItemPopup
-                                        title="Edit stock"
+                                {showPopup &&
+                                    <ItemPopup
+                                        title="Add new stock"
                                         submitButtonDescription='Submit'
-                                        closePopup={closePopup_edit}
+                                        closePopup={closePopup}
                                         inputs={[
                                             { id: 'name', name: 'name', type: 'text', label: 'Name', placeholder: 'Enter the name' },
                                             { id: 'quantity', name: 'quantity', type: 'number', label: 'Quantity', placeholder: 'Enter the quantity' },
                                             { id: 'unit_price', name: 'unit_price', type: 'number', label: 'Unit Price', placeholder: 'Enter the unit price' },
+                                        ]}
+                                    />
+                                }
+
+                                {showPopup_edit.show && showPopup_edit.stock &&
+                                    <ItemPopup
+                                        title="Edit stock"
+                                        submitButtonDescription='Submit'
+                                        closePopup={closePopup_edit}
+                                        inputs={[
+                                            { id: 'name', name: 'name', type: 'text', label: 'Name', placeholder: showPopup_edit.stock.name },
+                                            { id: 'quantity', name: 'quantity', type: 'number', label: 'Quantity', placeholder: showPopup_edit.stock.quantity },
+                                            { id: 'unit_price', name: 'unit_price', type: 'number', label: 'Unit Price', placeholder: showPopup_edit.stock.unit_price },
                                         ]}
                                     />
                                 }
@@ -196,7 +210,7 @@ export const Stocks = () => {
                                         </td>
                                         <td class="px-6 py-4">
                                             <div
-                                                onClick={() => setShowPopup_edit(true)}
+                                                onClick={() => openPopup_edit(stock)}
                                                 className="font-medium text-blue-600 dark:text-blue-500 hover:underline cursor-pointer"
                                             >
                                                 Edit
