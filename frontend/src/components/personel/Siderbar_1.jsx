@@ -91,6 +91,13 @@ export const Siderbar_1 = () => {
                             <span class="flex-1 ms-3 whitespace-nowrap text-white">Employees</span>
                         </SidebarItem>  
 
+                        <SidebarItem
+                            path="/logout"
+                            handleActiveTab={handleActiveTab}
+                        >
+                            <span class="flex-1 ms-3 whitespace-nowrap text-white">Log Out</span>
+                        </SidebarItem>  
+
                     </ul>
                 </div>
             </aside>

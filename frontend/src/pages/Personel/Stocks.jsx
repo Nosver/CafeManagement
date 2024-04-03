@@ -178,43 +178,22 @@ export const Stocks = () => {
 
 
                                 {stocks.map((stock, index) => (
-                                    <tr
-                                        key={index}
-                                        onClick={() => setSelectedOrder(order)}
-                                        class={`
-                                            ${stock.quantity == 1 ? 'bg-red-400' : stock.quantity < 5 ? 'bg-red-300' : stock.quantity < 10 ? 'bg-red-200' : stock.quantity < 20 ? 'bg-red-100' : 'bg-white'} border-b dark:bg-gray-800 dark:border-black-700 hover:bg-white dark:hover:bg-gray-600 }`}
-                                    >
+                                    <tr key={index} onClick={() => setSelectedOrder(order)} 
+                                            class={`${stock.quantity == 1 ? 'bg-red-400' : stock.quantity < 5 ? 'bg-red-300' : stock.quantity < 10 ? 'bg-red-200' : stock.quantity < 20 ? 'bg-red-100' : 'bg-white'} border-b dark:bg-gray-800 dark:border-black-700 hover:bg-white dark:hover:bg-gray-600 }`}>
                                         <td class="w-4 p-4">
                                             <div class="flex items-center">
                                                 <input id={`checkbox-table-${index}`} type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
                                                 <label for={`checkbox-table-${index}`} class="sr-only">checkbox</label>
                                             </div>
                                         </td>
-                                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                            {stock.id}
-                                        </th>
+                                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">{stock.id}</th>
+                                        <td class="px-6 py-4">{stock.name}</td>
+                                        <td class="px-6 py-4">{stock.quantity}</td>
+                                        <td class="px-6 py-4">{stock.price}€</td>
+                                        <td class="px-6 py-4">{stock.ongoing_stock}</td>
+                                        <td class="px-6 py-4">${stock.total_price.toFixed(2)}</td>
                                         <td class="px-6 py-4">
-                                            {stock.name.toString()}
-                                        </td>
-                                        <td class="px-6 py-4">
-                                            {stock.quantity.toString()}
-                                        </td>
-                                        <td class="px-6 py-4">
-                                            {stock.price.toString()}€
-                                        </td>
-                                        <td class="px-6 py-4">
-                                            {stock.ongoing_stock.toString()}
-                                        </td>
-                                        <td class="px-6 py-4">
-                                            ${stock.total_price.toFixed(2)}
-                                        </td>
-                                        <td class="px-6 py-4">
-                                            <div
-                                                onClick={() => openPopup_edit(stock)}
-                                                className="font-medium text-blue-600 dark:text-blue-500 hover:underline cursor-pointer"
-                                            >
-                                                Edit
-                                            </div>
+                                            <div onClick={() => openPopup_edit(stock)} className="font-medium text-blue-600 dark:text-blue-500 hover:underline cursor-pointer">Edit</div>
                                         </td>
                                     </tr>
                                 ))}
