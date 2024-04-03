@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Header from '../../imported-assets/partials/Header';
 import Popup from '../../components/MenuPopup';
 import { Siderbar_1 } from '../../components/personel/Siderbar_1';
+import { AddItemPopup } from '../../components/personel/AddItemPopup';
 
 
 const OrderStatus = {
@@ -71,22 +72,12 @@ export const Orders = () => {
     const [isPopupOpen, setIsPopupOpen] = useState(null);
     const [selectedOrder, setSelectedOrder] = useState(null); // Add this line
 
+    const [showPopup_edit, setShowPopup_edit] = useState(false);
+    const openPopup_edit = () => setShowPopup_edit(true);
+    const closePopup_edit = () => setShowPopup_edit(false);
 
     return (
         <>
-
-            {/* FIX THIS POP UP !!! */}
-            {selectedOrder && (
-                <Popup isOpen={true} onClose={() => setSelectedOrder(null)}>
-                    {/* Display selectedOrder details */}
-                    <h2>Order Details</h2>
-                    <p>Customer: {selectedOrder.customer}</p>
-                    <p>Payment Type: {selectedOrder.payment_type}</p>
-                    <p>Status: {selectedOrder.status}</p>
-                    <p>Date: {new Date(selectedOrder.date).toString().substring(0, 24)}</p>
-                    <p>Total Price: ${selectedOrder.total_price.toFixed(2)}</p>
-                </Popup>
-            )}
 
             <Siderbar_1 />
 
@@ -130,6 +121,22 @@ export const Orders = () => {
                                         </tr>
                                     </thead>
                                     <tbody>
+
+                                        {
+                                            showPopup_edit &&
+                                            <AddItemPopup
+                                                title="Edit Order"
+                                                submitButtonDescription='Submit'
+                                                closePopup={closePopup_edit}
+                                                inputs={[
+                                                    { id: 'customer', label: 'Customer', type: 'text', placeholder: 'Type customer name' },
+                                                    { id: 'payment_type', label: 'Payment Type', type: 'select', placeholder: 'Select payment type' },
+                                                    { id: 'status', label: 'Status', type: 'select', placeholder: 'Select status' },
+                                                    { id: 'date', label: 'Date', type: 'date', placeholder: 'Select date' },
+                                                    { id: 'total_price', label: 'Total Price', type: 'number', placeholder: 'Type total price' },
+                                                ]}
+                                            />
+                                        }
                                         {orders.map((order, index) => (
                                             <tr
                                                 key={index}
@@ -162,7 +169,8 @@ export const Orders = () => {
                                                 <td class="px-6 py-4">
                                                     ${order.total_price.toFixed(2)}
                                                 </td>
-                                                <td class="px-6 py-4">
+                                                <td class="px-6 py-4"
+                                                onClick={setShowPopup_edit}>
                                                     <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
                                                 </td>
                                             </tr>

@@ -1,6 +1,4 @@
 import React, { useState } from 'react';
-import Header from '../../imported-assets/partials/Header';
-import Popup from '../../components/MenuPopup';
 import { Siderbar_1 } from '../../components/personel/Siderbar_1';
 import { InsertButton } from '../../components/personel/InsertButton';
 import { AddItemPopup } from '../../components/personel/AddItemPopup';
@@ -54,15 +52,9 @@ export const Products = () => {
     // Create random products for cafe
     const products = product.getAllProducts();
 
-    const [showPopup, setShowPopup] = useState(false)
-
-    const openPopup = () => {
-        setShowPopup(true)
-    }
-
-    const closePopup = () => {
-        setShowPopup(false)
-    }
+    const [showPopup, setShowPopup] = useState(false);
+    const openPopup = () => setShowPopup(true);
+    const closePopup = () => setShowPopup(false);
 
     const [showPopup_edit, setShowPopup_edit] = useState(false);
     const openPopup_edit = () => setShowPopup_edit(true);
