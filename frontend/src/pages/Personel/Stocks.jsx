@@ -7,7 +7,7 @@ import { Siderbar_1 } from '../../components/personel/Siderbar_1';
 import { Edit_Product_Popup } from '../../components/personel/Edit_Product_Popup';
 import { Create_Stock } from '../../components/Create_Stock';
 import { InsertButton } from '../../components/personel/InsertButton';
-import { AddItemPopup } from '../../components/personel/AddItemPopup';
+import { ItemPopup } from '../../components/personel/ItemPopup';
 
 class stock {
 
@@ -101,9 +101,14 @@ export const Stocks = () => {
     const [sidebarOpen, setSidebarOpen] = React.useState(true);
     const [quantity, setQuantity] = useState(stock.quantity);
     const [isPopupOpen, setIsPopupOpen] = useState(false);
+
     const [showPopup, setShowPopup] = useState(false);
     const openPopup = () => setShowPopup(true);
     const closePopup = () => setShowPopup(false);
+
+    const [showPopup_edit, setShowPopup_edit] = useState({ show: false, stock: null });
+    const openPopup_edit = (stock) => setShowPopup_edit({ show: true, stock });
+    const closePopup_edit = () => setShowPopup_edit({ show: false, stock: null });
 
     return (
         <div>
@@ -146,8 +151,9 @@ export const Stocks = () => {
                             <tbody>
 
                                 {showPopup &&
-                                    <AddItemPopup
+                                    <ItemPopup
                                         title="Add new stock"
+                                        submitButtonDescription='Submit'
                                         closePopup={closePopup}
                                         inputs={[
                                             { id: 'name', name: 'name', type: 'text', label: 'Name', placeholder: 'Enter the name' },
@@ -157,46 +163,37 @@ export const Stocks = () => {
                                     />
                                 }
 
-                                {isPopupOpen && <Edit_Product_Popup closePopup={() => setIsPopupOpen(false)} />}
+                                {showPopup_edit.show && showPopup_edit.stock &&
+                                    <ItemPopup
+                                        title="Edit stock"
+                                        submitButtonDescription='Submit'
+                                        closePopup={closePopup_edit}
+                                        inputs={[
+                                            { id: 'name', name: 'name', type: 'text', label: 'Name', placeholder: showPopup_edit.stock.name },
+                                            { id: 'quantity', name: 'quantity', type: 'number', label: 'Quantity', placeholder: showPopup_edit.stock.quantity },
+                                            { id: 'unit_price', name: 'unit_price', type: 'number', label: 'Unit Price', placeholder: showPopup_edit.stock.unit_price },
+                                        ]}
+                                    />
+                                }
+
 
                                 {stocks.map((stock, index) => (
-                                    <tr
-                                        key={index}
-                                        onClick={() => setSelectedOrder(order)}
-                                        class={`
-                                            ${stock.quantity == 1 ? 'bg-red-400' : stock.quantity < 5 ? 'bg-red-300' : stock.quantity < 10 ? 'bg-red-200' : stock.quantity < 20 ? 'bg-red-100' : 'bg-white'} border-b dark:bg-gray-800 dark:border-black-700 hover:bg-white dark:hover:bg-gray-600 }`}
-                                    >
+                                    <tr key={index} onClick={() => setSelectedOrder(order)} 
+                                            class={`${stock.quantity == 1 ? 'bg-red-400' : stock.quantity < 5 ? 'bg-red-300' : stock.quantity < 10 ? 'bg-red-200' : stock.quantity < 20 ? 'bg-red-100' : 'bg-white'} border-b dark:bg-gray-800 dark:border-black-700 hover:bg-white dark:hover:bg-gray-600 }`}>
                                         <td class="w-4 p-4">
                                             <div class="flex items-center">
                                                 <input id={`checkbox-table-${index}`} type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
                                                 <label for={`checkbox-table-${index}`} class="sr-only">checkbox</label>
                                             </div>
                                         </td>
-                                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                            {stock.id}
-                                        </th>
+                                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">{stock.id}</th>
+                                        <td class="px-6 py-4">{stock.name}</td>
+                                        <td class="px-6 py-4">{stock.quantity}</td>
+                                        <td class="px-6 py-4">{stock.price}€</td>
+                                        <td class="px-6 py-4">{stock.ongoing_stock}</td>
+                                        <td class="px-6 py-4">${stock.total_price.toFixed(2)}</td>
                                         <td class="px-6 py-4">
-                                            {stock.name.toString()}
-                                        </td>
-                                        <td class="px-6 py-4">
-                                            {stock.quantity.toString()}
-                                        </td>
-                                        <td class="px-6 py-4">
-                                            {stock.price.toString()}€
-                                        </td>
-                                        <td class="px-6 py-4">
-                                            {stock.ongoing_stock.toString()}
-                                        </td>
-                                        <td class="px-6 py-4">
-                                            ${stock.total_price.toFixed(2)}
-                                        </td>
-                                        <td class="px-6 py-4">
-                                            <div
-                                                onClick={() => setIsPopupOpen(true)}
-                                                className="font-medium text-blue-600 dark:text-blue-500 hover:underline cursor-pointer"
-                                            >
-                                                Edit
-                                            </div>
+                                            <div onClick={() => openPopup_edit(stock)} className="font-medium text-blue-600 dark:text-blue-500 hover:underline cursor-pointer">Edit</div>
                                         </td>
                                     </tr>
                                 ))}
