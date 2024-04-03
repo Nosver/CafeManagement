@@ -105,6 +105,10 @@ export const Stocks = () => {
     const openPopup = () => setShowPopup(true);
     const closePopup = () => setShowPopup(false);
 
+    const [showPopup_edit, setShowPopup_edit] = useState(false);
+    const openPopup_edit = () => setShowPopup_edit(true);
+    const closePopup_edit = () => setShowPopup_edit(false);
+
     return (
         <div>
 
@@ -145,10 +149,11 @@ export const Stocks = () => {
                             </thead>
                             <tbody>
 
-                                {showPopup &&
+                                {showPopup_edit &&
                                     <AddItemPopup
-                                        title="Add new stock"
-                                        closePopup={closePopup}
+                                        title="Edit stock"
+                                        submitButtonDescription='Submit'
+                                        closePopup={closePopup_edit}
                                         inputs={[
                                             { id: 'name', name: 'name', type: 'text', label: 'Name', placeholder: 'Enter the name' },
                                             { id: 'quantity', name: 'quantity', type: 'number', label: 'Quantity', placeholder: 'Enter the quantity' },
@@ -157,7 +162,6 @@ export const Stocks = () => {
                                     />
                                 }
 
-                                {isPopupOpen && <Edit_Product_Popup closePopup={() => setIsPopupOpen(false)} />}
 
                                 {stocks.map((stock, index) => (
                                     <tr
@@ -192,7 +196,7 @@ export const Stocks = () => {
                                         </td>
                                         <td class="px-6 py-4">
                                             <div
-                                                onClick={() => setIsPopupOpen(true)}
+                                                onClick={() => setShowPopup_edit(true)}
                                                 className="font-medium text-blue-600 dark:text-blue-500 hover:underline cursor-pointer"
                                             >
                                                 Edit
