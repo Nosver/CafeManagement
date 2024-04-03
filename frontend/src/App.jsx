@@ -18,7 +18,7 @@ import { Orders } from './pages/Personel/Orders';
 import OrdersPage from './pages/Customer/OrdersPage';
 
 
-import Menu from './pages/Menu';
+import {Menu} from './pages/Customer/Menu';
 import { Stocks } from './pages/Personel/Stocks';
 import { CartPage } from './pages/Customer/CartPage';
 import { Products } from './pages/Personel/Products';
