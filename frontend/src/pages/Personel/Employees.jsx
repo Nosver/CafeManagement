@@ -59,16 +59,13 @@ export const Employees = () => {
   const employeeArray = Employee.generateRandomEmployees(50);
 
   const [employees, setEmployees] = useState([]);
-
   const [showPopup, setShowPopup] = useState(false);
+  const [showPopup_edit, setShowPopup_edit] = useState(false);
 
-  const openPopup = () => {
-    setShowPopup(true);
-  };
-
-  const closePopup = () => {
-    setShowPopup(false)
-}
+  const openPopup = () => setShowPopup(true);
+  const closePopup = () => setShowPopup(false);
+  const openPopup_edit = () => setShowPopup_edit(true);
+  const closePopup_edit = () => setShowPopup_edit(false);
 
   return (
     <div>
@@ -115,6 +112,21 @@ export const Employees = () => {
                       />
                     }
 
+                  {showPopup_edit &&
+                      <AddItemPopup
+                        title="Edit Employee"
+                        submitButtonDescription='Edit Employee'
+                        closePopup={closePopup_edit}
+                        inputs={[
+                          { id: 'id', label: 'Id', type: 'text', placeholder: 'Type employee id'},
+                          { id: 'fullName', label: 'Full Name', type: 'text', placeholder: 'Type employee full name' },
+                          { id: 'email', label: 'Email', type: 'text', placeholder: 'Type employee email' },
+                          { id: 'phone', label: 'Phone', type: 'text', placeholder: 'Type employee phone' },
+                          { id: 'address', label: 'Address', type: 'text', placeholder: 'Type employee address' },
+                        ]}
+                      />
+                    }
+
                     {employeeArray.map((Employee, index) => (
                       <tr
                         key={index}
@@ -136,7 +148,7 @@ export const Employees = () => {
                         <td class="px-6 py-4">${Employee.salary.toString()}</td>
                         <td class="px-6 py-4">
                           <div
-                            onClick={() => setIsPopupOpen(true)}
+                            onClick={() => setShowPopup_edit(true)}
                             className="font-medium text-blue-600 dark:text-blue-500 hover:underline cursor-pointer"
                           >
                             Edit
