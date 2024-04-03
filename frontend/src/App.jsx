@@ -1,9 +1,9 @@
 import React from 'react'
 import {
-Route, 
-createBrowserRouter, 
-createRoutesFromElements,
-RouterProvider
+  Route,
+  createBrowserRouter,
+  createRoutesFromElements,
+  RouterProvider
 } from 'react-router-dom'
 import LoginPage from './pages/LoginPage';
 import HomePage from './pages/Customer/HomePage';
@@ -24,42 +24,44 @@ import { CartPage } from './pages/Customer/CartPage';
 import { Products } from './pages/Personel/Products';
 import { AboutUsPage } from './pages/Customer/AboutUsPage';
 import { Customers } from './pages/Personel/Customers';
+import { Employees } from './pages/Personel/Employees';
 
 
 const router = createBrowserRouter(
   createRoutesFromElements(
-    <Route path='/' element = {<MainLayout/>}>
+    <Route path='/' element={<MainLayout />}>
 
-      <Route index element = {<WelcomePage/>} />
+      <Route index element={<WelcomePage />} />
 
-      <Route path='/' element = {<CustomerLayout/>}>
-        <Route path='/HomePage' element = {<HomePage/>} />
-        <Route path='/Menu' element = {<Menu/>} />
-        <Route path='/OrdersPage' element = {<OrdersPage/>} />
-        <Route path='/cart' element = {<CartPage/>} />
-        <Route path='/about-us' element = {<AboutUsPage/>} />
+      <Route path='/' element={<CustomerLayout />}>
+        <Route path='/HomePage' element={<HomePage />} />
+        <Route path='/Menu' element={<Menu />} />
+        <Route path='/OrdersPage' element={<OrdersPage />} />
+        <Route path='/cart' element={<CartPage />} />
+        <Route path='/about-us' element={<AboutUsPage />} />
 
       </Route>
 
-      <Route path = '/' element = {<PersonelLayout/>}>
-        <Route path='/test' element = {<TestPage/>} />
-        <Route path='/orders' element = {<Orders/>} />
-        <Route path='/dashboard' element = {<Dashboard />} />
-        <Route path='/stocks' element = {<Stocks/>} />
-        <Route path='/products' element = {<Products/>} />
-        <Route path='/customers' element = {<Customers/>} />
+      <Route path='/' element={<PersonelLayout />}>
+        <Route path='/test' element={<TestPage />} />
+        <Route path='/orders' element={<Orders />} />
+        <Route path='/dashboard' element={<Dashboard />} />
+        <Route path='/stocks' element={<Stocks />} />
+        <Route path='/products' element={<Products />} />
+        <Route path='/customers' element={<Customers />} />
+        <Route path='/employees' element={<Employees />} />
       </Route>
 
-      <Route path='/LoginPage' element = {<LoginPage/>} />
-      <Route path='/SignUpPage' element = {<SignUpPage/>} />
-      <Route path='/Welcome' element = {<WelcomePage/>} />
+      <Route path='/LoginPage' element={<LoginPage />} />
+      <Route path='/SignUpPage' element={<SignUpPage />} />
+      <Route path='/Welcome' element={<WelcomePage />} />
     </Route>
   )
 )
 
 const App = () => {
 
-  return <RouterProvider router = {router} />
+  return <RouterProvider router={router} />
 }
 
 export default App;

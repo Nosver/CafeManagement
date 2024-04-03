@@ -1,11 +1,5 @@
 import React, { useState } from 'react';
 
-import Sidebar from '../../imported-assets/partials/Sidebar';
-import Header from '../../imported-assets/partials/Header';
-import WelcomeBanner from '../../imported-assets/partials/dashboard/WelcomeBanner';
-import DashboardAvatars from '../../imported-assets/partials/dashboard/DashboardAvatars';
-import FilterButton from '../../imported-assets/components/DropdownFilter';
-import Datepicker from '../../imported-assets/components/Datepicker';
 import DashboardCard01 from '../../imported-assets/partials/dashboard/DashboardCard01';
 import DashboardCard02 from '../../imported-assets/partials/dashboard/DashboardCard02';
 import DashboardCard03 from '../../imported-assets/partials/dashboard/DashboardCard03';
@@ -19,7 +13,6 @@ import DashboardCard10 from '../../imported-assets/partials/dashboard/DashboardC
 import DashboardCard11 from '../../imported-assets/partials/dashboard/DashboardCard11';
 import DashboardCard12 from '../../imported-assets/partials/dashboard/DashboardCard12';
 import DashboardCard13 from '../../imported-assets/partials/dashboard/DashboardCard13';
-import Banner from '../../imported-assets/partials/Banner';
 import { Siderbar_1 } from '../../components/personel/Siderbar_1';
 
 function Dashboard() {
