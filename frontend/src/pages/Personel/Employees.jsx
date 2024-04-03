@@ -7,7 +7,7 @@ import { InsertButton } from '../../components/personel/InsertButton';
 
 class Employee {
   constructor(id, fullName, email, phone, address, city, country, postal_code
-    , department, position, salary, start_date, end_date, status) {
+    , department, position, salary, password, start_date, end_date, status) {
     this.id = id;
     this.fullName = fullName;
     this.email = email;
@@ -19,6 +19,7 @@ class Employee {
     this.department = department;
     this.position = position;
     this.salary = salary;
+    this.password = faker.internet.password();
     this.start_date = start_date;
     this.end_date = end_date;
     this.status = status;
@@ -36,12 +37,13 @@ class Employee {
     let department = faker.commerce.department();
     let position = faker.name.jobTitle();
     let salary = faker.finance.amount();
+    let password = faker.internet.password();
     let start_date = faker.date.past();
     let end_date = faker.date.future();
     let status = faker.random.boolean();
 
     return new Employee(id, fullName, email, phone, address, city, country, postal_code
-      , department, position, salary, start_date, end_date, status);
+      , department, position, salary, password, start_date, end_date, status);
   }
 
   static generateRandomEmployees(num) {
@@ -62,7 +64,7 @@ export const Employees = () => {
   const [showPopup, setShowPopup] = useState(false);
   const openPopup = () => setShowPopup(true);
   const closePopup = () => setShowPopup(false);
-  
+
   const [showPopup_edit, setShowPopup_edit] = useState(false);
   const openPopup_edit = () => setShowPopup_edit(true);
   const closePopup_edit = () => setShowPopup_edit(false);
@@ -80,7 +82,7 @@ export const Employees = () => {
             <div className="relative flex flex-col flex-1 overflow-y-auto overflow-x-hidden">
 
               <main>
-                <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                <table class="table-auto w-* text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                   <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                     <tr>
                       <th scope="col" class="p-4">
@@ -90,9 +92,10 @@ export const Employees = () => {
                       <th scope="col" class="px-6 py-3">Email</th>
                       <th scope="col" class="px-6 py-3">Phone</th>
                       <th scope="col" class="px-6 py-3">Address</th>
-                      <th scope="col" class="px-6 py-3">Position</th>
                       <th scope="col" class="px-6 py-3">Salary</th>
+                      <th scope="col" class="px-6 py-3">Password</th>
                       <th scope="col" class="px-6 py-3">Action</th>
+                      <th scope="col" class="px-6 py-3">Position</th>
                     </tr>
                   </thead>
 
@@ -103,7 +106,7 @@ export const Employees = () => {
                         title="Add New Employee"
                         closePopup={closePopup}
                         inputs={[
-                          { id: 'id', label: 'Id', type: 'text', placeholder: 'Type employee id'},
+                          { id: 'id', label: 'Id', type: 'text', placeholder: 'Type employee id' },
                           { id: 'fullName', label: 'Full Name', type: 'text', placeholder: 'Type employee full name' },
                           { id: 'email', label: 'Email', type: 'text', placeholder: 'Type employee email' },
                           { id: 'phone', label: 'Phone', type: 'text', placeholder: 'Type employee phone' },
@@ -112,13 +115,13 @@ export const Employees = () => {
                       />
                     }
 
-                  {showPopup_edit &&
+                    {showPopup_edit &&
                       <ItemPopup
                         title="Edit Employee"
                         submitButtonDescription='Edit Employee'
                         closePopup={closePopup_edit}
                         inputs={[
-                          { id: 'id', label: 'Id', type: 'text', placeholder: 'Type employee id'},
+                          { id: 'id', label: 'Id', type: 'text', placeholder: 'Type employee id' },
                           { id: 'fullName', label: 'Full Name', type: 'text', placeholder: 'Type employee full name' },
                           { id: 'email', label: 'Email', type: 'text', placeholder: 'Type employee email' },
                           { id: 'phone', label: 'Phone', type: 'text', placeholder: 'Type employee phone' },
@@ -144,8 +147,8 @@ export const Employees = () => {
                         <td class="px-6 py-4">{Employee.email.toString()}</td>
                         <td class="px-6 py-4">{Employee.phone.toString()}</td>
                         <td class="px-6 py-4">{Employee.address.toString()}</td>
-                        <td class="px-6 py-4">{Employee.position.toString()}</td>
                         <td class="px-6 py-4">${Employee.salary.toString()}</td>
+                        <td class="px-6 py-4">${Employee.password.toString()}</td>
                         <td class="px-6 py-4">
                           <div
                             onClick={() => setShowPopup_edit(true)}
@@ -154,6 +157,7 @@ export const Employees = () => {
                             Edit
                           </div>
                         </td>
+                        <td class="px-6 py-4">{Employee.position.toString()}</td>
                       </tr>
                     ))}
                   </tbody>
