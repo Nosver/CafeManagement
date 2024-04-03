@@ -64,6 +64,10 @@ export const Products = () => {
         setShowPopup(false)
     }
 
+    const [showPopup_edit, setShowPopup_edit] = useState(false);
+    const openPopup_edit = () => setShowPopup_edit(true);
+    const closePopup_edit = () => setShowPopup_edit(false);
+
 
     return (
         <div>
@@ -118,8 +122,24 @@ export const Products = () => {
                                                     { id: 'name', label: 'Name', type: 'text', placeholder: 'Type product name' },
                                                     { id: 'price', label: 'Price', type: 'number', placeholder: '$2999' },
                                                     { id: 'category', label: 'Category', type: 'select', placeholder: 'Select category' },
-                                                    { id: 'quantity', label: 'Quantity', type: 'number', placeholder: 'Type quantity'},
-                                                    { id: 'img_path', label: 'Image Path', type: 'text', placeholder: 'Type image path'},
+                                                    { id: 'quantity', label: 'Quantity', type: 'number', placeholder: 'Type quantity' },
+                                                    { id: 'img_path', label: 'Image Path', type: 'text', placeholder: 'Type image path' },
+                                                    { id: 'description', label: 'Product Description', type: 'textarea', placeholder: 'Write product description here' }
+                                                ]}
+                                            />
+                                        }
+
+                                        {showPopup_edit &&
+                                            <AddItemPopup
+                                                title="Edit Product"
+                                                submitButtonDescription='Edit Product'
+                                                closePopup={closePopup_edit}
+                                                inputs={[
+                                                    { id: 'name', label: 'Name', type: 'text', placeholder: 'Type product name' },
+                                                    { id: 'price', label: 'Price', type: 'number', placeholder: '$2999' },
+                                                    { id: 'category', label: 'Category', type: 'select', placeholder: 'Select category' },
+                                                    { id: 'quantity', label: 'Quantity', type: 'number', placeholder: 'Type quantity' },
+                                                    { id: 'img_path', label: 'Image Path', type: 'text', placeholder: 'Type image path' },
                                                     { id: 'description', label: 'Product Description', type: 'textarea', placeholder: 'Write product description here' }
                                                 ]}
                                             />
@@ -159,7 +179,7 @@ export const Products = () => {
                                                 </td>
                                                 <td class="px-6 py-4">
                                                     <div
-                                                        onClick={() => setIsPopupOpen(true)}
+                                                        onClick={() => setShowPopup_edit(true)}
                                                         className="font-medium text-blue-600 dark:text-blue-500 hover:underline cursor-pointer"
                                                     >
                                                         Edit

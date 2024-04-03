@@ -60,10 +60,10 @@ export const Employees = () => {
 
   const [employees, setEmployees] = useState([]);
   const [showPopup, setShowPopup] = useState(false);
-  const [showPopup_edit, setShowPopup_edit] = useState(false);
-
   const openPopup = () => setShowPopup(true);
   const closePopup = () => setShowPopup(false);
+  
+  const [showPopup_edit, setShowPopup_edit] = useState(false);
   const openPopup_edit = () => setShowPopup_edit(true);
   const closePopup_edit = () => setShowPopup_edit(false);
 
