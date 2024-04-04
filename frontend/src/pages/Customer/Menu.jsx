@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import MenuItem from "../components/MenuItem";
-import Popup from "../components/MenuPopup";
-import ProductCategorySelector from '../components/ProductCategorySelector';
+import MenuItem from "../../components/MenuItem";
+import Popup from "../../components/MenuPopup";
+import ProductCategorySelector from '../../components/ProductCategorySelector';
 import { useRef } from 'react';
 
 export const Menu = () => {

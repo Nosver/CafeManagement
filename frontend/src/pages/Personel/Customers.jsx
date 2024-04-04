@@ -1,7 +1,10 @@
 import React, { useState } from 'react'
 import { Siderbar_1 } from '../../components/personel/Siderbar_1';
 import { InsertButton } from '../../components/personel/InsertButton';
-import { AddItemPopup } from '../../components/personel/AddItemPopup';
+import { Button } from 'flowbite-react';
+import {CouponPopup} from '../../components/personel/CouponPopup';
+
+import { ItemPopup } from '../../components/personel/ItemPopup';
 
 class Customer {
     constructor(id, name, coffePayBalance, moneySpendLastMonth, phone, totalSpendings) {
@@ -43,7 +46,6 @@ class Customer {
 
 }
 
-
 export const Customers = () => {
 
     const [customersArray, setCustomersArray] = useState(Customer.getCustomers(100));
@@ -58,6 +60,17 @@ export const Customers = () => {
         setShowPopup(false)
     }
 
+
+    const [showCouponPopup, setShowCouponPopup] = useState(false)
+
+    const openCouponPopup = () => {
+        setShowCouponPopup(true)
+    }
+
+    const closeCouponPopup = () => {
+        setShowCouponPopup(false)
+    }
+
     return (
         <div>
 
@@ -65,8 +78,12 @@ export const Customers = () => {
 
             <div class="p-4 sm:ml-64">
                 <div class="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700">
-                    <div className="flex h-screen overflow-hidden">
+                    
+                    <div className='flex flex-row w-6/6 justify-end mb-3'>
+                        <Button onClick={openCouponPopup}>Send Coupon</Button>
+                    </div>
 
+                    <div className="flex h-screen overflow-hidden">
                         {/* Content area */}
                         <div className="relative flex flex-col flex-1 overflow-y-auto overflow-x-hidden">
 
@@ -104,7 +121,7 @@ export const Customers = () => {
                                     <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
 
                                         {showPopup &&
-                                            <AddItemPopup
+                                            <ItemPopup
                                                 title="Add new customer"
                                                 inputs={[
                                                     {
@@ -125,6 +142,13 @@ export const Customers = () => {
                                                 closePopup={closePopup}
                                             />
                                         }
+
+                                        {showCouponPopup &&
+                                            <CouponPopup
+                                                closePopup={closeCouponPopup}
+                                            />
+                                        }
+
 
                                         {customersArray.map((customersArray, index) => (
                                             <tr key={index}>

@@ -1,70 +1,8 @@
-import React, { useState } from 'react';
-import { Siderbar_1 } from '../../components/personel/Siderbar_1';
-import { InsertButton } from '../../components/personel/InsertButton';
-import { ItemPopup } from '../../components/personel/ItemPopup';
+import React from 'react'
 
-class product {
-    constructor(id, name, quantity, price, total_price, category) {
-        this.id = id;
-        this.name = name;
-        this.category = category;
-        this.quantity = quantity;
-        this.price = price;
-        this.total_price = total_price;
-    }
-
-    static getRandomProduct() {
-        const id = Math.floor(Math.random() * 1000);
-        const names = ['Premium Arabic Coffee', 'Premium Italian Latte', 'Standard Espresso', 'Strawberry Milkshake', 'Caramel Frappuccino', 'Vanilla Ice Cream', 'Black Coffee', 'Green Tea', 'Blueberry Muffin', 'Chocolate Chip Cookie', 'Cinnamon Roll', 'Apple Pie', 'Cheese Cake', 'Brownie', 'Mocha', 'Cappuccino', 'Hot Chocolate', 'Iced Tea', 'Lemonade', 'Orange Juice'];
-        const randomName = names[Math.floor(Math.random() * names.length)];
-        const randomQuantity = Math.floor(Math.random() * 100) + 1;
-        const randomPrice = (Math.random() * 20.0).toFixed(2);
-        const randomTotalPrice = randomPrice * randomQuantity;
-
-        return new product(id, randomName, randomQuantity, randomPrice, randomTotalPrice, 'Other');
-    }
-
-    static getAllProducts() {
-        const products = [];
-        const names = ['Premium Arabic Coffee', 'Premium Italian Latte', 'Standard Espresso', 'Strawberry Milkshake', 'Caramel Frappuccino', 'Vanilla Ice Cream', 'Black Coffee', 'Green Tea', 'Blueberry Muffin', 'Chocolate Chip Cookie', 'Cinnamon Roll', 'Apple Pie', 'Cheese Cake', 'Brownie', 'Mocha', 'Cappuccino', 'Hot Chocolate', 'Iced Tea', 'Lemonade', 'Orange Juice'];
-        const categories = ['Coffee', 'Milkshake', 'Frappuccino', 'Ice Cream', 'Tea', 'Muffin', 'Cookie', 'Roll', 'Pie', 'Cake', 'Brownie', 'Mocha', 'Cappuccino', 'Hot Chocolate', 'Iced Tea', 'Lemonade', 'Juice'];
-
-        for (let name of names) {
-            const productName = name;
-            const productPrice = (Math.random() * 20.0).toFixed(2);
-            const productQuantity = Math.floor(Math.random() * 100) + 1;
-            const productIngredient = name; // Assuming the ingredient is the same as the product name
-            const randomID = Math.floor(Math.random() * 1000);
-
-            // Assign a category based on the product name
-            const productCategory = categories.find(category => productName.includes(category)) || 'Other';
-
-            const newProduct = new product(randomID, productName, productQuantity, productPrice, productPrice * productQuantity, productCategory);
-            products.push(newProduct);
-        }
-
-        return products;
-    }
-}
-
-export const Products = () => {
-
-    // Create random products for cafe
-    const products = product.getAllProducts();
-
-    const [showPopup, setShowPopup] = useState(false);
-    const openPopup = () => setShowPopup(true);
-    const closePopup = () => setShowPopup(false);
-
-    const [showPopup_edit, setShowPopup_edit] = useState(false);
-    const openPopup_edit = () => setShowPopup_edit(true);
-    const closePopup_edit = () => setShowPopup_edit(false);
-
-
+export const ERPTable = () => {
     return (
         <div>
-
-            <Siderbar_1 />
 
             <div class="p-4 sm:ml-64">
                 <div class="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700">
@@ -121,22 +59,6 @@ export const Products = () => {
                                             />
                                         }
 
-                                        {showPopup_edit &&
-                                            <ItemPopup
-                                                title="Edit Product"
-                                                submitButtonDescription='Edit Product'
-                                                closePopup={closePopup_edit}
-                                                inputs={[
-                                                    { id: 'name', label: 'Name', type: 'text', placeholder: 'Type product name' },
-                                                    { id: 'price', label: 'Price', type: 'number', placeholder: '$2999' },
-                                                    { id: 'category', label: 'Category', type: 'select', placeholder: 'Select category' },
-                                                    { id: 'quantity', label: 'Quantity', type: 'number', placeholder: 'Type quantity' },
-                                                    { id: 'img_path', label: 'Image Path', type: 'text', placeholder: 'Type image path' },
-                                                    { id: 'description', label: 'Product Description', type: 'textarea', placeholder: 'Write product description here' }
-                                                ]}
-                                            />
-                                        }
-
                                         {products.map((product, index) => (
                                             <tr
                                                 key={index}
@@ -171,7 +93,7 @@ export const Products = () => {
                                                 </td>
                                                 <td class="px-6 py-4">
                                                     <div
-                                                        onClick={() => setShowPopup_edit(true)}
+                                                        onClick={() => setIsPopupOpen(true)}
                                                         className="font-medium text-blue-600 dark:text-blue-500 hover:underline cursor-pointer"
                                                     >
                                                         Edit
@@ -188,8 +110,6 @@ export const Products = () => {
                     </div>
                 </div>
             </div>
-
-
         </div>
     )
 }
