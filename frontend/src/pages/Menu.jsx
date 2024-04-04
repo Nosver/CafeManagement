@@ -12,6 +12,7 @@ export const Menu = () => {
     const [selectedImagePath, setSelectedImagePath] = useState("");
     const [currentPage, setCurrentPage] = useState(1);
     const [selectedCategory, setSelectedCategory] = useState('Hot Beverage');
+    const [selectedRaiting, setSelectedItemRaiting]= useState(0);
     const itemsPerPage = 5; 
     const productCategorySelectorRef = useRef(null); // Define a ref for ProductCategorySelector
 
@@ -20,6 +21,7 @@ export const Menu = () => {
         setSelectedItemDescription(item.itemDescription);
         setSelectedItemPrice(item.itemPrice);
         setSelectedImagePath(item.imagePath);
+        setSelectedItemRaiting(item.rating)
         setIsPopupOpen(true);
     };
 
@@ -33,7 +35,7 @@ export const Menu = () => {
 
     const handleTabSelect = (selectedTab) => {
         setSelectedCategory(selectedTab.id);
-        setCurrentPage(1); // Reset page number when changing category
+        setCurrentPage(1); 
     };
 
     const menuItems = [
@@ -42,14 +44,16 @@ export const Menu = () => {
             itemDescription: "A refreshing blend of bold espresso and chilled water, served over ice. Perfect for a cool pick-me-up on a warm day.",
             itemPrice: "90.00",
             imagePath: "https://www.pinoscoffee.com/wp-content/uploads/2022/05/pinos-coffee-ayvalik-iced-americano-150x150.jpg",
-            category: "Cold Beverage"
+            category: "Cold Beverage",
+            rating: "3.2"
         },
         {
             itemName: "Latte",
             itemDescription: "A creamy and smooth coffee drink made with espresso and steamed milk.",
             itemPrice: "85.00",
             imagePath: "https://www.pinoscoffee.com/wp-content/uploads/2022/05/pinos-coffee-ayvalik-latte-150x150.jpg",
-            category: "Hot Beverage"
+            category: "Hot Beverage",
+            rating: "3"
         },
         {
             itemName: "Cappuccino",
@@ -57,83 +61,96 @@ export const Menu = () => {
             itemPrice: "80.00",
             imagePath: "https://www.pinoscoffee.com/wp-content/uploads/2022/05/pinos-coffee-ayvalik-latte-150x150.jpg",
             category: "Hot Beverage"
+            ,
+            rating: 3
         },
         {
             itemName: "Espresso",
             itemDescription: "A strong and bold shot of espresso, perfect for espresso lovers.",
             itemPrice: "70.00",
             imagePath: "https://www.pinoscoffee.com/wp-content/uploads/2022/05/pinos-coffee-ayvalik-latte-150x150.jpg",
-            category: "Hot Beverage"
+            category: "Hot Beverage",
+            rating: 3
         },
         {
             itemName: "Mocha",
             itemDescription: "A delightful blend of espresso, steamed milk, chocolate syrup, and whipped cream.",
             itemPrice: "95.00",
             imagePath: "https://www.pinoscoffee.com/wp-content/uploads/2022/05/pinos-coffee-ayvalik-latte-150x150.jpg",
-            category: "Hot Beverage"
+            category: "Hot Beverage",
+            rating: 3
         },
         {
             itemName: "Macchiato",
             itemDescription: "A shot of espresso with a dollop of foamed milk, creating a deliciously balanced coffee experience.",
             itemPrice: "85.00",
             imagePath: "https://www.pinoscoffee.com/wp-content/uploads/2022/05/pinos-coffee-ayvalik-latte-150x150.jpg",
-            category: "Hot Beverage"
+            category: "Hot Beverage",
+            rating: 3
         },
         {
             itemName: "Flat White",
             itemDescription: "A velvety-smooth coffee drink made with espresso and steamed milk, topped with a thin layer of microfoam.",
             itemPrice: "90.00",
             imagePath: "https://www.pinoscoffee.com/wp-content/uploads/2022/05/pinos-coffee-ayvalik-latte-150x150.jpg",
-            category: "Hot Beverage"
+            category: "Hot Beverage",
+            rating: 3
         },
         {
             itemName: "Affogato",
             itemDescription: "A heavenly dessert consisting of a scoop of vanilla gelato or ice cream topped with a shot of hot espresso.",
             itemPrice: "100.00",
             imagePath: "https://www.pinoscoffee.com/wp-content/uploads/2022/05/pinos-coffee-ayvalik-latte-150x150.jpg",
-            category: "Dessert"
+            category: "Dessert",
+            rating: 3
         },
         {
             itemName: "Cold Brew",
             itemDescription: "A smooth and refreshing coffee brewed with cold water over a longer period, resulting in a low-acid and full-bodied flavor.",
             itemPrice: "85.00",
             imagePath: "https://www.pinoscoffee.com/wp-content/uploads/2022/05/pinos-coffee-ayvalik-latte-150x150.jpg",
-            category: "Cold Beverage"
+            category: "Cold Beverage",
+            rating: 3
         },
         {
             itemName: "Frappuccino",
             itemDescription: "A blended coffee beverage with ice, milk, and flavored syrup, topped with whipped cream.",
             itemPrice: "110.00",
             imagePath: "https://www.pinoscoffee.com/wp-content/uploads/2022/05/pinos-coffee-ayvalik-latte-150x150.jpg",
-            category: "Cold Beverage"
+            category: "Cold Beverage",
+            rating: 3
         },
         {
             itemName: "Tiramisu",
             itemDescription: "An Italian dessert made with ladyfingers, coffee, mascarpone cheese, and cocoa powder.",
             itemPrice: "120.00",
             imagePath: "https://www.example.com/tiramisu.jpg",
-            category: "Dessert"
+            category: "Dessert",
+            rating: 3
         },
         {
             itemName: "Croissant",
             itemDescription: "A buttery and flaky pastry made with layers of dough.",
             itemPrice: "60.00",
             imagePath: "https://www.example.com/croissant.jpg",
-            category: "Pastry"
+            category: "Pastry",
+            rating: 3
         },
         {
             itemName: "Club Sandwich",
             itemDescription: "A classic sandwich with layers of ham, turkey, bacon, lettuce, tomato, and mayonnaise.",
             itemPrice: "150.00",
             imagePath: "https://www.example.com/club-sandwich.jpg",
-            category: "Sandwich"
+            category: "Sandwich",
+            rating: 3
         },
         {
             itemName: "Banana Smoothie",
             itemDescription: "A creamy and refreshing smoothie made with ripe bananas and yogurt.",
             itemPrice: "80.00",
             imagePath: "https://www.example.com/banana-smoothie.jpg",
-            category: "Smoothie"
+            category: "Smoothie",
+            rating: 3
         }
     ];
 
@@ -171,7 +188,8 @@ export const Menu = () => {
             </div>
             {handleRenderItems()}
             {isPopupOpen && (
-                <Popup onClose={closePopup} itemName={selectedItemName} itemDescription={selectedItemDescription} itemPrice={selectedItemPrice} imagePath={selectedImagePath} />
+                <Popup onClose={closePopup} itemName={selectedItemName} itemDescription={selectedItemDescription} itemPrice={selectedItemPrice} imagePath={selectedImagePath} produtRating={selectedRaiting}
+                />
             )}
 
             <nav  className="bg-center flex justify-center mt-2 mb-2" aria-label="Page navigation example">

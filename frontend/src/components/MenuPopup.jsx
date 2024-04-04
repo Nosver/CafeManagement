@@ -2,9 +2,10 @@ import React from 'react';
 import { useState } from 'react';
 import { toast } from 'react-toastify';
 import Comment from './Comment';
+import TotalStars from './TotalStars';
 
 
-const Popup = ({ onClose, itemName, itemDescription, itemPrice, imagePath }) => {
+const Popup = ({ onClose, itemName, itemDescription, itemPrice, imagePath ,produtRating}) => {
 
   const [quantityValue, setQuantityValue] = useState(0);
 
@@ -125,8 +126,23 @@ const Popup = ({ onClose, itemName, itemDescription, itemPrice, imagePath }) => 
         <button className="bg-gray-700 hover:bg-black  text-white px-4 py-2 rounded-md  absolute top-0 right-0 mr-4 mt-4" onClick={onClose}>X</button>
 
         <h2 className="text-2xl font-bold mb-4">{itemName}</h2>
+
+
+
         <div className='flex flex-row gap-10'>
-          <img src={imagePath} alt="Item Image" className="w-64 h-64 object-cover mb-4" />
+          <div classname='flex flex-col gap-10'>
+
+
+            <img src={imagePath} alt="Item Image" className="w-64 h-64 object-cover mb-4" />
+
+
+
+            <TotalStars rating={produtRating}/>
+
+          </div>
+
+
+
           <div className='flex flex-col gap-4'>
 
             <p className="text-lg mb-2 w-15">{itemDescription}</p>
@@ -188,7 +204,7 @@ const Popup = ({ onClose, itemName, itemDescription, itemPrice, imagePath }) => 
 
                 <div className="max-h-80 max-w-80 overflow-y-auto">
                   {comments.map((comment, index) => (
-                    <Comment   key={index} comment={comment} />
+                    <Comment key={index} comment={comment} />
                   ))}
                 </div>
               </div>
