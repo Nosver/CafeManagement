@@ -1,6 +1,9 @@
 import React from 'react'
 import { useNavigate, useLocation } from 'react-router-dom';
 import SidebarItem from './SidebarItem'; // adjust the path according to your file structure
+import {Spacer} from "@nextui-org/spacer";
+
+
 
 let tabActiveStatus = {
     dashboard: false,
@@ -47,7 +50,7 @@ export const Siderbar_1 = () => {
 
             <aside id="default-sidebar" class="fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0" aria-label="Sidebar">
                 <div class={`h-full px-3 py-4 overflow-y-auto ${bg_color}`}>
-                    <ul class="space-y-2 font-medium">
+                    <ul class="space-y-2 font-medium h-auto">
 
                         <SidebarItem 
                             path="/dashboard" 
@@ -90,6 +93,8 @@ export const Siderbar_1 = () => {
                         >
                             <span class="flex-1 ms-3 whitespace-nowrap text-white">Employees</span>
                         </SidebarItem>  
+                        
+                        <Spacer y = {20} />
 
                         <SidebarItem
                             path="/logout"
