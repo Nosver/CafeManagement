@@ -1,7 +1,7 @@
 import React from 'react'
 import { useNavigate, useLocation } from 'react-router-dom';
 import SidebarItem from './SidebarItem'; // adjust the path according to your file structure
-import {Spacer} from "@nextui-org/spacer";
+import { Spacer } from "@nextui-org/spacer";
 
 
 
@@ -50,31 +50,31 @@ export const Siderbar_1 = () => {
 
             <aside id="default-sidebar" class="fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0" aria-label="Sidebar">
                 <div class={`h-full px-3 py-4 overflow-y-auto ${bg_color}`}>
-                    <ul class="space-y-2 font-medium h-auto">
+                    <ul class="space-y-2 font-medium h-full flex flex-col justify-between">
 
-                        <SidebarItem 
-                            path="/dashboard" 
+                        <SidebarItem
+                            path="/dashboard"
                             handleActiveTab={handleActiveTab}
                         >
                             <span class="flex-1 ms-3 whitespace-nowrap text-white">Dashboard</span>
                         </SidebarItem>
-                        
-                        <SidebarItem 
-                            path="/orders" 
+
+                        <SidebarItem
+                            path="/orders"
                             handleActiveTab={handleActiveTab}
                         >
                             <span class="flex-1 ms-3 whitespace-nowrap text-white">Orders</span>
                         </SidebarItem>
 
-                        <SidebarItem 
-                            path="/stocks" 
+                        <SidebarItem
+                            path="/stocks"
                             handleActiveTab={handleActiveTab}
                         >
                             <span class="flex-1 ms-3 whitespace-nowrap text-white">Stocks</span>
                         </SidebarItem>
 
-                        <SidebarItem 
-                            path="/products" 
+                        <SidebarItem
+                            path="/products"
                             handleActiveTab={handleActiveTab}
                         >
                             <span class="flex-1 ms-3 whitespace-nowrap text-white">Products</span>
@@ -85,26 +85,27 @@ export const Siderbar_1 = () => {
                             handleActiveTab={handleActiveTab}
                         >
                             <span class="flex-1 ms-3 whitespace-nowrap text-white">Customers</span>
-                        </SidebarItem>  
+                        </SidebarItem>
 
                         <SidebarItem
                             path="/employees"
                             handleActiveTab={handleActiveTab}
                         >
                             <span class="flex-1 ms-3 whitespace-nowrap text-white">Employees</span>
-                        </SidebarItem>  
-                        
-                        <Spacer y = {20} />
+                        </SidebarItem>
+
+                        <Spacer y={60} />
 
                         <SidebarItem
                             path="/logout"
                             handleActiveTab={handleActiveTab}
                         >
                             <span class="flex-1 ms-3 whitespace-nowrap text-white">Log Out</span>
-                        </SidebarItem>  
+                        </SidebarItem>
 
                     </ul>
                 </div>
+
             </aside>
 
         </div>

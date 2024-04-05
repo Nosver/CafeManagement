@@ -15,7 +15,7 @@ import { SignUpPage } from './pages/SignUpPage';
 import CustomerLayout from './layouts/CustomerLayout';
 import PersonelLayout from './layouts/PersonelLayout';
 import { Orders } from './pages/Personel/Orders';
-import OrdersPage from './pages/Customer/OrdersPage';
+import OrdersPage from './pages/Customer/OrdersPage'; 
 
 
 import {Menu} from './pages/Customer/Menu';
