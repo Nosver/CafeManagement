@@ -1,6 +1,7 @@
 import React from 'react'
 import { CartProductItem } from '../../components/CartProductItem'
 import { useState } from 'react';
+import { useEffect } from 'react';
 
 export const CartPage = () => {
 
@@ -13,7 +14,9 @@ export const CartPage = () => {
             size: 'Small',
             quantity: 2,
             price: 90.00,
-            image: "https://cdn.dsmcdn.com/mrktng/seo/22ekim6/evde-mocha-yapimi-1.jpg"
+            image: "https://cdn.dsmcdn.com/mrktng/seo/22ekim6/evde-mocha-yapimi-1.jpg",
+            sizes: {} // Initialize sizes property with an empty object
+
         },
         {
             id: 2,
@@ -22,6 +25,8 @@ export const CartPage = () => {
             quantity: 1,
             price: 120.00,
             image: "https://www.pinoscoffee.com/wp-content/uploads/2022/05/pinos-coffee-ayvalik-iced-americano-150x150.jpg",
+            
+            sizes: {} // Initialize sizes property with an empty object
 
         },
         {
@@ -31,12 +36,44 @@ export const CartPage = () => {
             quantity: 2,
             price: 80.00,
             image: 'https://www.hazerbaba.com/1219-home_default/turkish-coffee-.jpg',
+            
+            sizes: {} // Initialize sizes property with an empty object
         }
     ]);
 
-    const totalPrice = products.reduce((acc, product) => acc + parseFloat(product.price) * product.quantity, 0);
+    const sizeModifiers = {
+        small: 0.9,  // Decrease price by 10%
+        large: 1.1   // Increase price by 10%
+    };
+
+    useEffect(() => {
+        const updatedProductsArray = products.map(product => ({
+            ...product,
+            sizes: {
+                Small: (product.price * sizeModifiers.small).toFixed(2),
+                Medium: (product.price).toFixed(2),
+                Large: (product.price * sizeModifiers.large).toFixed(2)
+            }
+        }));
+        setProducts(updatedProductsArray);
+        console.log(updatedProductsArray);
+    }, []); // Include sizeModifiers and products in the dependencies array
+    
+    
+
+    
+
+   
+    
+    
 
 
+    const totalPrice = products.reduce((acc, product) => acc + parseFloat(product.price) * product.quantity, 0).toFixed(2);
+
+   
+    
+
+    
     const handleDecreaseQuantity = (product) => {
         const updatedProducts = products.map(p => {
             if (p.id === product.id) {
@@ -98,12 +135,16 @@ export const CartPage = () => {
 
 
                     <div>
-                        {products.map(product => (
-                            <CartProductItem key={product.id}
-                            product={product}
-                            onDecreaseQuantity={()=>handleDecreaseQuantity(product)}
-                            onIncreaseQuantity={()=> handleIncreaseQuantity(product)} />
-                        ))}
+                    {products.map(product => (
+                <CartProductItem
+                    key={product.id}
+                    product={product}
+                    onDecreaseQuantity={() => handleDecreaseQuantity(product)}
+                    onIncreaseQuantity={() => handleIncreaseQuantity(product)}
+
+
+                />
+            ))}
                     </div>
 
 

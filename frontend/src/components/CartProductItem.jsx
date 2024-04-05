@@ -1,10 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 
 
 // Product card component
-export const CartProductItem = ({ product, onDecreaseQuantity, onIncreaseQuantity }) => {
+export const CartProductItem = ({ product, onDecreaseQuantity, onIncreaseQuantity  }) => {
+
+    const[selectedSize,setSelectedSize] = useState(product.size);
+    const handleSizeChange = (event) => {
+        setSelectedSize(event.target.value);
+    };
 
     const decreaseQuantity = () => {
         if (product.quantity >= 1) {
@@ -14,7 +19,10 @@ export const CartProductItem = ({ product, onDecreaseQuantity, onIncreaseQuantit
 
     const increaseQuantity = () => {
         onIncreaseQuantity(product);
-    }
+    }   
+
+    
+
     return (
         <div className="flex flex-col min-[500px]:flex-row min-[500px]:items-center gap-5 py-6  border-b border-gray-200">
             <div className="w-full md:max-w-[126px]">
@@ -26,7 +34,10 @@ export const CartProductItem = ({ product, onDecreaseQuantity, onIncreaseQuantit
                         <h6 className="font-semibold text-base leading-7 text-black">{product.name}</h6>
 
                         <div className="w-72">
-                            <select label="Select Version" class="w-28 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            <select label="Select Version" class="w-28 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
+                             value={selectedSize}
+                             onChange={handleSizeChange}
+                              >
 
                                 <option value="Small" {...(product.size === 'Small' && { selected: true })}>Small</option>
                                 <option value="Medium" {...(product.size === 'Medium' && { selected: true })}>Medium</option>
@@ -35,7 +46,7 @@ export const CartProductItem = ({ product, onDecreaseQuantity, onIncreaseQuantit
                             </select>
                         </div>
 
-                        <h6 className="font-semibold text-base leading-7 text-indigo-600">{product.price}₺</h6>
+                        <h6 className="font-semibold text-base leading-7 text-indigo-600">{product.sizes[selectedSize]}₺</h6>
                     </div>
                 </div>
                 <div className="flex items-center max-[500px]:justify-center h-full max-md:mt-3">
@@ -72,7 +83,7 @@ export const CartProductItem = ({ product, onDecreaseQuantity, onIncreaseQuantit
                     </div>
                 </div>
                 <div className="flex items-center max-[500px]:justify-center md:justify-end max-md:mt-3 h-full">
-                    <p className="font-bold text-lg leading-8 text-indigo-600 text-center">{parseFloat(product.price) * product.quantity}₺</p>
+                    <p className="font-bold text-lg leading-8 text-indigo-600 text-center">{(product.sizes[selectedSize] * product.quantity).toFixed(2)}₺</p>
                 </div>
             </div>
         </div>

@@ -20,10 +20,10 @@ const Popup = ({ onClose, itemName, itemDescription, itemPrice, imagePath ,produ
     toast.warn(message);
   };
 
-  const [selectedOption, setSelectedOption] = useState(null); // State to store the selected option
+  const [selectedOption, setSelectedOption] = useState("medium"); 
 
 
-
+  
 
   const comments = [
     {
@@ -64,33 +64,13 @@ const Popup = ({ onClose, itemName, itemDescription, itemPrice, imagePath ,produ
     // Add more comments as needed
   ];
 
+  const handleOptionChange = (event) => {
+   
+    setSelectedOption(event.target.value);
+};
 
-  const handleRadioButtonChange = (index) => {
-    setSelectedOption(index);
-    const newPrices = [...priceArr];
-    switch (index) {
-      case 0:
-        newPrices[0] = (parseInt(itemPrice) - 10).toString();
-        newPrices[1] = '+10';
-        newPrices[2] = '+20';
-        break;
-      case 1:
-        newPrices[1] = itemPrice;
 
-        newPrices[0] = '-10';
-        newPrices[2] = '+10';
-        break;
-      case 2:
-        newPrices[2] = (parseInt(itemPrice) + 10).toString();
-
-        newPrices[0] = '-20';
-        newPrices[1] = '-10';
-        break;
-      default:
-        break;
-    }
-    setPriceArr(newPrices);
-  };
+  
 
   function processAddToCart() {
     if (selectedOption == null) {
@@ -152,7 +132,7 @@ const Popup = ({ onClose, itemName, itemDescription, itemPrice, imagePath ,produ
               <div className='flex flex-row gap-10'>
                 <ul class=" w-7/12 space-y-6 md:grid md:grid-cols-1 md:space-y-0 md:gap-6">
                   <li >
-                    <input type="radio" id="hosting-small" name="hosting" value="hosting-small" class="hidden peer" />
+                    <input type="radio" id="hosting-small"  value="small" class="hidden peer" onClick={handleOptionChange} checked={selectedOption === "small"}  />
                     <label for="hosting-small" class="inline-flex items-center justify-between w-full p-3 text-gray-500 bg-white border border-gray-200 rounded-lg cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 dark:peer-checked:text-blue-500 peer-checked:border-blue-600 peer-checked:text-blue-600 hover:text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700">
                       <div class="block w-11/12">
                         <div className='flex flex-row fill-inherit'>
@@ -166,7 +146,7 @@ const Popup = ({ onClose, itemName, itemDescription, itemPrice, imagePath ,produ
                     </label>
                   </li>
                   <li>
-                    <input type="radio" id="hosting-big" name="hosting" value="hosting-big" class="hidden peer"  />
+                    <input type="radio" id="hosting-big"  value="medium" class="hidden peer" onClick={handleOptionChange} checked={selectedOption === "medium"}    />
                     <label for="hosting-big" class="inline-flex items-center justify-between w-full p-3 text-gray-500 bg-white border border-gray-200 rounded-lg cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 dark:peer-checked:text-blue-500 peer-checked:border-blue-600 peer-checked:text-blue-600 hover:text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700">
 
                       <div class="block w-11/12">
@@ -182,7 +162,7 @@ const Popup = ({ onClose, itemName, itemDescription, itemPrice, imagePath ,produ
                     </label>
                   </li>
                   <li>
-                    <input type="radio" id="hosting-L" name="hosting" value="hosting-L" class="hidden peer" />
+                    <input type="radio" id="hosting-L"  value="large" class="hidden peer" onClick={handleOptionChange} checked={selectedOption === "large"}  />
                     <label for="hosting-L" class="inline-flex items-center justify-between w-full p-3 text-gray-500 bg-white border border-gray-200 rounded-lg cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 dark:peer-checked:text-blue-500 peer-checked:border-blue-600 peer-checked:text-blue-600 hover:text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700">
                       <div class="block w-11/12">
                         <div className='flex flex-row fill-inherit'>
@@ -197,7 +177,7 @@ const Popup = ({ onClose, itemName, itemDescription, itemPrice, imagePath ,produ
                   </li>
                 </ul>
 
-
+               
 
 
 

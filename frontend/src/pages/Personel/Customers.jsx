@@ -5,6 +5,7 @@ import { Button } from 'flowbite-react';
 import {CouponPopup} from '../../components/personel/CouponPopup';
 
 import { ItemPopup } from '../../components/personel/ItemPopup';
+import { SearchBar } from '../../components/personel/SearchBar';
 
 class Customer {
     constructor(id, name, coffePayBalance, moneySpendLastMonth, phone, totalSpendings) {
@@ -79,7 +80,8 @@ export const Customers = () => {
             <div class="p-4 sm:ml-64">
                 <div class="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700">
                     
-                    <div className='flex flex-row w-6/6 justify-end mb-3'>
+                    <div className='flex flex-row w-6/6 mb-3'>
+                        <SearchBar></SearchBar>
                         <Button onClick={openCouponPopup}>Send Coupon</Button>
                     </div>
 

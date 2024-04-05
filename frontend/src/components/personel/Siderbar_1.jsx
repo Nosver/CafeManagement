@@ -50,7 +50,7 @@ export const Siderbar_1 = () => {
 
             <aside id="default-sidebar" class="fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0" aria-label="Sidebar">
                 <div class={`h-full px-3 py-4 overflow-y-auto ${bg_color}`}>
-                    <ul class="space-y-2 font-medium h-full flex flex-col justify-between">
+                    <ul class="space-y-2 font-medium h-full flex flex-col ">
 
                         <SidebarItem
                             path="/dashboard"
@@ -94,7 +94,7 @@ export const Siderbar_1 = () => {
                             <span class="flex-1 ms-3 whitespace-nowrap text-white">Employees</span>
                         </SidebarItem>
 
-                        <Spacer y={60} />
+                       
 
                         <SidebarItem
                             path="/logout"
