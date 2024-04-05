@@ -20,6 +20,7 @@
     "@windmill/react-ui": "^0.6.0",
     "chart.js": "^4.4.2",
     "chartjs-adapter-moment": "^1.0.1",
+    "decimal.js": "^10.4.3",
     "faker": "^5.5.3",
     "flowbite": "^2.3.0",
     "flowbite-react": "^0.7.5",

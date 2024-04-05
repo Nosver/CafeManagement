@@ -9,7 +9,7 @@ const Popup = ({ onClose, itemName, itemDescription, itemPrice, imagePath ,produ
 
   const [quantityValue, setQuantityValue] = useState(0);
 
-  const [priceArr, setPriceArr] = useState(['-10', itemPrice, '+10']);
+  const [priceArr, setPriceArr] = useState([(parseFloat(itemPrice)*0.9).toFixed(2), itemPrice, (parseFloat(itemPrice)*1.1).toFixed(2)]);
 
   const showToastSuccess = (message) => {
 
@@ -152,7 +152,7 @@ const Popup = ({ onClose, itemName, itemDescription, itemPrice, imagePath ,produ
               <div className='flex flex-row gap-10'>
                 <ul class=" w-7/12 space-y-6 md:grid md:grid-cols-1 md:space-y-0 md:gap-6">
                   <li >
-                    <input type="radio" id="hosting-small" name="hosting" value="hosting-small" class="hidden peer" onClick={() => handleRadioButtonChange(0)} />
+                    <input type="radio" id="hosting-small" name="hosting" value="hosting-small" class="hidden peer" />
                     <label for="hosting-small" class="inline-flex items-center justify-between w-full p-3 text-gray-500 bg-white border border-gray-200 rounded-lg cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 dark:peer-checked:text-blue-500 peer-checked:border-blue-600 peer-checked:text-blue-600 hover:text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700">
                       <div class="block w-11/12">
                         <div className='flex flex-row fill-inherit'>
@@ -166,7 +166,7 @@ const Popup = ({ onClose, itemName, itemDescription, itemPrice, imagePath ,produ
                     </label>
                   </li>
                   <li>
-                    <input type="radio" id="hosting-big" name="hosting" value="hosting-big" class="hidden peer" onClick={() => handleRadioButtonChange(1)} />
+                    <input type="radio" id="hosting-big" name="hosting" value="hosting-big" class="hidden peer"  />
                     <label for="hosting-big" class="inline-flex items-center justify-between w-full p-3 text-gray-500 bg-white border border-gray-200 rounded-lg cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 dark:peer-checked:text-blue-500 peer-checked:border-blue-600 peer-checked:text-blue-600 hover:text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700">
 
                       <div class="block w-11/12">
@@ -182,7 +182,7 @@ const Popup = ({ onClose, itemName, itemDescription, itemPrice, imagePath ,produ
                     </label>
                   </li>
                   <li>
-                    <input type="radio" id="hosting-L" name="hosting" value="hosting-L" class="hidden peer" onClick={() => handleRadioButtonChange(2)} />
+                    <input type="radio" id="hosting-L" name="hosting" value="hosting-L" class="hidden peer" />
                     <label for="hosting-L" class="inline-flex items-center justify-between w-full p-3 text-gray-500 bg-white border border-gray-200 rounded-lg cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 dark:peer-checked:text-blue-500 peer-checked:border-blue-600 peer-checked:text-blue-600 hover:text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700">
                       <div class="block w-11/12">
                         <div className='flex flex-row fill-inherit'>
