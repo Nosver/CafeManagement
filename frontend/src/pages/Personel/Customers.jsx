@@ -2,10 +2,13 @@ import React, { useState } from 'react'
 import { Siderbar_1 } from '../../components/personel/Siderbar_1';
 import { InsertButton } from '../../components/personel/InsertButton';
 import { Button } from 'flowbite-react';
-import {CouponPopup} from '../../components/personel/CouponPopup';
+import { CouponPopup } from '../../components/personel/CouponPopup';
 
 import { ItemPopup } from '../../components/personel/ItemPopup';
 import { SearchBar } from '../../components/personel/SearchBar';
+import { EmailPopup } from '../../components/personel/EmailPopup';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPencil } from '@fortawesome/free-solid-svg-icons';
 
 class Customer {
     constructor(id, name, coffePayBalance, moneySpendLastMonth, phone, totalSpendings) {
@@ -53,6 +56,8 @@ export const Customers = () => {
 
     const [showPopup, setShowPopup] = useState(false)
 
+    const [showEmailPopup, setShowEmailPopup] = useState(false)
+
     const openPopup = () => {
         setShowPopup(true)
     }
@@ -64,12 +69,27 @@ export const Customers = () => {
 
     const [showCouponPopup, setShowCouponPopup] = useState(false)
 
+
+
     const openCouponPopup = () => {
         setShowCouponPopup(true)
     }
 
     const closeCouponPopup = () => {
         setShowCouponPopup(false)
+    }
+
+    const openEmailPopup = () => {
+        setShowEmailPopup(true)
+    }
+
+    const closeEmailPopup = () => {
+        setShowEmailPopup(false)
+    }
+    if (showEmailPopup || showCouponPopup || showPopup) {
+        document.body.classList.add('overflow-hidden')
+    } else {
+        document.body.classList.remove('overflow-hidden')
     }
 
     return (
@@ -79,10 +99,13 @@ export const Customers = () => {
 
             <div class="p-4 sm:ml-64">
                 <div class="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700">
-                    
-                    <div className='flex flex-row w-6/6 mb-3'>
-                        <SearchBar></SearchBar>
-                        <Button onClick={openCouponPopup}>Send Coupon</Button>
+
+                    <div class='flex flex-row w-6/6 mb-3'>
+                        <SearchBar class='mr-auto'></SearchBar>
+                        <div class='flex items-center space-x-4'>
+                            <Button onClick={openEmailPopup}>Send E-Mail</Button>
+                            <Button onClick={openCouponPopup}>Send Coupon</Button>
+                        </div>
                     </div>
 
                     <div className="flex h-screen overflow-hidden">
@@ -94,7 +117,7 @@ export const Customers = () => {
                                     <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                                         <tr>
                                             <th scope="col" class="p-4">
-                                                <InsertButton description="Add new product" onClick={openPopup}/>
+                                                <InsertButton description="Add new product" onClick={openPopup} />
                                             </th>
                                             <th scope="col" class="px-6 py-3">
                                                 Id
@@ -150,6 +173,13 @@ export const Customers = () => {
                                                 closePopup={closeCouponPopup}
                                             />
                                         }
+                                        {showEmailPopup &&
+                                            <EmailPopup
+                                                closePopup={closeEmailPopup}
+
+                                            />
+
+                                        }
 
 
                                         {customersArray.map((customersArray, index) => (
@@ -181,14 +211,12 @@ export const Customers = () => {
                                                     {customersArray.phone}
                                                 </td>
                                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                                    <div
-                                                        onClick={() => setIsPopupOpen(true)}
-                                                        className="font-medium text-blue-600 dark:text-blue-500 hover:underline cursor-pointer"
-                                                    >
-                                                        Edit
+                                                    <div >
+                                                        <FontAwesomeIcon icon={faPencil} style={{ cursor: 'pointer' }} onClick={() => console.log("clicked")}
+                                                        />
                                                     </div>
                                                 </td>
-                                               
+
                                             </tr>
                                         ))}
                                     </tbody>
