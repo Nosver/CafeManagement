@@ -1,14 +1,26 @@
 import React from 'react'
 import OrderDetailsItem from './OrderDetailsItem'
+import { useEffect } from 'react'
 
 export const OrderDetailsPopup = ({orderItems, closePopup}) => {
 
     const bg_color = "bg-slate-300"
 
-    const handleRenderItems = () => {
-        console.log(orderItems)
-      };
+    const renderOrderItems = () => {
+        return orderItems.map((item, index) => (
+            <div key={index} className="border-b border-gray-300 p-4">
+                <p className="text-lg font-semibold">{`Item ${index + 1}`}</p>
+                <p>Food ID: {item.food.id}</p>
+                <p>Name: {item.food.name}</p>
+                <p>Image URL: {item.food.imageUrl}</p>
+                <p>Amount: {item.amount}</p>
+            </div>
+        ));
+    };
     
+      useEffect(() => {
+        console.log(orderItems);
+    }, [orderItems]);
 
     return (
         <div id="crud-modal" tabindex="-1" aria-hidden="true" class="overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 bottom-0 z-50 flex justify-center items-center">
@@ -32,7 +44,7 @@ export const OrderDetailsPopup = ({orderItems, closePopup}) => {
                     </div>
 
                     <div className='flex flex-col items-center justify-center'>
-                        {handleRenderItems()}
+                        {renderOrderItems()}
                     </div>                   
 
                 

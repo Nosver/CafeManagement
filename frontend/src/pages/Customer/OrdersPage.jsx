@@ -8,15 +8,14 @@ const OrdersPage = () => {
 
 
   const [selectedOrderItems, setSelectedOrderItems] = useState([
-    { id: 1, food: { id: 1, name: 'Coffee', imageUrl: 'coffee.jpg' }, amount: 2 },
   ]);
 
   const addOrderItem = (orderItem) => {
-    setSelectedOrderItems([
-        ...selectedOrderItems,
-        {id: orderItem.id, food: {id: orderItem.food.id, name: orderItem.food.name, imageUrl: orderItem.food.imageUrl}}
-      ])
-  };
+    setSelectedOrderItems((prevSelectedOrderItems) => [
+        ...prevSelectedOrderItems,
+        orderItem
+    ]);
+};
 
   const [showOrderDetailsPopup, setShowOrderDetailsPopup] = useState(false)
 
@@ -49,7 +48,7 @@ const OrdersPage = () => {
       status: 'Preparing',
       orderItems: [
         { id: 1, food: { id: 3, name: 'Tea', imageUrl: 'tea.jpg' }, amount: 1 },
-        { id: 2, food: { id: 4, name: 'Bagel', imageUrl: 'bagel.jpg' }, amount: 3 },
+        { id: 2, food: { id: 5, name: 'Bagel', imageUrl: 'bagel.jpg' }, amount: 3 },
       ],
       totalPrice: 12.5,
     },
@@ -150,7 +149,7 @@ const OrdersPage = () => {
     <div className = "flex justify-center items-center flex-col w-full">
       {
       showOrderDetailsPopup && 
-      <OrderDetailsPopup order = {selectedOrderItems} closePopup = {() => closeShowOrderDetailsPopup()} />
+      <OrderDetailsPopup orderItems = {selectedOrderItems} closePopup = {() => closeShowOrderDetailsPopup()} />
       }
       <div className='my-4 flex justify-center '>
         <OrderCategorySelector ref={orderStatusSelectorRef} onTabSelect={handleTabSelect}></OrderCategorySelector>
