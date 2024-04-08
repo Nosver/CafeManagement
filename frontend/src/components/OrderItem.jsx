@@ -5,7 +5,9 @@ import { DateTime } from './DateTime';
 import { Price } from './Price';
 import { Link } from 'react-router-dom';
 
-const OrderItem = ({order}) => {
+const OrderItem = ({order, openPopup}) => {
+
+
   return (
     <div className = "flex justify-center items-center flex-col w-4/6 my-3 border-2 rounded-lg">
 
@@ -17,14 +19,16 @@ const OrderItem = ({order}) => {
 
       <div className = "flex justify-start flex-row w-5/6 mt-3">
         {
-          order.items.map( item =>
+          order.orderItems.map( orderItem =>
             <img className='rounded-lg mb-4 mx-2' src={image} width={55}></img>
           )
         }
       </div>
 
       <div className = "flex justify-between flex-row w-5/6 mb-2">
-        <Link className= 'text-gray-500' >Show Order</Link>
+        <button className="text-grey-500 focus:outline-none" onClick={ () => openPopup(order.orderItems)}>
+          See Details
+        </button>
           <span>
             <Price price={order.totalPrice}/>
           </span>
