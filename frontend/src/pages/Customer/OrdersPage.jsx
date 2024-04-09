@@ -6,9 +6,11 @@ import { OrderDetailsPopup } from '../../components/OrderDetailsPopup';
 
 const OrdersPage = () => {
 
+  const [selectedOrderItems, setSelectedOrderItems] = useState([]);
 
-  const [selectedOrderItems, setSelectedOrderItems] = useState([
-  ]);
+  const [selectedOrderStatus, setSelectedOrderStatus] = useState("")
+
+  const [selectedOrderTotalPrice, setSelectedOrderTotalPrice] = useState(0)
 
   const addOrderItem = (orderItem) => {
     setSelectedOrderItems((prevSelectedOrderItems) => [
@@ -19,17 +21,19 @@ const OrdersPage = () => {
 
   const [showOrderDetailsPopup, setShowOrderDetailsPopup] = useState(false)
 
-  const openShowOrderDetailsPopup = (orderItems) => {
+  const openShowOrderDetailsPopup = (orderItems, orderStatus, orderTotalPrice) => {
     orderItems.forEach( orderItem => addOrderItem(orderItem))
+    setSelectedOrderStatus(orderStatus)
+    setSelectedOrderTotalPrice(orderTotalPrice)
     setShowOrderDetailsPopup(true)
   }
 
   const closeShowOrderDetailsPopup = () => {
     setSelectedOrderItems([])
+    setSelectedOrderStatus("")
+    setSelectedOrderTotalPrice(0)
     setShowOrderDetailsPopup(false)
   }
-  
-
 
   const orders = [
     {
@@ -39,6 +43,10 @@ const OrdersPage = () => {
       orderItems: [
         { id: 1, food: { id: 1, name: 'Coffee', imageUrl: 'coffee.jpg' }, amount: 2 },
         { id: 2, food: { id: 2, name: 'Croissant', imageUrl: 'croissant.jpg' }, amount: 1 },
+        { id: 1, food: { id: 1, name: 'Coffee', imageUrl: 'coffee.jpg' }, amount: 2 },
+        { id: 2, food: { id: 2, name: 'Croissant', imageUrl: 'croissant.jpg' }, amount: 1 },
+        { id: 1, food: { id: 1, name: 'Coffee', imageUrl: 'coffee.jpg' }, amount: 2 },
+        { id: 2, food: { id: 2, name: 'Croissant', imageUrl: 'croissant.jpg' }, amount: 1 }
       ],
       totalPrice: 15.99,
     },
@@ -49,6 +57,10 @@ const OrdersPage = () => {
       orderItems: [
         { id: 1, food: { id: 3, name: 'Tea', imageUrl: 'tea.jpg' }, amount: 1 },
         { id: 2, food: { id: 5, name: 'Bagel', imageUrl: 'bagel.jpg' }, amount: 3 },
+        { id: 1, food: { id: 3, name: 'Tea', imageUrl: 'tea.jpg' }, amount: 1 },
+        { id: 2, food: { id: 5, name: 'Bagel', imageUrl: 'bagel.jpg' }, amount: 3 },
+        { id: 1, food: { id: 3, name: 'Tea', imageUrl: 'tea.jpg' }, amount: 1 },
+        { id: 2, food: { id: 5, name: 'Bagel', imageUrl: 'bagel.jpg' }, amount: 3 }
       ],
       totalPrice: 12.5,
     },
@@ -105,13 +117,34 @@ const OrdersPage = () => {
     {
       id: 8,
       createdAt: new Date(),
-      status: 'Canceled',
+      status: 'Fulfilled',
+      orderItems: [
+        { id: 1, food: { id: 5, name: 'Americano', imageUrl: 'americano.jpg' }, amount: 2 },
+        { id: 2, food: { id: 6, name: 'Sandwich', imageUrl: 'sandwich.jpg' }, amount: 1 },
+      ],
+      totalPrice: 35,
+    },
+    {
+      id: 9,
+      createdAt: new Date(),
+      status: 'Fulfilled',
+      orderItems: [
+        { id: 1, food: { id: 5, name: 'Americano', imageUrl: 'americano.jpg' }, amount: 2 },
+        { id: 2, food: { id: 6, name: 'Sandwich', imageUrl: 'sandwich.jpg' }, amount: 1 },
+      ],
+      totalPrice: 35,
+    },
+    {
+      id: 10,
+      createdAt: new Date(),
+      status: 'Ready',
       orderItems: [
         { id: 1, food: { id: 5, name: 'Americano', imageUrl: 'americano.jpg' }, amount: 2 },
         { id: 2, food: { id: 6, name: 'Sandwich', imageUrl: 'sandwich.jpg' }, amount: 1 },
       ],
       totalPrice: 35,
     }
+
 ];
 
 
@@ -148,8 +181,8 @@ const OrdersPage = () => {
   return (
     <div className = "flex justify-center items-center flex-col w-full">
       {
-      showOrderDetailsPopup && 
-      <OrderDetailsPopup orderItems = {selectedOrderItems} closePopup = {() => closeShowOrderDetailsPopup()} />
+        showOrderDetailsPopup && 
+        <OrderDetailsPopup orderItems = {selectedOrderItems} orderStatus = {selectedOrderStatus} orderTotalPrice = {selectedOrderTotalPrice} closePopup = {() => closeShowOrderDetailsPopup()} />
       }
       <div className='my-4 flex justify-center '>
         <OrderCategorySelector ref={orderStatusSelectorRef} onTabSelect={handleTabSelect}></OrderCategorySelector>

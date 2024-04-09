@@ -26,7 +26,7 @@ const OrderItem = ({order, openPopup}) => {
       </div>
 
       <div className = "flex justify-between flex-row w-5/6 mb-2">
-        <button className="text-grey-500 focus:outline-none" onClick={ () => openPopup(order.orderItems)}>
+        <button className="text-grey-500 focus:outline-none" onClick={ () => openPopup(order.orderItems, order.status, order.totalPrice)}>
           See Details
         </button>
           <span>
