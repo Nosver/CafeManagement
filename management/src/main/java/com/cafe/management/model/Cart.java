@@ -18,12 +18,12 @@ public class Cart {
     @Column(name = "cart_id")
     private Long id;
 
-    @ManyToMany
+    /*@ManyToMany
     @JoinTable(name="product_chart",
     		joinColumns=@JoinColumn(name="chart_id"),
     		inverseJoinColumns = @JoinColumn(name ="product_id")
     		)
     private List<Product> productList;
-
+*/
     private Double totalPrice;
 }

@@ -41,6 +41,6 @@ public class Product {
 
     private String imagePath;
     
-    @ManyToMany(mappedBy = "productList")
-    private List<Cart> chart;
+   /* @ManyToMany(mappedBy = "productList")
+    private List<Cart> chart;*/
 }

@@ -70,7 +70,38 @@ export const CartPage = () => {
 
     const totalPrice = products.reduce((acc, product) => acc + parseFloat(product.price) * product.quantity, 0).toFixed(2);
 
-   
+    const handleCheckoutClick = (event) => {
+        event.preventDefault(); // Prevent default form submission behavior
+        createOrder(); // Call the createOrder function
+    };
+
+    const createOrder = async () => {
+        try {
+            const order = {
+                id: 999, //Change here!!
+                totalPrice: parseFloat(totalPrice) //Change here!!
+            };
+    
+            const response = await fetch('http://localhost:8080/order', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(order) // Send order data as JSON in the request body
+            });
+            if (response.ok) {
+                const responseData = await response.json(); 
+                const paymentUrl = responseData.payment_url; 
+                console.log('Payment URL:', paymentUrl);
+                // Redirect the user to the payment URL
+                window.location.href = paymentUrl;
+            } else {
+                console.error('Failed to create order');
+            }
+        } catch (error) {
+            console.error('Error creating order:', error);
+        }
+    };
     
 
     
@@ -207,7 +238,7 @@ export const CartPage = () => {
                                 <p class="font-semibold text-xl leading-8 text-green-700">{totalPrice}₺</p>
                             </div>
                             <button
-                                class="w-full text-center bg-green-700 rounded-full py-4 px-6 font-semibold text-lg text-white transition-all duration-500 hover:bg-green-900">Checkout</button>
+                                class="w-full text-center bg-green-700 rounded-full py-4 px-6 font-semibold text-lg text-white transition-all duration-500 hover:bg-green-900" onClick={handleCheckoutClick}>Checkout</button>
                         </form>
                     </div>
                 </div>

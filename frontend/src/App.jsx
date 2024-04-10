@@ -25,6 +25,8 @@ import { Products } from './pages/Personel/Products';
 import { AboutUsPage } from './pages/Customer/AboutUsPage';
 import { Customers } from './pages/Personel/Customers';
 import { Employees } from './pages/Personel/Employees';
+import { PaymentSuccess } from './components/PaymentSuccess';
+import { PaymentFail } from './components/PaymentFail';
 
 
 const router = createBrowserRouter(
@@ -39,7 +41,8 @@ const router = createBrowserRouter(
         <Route path='/OrdersPage' element={<OrdersPage />} />
         <Route path='/cart' element={<CartPage />} />
         <Route path='/about-us' element={<AboutUsPage />} />
-
+        <Route path='/success/*' element={<PaymentSuccess />} />
+        <Route path='/fail/*' element={<PaymentFail />} />
       </Route>
 
       <Route path='/' element={<PersonelLayout />}>
