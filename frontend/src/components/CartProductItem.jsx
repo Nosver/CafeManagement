@@ -1,14 +1,19 @@
 import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrashAlt } from '@fortawesome/free-solid-svg-icons';
+import { useEffect } from 'react';
 
 
 // Product card component
-export const CartProductItem = ({ product, onDecreaseQuantity, onIncreaseQuantity  }) => {
+export const CartProductItem = ({ product, onDecreaseQuantity, onIncreaseQuantity,totalPriceData   }) => {
 
     const[selectedSize,setSelectedSize] = useState(product.size);
+
+    const[totalPrice,setTotalPrice]= useState((product.sizes[selectedSize] * product.quantity).toFixed(2));
+    
     const handleSizeChange = (event) => {
         setSelectedSize(event.target.value);
+
     };
 
     const decreaseQuantity = () => {
@@ -20,6 +25,16 @@ export const CartProductItem = ({ product, onDecreaseQuantity, onIncreaseQuantit
     const increaseQuantity = () => {
         onIncreaseQuantity(product);
     }   
+
+    
+    
+    useEffect(() => {
+        if (!isNaN(product.sizes[selectedSize]) && !isNaN(product.quantity)) {
+            const newTotalPrice = (product.sizes[selectedSize] * product.quantity).toFixed(2);
+            setTotalPrice(newTotalPrice);
+             totalPriceData(newTotalPrice); // Pass new total price to parent component
+        }
+    }, [selectedSize, product.quantity, product.sizes]);
 
     
 
@@ -83,7 +98,7 @@ export const CartProductItem = ({ product, onDecreaseQuantity, onIncreaseQuantit
                     </div>
                 </div>
                 <div className="flex items-center max-[500px]:justify-center md:justify-end max-md:mt-3 h-full">
-                    <p className="font-bold text-lg leading-8 text-indigo-600 text-center">{(product.sizes[selectedSize] * product.quantity).toFixed(2)}₺</p>
+                    <p className="font-bold text-lg leading-8 text-indigo-600 text-center">{totalPrice}₺</p>
                 </div>
             </div>
         </div>

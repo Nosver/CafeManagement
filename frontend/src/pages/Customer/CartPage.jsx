@@ -62,13 +62,22 @@ export const CartPage = () => {
     
 
     
+    const calculateInitialTotalPrice = () => {
+        return products.reduce((acc, product) => acc + (parseFloat(product.price)), 0).toFixed(2);
+    };
 
+    const [totalPrice, setTotalPrice] = useState(products.reduce((acc, product) => acc + (parseFloat(product.price) * product.quantity), 0).toFixed(2));
    
+    const updateTotalPrice = () => {
+        const newTotalPrice = calculateInitialTotalPrice();
+        setTotalPrice(newTotalPrice);
+    };
     
-    
+    useEffect(() => {
+        updateTotalPrice();
+    }, [products]);
 
 
-    const totalPrice = products.reduce((acc, product) => acc + parseFloat(product.price) * product.quantity, 0).toFixed(2);
 
     const handleCheckoutClick = (event) => {
         event.preventDefault(); // Prevent default form submission behavior
@@ -134,6 +143,16 @@ export const CartPage = () => {
         setProducts(updatedProducts);
     };
 
+    const handleTotalPrice = (product, newPrice) => {
+        const updatedProducts = products.map(p => {
+            if (p.id === product.id) {
+               p.price = newPrice;
+            }
+            return p;
+        });
+    
+        setProducts(updatedProducts);
+    }
 
     return (<section
         class=" relative z-10 after:contents-[''] after:absolute after:z-0 after:h-full xl:after:w-1/3 after:top-0 after:right-0 after:bg-gray-50">
@@ -172,7 +191,7 @@ export const CartPage = () => {
                     product={product}
                     onDecreaseQuantity={() => handleDecreaseQuantity(product)}
                     onIncreaseQuantity={() => handleIncreaseQuantity(product)}
-
+                    totalPriceData={(newTotalPrice) => handleTotalPrice(product, newTotalPrice)}
 
                 />
             ))}

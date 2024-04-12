@@ -68,6 +68,7 @@ public class PaymentServiceImpl implements PaymentService {
 
 
         PaymentResponse paymentResponse = new PaymentResponse();
+        System.out.println("Session id= "+ session.getId());
 
         paymentResponse.setPayment_url(session.getUrl());
         return paymentResponse;

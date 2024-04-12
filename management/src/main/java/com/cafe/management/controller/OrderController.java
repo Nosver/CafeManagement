@@ -6,6 +6,7 @@ import com.cafe.management.service.PaymentService;
 import com.stripe.exception.SignatureVerificationException;
 import com.stripe.exception.StripeException;
 import com.stripe.model.*;
+import com.stripe.model.checkout.Session;
 import com.stripe.net.Webhook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -66,16 +67,25 @@ public class OrderController {
             }
             // Handle the event
             switch (event.getType()) {
-                case "payment_intent.succeeded":
+                case "checkout.session.completed":
+                    Session session = (Session) stripeObject;
+                    logger.info("Checkout session ID = {}", session.getId());
+
+
+                    break;
+
+                /*case "payment_intent.succeeded":
                     PaymentIntent paymentIntent = (PaymentIntent) stripeObject;
                     logger.info("Payment for {} succeeded.",paymentIntent.getAmount() );
+                    //handleSuccessfullPayment();
                     // Then define and call a method to handle the successful payment intent.
                     // handlePaymentIntentSucceeded(paymentIntent);
                     break;
+*/
 
-                default:
+                /*default:
                     logger.warn("Unhandled event type: {}",  event.getType());
-                    break;
+                    break;*/
             }
             return "";
 
