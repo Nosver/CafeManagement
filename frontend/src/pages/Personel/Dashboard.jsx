@@ -6,14 +6,14 @@ import DashboardCard03 from '../../imported-assets/partials/dashboard/DashboardC
 import DashboardCard04 from '../../imported-assets/partials/dashboard/DashboardCard04';
 import DashboardCard05 from '../../imported-assets/partials/dashboard/DashboardCard05';
 import DashboardCard06 from '../../imported-assets/partials/dashboard/DashboardCard06';
-import DashboardCard07 from '../../imported-assets/partials/dashboard/DashboardCard07';
 import DashboardCard08 from '../../imported-assets/partials/dashboard/DashboardCard08';
 import DashboardCard09 from '../../imported-assets/partials/dashboard/DashboardCard09';
-import DashboardCard10 from '../../imported-assets/partials/dashboard/DashboardCard10';
 import DashboardCard11 from '../../imported-assets/partials/dashboard/DashboardCard11';
 import DashboardCard12 from '../../imported-assets/partials/dashboard/DashboardCard12';
 import DashboardCard13 from '../../imported-assets/partials/dashboard/DashboardCard13';
 import { Siderbar_1 } from '../../components/personel/Siderbar_1';
+import LastTransactions from '../../imported-assets/partials/dashboard/LastTransactions';
+import TopCustomersList from '../../imported-assets/partials/dashboard/TopCustomersList';
 
 function Dashboard() {
 
@@ -42,13 +42,13 @@ function Dashboard() {
             {/* Doughnut chart (Top Countries) */}
             <DashboardCard06 />
             {/* Table (Top Channels) */}
-            <DashboardCard07 />
+            <LastTransactions />
             {/* Line chart (Sales Over Time) */}
             <DashboardCard08 />
             {/* Stacked bar chart (Sales VS Refunds) */}
             <DashboardCard09 />
             {/* Card (Customers) */}
-            <DashboardCard10 />
+            <TopCustomersList />
             {/* Card (Reasons for Refunds) */}
             <DashboardCard11 />
             {/* Card (Recent Activity) */}

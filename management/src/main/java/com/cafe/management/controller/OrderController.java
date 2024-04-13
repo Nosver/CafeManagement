@@ -1,19 +1,26 @@
 package com.cafe.management.controller;
 
+
 import com.cafe.management.model.Order;
 import com.cafe.management.response.PaymentResponse;
 import com.cafe.management.service.PaymentService;
+import com.stripe.Stripe;
 import com.stripe.exception.SignatureVerificationException;
 import com.stripe.exception.StripeException;
 import com.stripe.model.*;
 import com.stripe.model.checkout.Session;
+import com.stripe.model.checkout.SessionCollection;
 import com.stripe.net.Webhook;
+import com.stripe.param.PayoutListParams;
+import com.stripe.param.checkout.SessionListParams;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
@@ -89,6 +96,24 @@ public class OrderController {
             }
             return "";
 
+
+    }
+
+    @Value("${STRIPE_SECRET_KEY}")
+    private String stripeApiKey;
+
+    @GetMapping("/transactions")
+    public List<Session> getTransactions() throws StripeException {
+        // Set the Stripe API key
+        Stripe.apiKey = stripeApiKey;
+
+        // Initialize parameters for listing transactions (e.g., limit)
+
+        SessionListParams params = SessionListParams.builder().setLimit(8L).build();
+        SessionCollection sessions = Session.list(params);
+
+        // Retrieve a list of transactions from Stripe
+        return sessions.getData();
 
     }
 }

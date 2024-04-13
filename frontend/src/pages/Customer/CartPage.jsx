@@ -2,6 +2,8 @@ import React from 'react'
 import { CartProductItem } from '../../components/CartProductItem'
 import { useState } from 'react';
 import { useEffect } from 'react';
+import { toast } from 'react-toastify';
+
 
 export const CartPage = () => {
 
@@ -81,7 +83,10 @@ export const CartPage = () => {
 
     const handleCheckoutClick = (event) => {
         event.preventDefault(); // Prevent default form submission behavior
-        createOrder(); // Call the createOrder function
+        if(totalPrice>0)
+            createOrder(); // Call the createOrder function
+        else
+            toast.warn("No items in the cart")
     };
 
     const createOrder = async () => {
