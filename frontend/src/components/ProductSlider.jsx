@@ -37,16 +37,16 @@ const ProductSlider = () => {
     
     
   return (
-    <div className="flex items-center justify-center flex-col h-[500px] bg-white mt-3">
+    <div className="flex items-center justify-center flex-col h-[400px] bg-white mt-4">
       <Swiper
         breakpoints={{
           340: {
             slidesPerView: 2,
-            spaceBetween: 15,
+            spaceBetween: 10,
           },
           700: {
             slidesPerView: 3,
-            spaceBetween: 15,
+            spaceBetween: 10,
           },
         }}
         freeMode={true}
@@ -54,12 +54,12 @@ const ProductSlider = () => {
           clickable: true,
         }}
         modules={[FreeMode, Pagination]}
-        className="max-w-[90%] lg:max-w-[85%]"
-        spaceBetween={35} 
+        className="max-w-[90%] lg:max-w-[80%]"
+        spaceBetween={15} 
       >
         {products.map((product) => (
           <SwiperSlide key={product.name}>
-            <div className="flex flex-col gap-6 mb-20 group relative shadow-lg text-white rounded-xl px-6 py-8 h-[250px] w-[215px] lg:h-[380px] lg:w-[330px] overflow-hidden cursor-pointer">
+            <div className="flex flex-col gap-6 mb-20 group relative shadow-lg text-white rounded-xl px-6 py-8 h-[250px] w-[225px] lg:h-[300px] lg:w-[270px] overflow-hidden cursor-pointer">
               <div
                 className="absolute inset-0 bg-cover bg-center"
                 style={{ backgroundImage: `url(${image})` }}
