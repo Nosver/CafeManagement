@@ -54,6 +54,8 @@ export const Customers = () => {
 
     const [customersArray, setCustomersArray] = useState(Customer.getCustomers(100));
 
+    const [customersShow, setCustomersShow] = useState(customersArray)
+
     const [showPopup, setShowPopup] = useState(false)
 
     const [showEmailPopup, setShowEmailPopup] = useState(false)
@@ -92,16 +94,27 @@ export const Customers = () => {
         document.body.classList.remove('overflow-hidden')
     }
 
+    const searchButtonSubmit = (keyword) => {
+        if(keyword == ''){
+            if(customersShow.length != customersArray.length)
+                setCustomersShow(customersArray);
+            return;
+        }
+
+        let newArr = customersArray.filter( customer =>
+            customer.name.includes(keyword)
+        );   
+        setCustomersShow(newArr);
+    }
+
     return (
         <div>
-
             <Siderbar_1 />
-
             <div class="p-4 sm:ml-64">
                 <div class="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700">
 
                     <div class='flex flex-row w-6/6 mb-3'>
-                        <SearchBar class='mr-auto'></SearchBar>
+                        <SearchBar searchButtonSubmit = {searchButtonSubmit} class='mr-auto'></SearchBar>
                         <div class='flex items-center space-x-4'>
                             <Button onClick={openEmailPopup}>Send E-Mail</Button>
                             <Button onClick={openCouponPopup}>Send Coupon</Button>
@@ -182,7 +195,7 @@ export const Customers = () => {
                                         }
 
 
-                                        {customersArray.map((customersArray, index) => (
+                                        {customersShow.map((customersArray, index) => (
                                             <tr key={index}>
                                                 <td class="w-4 p-4">
                                                     <div class="flex items-center">
