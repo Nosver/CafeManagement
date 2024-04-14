@@ -76,6 +76,12 @@ export const Orders = () => {
     const openPopup_edit = () => setShowPopup_edit(true);
     const closePopup_edit = () => setShowPopup_edit(false);
 
+
+    if (showPopup_edit) {
+        document.body.classList.add('overflow-hidden')
+    } else {
+        document.body.classList.remove('overflow-hidden')
+    }
     return (
         <>
 
@@ -140,7 +146,6 @@ export const Orders = () => {
                                         {orders.map((order, index) => (
                                             <tr
                                                 key={index}
-                                                onClick={() => setSelectedOrder(order)}
                                                 class={`
                                         ${order.status === OrderStatus.READY ? 'bg-green-300' :
                                                         order.status === OrderStatus.PREPARING ? 'bg-yellow-100' :

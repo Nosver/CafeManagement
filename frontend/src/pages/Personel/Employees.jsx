@@ -69,6 +69,11 @@ export const Employees = () => {
   const openPopup_edit = () => setShowPopup_edit(true);
   const closePopup_edit = () => setShowPopup_edit(false);
 
+  if (showPopup_edit || showPopup) {
+    document.body.classList.add('overflow-hidden')
+} else {
+    document.body.classList.remove('overflow-hidden')
+}
   return (
     <div>
 

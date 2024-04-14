@@ -102,7 +102,7 @@ export const Customers = () => {
         }
 
         let newArr = customersArray.filter( customer =>
-            customer.name.includes(keyword)
+            customer.name.toLowerCase().includes(keyword.toLowerCase())
         );   
         setCustomersShow(newArr);
     }

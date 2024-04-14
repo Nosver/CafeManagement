@@ -110,6 +110,12 @@ export const Stocks = () => {
     const openPopup_edit = (stock) => setShowPopup_edit({ show: true, stock });
     const closePopup_edit = () => setShowPopup_edit({ show: false, stock: null });
 
+    
+    if (showPopup_edit.show || showPopup ) {
+        document.body.classList.add('overflow-hidden')
+    } else {
+        document.body.classList.remove('overflow-hidden')
+    }
     return (
         <div>
 

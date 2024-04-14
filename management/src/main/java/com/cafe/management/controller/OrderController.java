@@ -13,6 +13,10 @@ import com.stripe.model.checkout.SessionCollection;
 import com.stripe.net.Webhook;
 import com.stripe.param.PayoutListParams;
 import com.stripe.param.checkout.SessionListParams;
+import io.micrometer.common.lang.NonNullApi;
+import io.swagger.v3.oas.annotations.Hidden;
+import io.swagger.v3.oas.annotations.OpenAPIDefinition;
+import io.swagger.v3.oas.annotations.info.Info;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +32,8 @@ import java.util.List;
 public class OrderController {
     @Autowired
     private PaymentService paymentService;
+
+
     @PostMapping("/order")
     public PaymentResponse createOrder(@RequestBody Order order) throws StripeException {
         return paymentService.createPaymentLink(order);
@@ -38,6 +44,7 @@ public class OrderController {
     private String endpointSecret;
 
     private final Logger logger= LoggerFactory.getLogger(OrderController.class);
+    @Hidden
     @PostMapping("/stripe/events")
     public String handleStripeEvent(@RequestBody String payload, @RequestHeader("Stripe-Signature") String sigHeader){
 
@@ -102,6 +109,7 @@ public class OrderController {
     @Value("${STRIPE_SECRET_KEY}")
     private String stripeApiKey;
 
+    @Hidden
     @GetMapping("/transactions")
     public List<Session> getTransactions() throws StripeException {
         // Set the Stripe API key

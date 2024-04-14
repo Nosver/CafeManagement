@@ -134,7 +134,7 @@ export const CartSlider = () => {
                                       <h3>
                                         <a href={item.href}>{item.name}</a>
                                       </h3>
-                                      <p className="ml-4" dangerouslySetInnerHTML={{ __html: item.price + ' X ' + item.quantity + '&nbsp;&nbsp;&nbsp;' + (parseFloat(item.price) * parseFloat(item.quantity)).toString() + ' ₺' }}>
+                                      <p className="ml-4" dangerouslySetInnerHTML={{ __html: item.price + ' x ' + item.quantity + '&nbsp;&nbsp;&nbsp;' + ((parseFloat(item.price) * parseFloat(item.quantity))).toFixed(2).toString() + ' ₺' }}>
                                       </p>                                    </div>
                                     <p className="mt-1 text-sm text-gray-500">{item.size}</p>
                                   </div>

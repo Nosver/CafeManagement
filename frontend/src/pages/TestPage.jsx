@@ -1,31 +1,81 @@
-import React from 'react'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUser } from '@fortawesome/free-solid-svg-icons';
-import StarRating from '../components/StarRaiting';
+import React, { useEffect } from 'react';
+import ApexCharts from 'apexcharts';
+
 
 
 export const TestPage = () => {
-    return (<>
-
-
-        <article>
-            <div class="flex items-center mb-4">
-
-            <FontAwesomeIcon icon={faUser} className="w-10 h-10 me-4 rounded-full" />
-                <div class="font-medium dark:text-white">
-                    <p>Jese Leos </p>
-                </div>
+    useEffect(() => {
+        const options = {
+          chart: {
+            height: 230,
+            width: 230,
+            type: 'donut',
+            zoom: {
+              enabled: false
+            }
+          },
+          plotOptions: {
+            pie: {
+              donut: {
+                size: '76%'
+              }
+            }
+          },
+          series: [47, 23, 30],
+          labels: ['Tailwind CSS', 'Preline UI', 'Others'],
+          legend: {
+            show: false
+          },
+          dataLabels: {
+            enabled: false
+          },
+          stroke: {
+            width: 5
+          },
+          grid: {
+            padding: {
+              top: -12,
+              bottom: -11,
+              left: -12,
+              right: -12
+            }
+          },
+          states: {
+            hover: {
+              filter: {
+                type: 'none'
+              }
+            }
+          },
+          colors: ['#3b82f6', '#22d3ee', '#e5e7eb'],
+          
+        };
+    
+        const chart = new ApexCharts(document.getElementById('hs-doughnut-chart'), options);
+        chart.render();
+      }, []);
+    
+      return (
+        <div className="flex flex-col justify-center items-center">
+          <div id="hs-doughnut-chart"></div>
+    
+          <div className="flex justify-center sm:justify-end items-center gap-x-4 mt-3 sm:mt-6">
+            <div className="inline-flex items-center">
+              <span className="size-2.5 inline-block bg-blue-600 rounded-sm me-2"></span>
+              <span className="text-[13px] text-gray-600">Income</span>
             </div>
-            <div class="flex items-center mb-1 space-x-1 rtl:space-x-reverse">
-                <StarRating rating={3}/>
-                <h3 class="ms-2 text-sm font-semibold text-gray-900 dark:text-white">Thinking to buy another one!</h3>
+            <div className="inline-flex items-center">
+              <span className="size-2.5 inline-block bg-cyan-500 rounded-sm me-2"></span>
+              <span className="text-[13px] text-gray-600">Outcome</span>
             </div>
-            <footer class="mb-5 text-sm text-gray-500 dark:text-gray-400"><time datetime="2017-03-03 19:00">March 3, 2017</time></footer>
-            <p class="mb-2 text-gray-500 dark:text-gray-400">This is my third Invicta Pro Diver. They are just fantastic value for money. This one arrived yesterday and the first thing I did was set the time, popped on an identical strap from another Invicta and went in the shower with it to test the waterproofing.... No problems.</p>
-           
-        </article>
-
-    </>
-
-    )
+            <div className="inline-flex items-center">
+              <span className="size-2.5 inline-block bg-gray-300 rounded-sm me-2"></span>
+              <span className="text-[13px] text-gray-600">Others</span>
+            </div>
+          </div>
+        </div>
+      );
+    
 }
+
+
