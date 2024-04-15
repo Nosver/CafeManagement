@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import HomePage from './Customer/HomePage'
 import {
     useNavigate,
@@ -15,7 +15,17 @@ import background1 from "../img/cafe-bg.jpg";
 import background2 from "../img/cafe-2-bg.jpg";
 
 export const WelcomePage = () => {
+
     const navigate = useNavigate();
+
+    // Redirect user to homepage after 2 seconds
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            navigate('/HomePage');
+        }, 2000);
+        return () => clearTimeout(timer);
+    }, [navigate]);
+
     return (
         <>
             <div style={{

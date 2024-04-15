@@ -135,11 +135,7 @@ export const Orders = () => {
                                                 submitButtonDescription='Submit'
                                                 closePopup={closePopup_edit}
                                                 inputs={[
-                                                    { id: 'customer', label: 'Customer', type: 'text', placeholder: 'Type customer name' },
-                                                    { id: 'payment_type', label: 'Payment Type', type: 'select', placeholder: 'Select payment type' },
                                                     { id: 'status', label: 'Status', type: 'select', placeholder: 'Select status' },
-                                                    { id: 'date', label: 'Date', type: 'date', placeholder: 'Select date' },
-                                                    { id: 'total_price', label: 'Total Price', type: 'number', placeholder: 'Type total price' },
                                                 ]}
                                             />
                                         }

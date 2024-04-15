@@ -15,10 +15,10 @@ import { SignUpPage } from './pages/SignUpPage';
 import CustomerLayout from './layouts/CustomerLayout';
 import PersonelLayout from './layouts/PersonelLayout';
 import { Orders } from './pages/Personel/Orders';
-import OrdersPage from './pages/Customer/OrdersPage'; 
+import OrdersPage from './pages/Customer/OrdersPage';
 
 
-import {Menu} from './pages/Customer/Menu';
+import { Menu } from './pages/Customer/Menu';
 import { Stocks } from './pages/Personel/Stocks';
 import { CartPage } from './pages/Customer/CartPage';
 import { Products } from './pages/Personel/Products';
@@ -27,6 +27,7 @@ import { Customers } from './pages/Personel/Customers';
 import { Employees } from './pages/Personel/Employees';
 import { PaymentSuccess } from './components/PaymentSuccess';
 import { PaymentFail } from './components/PaymentFail';
+import { MyProfile } from './pages/Personel/MyProfile';
 
 
 const router = createBrowserRouter(
@@ -53,12 +54,13 @@ const router = createBrowserRouter(
         <Route path='/products' element={<Products />} />
         <Route path='/customers' element={<Customers />} />
         <Route path='/employees' element={<Employees />} />
+        <Route path='/myprofile' element={<MyProfile />} />
       </Route>
 
       <Route path='/LoginPage' element={<LoginPage />} />
       <Route path='/SignUpPage' element={<SignUpPage />} />
       <Route path='/Welcome' element={<WelcomePage />} />
-      <Route path='/Logout' element={<WelcomePage />} /> 
+      <Route path='/Logout' element={<WelcomePage />} />
     </Route>
   )
 )

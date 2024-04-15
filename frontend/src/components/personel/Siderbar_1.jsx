@@ -94,7 +94,12 @@ export const Siderbar_1 = () => {
                             <span class="flex-1 ms-3 whitespace-nowrap text-white">Employees</span>
                         </SidebarItem>
 
-                       
+                        <SidebarItem
+                            path="/myprofile"
+                            handleActiveTab={handleActiveTab}
+                        >
+                            <span class="flex-1 ms-3 whitespace-nowrap text-white">My Profile</span>
+                        </SidebarItem>
 
                         <SidebarItem
                             path="/logout"

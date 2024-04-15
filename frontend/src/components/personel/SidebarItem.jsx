@@ -1,7 +1,7 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faAddressCard } from '@fortawesome/free-solid-svg-icons';
 import { faUserTie } from '@fortawesome/free-solid-svg-icons';
-
 
 const text_color = "text-gray-200";
 const bg_color = "bg-slate-800";
@@ -58,6 +58,10 @@ class SVG {
         <FontAwesomeIcon icon={faUserTie} />
     );
 
+    static myprofile = (
+        <FontAwesomeIcon icon={faAddressCard} />
+    );
+
 
 }
 
@@ -77,7 +81,7 @@ const SidebarItem = ({ path, handleActiveTab, children }) => {
                 ${hover_color} dark:hover:bg-gray-700 group 
                 `}
             >
-            
+
                 {SVG[path.slice(1)]}
                 {children}
             </a>
