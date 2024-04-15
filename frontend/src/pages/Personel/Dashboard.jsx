@@ -1,14 +1,12 @@
 import React, { useState } from 'react';
 
-import DashboardCard01 from '../../imported-assets/partials/dashboard/DashboardCard01';
-import DashboardCard02 from '../../imported-assets/partials/dashboard/DashboardCard02';
-import DashboardCard03 from '../../imported-assets/partials/dashboard/DashboardCard03';
-import DashboardCard04 from '../../imported-assets/partials/dashboard/DashboardCard04';
-import DashboardCard05 from '../../imported-assets/partials/dashboard/DashboardCard05';
-import DashboardCard06 from '../../imported-assets/partials/dashboard/DashboardCard06';
+import ProfitChart from '../../imported-assets/partials/dashboard/ProfitChart';
+import ExpenditureIncome from '../../imported-assets/partials/dashboard/ExpenditureIncome';
+import RealTimeUsdToTry from '../../imported-assets/partials/dashboard/RealTimeUsdToTry';
+import TopSales from '../../imported-assets/partials/dashboard/TopSales';
 import DashboardCard08 from '../../imported-assets/partials/dashboard/DashboardCard08';
 import DashboardCard09 from '../../imported-assets/partials/dashboard/DashboardCard09';
-import DashboardCard11 from '../../imported-assets/partials/dashboard/DashboardCard11';
+import RecentReviews from '../../imported-assets/partials/dashboard/RecentReviews';
 import DashboardCard12 from '../../imported-assets/partials/dashboard/DashboardCard12';
 import DashboardCard13 from '../../imported-assets/partials/dashboard/DashboardCard13';
 import { Siderbar_1 } from '../../components/personel/Siderbar_1';
@@ -19,41 +17,50 @@ function Dashboard() {
 
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
+  const userName = "Dan Joe";
   return (
     <div>
+
       <Siderbar_1 />
 
       <div class="p-4 sm:ml-64">
+        <div class="rounded-sm clgz1 ct1ew clq63 c4ijw c917q ce97l c5mbg">
+
+
+
+          <div class="bg-gradient-to-r from-slate-800 via-pink-500 to-purple-500 py-8 px-6 rounded-lg shadow-lg">
+            <h1 class="text-white text-3xl font-bold mb-4">Good afternoon, {userName} 👋</h1>
+          </div>
+
+
+        </div>
         <div class="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700">
 
           {/* Cards */}
           <div className="grid grid-cols-12 gap-6">
-
-            {/* Line chart (Acme Plus) */}
-            <DashboardCard01 />
-            {/* Line chart (Acme Advanced) */}
-            <DashboardCard02 />
-            {/* Line chart (Acme Professional) */}
-            <DashboardCard03 />
-            {/* Bar chart (Direct vs Indirect) */}
-            <DashboardCard04 />
-            {/* Line chart (Real Time Value) */}
-            <DashboardCard05 />
-            {/* Doughnut chart (Top Countries) */}
-            <DashboardCard06 />
-            {/* Table (Top Channels) */}
-            <LastTransactions />
-            {/* Line chart (Sales Over Time) */}
-            <DashboardCard08 />
-            {/* Stacked bar chart (Sales VS Refunds) */}
-            <DashboardCard09 />
-            {/* Card (Customers) */}
+<ProfitChart />
+<ProfitChart />
+<ProfitChart />
             <TopCustomersList />
-            {/* Card (Reasons for Refunds) */}
-            <DashboardCard11 />
-            {/* Card (Recent Activity) */}
+
+            <RecentReviews />
+
+            <LastTransactions />
+
+            <ProfitChart />
+
+            <ExpenditureIncome />
+
+            <RealTimeUsdToTry />
+
+            <TopSales />
+
+            <DashboardCard08 />
+
+            <DashboardCard09 />
+
             <DashboardCard12 />
-            {/* Card (Income/Expenses) */}
+
             <DashboardCard13 />
 
           </div>
@@ -62,7 +69,7 @@ function Dashboard() {
 
       </div>
     </div>
-      );
+  );
 }
 
-      export default Dashboard;
+export default Dashboard;

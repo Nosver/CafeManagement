@@ -117,7 +117,7 @@ public class OrderController {
 
         // Initialize parameters for listing transactions (e.g., limit)
 
-        SessionListParams params = SessionListParams.builder().setLimit(8L).build();
+        SessionListParams params = SessionListParams.builder().setLimit(5L).build();
         SessionCollection sessions = Session.list(params);
 
         // Retrieve a list of transactions from Stripe
