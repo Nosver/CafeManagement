@@ -12,6 +12,10 @@ import DashboardCard13 from '../../imported-assets/partials/dashboard/DashboardC
 import { Siderbar_1 } from '../../components/personel/Siderbar_1';
 import LastTransactions from '../../imported-assets/partials/dashboard/LastTransactions';
 import TopCustomersList from '../../imported-assets/partials/dashboard/TopCustomersList';
+import { BStats } from '../../imported-assets/partials/dashboard/BStats';
+import { faUserTie } from '@fortawesome/free-solid-svg-icons';
+import {faUsers} from '@fortawesome/free-solid-svg-icons';
+import { faMoneyBill1 } from '@fortawesome/free-regular-svg-icons';
 
 function Dashboard() {
 
@@ -38,9 +42,10 @@ function Dashboard() {
 
           {/* Cards */}
           <div className="grid grid-cols-12 gap-6">
-<ProfitChart />
-<ProfitChart />
-<ProfitChart />
+
+            <BStats Label={"Customers"} Data={"12.500"}  Icon={faUserTie} />
+            <BStats Label={"Monthly Profit"} Data={"95.550₺"} Icon={faMoneyBill1}/>
+            <BStats Label={"Employees"} Data={"27"} Icon={faUsers}/>
             <TopCustomersList />
 
             <RecentReviews />
@@ -51,7 +56,6 @@ function Dashboard() {
 
             <ExpenditureIncome />
 
-            <RealTimeUsdToTry />
 
             <TopSales />
 
@@ -62,6 +66,9 @@ function Dashboard() {
             <DashboardCard12 />
 
             <DashboardCard13 />
+            <RealTimeUsdToTry />
+            <RealTimeUsdToTry />
+
 
           </div>
 
