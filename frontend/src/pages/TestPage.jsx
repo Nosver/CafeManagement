@@ -4,6 +4,9 @@ import ApexCharts from 'apexcharts';
 
 
 export const TestPage = () => {
+
+
+  
     useEffect(() => {
         const options = {
           chart: {

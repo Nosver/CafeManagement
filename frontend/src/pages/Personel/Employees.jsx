@@ -127,10 +127,10 @@ export const Employees = () => {
                         closePopup={closePopup_edit}
                         inputs={[
                           { id: 'id', label: 'Id', type: 'text', placeholder: 'Type employee id' },
-                          { id: 'fullName', label: 'Full Name', type: 'text', placeholder: 'Type employee full name' },
                           { id: 'email', label: 'Email', type: 'text', placeholder: 'Type employee email' },
-                          { id: 'phone', label: 'Phone', type: 'text', placeholder: 'Type employee phone' },
-                          { id: 'address', label: 'Address', type: 'text', placeholder: 'Type employee address' },
+                          { id: 'salary', label: 'salary', type: 'number', placeholder: 'Type employee salary' },
+                          { id: 'position', label: 'position', type: 'text', placeholder: 'Type employee position' },
+
                         ]}
                       />
                     }

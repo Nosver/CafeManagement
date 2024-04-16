@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 import ProfitChart from '../../imported-assets/partials/dashboard/ProfitChart';
 import ExpenditureIncome from '../../imported-assets/partials/dashboard/ExpenditureIncome';
-import RealTimeUsdToTry from '../../imported-assets/partials/dashboard/RealTimeUsdToTry';
+import Currency from '../../imported-assets/partials/dashboard/Currency';
 import TopSales from '../../imported-assets/partials/dashboard/TopSales';
 import DashboardCard08 from '../../imported-assets/partials/dashboard/DashboardCard08';
 import DashboardCard09 from '../../imported-assets/partials/dashboard/DashboardCard09';
@@ -66,8 +66,8 @@ function Dashboard() {
             <DashboardCard12 />
 
             <DashboardCard13 />
-            <RealTimeUsdToTry />
-            <RealTimeUsdToTry />
+            <Currency title='USD to TRY Exchange Rate' convertCurrency='TRY' baseCurrency='USD' />
+            <Currency title='EUR to TRY Exchange Rate' convertCurrency='TRY' baseCurrency='EUR' />
 
 
           </div>
