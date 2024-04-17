@@ -143,14 +143,12 @@ export const Stocks = () => {
                 <div class="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700">
                     <div class='flex flex-row w-6/6 mb-3'>
                         <SearchBar searchButtonSubmit = {searchButtonSubmit} class='mr-auto'></SearchBar>
+                        <InsertButton description="Add new stock" onClick={openPopup} />
                     </div>
                     <main>
                         <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                             <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                                 <tr>
-                                    <th scope="col" class="p-4">
-                                        <InsertButton description="Add new stock" onClick={openPopup} />
-                                    </th>
                                     <th scope="col" class="px-6 py-3">
                                         ID
                                     </th>
@@ -206,12 +204,6 @@ export const Stocks = () => {
                                 {stocksShow.map((stock, index) => (
                                     <tr key={index} onClick={() => setSelectedOrder(order)} 
                                             class={`${stock.quantity == 1 ? 'bg-red-400' : stock.quantity < 5 ? 'bg-red-300' : stock.quantity < 10 ? 'bg-red-200' : stock.quantity < 20 ? 'bg-red-100' : 'bg-white'} border-b dark:bg-gray-800 dark:border-black-700 hover:bg-white dark:hover:bg-gray-600 }`}>
-                                        <td class="w-4 p-4">
-                                            <div class="flex items-center">
-                                                <input id={`checkbox-table-${index}`} type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
-                                                <label for={`checkbox-table-${index}`} class="sr-only">checkbox</label>
-                                            </div>
-                                        </td>
                                         <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">{stock.id}</th>
                                         <td class="px-6 py-4">{stock.name}</td>
                                         <td class="px-6 py-4">{stock.quantity}</td>

@@ -99,6 +99,7 @@ export const Employees = () => {
         <div class="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700">
           <div class='flex flex-row w-6/6 mb-3'>
             <SearchBar searchButtonSubmit = {searchButtonSubmit} class='mr-auto'></SearchBar>
+            <InsertButton description="Add new Employee" onClick={openPopup} />
           </div>
           <div className="flex h-screen overflow-hidden">
             {/* Content area */}
@@ -108,9 +109,6 @@ export const Employees = () => {
                 <table class="table-auto w-* text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                   <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                     <tr>
-                      <th scope="col" class="p-4">
-                        <InsertButton description="Add new Employee" onClick={openPopup} />
-                      </th>
                       <th scope="col" class="px-6 py-3">Full Name</th>
                       <th scope="col" class="px-6 py-3">Email</th>
                       <th scope="col" class="px-6 py-3">Phone</th>
@@ -160,12 +158,6 @@ export const Employees = () => {
                         class={`
                           ${Employee.quantity == 1 ? 'bg-red-400' : Employee.quantity < 5 ? 'bg-red-300' : Employee.quantity < 10 ? 'bg-red-200' : Employee.quantity < 20 ? 'bg-red-100' : 'bg-white'} border-b dark:bg-gray-800 dark:border-black-700 hover:bg-white dark:hover:bg-gray-600 }`}
                       >
-                        <td class="w-4 p-4">
-                          <div class="flex items-center">
-                            <input id={`checkbox-table-${index}`} type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
-                            <label for={`checkbox-table-${index}`} class="sr-only">checkbox</label>
-                          </div>
-                        </td>
                         <td class="px-6 py-4">{Employee.fullName.toString()}</td>
                         <td class="px-6 py-4">{Employee.email.toString()}</td>
                         <td class="px-6 py-4">{Employee.phone.toString()}</td>
