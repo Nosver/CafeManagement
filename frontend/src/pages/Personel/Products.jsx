@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Siderbar_1 } from '../../components/personel/Siderbar_1';
 import { InsertButton } from '../../components/personel/InsertButton';
 import { ItemPopup } from '../../components/personel/ItemPopup';
+import { SearchBar } from '../../components/personel/SearchBar';
 
 class product {
     constructor(id, name, quantity, price, total_price, category) {
@@ -52,6 +53,9 @@ export const Products = () => {
     // Create random products for cafe
     const products = product.getAllProducts();
 
+    const [productsArray, setProductsArray] = useState(products);
+    const [productsShow, setProductsShow] = useState(productsArray);
+
     const [showPopup, setShowPopup] = useState(false);
     const openPopup = () => setShowPopup(true);
     const closePopup = () => setShowPopup(false);
@@ -59,6 +63,19 @@ export const Products = () => {
     const [showPopup_edit, setShowPopup_edit] = useState(false);
     const openPopup_edit = () => setShowPopup_edit(true);
     const closePopup_edit = () => setShowPopup_edit(false);
+
+    const searchButtonSubmit = (keyword) => {
+        if(keyword == ''){
+            if(productsShow.length != productsArray.length)
+                setProductsShow(productsArray);
+            return;
+        }
+
+        let newArr = productsArray.filter( product =>
+            product.name.toLowerCase().includes(keyword.toLowerCase())
+        );   
+        setProductsShow(newArr);
+    }
 
     if (showPopup) {
         document.body.classList.add('overflow-hidden')
@@ -73,6 +90,9 @@ export const Products = () => {
 
             <div class="p-4 sm:ml-64">
                 <div class="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700">
+                    <div class='flex flex-row w-6/6 mb-3'>
+                        <SearchBar searchButtonSubmit = {searchButtonSubmit} class='mr-auto'></SearchBar>
+                    </div>
                     <div className="flex h-screen overflow-hidden">
 
                         {/* Content area */}
@@ -142,7 +162,7 @@ export const Products = () => {
                                             />
                                         }
 
-                                        {products.map((product, index) => (
+                                        {productsShow.map((product, index) => (
                                             <tr
                                                 key={index}
                                                 onClick={() => setSelectedOrder(order)}

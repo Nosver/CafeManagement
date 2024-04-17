@@ -8,9 +8,9 @@ import { Edit_Product_Popup } from '../../components/personel/Edit_Product_Popup
 import { Create_Stock } from '../../components/Create_Stock';
 import { InsertButton } from '../../components/personel/InsertButton';
 import { ItemPopup } from '../../components/personel/ItemPopup';
+import { SearchBar } from '../../components/personel/SearchBar';
 
 class stock {
-
 
     constructor(id, name, price, quantity) {
         this.id = id;
@@ -98,6 +98,10 @@ export const Stocks = () => {
 
     // Create random stocks for cafe
     const stocks = stock.getAllStocks();
+
+    const [stocksArray, setStocksArray] = useState(stocks);
+    const [stocksShow, setStocksShow] = useState(stocksArray);
+
     const [sidebarOpen, setSidebarOpen] = React.useState(true);
     const [quantity, setQuantity] = useState(stock.quantity);
     const [isPopupOpen, setIsPopupOpen] = useState(false);
@@ -109,6 +113,19 @@ export const Stocks = () => {
     const [showPopup_edit, setShowPopup_edit] = useState({ show: false, stock: null });
     const openPopup_edit = (stock) => setShowPopup_edit({ show: true, stock });
     const closePopup_edit = () => setShowPopup_edit({ show: false, stock: null });
+
+    const searchButtonSubmit = (keyword) => {
+        if(keyword == ''){
+            if(stocksShow.length != stocksArray.length)
+                setStocksShow(stocksArray);
+            return;
+        }
+
+        let newArr = stocksArray.filter( stock =>
+            stock.name.toLowerCase().includes(keyword.toLowerCase())
+        );   
+        setStocksShow(newArr);
+    }
 
     
     if (showPopup_edit.show || showPopup ) {
@@ -124,6 +141,9 @@ export const Stocks = () => {
 
             <div class="p-4 sm:ml-64">
                 <div class="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700">
+                    <div class='flex flex-row w-6/6 mb-3'>
+                        <SearchBar searchButtonSubmit = {searchButtonSubmit} class='mr-auto'></SearchBar>
+                    </div>
                     <main>
                         <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                             <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
@@ -183,7 +203,7 @@ export const Stocks = () => {
                                 }
 
 
-                                {stocks.map((stock, index) => (
+                                {stocksShow.map((stock, index) => (
                                     <tr key={index} onClick={() => setSelectedOrder(order)} 
                                             class={`${stock.quantity == 1 ? 'bg-red-400' : stock.quantity < 5 ? 'bg-red-300' : stock.quantity < 10 ? 'bg-red-200' : stock.quantity < 20 ? 'bg-red-100' : 'bg-white'} border-b dark:bg-gray-800 dark:border-black-700 hover:bg-white dark:hover:bg-gray-600 }`}>
                                         <td class="w-4 p-4">

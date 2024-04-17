@@ -4,6 +4,7 @@ import { useState } from 'react'
 import faker from 'faker';
 import { ItemPopup } from '../../components/personel/ItemPopup';
 import { InsertButton } from '../../components/personel/InsertButton';
+import { SearchBar } from '../../components/personel/SearchBar';
 
 class Employee {
   constructor(id, fullName, email, phone, address, city, country, postal_code
@@ -60,8 +61,10 @@ export const Employees = () => {
 
   const employeeArray = Employee.generateRandomEmployees(50);
 
-  const [employees, setEmployees] = useState([]);
+  const [employees, setEmployees] = useState(employeeArray);
+  const [employeesShow, setEmployeesShow] = useState(employeeArray);
   const [showPopup, setShowPopup] = useState(false);
+
   const openPopup = () => setShowPopup(true);
   const closePopup = () => setShowPopup(false);
 
@@ -69,11 +72,24 @@ export const Employees = () => {
   const openPopup_edit = () => setShowPopup_edit(true);
   const closePopup_edit = () => setShowPopup_edit(false);
 
+  const searchButtonSubmit = (keyword) => {
+    if(keyword == ''){
+        if(employeesShow.length != employees.length)
+          setEmployeesShow(employees);
+        return;
+    }
+    let newArr = employees.filter( employee => employee.fullName.toLowerCase().includes(keyword.toLowerCase()));   
+    setEmployeesShow(newArr);
+}
+
+
   if (showPopup_edit || showPopup) {
     document.body.classList.add('overflow-hidden')
 } else {
     document.body.classList.remove('overflow-hidden')
 }
+
+
   return (
     <div>
 
@@ -81,8 +97,10 @@ export const Employees = () => {
 
       <div class="p-4 sm:ml-64">
         <div class="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700">
+          <div class='flex flex-row w-6/6 mb-3'>
+            <SearchBar searchButtonSubmit = {searchButtonSubmit} class='mr-auto'></SearchBar>
+          </div>
           <div className="flex h-screen overflow-hidden">
-
             {/* Content area */}
             <div className="relative flex flex-col flex-1 overflow-y-auto overflow-x-hidden">
 
@@ -135,7 +153,7 @@ export const Employees = () => {
                       />
                     }
 
-                    {employeeArray.map((Employee, index) => (
+                    {employeesShow.map((Employee, index) => (
                       <tr
                         key={index}
                         onClick={() => setSelectedOrder(order)}

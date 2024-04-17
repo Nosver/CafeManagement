@@ -54,11 +54,11 @@ export const Customers = () => {
 
     const [customersArray, setCustomersArray] = useState(Customer.getCustomers(100));
 
-    const [customersShow, setCustomersShow] = useState(customersArray)
+    const [customersShow, setCustomersShow] = useState(customersArray);
 
     const [showPopup, setShowPopup] = useState(false)
 
-    const [showEmailPopup, setShowEmailPopup] = useState(false)
+    const [showEmailPopup, setShowEmailPopup] = useState(false);
 
     const openPopup = () => {
         setShowPopup(true)

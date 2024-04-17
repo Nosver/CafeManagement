@@ -3,6 +3,7 @@ import Header from '../../imported-assets/partials/Header';
 import Popup from '../../components/MenuPopup';
 import { Siderbar_1 } from '../../components/personel/Siderbar_1';
 import { ItemPopup } from '../../components/personel/ItemPopup';
+import { SearchBar } from '../../components/personel/SearchBar';
 
 
 const OrderStatus = {
@@ -68,6 +69,9 @@ export const Orders = () => {
         orders.push(Order.generateRandomOrder());
     }
 
+    const [ordersArray, setOrdersArray] = useState(orders);
+    const [ordersShow, setOrdersShow] = useState(ordersArray);
+
     const [sidebarOpen, setSidebarOpen] = useState(true);
     const [isPopupOpen, setIsPopupOpen] = useState(null);
     const [selectedOrder, setSelectedOrder] = useState(null); // Add this line
@@ -75,6 +79,19 @@ export const Orders = () => {
     const [showPopup_edit, setShowPopup_edit] = useState(false);
     const openPopup_edit = () => setShowPopup_edit(true);
     const closePopup_edit = () => setShowPopup_edit(false);
+
+    const searchButtonSubmit = (keyword) => {
+        if(keyword == ''){
+            if(ordersShow.length != ordersArray.length)
+                setOrdersShow(ordersArray);
+            return;
+        }
+
+        let newArr = ordersArray.filter( order =>
+            order.customer.toLowerCase().includes(keyword.toLowerCase())
+        );   
+        setOrdersShow(newArr);
+    }
 
 
     if (showPopup_edit) {
@@ -86,11 +103,11 @@ export const Orders = () => {
         <>
 
             <Siderbar_1 />
-
-
             <div class="p-4 sm:ml-64">
                 <div class="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700">
-
+                    <div class='flex flex-row w-6/6 mb-3'>
+                        <SearchBar searchButtonSubmit = {searchButtonSubmit} class='mr-auto'></SearchBar>
+                    </div>
                     <div className="flex h-screen overflow-hidden">
 
                         {/* Content area */}
@@ -139,7 +156,7 @@ export const Orders = () => {
                                                 ]}
                                             />
                                         }
-                                        {orders.map((order, index) => (
+                                        {ordersShow.map((order, index) => (
                                             <tr
                                                 key={index}
                                                 class={`
