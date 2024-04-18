@@ -3,6 +3,7 @@ import Header from '../../imported-assets/partials/Header';
 import Popup from '../../components/MenuPopup';
 import { Siderbar_1 } from '../../components/personel/Siderbar_1';
 import { ItemPopup } from '../../components/personel/ItemPopup';
+import { SearchBar } from '../../components/personel/SearchBar';
 
 
 const OrderStatus = {
@@ -68,6 +69,9 @@ export const Orders = () => {
         orders.push(Order.generateRandomOrder());
     }
 
+    const [ordersArray, setOrdersArray] = useState(orders);
+    const [ordersShow, setOrdersShow] = useState(ordersArray);
+
     const [sidebarOpen, setSidebarOpen] = useState(true);
     const [isPopupOpen, setIsPopupOpen] = useState(null);
     const [selectedOrder, setSelectedOrder] = useState(null); // Add this line
@@ -75,6 +79,19 @@ export const Orders = () => {
     const [showPopup_edit, setShowPopup_edit] = useState(false);
     const openPopup_edit = () => setShowPopup_edit(true);
     const closePopup_edit = () => setShowPopup_edit(false);
+
+    const searchButtonSubmit = (keyword) => {
+        if(keyword == ''){
+            if(ordersShow.length != ordersArray.length)
+                setOrdersShow(ordersArray);
+            return;
+        }
+
+        let newArr = ordersArray.filter( order =>
+            order.customer.toLowerCase().includes(keyword.toLowerCase())
+        );   
+        setOrdersShow(newArr);
+    }
 
 
     if (showPopup_edit) {
@@ -86,11 +103,11 @@ export const Orders = () => {
         <>
 
             <Siderbar_1 />
-
-
             <div class="p-4 sm:ml-64">
                 <div class="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700">
-
+                    <div class='flex flex-row w-6/6 mb-3'>
+                        <SearchBar searchButtonSubmit = {searchButtonSubmit} class='mr-auto'></SearchBar>
+                    </div>
                     <div className="flex h-screen overflow-hidden">
 
                         {/* Content area */}
@@ -100,12 +117,6 @@ export const Orders = () => {
                                 <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                                     <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                                         <tr>
-                                            <th scope="col" class="p-4">
-                                                <div class="flex items-center">
-                                                    <input id="checkbox-all" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
-                                                    <label for="checkbox-all" class="sr-only">checkbox</label>
-                                                </div>
-                                            </th>
                                             <th scope="col" class="px-6 py-3">
                                                 Customer Name
                                             </th>
@@ -139,7 +150,7 @@ export const Orders = () => {
                                                 ]}
                                             />
                                         }
-                                        {orders.map((order, index) => (
+                                        {ordersShow.map((order, index) => (
                                             <tr
                                                 key={index}
                                                 class={`
@@ -149,12 +160,6 @@ export const Orders = () => {
                                                                 order.status === OrderStatus.CANCELED ? 'bg-red-200' :
                                                                     order.status === OrderStatus.SERVED ? 'bg-violet-200' :
                                                                         'bg-gray-200'} border-b dark:bg-gray-800 dark:border-black-700 hover:bg-white dark:hover:bg-gray-600 }`}>
-                                                <td class="w-4 p-4">
-                                                    <div class="flex items-center">
-                                                        <input id={`checkbox-table-${index}`} type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
-                                                        <label for={`checkbox-table-${index}`} class="sr-only">checkbox</label>
-                                                    </div>
-                                                </td>
                                                 <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                                     {order.customer}
                                                 </th>

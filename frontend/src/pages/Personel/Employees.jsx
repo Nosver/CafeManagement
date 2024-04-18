@@ -4,6 +4,7 @@ import { useState } from 'react'
 import faker from 'faker';
 import { ItemPopup } from '../../components/personel/ItemPopup';
 import { InsertButton } from '../../components/personel/InsertButton';
+import { SearchBar } from '../../components/personel/SearchBar';
 
 class Employee {
   constructor(id, fullName, email, phone, address, city, country, postal_code
@@ -60,8 +61,10 @@ export const Employees = () => {
 
   const employeeArray = Employee.generateRandomEmployees(50);
 
-  const [employees, setEmployees] = useState([]);
+  const [employees, setEmployees] = useState(employeeArray);
+  const [employeesShow, setEmployeesShow] = useState(employeeArray);
   const [showPopup, setShowPopup] = useState(false);
+
   const openPopup = () => setShowPopup(true);
   const closePopup = () => setShowPopup(false);
 
@@ -69,11 +72,24 @@ export const Employees = () => {
   const openPopup_edit = () => setShowPopup_edit(true);
   const closePopup_edit = () => setShowPopup_edit(false);
 
+  const searchButtonSubmit = (keyword) => {
+    if(keyword == ''){
+        if(employeesShow.length != employees.length)
+          setEmployeesShow(employees);
+        return;
+    }
+    let newArr = employees.filter( employee => employee.fullName.toLowerCase().includes(keyword.toLowerCase()));   
+    setEmployeesShow(newArr);
+}
+
+
   if (showPopup_edit || showPopup) {
     document.body.classList.add('overflow-hidden')
 } else {
     document.body.classList.remove('overflow-hidden')
 }
+
+
   return (
     <div>
 
@@ -81,8 +97,11 @@ export const Employees = () => {
 
       <div class="p-4 sm:ml-64">
         <div class="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700">
+          <div class='flex flex-row w-6/6 mb-3'>
+            <SearchBar searchButtonSubmit = {searchButtonSubmit} class='mr-auto'></SearchBar>
+            <InsertButton description="Add new Employee" onClick={openPopup} />
+          </div>
           <div className="flex h-screen overflow-hidden">
-
             {/* Content area */}
             <div className="relative flex flex-col flex-1 overflow-y-auto overflow-x-hidden">
 
@@ -90,9 +109,6 @@ export const Employees = () => {
                 <table class="table-auto w-* text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                   <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                     <tr>
-                      <th scope="col" class="p-4">
-                        <InsertButton description="Add new Employee" onClick={openPopup} />
-                      </th>
                       <th scope="col" class="px-6 py-3">Full Name</th>
                       <th scope="col" class="px-6 py-3">Email</th>
                       <th scope="col" class="px-6 py-3">Phone</th>
@@ -135,19 +151,13 @@ export const Employees = () => {
                       />
                     }
 
-                    {employeeArray.map((Employee, index) => (
+                    {employeesShow.map((Employee, index) => (
                       <tr
                         key={index}
                         onClick={() => setSelectedOrder(order)}
                         class={`
                           ${Employee.quantity == 1 ? 'bg-red-400' : Employee.quantity < 5 ? 'bg-red-300' : Employee.quantity < 10 ? 'bg-red-200' : Employee.quantity < 20 ? 'bg-red-100' : 'bg-white'} border-b dark:bg-gray-800 dark:border-black-700 hover:bg-white dark:hover:bg-gray-600 }`}
                       >
-                        <td class="w-4 p-4">
-                          <div class="flex items-center">
-                            <input id={`checkbox-table-${index}`} type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
-                            <label for={`checkbox-table-${index}`} class="sr-only">checkbox</label>
-                          </div>
-                        </td>
                         <td class="px-6 py-4">{Employee.fullName.toString()}</td>
                         <td class="px-6 py-4">{Employee.email.toString()}</td>
                         <td class="px-6 py-4">{Employee.phone.toString()}</td>
