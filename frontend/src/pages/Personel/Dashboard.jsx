@@ -7,8 +7,8 @@ import TopSales from '../../imported-assets/partials/dashboard/TopSales';
 import DashboardCard08 from '../../imported-assets/partials/dashboard/DashboardCard08';
 import DashboardCard09 from '../../imported-assets/partials/dashboard/DashboardCard09';
 import RecentReviews from '../../imported-assets/partials/dashboard/RecentReviews';
-import DashboardCard12 from '../../imported-assets/partials/dashboard/DashboardCard12';
-import DashboardCard13 from '../../imported-assets/partials/dashboard/DashboardCard13';
+import LastComments from '../../imported-assets/partials/dashboard/LastComments';
+import CriticalStocks from '../../imported-assets/partials/dashboard/CriticalStocks';
 import { Siderbar_1 } from '../../components/personel/Siderbar_1';
 import LastTransactions from '../../imported-assets/partials/dashboard/LastTransactions';
 import TopCustomersList from '../../imported-assets/partials/dashboard/TopCustomersList';
@@ -63,9 +63,9 @@ function Dashboard() {
 
             <DashboardCard09 />
 
-            <DashboardCard12 />
+            <LastComments />
 
-            <DashboardCard13 />
+            <CriticalStocks />
             <Currency title='USD to TRY Exchange Rate' convertCurrency='TRY' baseCurrency='USD' />
             <Currency title='EUR to TRY Exchange Rate' convertCurrency='TRY' baseCurrency='EUR' />
 

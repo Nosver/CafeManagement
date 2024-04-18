@@ -59,7 +59,7 @@ function Currency({title, baseCurrency,convertCurrency}) {
   }
 
   const timestamps = Object.keys(exchangeRates.rates || {});
-  const formattedLabels = timestamps.map(timestamp => new Date(timestamp).toLocaleString('en-US'));
+  const formattedLabels = timestamps.map(timestamp => new Date(timestamp).toLocaleString('tr-TR'));
 
   const rates = timestamps.map(timestamp => exchangeRates.rates[timestamp].TRY);
 
