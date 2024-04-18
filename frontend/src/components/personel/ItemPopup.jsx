@@ -26,20 +26,40 @@ export const ItemPopup = ({ title, inputs, closePopup, submitButtonDescription="
                         </button>
                     </div>
 
-                    <form class="p-4 md:p-5">
-                        <div class="grid gap-4 mb-4 grid-cols-2">
-                            {inputs.map(input => (
-                                <div class="col-span-2">
-                                    <label for={input.id} class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{input.label}</label>
-                                    <input type={input.type} name={input.name} id={input.id} class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" 
-                                    defaultValue={input.placeholder} required="" />
-                                    </div>
+                    <form className="p-4 md:p-5">
+                        <div className="grid gap-4 mb-4 grid-cols-2">
+                            {inputs.map((input) => (
+                                <div className="col-span-2" key={input.id}>
+                                    <label for={input.id} className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                        {input.label}
+                                    </label>
+                                    {input.placeholder ? (
+                                        <input 
+                                            type={input.type} 
+                                            name={input.name} 
+                                            id={input.id} 
+                                            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" 
+                                            defaultValue={input.placeholder} 
+                                            required
+                                        />
+                                    ) : (
+                                        <input 
+                                            type={input.type} 
+                                            name={input.name} 
+                                            id={input.id} 
+                                            placeholder={input.hint} 
+                                            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" 
+                                            required
+                                        />
+                                    )}
+                                </div>
                             ))}
                         </div>
-                        <Button type="submit"  >
+                        <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">
                             {submitButtonDescription}
-                        </Button>
+                        </button>
                     </form>
+
                 </div>
             </div>
         </div>

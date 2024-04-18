@@ -127,11 +127,11 @@ export const Employees = () => {
                         title="Add New Employee"
                         closePopup={closePopup}
                         inputs={[
-                          { id: 'id', label: 'Id', type: 'text', placeholder: 'Type employee id' },
-                          { id: 'fullName', label: 'Full Name', type: 'text', placeholder: 'Type employee full name' },
-                          { id: 'email', label: 'Email', type: 'text', placeholder: 'Type employee email' },
-                          { id: 'phone', label: 'Phone', type: 'text', placeholder: 'Type employee phone' },
-                          { id: 'address', label: 'Address', type: 'text', placeholder: 'Type employee address' },
+                          { id: 'id', label: 'Id', type: 'text', hint: 'Type employee id' },
+                          { id: 'fullName', label: 'Full Name', type: 'text', hint: 'Type employee full name' },
+                          { id: 'email', label: 'Email', type: 'text', hint: 'Type employee email' },
+                          { id: 'phone', label: 'Phone', type: 'text', hint: 'Type employee phone' },
+                          { id: 'address', label: 'Address', type: 'text', hint: 'Type employee address' },
                         ]}
                       />
                     }
