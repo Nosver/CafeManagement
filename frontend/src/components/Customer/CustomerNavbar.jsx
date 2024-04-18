@@ -1,7 +1,7 @@
 import { NavLink } from 'react-router-dom';
-import logo from '../img/coffe.png'
+import logo from '../../img/coffe.png'
 import { useState } from 'react'
-import CartSlider from './Customer/CartSlider';
+import CartSlider from './CartSlider';
 
 
 const CustomerNavbar = () => {
