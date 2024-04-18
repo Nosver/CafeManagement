@@ -175,9 +175,9 @@ export const Stocks = () => {
                                         submitButtonDescription='Submit'
                                         closePopup={closePopup}
                                         inputs={[
-                                            { id: 'name', name: 'name', type: 'text', label: 'Name', placeholder: 'Enter the name' },
-                                            { id: 'quantity', name: 'quantity', type: 'number', label: 'Quantity', placeholder: 'Enter the quantity' },
-                                            { id: 'unit_price', name: 'unit_price', type: 'number', label: 'Unit Price', placeholder: 'Enter the unit price' },
+                                            { id: 'name', name: 'name', type: 'text', label: 'Name', hint: 'Enter the name'},
+                                            { id: 'quantity', name: 'quantity', type: 'number', label: 'Quantity', hint: 'Enter the quantity' },
+                                            { id: 'unit_price', name: 'unit_price', type: 'number', label: 'Unit Price', hint: 'Enter the unit price' },
                                         ]}
                                     />
                                 }

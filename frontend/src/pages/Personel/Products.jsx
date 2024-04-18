@@ -134,12 +134,12 @@ export const Products = () => {
                                                 title="Add New Product"
                                                 closePopup={closePopup}
                                                 inputs={[
-                                                    { id: 'name', label: 'Name', type: 'text', placeholder: 'Type product name' },
-                                                    { id: 'price', label: 'Price', type: 'number', placeholder: '$2999' },
-                                                    { id: 'category', label: 'Category', type: 'select', placeholder: 'Select category' },
-                                                    { id: 'quantity', label: 'Quantity', type: 'number', placeholder: 'Type quantity' },
-                                                    { id: 'img_path', label: 'Image Path', type: 'text', placeholder: 'Type image path' },
-                                                    { id: 'description', label: 'Product Description', type: 'textarea', placeholder: 'Write product description here' }
+                                                    { id: 'name', label: 'Name', type: 'text', hint: 'Type product name' },
+                                                    { id: 'price', label: 'Price', type: 'number', hint: '$2999' },
+                                                    { id: 'category', label: 'Category', type: 'select', hint: 'Select category' },
+                                                    { id: 'quantity', label: 'Quantity', type: 'number', hint: 'Type quantity' },
+                                                    { id: 'img_path', label: 'Image Path', type: 'text', hint: 'Type image path' },
+                                                    { id: 'description', label: 'Product Description', type: 'textarea', hint: 'Write product description here' }
                                                 ]}
                                             />
                                         }
