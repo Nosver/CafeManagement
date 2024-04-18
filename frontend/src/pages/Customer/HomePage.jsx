@@ -1,7 +1,7 @@
 import React from 'react'
 import Hero from '../../components/Hero'
-import AdvertiseSection from '../../components/AdvertiseSection.'
 import ProductSlider from '../../components/ProductSlider'
+import AdvertiseSection from '../../components/Customer/AdvertiseSection.'
 
 const HomePage = () => {
   return (

@@ -1,7 +1,7 @@
 import React from 'react'
-import image from '../img/Advertise.jpeg'
-import image2 from '../img/Advertise2.jpeg'
-import AdvertiseBox from '../components/AdvertiseBox'
+import image from '../../img/Advertise.jpeg'
+import image2 from '../../img/Advertise2.jpeg'
+import AdvertiseBox from './AdvertiseBox'
 
 
 const AdvertiseSection = () => {

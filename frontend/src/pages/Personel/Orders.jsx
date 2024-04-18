@@ -1,6 +1,4 @@
 import React, { useState } from 'react';
-import Header from '../../imported-assets/partials/Header';
-import Popup from '../../components/MenuPopup';
 import { Siderbar_1 } from '../../components/personel/Siderbar_1';
 import { ItemPopup } from '../../components/personel/ItemPopup';
 import { SearchBar } from '../../components/personel/SearchBar';

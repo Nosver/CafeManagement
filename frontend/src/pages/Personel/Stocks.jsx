@@ -1,11 +1,6 @@
 import React from 'react'
-import Sidebar from '../../imported-assets/partials/Sidebar';
-import Header from '../../imported-assets/partials/Header';
 import { useState } from 'react';
-import { CButton } from '../../components/CButton';
 import { Siderbar_1 } from '../../components/personel/Siderbar_1';
-import { Edit_Product_Popup } from '../../components/personel/Edit_Product_Popup';
-import { Create_Stock } from '../../components/Create_Stock';
 import { InsertButton } from '../../components/personel/InsertButton';
 import { ItemPopup } from '../../components/personel/ItemPopup';
 import { SearchBar } from '../../components/personel/SearchBar';

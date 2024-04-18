@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import MenuItem from "../../components/MenuItem";
-import Popup from "../../components/MenuPopup";
-import ProductCategorySelector from '../../components/ProductCategorySelector';
+import ProductCategorySelector from '../../components/Customer/ProductCategorySelector';
 import { useRef } from 'react';
+import Popup from '../../components/Customer/MenuPopup';
+import MenuItem from '../../components/Customer/MenuItem';
 
 export const Menu = () => {
     const [isPopupOpen, setIsPopupOpen] = useState(false);

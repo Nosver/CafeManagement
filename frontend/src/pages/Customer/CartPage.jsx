@@ -1,5 +1,5 @@
 import React from 'react'
-import { CartProductItem } from '../../components/CartProductItem'
+import { CartProductItem } from '../../components/Customer/CartProductItem'
 import { useState } from 'react';
 import { useEffect } from 'react';
 import { toast } from 'react-toastify';

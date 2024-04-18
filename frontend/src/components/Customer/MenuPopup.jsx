@@ -2,7 +2,7 @@ import React from 'react';
 import { useState } from 'react';
 import { toast } from 'react-toastify';
 import Comment from './Comment';
-import TotalStars from './TotalStars';
+import TotalStars from '../TotalStars';
 
 
 const Popup = ({ onClose, itemName, itemDescription, itemPrice, imagePath ,produtRating}) => {
@@ -117,7 +117,7 @@ const Popup = ({ onClose, itemName, itemDescription, itemPrice, imagePath ,produ
 
 
 
-            <TotalStars rating={produtRating}/>
+            <TotalStars rating={produtRating} />
 
           </div>
 
@@ -184,7 +184,7 @@ const Popup = ({ onClose, itemName, itemDescription, itemPrice, imagePath ,produ
 
                 <div className="max-h-80 max-w-80 overflow-y-auto">
                   {comments.map((comment, index) => (
-                    <Comment key={index} comment={comment} />
+                   <Comment key={index} comment={comment} />
                   ))}
                 </div>
               </div>
