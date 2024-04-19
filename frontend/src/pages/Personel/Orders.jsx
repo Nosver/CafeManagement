@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import { Siderbar_1 } from '../../components/personel/Siderbar_1';
 import { ItemPopup } from '../../components/personel/ItemPopup';
 import { SearchBar } from '../../components/personel/SearchBar';
+import faker from 'faker';
+import { OrderDetailsPopup } from '../../components/OrderDetailsPopup';
+import { OrderEditPopup } from '../../components/personel/OrderEditPopup';
 
 
 const OrderStatus = {
@@ -31,13 +34,40 @@ const PaymentType = {
 
 class Order {
 
-    constructor(id, customer, payment_type, status, date, total_price) {
+    constructor(id, customer, payment_type, status, date, total_price, orderItems) {
         this.id = Math.random().toString(36).substring(7);
         this.customer = customer;
         this.payment_type = payment_type;
         this.status = status;
         this.date = date;
+        this.orderItems = orderItems;
         this.total_price = total_price;
+    }
+
+    static generateRandomOrderItems(numOrders) {
+        const orderItems = [];
+
+        for (let i = 1; i <= numOrders; i++) {
+            const numItems = faker.random.number({ min: 1, max: 5 });
+    
+            for (let j = 1; j <= numItems; j++) {
+                const foodId = faker.random.number({ min: 1, max: 6 });
+                const foodName = faker.commerce.productName();
+                const amount = faker.random.number({ min: 1, max: 5 });
+                const unitPrice = parseFloat(faker.commerce.price());
+    
+                orderItems.push(
+                    {
+                    id: j,
+                    food: {
+                        id: foodId,
+                        name: foodName,
+                    },
+                    amount: amount
+                }
+            );}
+        }
+        return orderItems;
     }
 
     static generateRandomOrder() {
@@ -50,14 +80,11 @@ class Order {
         const randomstatus = statuses[Math.floor(Math.random() * statuses.length)];
         const randomDate = Date.now();
         const randomtotal_price = Math.floor(Math.random() * 100.0) + 1.0;
+        const randomOrderItems = this.generateRandomOrderItems(2);
 
-        return new Order(id, randomCustomer, randomPaymentType, randomstatus, randomDate, randomtotal_price);
+        return new Order(id, randomCustomer, randomPaymentType, randomstatus, randomDate, randomtotal_price, randomOrderItems);
     }
 }
-
-const closePopup = () => {
-    setIsPopupOpen(false);
-};
 
 export const Orders = () => {
 
@@ -68,15 +95,44 @@ export const Orders = () => {
     }
 
     const [ordersArray, setOrdersArray] = useState(orders);
+
+    // For Search functionality
     const [ordersShow, setOrdersShow] = useState(ordersArray);
 
+    // For order edit popup
+    const [isEditPopupOpen, setIsEditPopupOpen] = useState(false);
+
+    const [selectedOrderItems, setSelectedOrderItems] = useState([]);
+
+    const [selectedOrderStatus, setSelectedOrderStatus] = useState("")
+
+    const [selectedOrderTotalPrice, setSelectedOrderTotalPrice] = useState(0)
+
+    const addOrderItem = (orderItem) => {
+        setSelectedOrderItems((prevSelectedOrderItems) => [
+            ...prevSelectedOrderItems,
+            orderItem
+        ]);
+    };
+
+    const openShowOrderDetailsPopup = (orderItems, orderStatus, orderTotalPrice) => {
+        orderItems.forEach( orderItem => addOrderItem(orderItem))
+        setSelectedOrderStatus(orderStatus)
+        setSelectedOrderTotalPrice(orderTotalPrice)
+        setIsEditPopupOpen(true)
+    }
+    
+    const closeShowOrderDetailsPopup = () => {
+        setSelectedOrderItems([])
+        setSelectedOrderStatus("")
+        setSelectedOrderTotalPrice(0)
+        setIsEditPopupOpen(false)
+    }
+
+    
     const [sidebarOpen, setSidebarOpen] = useState(true);
     const [isPopupOpen, setIsPopupOpen] = useState(null);
-    const [selectedOrder, setSelectedOrder] = useState(null); // Add this line
-
-    const [showPopup_edit, setShowPopup_edit] = useState(false);
-    const openPopup_edit = () => setShowPopup_edit(true);
-    const closePopup_edit = () => setShowPopup_edit(false);
+    
 
     const searchButtonSubmit = (keyword) => {
         if(keyword == ''){
@@ -92,14 +148,13 @@ export const Orders = () => {
     }
 
 
-    if (showPopup_edit) {
+    if (isEditPopupOpen) {
         document.body.classList.add('overflow-hidden')
     } else {
         document.body.classList.remove('overflow-hidden')
     }
     return (
         <>
-
             <Siderbar_1 />
             <div class="p-4 sm:ml-64">
                 <div class="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700">
@@ -131,51 +186,45 @@ export const Orders = () => {
                                                 Total Price
                                             </th>
                                             <th scope="col" class="px-6 py-3">
-                                                Action
                                             </th>
                                         </tr>
                                     </thead>
                                     <tbody>
 
                                         {
-                                            showPopup_edit &&
-                                            <ItemPopup
-                                                title="Edit Order"
-                                                submitButtonDescription='Submit'
-                                                closePopup={closePopup_edit}
-                                                inputs={[
-                                                    { id: 'status', label: 'Status', type: 'select', placeholder: 'Select status' },
-                                                ]}
-                                            />
+                                            isEditPopupOpen &&
+                                            <OrderEditPopup orderItems = {selectedOrderItems} orderStatus = {selectedOrderStatus} orderTotalPrice = {selectedOrderTotalPrice} closePopup = {() => closeShowOrderDetailsPopup()} />
                                         }
-                                        {ordersShow.map((order, index) => (
+                                        {ordersShow.map((orderA, index) => (
                                             <tr
                                                 key={index}
                                                 class={`
-                                        ${order.status === OrderStatus.READY ? 'bg-green-300' :
-                                                        order.status === OrderStatus.PREPARING ? 'bg-yellow-100' :
-                                                            order.status === OrderStatus.DELIVERED ? 'bg-purple-200' :
-                                                                order.status === OrderStatus.CANCELED ? 'bg-red-200' :
-                                                                    order.status === OrderStatus.SERVED ? 'bg-violet-200' :
+                                        ${orderA.status === OrderStatus.READY ? 'bg-green-300' :
+                                                        orderA.status === OrderStatus.PREPARING ? 'bg-yellow-100' :
+                                                            orderA.status === OrderStatus.DELIVERED ? 'bg-purple-200' :
+                                                                orderA.status === OrderStatus.CANCELED ? 'bg-red-200' :
+                                                                    orderA.status === OrderStatus.SERVED ? 'bg-violet-200' :
                                                                         'bg-gray-200'} border-b dark:bg-gray-800 dark:border-black-700 hover:bg-white dark:hover:bg-gray-600 }`}>
                                                 <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                                    {order.customer}
+                                                    {orderA.customer}
                                                 </th>
                                                 <td class="px-6 py-4">
-                                                    {order.payment_type.toString()}
+                                                    {orderA.payment_type.toString()}
                                                 </td>
                                                 <td class="px-6 py-4">
-                                                    {order.status.toString()}
+                                                    {orderA.status.toString()}
                                                 </td>
                                                 <td class="px-6 py-4">
-                                                    {new Date(order.date).toString().substring(0, 24)}
+                                                    {new Date(orderA.date).toString().substring(0, 24)}
                                                 </td>
                                                 <td class="px-6 py-4">
-                                                    ${order.total_price.toFixed(2)}
+                                                    ${orderA.total_price.toFixed(2)}
                                                 </td>
                                                 <td class="px-6 py-4"
-                                                onClick={setShowPopup_edit}>
-                                                    <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
+                                                onClick={() => {
+                                                    openShowOrderDetailsPopup(orderA.orderItems, orderA.status, orderA.total_price)
+                                                    }}>
+                                                    <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Details</a>
                                                 </td>
                                             </tr>
                                         ))}
@@ -184,13 +233,9 @@ export const Orders = () => {
                             </main>
                         </div>
                     </div>
-
                 </div>
             </div>
-
-
         </>
-
 
     )
 }
