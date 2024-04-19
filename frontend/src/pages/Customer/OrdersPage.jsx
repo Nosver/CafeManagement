@@ -144,16 +144,12 @@ const OrdersPage = () => {
       ],
       totalPrice: 35,
     }
-
 ];
-
-
 
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 3; 
   const [selectedStatus, setSelectedStatus] = useState('Taken');
   const orderStatusSelectorRef = useRef(null); 
-
 
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
