@@ -115,7 +115,7 @@ public class OrderController {
         // Set the Stripe API key
         Stripe.apiKey = stripeApiKey;
 
-        // Initialize parameters for listing transactions (e.g., limit)
+        // Initialize parameters for listing transactions
 
         SessionListParams params = SessionListParams.builder().setLimit(5L).build();
         SessionCollection sessions = Session.list(params);

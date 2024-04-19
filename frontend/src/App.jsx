@@ -28,6 +28,7 @@ import { Employees } from './pages/Personel/Employees';
 import { PaymentSuccess } from './components/PaymentSuccess';
 import { PaymentFail } from './components/PaymentFail';
 import { MyProfile } from './pages/Personel/MyProfile';
+import { NotFoundPage404 } from './pages/Customer/NotFoundPage404';
 
 
 const router = createBrowserRouter(
@@ -44,6 +45,7 @@ const router = createBrowserRouter(
         <Route path='/about-us' element={<AboutUsPage />} />
         <Route path='/success/*' element={<PaymentSuccess />} />
         <Route path='/fail/*' element={<PaymentFail />} />
+        <Route path='*' element={<NotFoundPage404/>} />
       </Route>
 
       <Route path='/' element={<PersonelLayout />}>
@@ -55,12 +57,15 @@ const router = createBrowserRouter(
         <Route path='/customers' element={<Customers />} />
         <Route path='/employees' element={<Employees />} />
         <Route path='/myprofile' element={<MyProfile />} />
+
       </Route>
 
       <Route path='/LoginPage' element={<LoginPage />} />
       <Route path='/SignUpPage' element={<SignUpPage />} />
       <Route path='/Welcome' element={<WelcomePage />} />
       <Route path='/Logout' element={<WelcomePage />} />
+      
+
     </Route>
   )
 )

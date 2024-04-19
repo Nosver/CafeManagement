@@ -64,6 +64,8 @@ export const Products = () => {
     const openPopup_edit = () => setShowPopup_edit(true);
     const closePopup_edit = () => setShowPopup_edit(false);
 
+    const [selectedProduct, setSelectedProduct]= useState();
+
     const searchButtonSubmit = (keyword) => {
         if(keyword == ''){
             if(productsShow.length != productsArray.length)
@@ -77,7 +79,7 @@ export const Products = () => {
         setProductsShow(newArr);
     }
 
-    if (showPopup) {
+    if (showPopup || showPopup_edit) {
         document.body.classList.add('overflow-hidden')
     } else {
         document.body.classList.remove('overflow-hidden')
@@ -138,7 +140,7 @@ export const Products = () => {
                                                     { id: 'price', label: 'Price', type: 'number', hint: '$2999' },
                                                     { id: 'category', label: 'Category', type: 'select', hint: 'Select category' },
                                                     { id: 'quantity', label: 'Quantity', type: 'number', hint: 'Type quantity' },
-                                                    { id: 'img_path', label: 'Image Path', type: 'text', hint: 'Type image path' },
+                                                    { id: 'img_path', label: 'Image', type: 'text', hint: 'Type image path' },
                                                     { id: 'description', label: 'Product Description', type: 'textarea', hint: 'Write product description here' }
                                                 ]}
                                             />
@@ -150,12 +152,12 @@ export const Products = () => {
                                                 submitButtonDescription='Edit Product'
                                                 closePopup={closePopup_edit}
                                                 inputs={[
-                                                    { id: 'name', label: 'Name', type: 'text', placeholder: 'Type product name' },
-                                                    { id: 'price', label: 'Price', type: 'number', placeholder: '$2999' },
-                                                    { id: 'category', label: 'Category', type: 'select', placeholder: 'Select category' },
+                                                    { id: 'name', label: 'Name', type: 'text', placeholder: selectedProduct.name },
+                                                    { id: 'price', label: 'Price', type: 'number', placeholder: selectedProduct.price  },
+                                                    { id: 'category', label: 'Category', type: 'select', placeholder: selectedProduct.category },
                                                     { id: 'quantity', label: 'Quantity', type: 'number', placeholder: 'Type quantity' },
-                                                    { id: 'img_path', label: 'Image Path', type: 'text', placeholder: 'Type image path' },
-                                                    { id: 'description', label: 'Product Description', type: 'textarea', placeholder: 'Write product description here' }
+                                                    { id: 'img_path', label: 'Image', type: 'text', placeholder: 'Type image path' },
+                                                    { id: 'description', label: 'Product Description', type: 'textarea', placeholder: selectedProduct.description }
                                                 ]}
                                             />
                                         }
@@ -163,7 +165,7 @@ export const Products = () => {
                                         {productsShow.map((product, index) => (
                                             <tr
                                                 key={index}
-                                                onClick={() => setSelectedOrder(order)}
+                                                onClick={() => setSelectedProduct(product)}
                                                 class={`
                                             ${product.quantity == 1 ? 'bg-red-400' : product.quantity < 5 ? 'bg-red-300' : product.quantity < 10 ? 'bg-red-200' : product.quantity < 20 ? 'bg-red-100' : 'bg-white'} border-b dark:bg-gray-800 dark:border-black-700 hover:bg-white dark:hover:bg-gray-600 }`}
                                             >
