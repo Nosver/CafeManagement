@@ -101,7 +101,7 @@ const Popup = ({ onClose, itemName, itemDescription, itemPrice, imagePath ,produ
   };
 
   return (
-    <div className="overlay fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-800 bg-opacity-75 z-50 "  >
+    <div className="overlay fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-800/50 bg-opacity-75 z-50 "  >
       <div className="bg-white rounded-lg p-8 w-auto relative">
         <button className="bg-gray-700 hover:bg-black  text-white px-4 py-2 rounded-md  absolute top-0 right-0 mr-4 mt-4" onClick={onClose}>X</button>
 
