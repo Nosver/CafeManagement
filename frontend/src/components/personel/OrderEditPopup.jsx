@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { Button } from "flowbite-react";
 
 export const OrderEditPopup = ({orderItems, orderStatus, orderTotalPrice, closePopup}) => {
 
