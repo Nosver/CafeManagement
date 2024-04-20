@@ -5,14 +5,21 @@ import { SearchBar } from '../../components/personel/SearchBar';
 import faker from 'faker';
 import { OrderDetailsPopup } from '../../components/OrderDetailsPopup';
 import { OrderEditPopup } from '../../components/personel/OrderEditPopup';
+import styled from 'styled-components';
 
+
+const StyledSelect = styled.select`
+  appearance: none; 
+  background: none;
+  borders: none;
+`;
 
 const OrderStatus = {
-    READY: 'Ready',
+    FULFILLED: 'Fulfilled',
     PREPARING: 'Preparing',
-    SERVED: 'Served',
+    READY: 'Ready',
     CANCELED: 'Canceled',
-    ORDER_TAKEN: 'Order Taken',
+    TAKEN: 'Taken',
 };
 
 const Category = {
@@ -73,7 +80,7 @@ class Order {
     static generateRandomOrder() {
         const id = Math.random().toString(36).substring(7);
         const customers = ['Kemal Yıldırım', 'Doğukan Yılmaz', 'Masis Aramyan', 'Güney Kırcı', 'Ahmet Demir', 'John Doe', 'Jane Smith', 'Doe Johnson', 'Smith Brown', 'Alice Williams', 'Bob Johnson', 'Charlie Davis', 'David Wilson', 'Eve Taylor', 'Frank Anderson', 'Grace Thomas', 'Heidi Jackson'];
-        const statuses = [OrderStatus.READY, OrderStatus.PREPARING, OrderStatus.SERVED, OrderStatus.CANCELED, OrderStatus.ORDER_TAKEN];
+        const statuses = [OrderStatus.READY, OrderStatus.PREPARING, OrderStatus.FULFILLED, OrderStatus.CANCELED, OrderStatus.TAKEN];
         const payment_types = [PaymentType.CASH, PaymentType.CREDIT_CARD, PaymentType.COFFE_CARD];
         const randomPaymentType = payment_types[Math.floor(Math.random() * payment_types.length)];
         const randomCustomer = customers[Math.floor(Math.random() * customers.length)];
@@ -88,7 +95,7 @@ class Order {
 
 export const Orders = () => {
 
-    const orders = [];
+    const [orders,setOrders] = useState([]);
 
     for (let i = 0; i < 100; i++) {
         orders.push(Order.generateRandomOrder());
@@ -153,6 +160,17 @@ export const Orders = () => {
     } else {
         document.body.classList.remove('overflow-hidden')
     }
+
+    const handleStatusChange = (event, index) => {
+        const newStatus = event.target.value;
+        console.log(newStatus);
+        console.log(index);
+        const updatedOrders = [...ordersShow];
+        updatedOrders[index].status = newStatus;
+        //api put call
+        setOrders(updatedOrders);
+    };
+
     return (
         <>
             <Siderbar_1 />
@@ -201,9 +219,9 @@ export const Orders = () => {
                                                 class={`
                                         ${orderA.status === OrderStatus.READY ? 'bg-green-300' :
                                                         orderA.status === OrderStatus.PREPARING ? 'bg-yellow-100' :
-                                                            orderA.status === OrderStatus.DELIVERED ? 'bg-purple-200' :
+                                                            orderA.status === OrderStatus.FULFILLED ? 'bg-purple-200' :
                                                                 orderA.status === OrderStatus.CANCELED ? 'bg-red-200' :
-                                                                    orderA.status === OrderStatus.SERVED ? 'bg-violet-200' :
+                                                                    orderA.status === OrderStatus.TAKEN ? 'bg-violet-300' :
                                                                         'bg-gray-200'} border-b dark:bg-gray-800 dark:border-black-700 hover:bg-white dark:hover:bg-gray-600 }`}>
                                                 <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                                     {orderA.customer}
@@ -212,7 +230,17 @@ export const Orders = () => {
                                                     {orderA.payment_type.toString()}
                                                 </td>
                                                 <td class="px-6 py-4">
-                                                    {orderA.status.toString()}
+
+                                                <div>
+                                                    <StyledSelect value={orderA.status} onChange={(event) => handleStatusChange(event, index)}>
+                                                        <option value="Taken">Taken</option>
+                                                        <option value="Preparing">Preparing</option>
+                                                        <option value="Ready">Ready</option>
+                                                        <option value="Fulfilled">Fulfilled</option>
+                                                        <option value="Canceled">Canceled</option>
+                                                    </StyledSelect>
+                                                </div>
+                                                    
                                                 </td>
                                                 <td class="px-6 py-4">
                                                     {new Date(orderA.date).toString().substring(0, 24)}
