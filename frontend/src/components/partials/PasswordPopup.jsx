@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import 'flowbite';
-import { onMounted } from 'vue'
 import { initFlowbite } from 'flowbite'
 
 export const PasswordPopup = ({ closePopup }) => {

@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
 import { Siderbar_1 } from '../../components/personel/Siderbar_1';
-import { ItemPopup } from '../../components/personel/ItemPopup';
 import { SearchBar } from '../../components/personel/SearchBar';
 import faker from 'faker';
-import { OrderDetailsPopup } from '../../components/OrderDetailsPopup';
 import { OrderEditPopup } from '../../components/personel/OrderEditPopup';
 import styled from 'styled-components';
 
