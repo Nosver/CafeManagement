@@ -14,7 +14,7 @@ import LastTransactions from '../../imported-assets/partials/dashboard/LastTrans
 import TopCustomersList from '../../imported-assets/partials/dashboard/TopCustomersList';
 import { BStats } from '../../imported-assets/partials/dashboard/BStats';
 import { faUserTie } from '@fortawesome/free-solid-svg-icons';
-import {faUsers} from '@fortawesome/free-solid-svg-icons';
+import { faUsers } from '@fortawesome/free-solid-svg-icons';
 import { faMoneyBill1 } from '@fortawesome/free-regular-svg-icons';
 
 function Dashboard() {
@@ -43,9 +43,9 @@ function Dashboard() {
           {/* Cards */}
           <div className="grid grid-cols-12 gap-6">
 
-            <BStats Label={"Customers"} Data={"12.500"}  Icon={faUserTie} />
-            <BStats Label={"Monthly Profit"} Data={"95.550₺"} Icon={faMoneyBill1}/>
-            <BStats Label={"Employees"} Data={"27"} Icon={faUsers}/>
+            <BStats Label={"Customers"} Data={"12.500"} Icon={faUserTie} />
+            <BStats Label={"Monthly Profit"} Data={"95.550₺"} Icon={faMoneyBill1} />
+            <BStats Label={"Employees"} Data={"27"} Icon={faUsers} />
             <TopCustomersList />
 
             <RecentReviews />
