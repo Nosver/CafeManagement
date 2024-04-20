@@ -7,6 +7,7 @@ import faker from 'faker'
 import { ItemPopup } from '../../components/personel/ItemPopup'
 import { ProfleCard } from '../../components/partials/ProfleCard'
 import { ToastToggle } from 'flowbite-react'
+import { PasswordPopup } from '../../components/partials/PasswordPopup'
 
 
 /*
@@ -40,13 +41,13 @@ class Employee {
   }
 }
 
-
 export const MyProfile = () => {
 
   const employee = new Employee()
   employee.createRandomEmployee()
 
   const [isPasswordPopupVisible, setisPasswordPopupVisible] = useState(false)
+  const closePopup = () => setisPasswordPopupVisible(false);
 
   return (
     <div>
@@ -71,33 +72,9 @@ export const MyProfile = () => {
             </div>
 
             <div>
-              {isPasswordPopupVisible && <ItemPopup
-                title='Change Password'
-                onClose={() => setisPasswordPopupVisible(false)}
-                inputs={[
-                  {
-                    label: 'Old Password',
-                    type: 'password',
-                    placeholder: '',
-                    required: true
-                  },
-                  {
-                    label: 'New Password',
-                    type: 'password',
-                    placeholder: '',
-                    required: true
-                  },
-                  {
-                    label: 'Confirm New Password',
-                    type: 'password',
-                    placeholder: '',
-                    required: true
-                  }
-                ]}
-                onSubmitFunction={() => toast.success('Password changed successfully')}
-                submitButtonDescription='Change Password'
-                closePopup={() => setisPasswordPopupVisible(false)}
-              />
+              {isPasswordPopupVisible && <>
+                <PasswordPopup closePopup={closePopup} />
+              </>
               }
 
             </div>
@@ -143,14 +120,14 @@ export const MyProfile = () => {
 
               <button
                 onClick={() => setisPasswordPopupVisible(true)}
-                type='button' class="w-fit ml-5 py-2.5 bg-orange-700 text-white text-sm rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50 hover:bg-red-600">
+                type='button'
+                className="w-fit ml-5 py-2.5 bg-red-600 text-white text-sm rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50 hover:bg-orange-700">
                 Change Password
               </button>
             </form>
           </div>
 
-          <div className="border-t border-gray-200 my-4 dark:border-gray-700"></div>
-          <Calendar />
+        {/* <Calendar /> */}
 
 
         </div>
