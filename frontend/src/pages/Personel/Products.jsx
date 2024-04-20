@@ -3,6 +3,7 @@ import { Siderbar_1 } from '../../components/personel/Siderbar_1';
 import { InsertButton } from '../../components/personel/InsertButton';
 import { ItemPopup } from '../../components/personel/ItemPopup';
 import { SearchBar } from '../../components/personel/SearchBar';
+import { AddProductPopup } from './AddProductPopup';
 
 class product {
     constructor(id, name, quantity, price, total_price, category) {
@@ -132,17 +133,8 @@ export const Products = () => {
                                     <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
 
                                         {showPopup &&
-                                            <ItemPopup
-                                                title="Add New Product"
-                                                closePopup={closePopup}
-                                                inputs={[
-                                                    { id: 'name', label: 'Name', type: 'text', hint: 'Type product name' },
-                                                    { id: 'price', label: 'Price', type: 'number', hint: '$2999' },
-                                                    { id: 'category', label: 'Category', type: 'select', hint: 'Select category' },
-                                                    { id: 'quantity', label: 'Quantity', type: 'number', hint: 'Type quantity' },
-                                                    { id: 'img_path', label: 'Image', type: 'text', hint: 'Type image path' },
-                                                    { id: 'description', label: 'Product Description', type: 'textarea', hint: 'Write product description here' }
-                                                ]}
+                                            <AddProductPopup
+                                            closePopup={closePopup}
                                             />
                                         }
 
