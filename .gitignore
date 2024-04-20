@@ -6,3 +6,5 @@ management/src/main/resources/application.properties
 management/src/main/resources/application.properties
 management/src/main/resources/application.properties
 /management/src/main/frontend/build
+/.vscode
+/.idea
