@@ -165,7 +165,7 @@ export const Orders = () => {
         const newStatus = event.target.value;
         console.log(newStatus);
         console.log(index);
-        const updatedOrders = [...orders];
+        const updatedOrders = [...ordersShow];
         updatedOrders[index].status = newStatus;
         //api put call
         setOrders(updatedOrders);
