@@ -95,7 +95,7 @@ class Order {
 
 export const Orders = () => {
 
-    const orders = [];
+    const [orders,setOrders] = useState([]);
 
     for (let i = 0; i < 100; i++) {
         orders.push(Order.generateRandomOrder());
@@ -160,6 +160,17 @@ export const Orders = () => {
     } else {
         document.body.classList.remove('overflow-hidden')
     }
+
+    const handleStatusChange = (event, index) => {
+        const newStatus = event.target.value;
+        console.log(newStatus);
+        console.log(index);
+        const updatedOrders = [...orders];
+        updatedOrders[index].status = newStatus;
+        //api put call
+        setOrders(updatedOrders);
+    };
+
     return (
         <>
             <Siderbar_1 />
@@ -221,7 +232,7 @@ export const Orders = () => {
                                                 <td class="px-6 py-4">
 
                                                 <div>
-                                                    <StyledSelect value={orderA.status}>
+                                                    <StyledSelect value={orderA.status} onChange={(event) => handleStatusChange(event, index)}>
                                                         <option value="Taken">Taken</option>
                                                         <option value="Preparing">Preparing</option>
                                                         <option value="Ready">Ready</option>
