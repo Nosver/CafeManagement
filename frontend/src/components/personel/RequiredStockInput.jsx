@@ -1,7 +1,7 @@
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
-export const RequiredStockInput = () => {
+export const RequiredStockInput = ({stocks = []}) => { 
     const [selectedStock, setSelectedStock] = useState('');
     const [stocksList, setStocksList] = useState([]);
     const [inputText, setInputText] = useState('');
@@ -44,13 +44,25 @@ export const RequiredStockInput = () => {
     const filteredStocks = predefinedStocks.filter(stock =>
       stock.name.toLowerCase().includes(inputText.toLowerCase())
     );
+
+    useEffect(() => {
+      stocks.forEach(stock =>{
+        setStocksList([...stocksList, { name: stock.name.trim(), quantity: stock.amount }])
+      }
+      )
+  }, []);
+
   return (
-    <div className=''>
+    <div className='mt-2'>
+      
+        <div className='flex w-full flex-row text-black'>
+          <h3>Stocks</h3>
+        </div>
+
         <div className="flex items-center justify-center">
           <div className='flex flex-row gap-10'>
 
             <div className='flex flex-col'>
-
               <input
                 id="input1"
                 className="mt-1 py-3 px-5 w-full border-2 rounded-lg border-gray-300 outline-none placeholder:text-gray-400 invalid:text-pink-700 invalid:focus:ring-pink-700 invalid:focus:border-pink-700 peer dark:bg-gray-500 dark:text-gray-200 dark:placeholder:text-gray-300 dark:invalid:text-pink-300 dark:border-gray-400"

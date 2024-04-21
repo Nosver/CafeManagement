@@ -5,14 +5,24 @@ import { ItemPopup } from '../../components/personel/ItemPopup';
 import { SearchBar } from '../../components/personel/SearchBar';
 import { AddProductPopup } from './AddProductPopup';
 
+const predefinedStocks = [
+    { name: 'Coffee Beans', unit: 'gr' },
+    { name: 'Milk', unit: 'ml' },
+    { name: 'Sugar', unit: 'gr' },
+    { name: 'Flour', unit: 'gr' }
+];
+
+
 class product {
-    constructor(id, name, quantity, price, total_price, category) {
+
+    constructor(id, name, quantity, price, total_price, category, stock = []) {
         this.id = id;
         this.name = name;
         this.category = category;
         this.quantity = quantity;
         this.price = price;
         this.total_price = total_price;
+        this.stock = stock;
     }
 
     static getRandomProduct() {
@@ -23,7 +33,18 @@ class product {
         const randomPrice = (Math.random() * 20.0).toFixed(2);
         const randomTotalPrice = randomPrice * randomQuantity;
 
-        return new product(id, randomName, randomQuantity, randomPrice, randomTotalPrice, 'Other');
+        // Randomly select stock from predefinedStocks
+        const randomIndex1 = Math.floor(Math.random() * predefinedStocks.length);
+        const randomStock = predefinedStocks[randomIndex1];
+
+        let randomIndex2;
+        do {
+            randomIndex2 = Math.floor(Math.random() * predefinedStocks.length);
+        } while (randomIndex2 === randomIndex1);  // Make sure the second random index is different
+
+        const randomStock2 = predefinedStocks[randomIndex2];
+
+        return new product(id, randomName, randomQuantity, randomPrice, randomTotalPrice, 'Other', [{ name: randomStock.name, unit: randomStock.unit, amount: Math.floor(Math.random() * 500) + 1 },{ name: randomStock2.name, unit: randomStock2.unit, amount: Math.floor(Math.random() * 500) + 1 }]);
     }
 
     static getAllProducts() {
@@ -41,7 +62,18 @@ class product {
             // Assign a category based on the product name
             const productCategory = categories.find(category => productName.includes(category)) || 'Other';
 
-            const newProduct = new product(randomID, productName, productQuantity, productPrice, productPrice * productQuantity, productCategory);
+            // Randomly select stock from predefinedStocks
+            const randomIndex1 = Math.floor(Math.random() * predefinedStocks.length);
+            const randomStock = predefinedStocks[randomIndex1];
+
+            let randomIndex2;
+            do {
+                randomIndex2 = Math.floor(Math.random() * predefinedStocks.length);
+            } while (randomIndex2 === randomIndex1);  // Make sure the second random index is different
+
+            const randomStock2 = predefinedStocks[randomIndex2];
+
+            const newProduct = new product(randomID, productName, productQuantity, productPrice, productPrice * productQuantity, productCategory, [{ name: randomStock.name, unit: randomStock.unit, amount: Math.floor(Math.random() * 500) + 1 },{ name: randomStock2.name, unit: randomStock2.unit, amount: Math.floor(Math.random() * 500) + 1 }]);
             products.push(newProduct);
         }
 
@@ -88,9 +120,7 @@ export const Products = () => {
 
     return (
         <div>
-
             <Siderbar_1 />
-
             <div class="p-4 sm:ml-64">
                 <div class="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700">
                     <div class='flex flex-row w-6/6 mb-3'>
@@ -149,7 +179,8 @@ export const Products = () => {
                                                     { id: 'category', label: 'Category', type: 'select', placeholder: selectedProduct.category },
                                                     { id: 'quantity', label: 'Quantity', type: 'number', placeholder: 'Type quantity' },
                                                     { id: 'img_path', label: 'Image', type: 'text', placeholder: 'Type image path' },
-                                                    { id: 'description', label: 'Product Description', type: 'textarea', placeholder: selectedProduct.description }
+                                                    { id: 'description', label: 'Product Description', type: 'textarea', placeholder: selectedProduct.description },
+                                                    { id: 'stocks', label: 'Stock', type: 'text', placeholder: selectedProduct.stock },
                                                 ]}
                                             />
                                         }
