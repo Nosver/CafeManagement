@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import OrderDetailsItem from './OrderDetailsItem';
 import { Button } from "flowbite-react";
+import Review from '../components/Customer/Review';
+import { toast } from 'react-toastify';
 
 export const OrderDetailsPopup = ({orderItems, orderStatus, orderTotalPrice, closePopup}) => {
 
@@ -9,6 +11,18 @@ export const OrderDetailsPopup = ({orderItems, orderStatus, orderTotalPrice, clo
             <OrderDetailsItem orderItem={item} key={index} />
         ));
     };
+    const [openReviewPopup,setOpenReviewPopup] = useState(false);
+
+    const closeShowOrderDetailsPopup = () => {
+        setOpenReviewPopup(false);
+    };
+
+    const cancelOrder = () => {
+        toast.success("Order canceled succesfully");
+        closePopup();
+    };
+
+
 
     return (
         <div className="fixed top-0 left-0 right-0 bottom-0 w-full h-full flex items-center justify-center bg-gray-800/50 bg-opacity-75 z-50 ">
@@ -34,11 +48,18 @@ export const OrderDetailsPopup = ({orderItems, orderStatus, orderTotalPrice, clo
                     {renderOrderItems()}
                     <div className='flex flex-row w-4/6 items-center justify-between'>
                         <span>Total Price: {orderTotalPrice}</span>
-                        {orderStatus === "Taken" && <Button className='bg-gray-700 mb-2'>Cancel Order</Button>}
-                        {orderStatus === "Fulfilled" && <Button className='bg-gray-700 mb-2'>Rate the service</Button>}
+                        {orderStatus === "Taken" && <Button className='bg-gray-700 mb-2' onClick={cancelOrder}>Cancel Order</Button>}
+                        {orderStatus === "Fulfilled" && <Button className='bg-gray-700 mb-2 ' onClick={() => setOpenReviewPopup(true)}>Rate the service</Button>}
                     </div>
                 </div>
             </div>
+
+            {openReviewPopup && 
+            
+            <Review
+            close= {closeShowOrderDetailsPopup}
+            />}
+
         </div>
     );
 };

@@ -1,9 +1,6 @@
 package com.cafe.management.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
 
 @Data
@@ -12,8 +9,10 @@ import lombok.*;
 @AllArgsConstructor
 @Getter
 @Setter
+@Table(name="Orders")
 public class Order {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String paymentId;
