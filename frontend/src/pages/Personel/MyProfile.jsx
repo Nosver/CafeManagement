@@ -49,6 +49,12 @@ export const MyProfile = () => {
   const [isPasswordPopupVisible, setisPasswordPopupVisible] = useState(false)
   const closePopup = () => setisPasswordPopupVisible(false);
 
+  const handleSubmit = (e) => {
+    if (window.confirm('Are you sure you want to update your information?')) {
+      toast.success('Data updated successfully');
+    }
+  }
+
   return (
     <div>
 
@@ -86,14 +92,14 @@ export const MyProfile = () => {
               <div class="mb-6">
                 <label for="text" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Name</label>
                 <input type="text" id="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                  value={employee.name + ' ' + employee.surname} required
-                  readOnly />
+                  defaultValue={employee.name + ' ' + employee.surname} required
+                />
               </div>
 
               <div class="mb-6">
                 <label for="text" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Address</label>
                 <textarea type="text" id="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                  value={employee.address} required
+                  defaultValue={employee.address} required
                 />
               </div>
 
@@ -116,7 +122,9 @@ export const MyProfile = () => {
                 />
               </div>
 
-              <button type="submit" class="w-24 py-2.5 bg-blue-700 text-white text-sm rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 hover:bg-blue-600">Update</button>
+              <button
+                onClick={handleSubmit}
+                type="submit" class="w-24 py-2.5 bg-blue-700 text-white text-sm rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 hover:bg-blue-600">Update</button>
 
               <button
                 onClick={() => setisPasswordPopupVisible(true)}
@@ -127,7 +135,7 @@ export const MyProfile = () => {
             </form>
           </div>
 
-        {/* <Calendar /> */}
+          {/* <Calendar /> */}
 
 
         </div>
