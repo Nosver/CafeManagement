@@ -4,6 +4,7 @@ import { InsertButton } from '../../components/personel/InsertButton';
 import { ItemPopup } from '../../components/personel/ItemPopup';
 import { SearchBar } from '../../components/personel/SearchBar';
 import { AddProductPopup } from './AddProductPopup';
+import { EditProductPopup } from './EditProductPopup';
 
 const predefinedStocks = [
     { name: 'Coffee Beans', unit: 'gr' },
@@ -169,20 +170,7 @@ export const Products = () => {
                                         }
 
                                         {showPopup_edit &&
-                                            <ItemPopup
-                                                title="Edit Product"
-                                                submitButtonDescription='Edit Product'
-                                                closePopup={closePopup_edit}
-                                                inputs={[
-                                                    { id: 'name', label: 'Name', type: 'text', placeholder: selectedProduct.name },
-                                                    { id: 'price', label: 'Price', type: 'number', placeholder: selectedProduct.price  },
-                                                    { id: 'category', label: 'Category', type: 'select', placeholder: selectedProduct.category },
-                                                    { id: 'quantity', label: 'Quantity', type: 'number', placeholder: 'Type quantity' },
-                                                    { id: 'img_path', label: 'Image', type: 'text', placeholder: 'Type image path' },
-                                                    { id: 'description', label: 'Product Description', type: 'textarea', placeholder: selectedProduct.description },
-                                                    { id: 'stocks', label: 'Stock', type: 'text', placeholder: selectedProduct.stock },
-                                                ]}
-                                            />
+                                            <EditProductPopup selectedProduct={selectedProduct} closePopup={closePopup_edit}/>
                                         }
 
                                         {productsShow.map((product, index) => (

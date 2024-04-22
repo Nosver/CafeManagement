@@ -1,7 +1,6 @@
-
 import React, { useEffect, useState } from 'react';
 
-export const RequiredStockInput = ({stocks = []}) => { 
+export const RequiredStockInput = ({selectedProduct}) => { 
     const [selectedStock, setSelectedStock] = useState('');
     const [stocksList, setStocksList] = useState([]);
     const [inputText, setInputText] = useState('');
@@ -46,16 +45,27 @@ export const RequiredStockInput = ({stocks = []}) => {
     );
 
     useEffect(() => {
-      stocks.forEach(stock =>{
-        setStocksList([...stocksList, { name: stock.name.trim(), quantity: stock.amount }])
+      if (selectedProduct && selectedProduct.stock) {
+        selectedProduct.stock.forEach(stockA => {
+          const trimmedName = stockA.name.trim();
+          // Check if the item already exists in stocksList
+          if (!stocksList.some(stock => stock.name === trimmedName)) {
+            setStocksList(prevStocksList => [
+              ...prevStocksList,
+              { name: trimmedName, quantity: stockA.amount }
+            ]);
+          }
+        });
       }
-      )
-  }, []);
+    }, [selectedProduct]);
+    
 
   return (
     <div className='mt-2'>
-      
-        <div className='flex w-full flex-row text-black'>
+        {
+          console.log(stocksList)
+        }
+        <div className='flex w-full flex-row mb-2 text-sm font-medium text-gray-900 dark:text-white'>
           <h3>Stocks</h3>
         </div>
 
