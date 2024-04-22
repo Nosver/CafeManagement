@@ -7,9 +7,9 @@ import { toast } from 'react-toastify';
 
 export const CartPage = () => {
 
-    
 
-     const [products, setProducts] = useState([
+
+    const [products, setProducts] = useState([
         {
             id: 1,
             name: 'Mocha',
@@ -27,7 +27,7 @@ export const CartPage = () => {
             quantity: 1,
             price: 120.00,
             image: "https://www.pinoscoffee.com/wp-content/uploads/2022/05/pinos-coffee-ayvalik-iced-americano-150x150.jpg",
-            
+
             sizes: {} // Initialize sizes property with an empty object
 
         },
@@ -38,7 +38,7 @@ export const CartPage = () => {
             quantity: 2,
             price: 80.00,
             image: 'https://www.hazerbaba.com/1219-home_default/turkish-coffee-.jpg',
-            
+
             sizes: {} // Initialize sizes property with an empty object
         }
     ]);
@@ -60,21 +60,21 @@ export const CartPage = () => {
         setProducts(updatedProductsArray);
         console.log(updatedProductsArray);
     }, []); // Include sizeModifiers and products in the dependencies array
-    
-    
 
-    
+
+
+
     const calculateInitialTotalPrice = () => {
         return products.reduce((acc, product) => acc + (parseFloat(product.price)), 0).toFixed(2);
     };
 
     const [totalPrice, setTotalPrice] = useState(products.reduce((acc, product) => acc + (parseFloat(product.price) * product.quantity), 0).toFixed(2));
-   
+
     const updateTotalPrice = () => {
         const newTotalPrice = calculateInitialTotalPrice();
         setTotalPrice(newTotalPrice);
     };
-    
+
     useEffect(() => {
         updateTotalPrice();
     }, [products]);
@@ -83,7 +83,7 @@ export const CartPage = () => {
 
     const handleCheckoutClick = (event) => {
         event.preventDefault(); // Prevent default form submission behavior
-        if(totalPrice>0)
+        if (totalPrice > 0)
             createOrder(); // Call the createOrder function
         else
             toast.warn("No items in the cart")
@@ -95,7 +95,7 @@ export const CartPage = () => {
                 id: 999, //Change here!!
                 totalPrice: parseFloat(totalPrice) //Change here!!
             };
-    
+
             const response = await fetch('http://localhost:8080/order', {
                 method: 'POST',
                 headers: {
@@ -104,8 +104,8 @@ export const CartPage = () => {
                 body: JSON.stringify(order) // Send order data as JSON in the request body
             });
             if (response.ok) {
-                const responseData = await response.json(); 
-                const paymentUrl = responseData.payment_url; 
+                const responseData = await response.json();
+                const paymentUrl = responseData.payment_url;
                 console.log('Payment URL:', paymentUrl);
                 // Redirect the user to the payment URL
                 window.location.href = paymentUrl;
@@ -116,9 +116,9 @@ export const CartPage = () => {
             console.error('Error creating order:', error);
         }
     };
-    
 
-    
+
+
     const handleDecreaseQuantity = (product) => {
         const updatedProducts = products.map(p => {
             if (p.id === product.id) {
@@ -134,7 +134,7 @@ export const CartPage = () => {
         }).filter(Boolean); // Filter out null values (removed products)
         setProducts(updatedProducts);
     };
-    
+
 
     const handleIncreaseQuantity = (product) => {
         const updatedProducts = products.map(p => {
@@ -151,11 +151,11 @@ export const CartPage = () => {
     const handleTotalPrice = (product, newPrice) => {
         const updatedProducts = products.map(p => {
             if (p.id === product.id) {
-               p.price = newPrice;
+                p.price = newPrice;
             }
             return p;
         });
-    
+
         setProducts(updatedProducts);
     }
 
@@ -169,41 +169,41 @@ export const CartPage = () => {
                         <h2 class="font-manrope font-bold text-3xl leading-10 text-black">Shopping Cart</h2>
                         <h2 class="font-manrope font-bold text-3xl leading-10 text-black">{products.length} Item(s)</h2>
                     </div>{
-                        products.length>0 ? <div class="grid grid-cols-12 mt-8 max-md:hidden pb-6 border-b border-gray-200">
-                        <div class="col-span-12 md:col-span-7">
-                            <p class="font-normal text-lg leading-8 text-gray-400">Product Details</p>
-                        </div>
-                        <div class="col-span-12 md:col-span-5">
-                            <div class="grid grid-cols-5">
-                                <div class="col-span-3">
-                                    <p class="font-normal text-lg leading-8 text-gray-400 text-center">Quantity</p>
-                                </div>
-                                <div class="col-span-2">
-                                    <p class="font-normal text-lg leading-8 text-gray-400 text-center">Total</p>
+                        products.length > 0 ? <div class="grid grid-cols-12 mt-8 max-md:hidden pb-6 border-b border-gray-200">
+                            <div class="col-span-12 md:col-span-7">
+                                <p class="font-normal text-lg leading-8 text-gray-400">Product Details</p>
+                            </div>
+                            <div class="col-span-12 md:col-span-5">
+                                <div class="grid grid-cols-5">
+                                    <div class="col-span-3">
+                                        <p class="font-normal text-lg leading-8 text-gray-400 text-center">Quantity</p>
+                                    </div>
+                                    <div class="col-span-2">
+                                        <p class="font-normal text-lg leading-8 text-gray-400 text-center">Total</p>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>: <p class="font-normal text-lg leading-8 text-gray-400 mt-5">No items in the cart</p>
+                        </div> : <p class="font-normal text-lg leading-8 text-gray-400 mt-5">No items in the cart</p>
                     }
-                    
+
 
 
 
                     <div>
-                    {products.map(product => (
-                <CartProductItem
-                    key={product.id}
-                    product={product}
-                    onDecreaseQuantity={() => handleDecreaseQuantity(product)}
-                    onIncreaseQuantity={() => handleIncreaseQuantity(product)}
-                    totalPriceData={(newTotalPrice) => handleTotalPrice(product, newTotalPrice)}
+                        {products.map(product => (
+                            <CartProductItem
+                                key={product.id}
+                                product={product}
+                                onDecreaseQuantity={() => handleDecreaseQuantity(product)}
+                                onIncreaseQuantity={() => handleIncreaseQuantity(product)}
+                                totalPriceData={(newTotalPrice) => handleTotalPrice(product, newTotalPrice)}
 
-                />
-            ))}
+                            />
+                        ))}
                     </div>
 
 
-                   
+
                 </div>
                 <div
                     class=" col-span-12 xl:col-span-4 bg-gray-50 w-full max-xl:px-6 max-w-3xl xl:max-w-lg mx-auto lg:pl-8 py-24">
@@ -217,16 +217,16 @@ export const CartPage = () => {
                         <p>{
                             products.map(product => (
                                 <span key={product.id}>
-                                  {product.name} x{product.quantity}<br />
+                                    {product.name} x{product.quantity}<br />
                                 </span>
-                              ))
-                            
-                            }
+                            ))
+
+                        }
                         </p>
                         <br></br>
                         <form>
-                           
-                            
+
+
                             <label class="flex items-center mb-1.5 text-gray-400 text-sm font-medium">Promo Code
                             </label>
                             <div class="flex pb-4 w-full">
