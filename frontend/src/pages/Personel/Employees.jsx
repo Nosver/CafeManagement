@@ -114,9 +114,8 @@ export const Employees = () => {
                       <th scope="col" class="px-6 py-3">Phone</th>
                       <th scope="col" class="px-6 py-3">Address</th>
                       <th scope="col" class="px-6 py-3">Salary</th>
-                      <th scope="col" class="px-6 py-3">Password</th>
-                      <th scope="col" class="px-6 py-3">Action</th>
                       <th scope="col" class="px-6 py-3">Position</th>
+                      <th scope="col" class="px-6 py-3">Action</th>
                     </tr>
                   </thead>
 
@@ -163,7 +162,8 @@ export const Employees = () => {
                         <td class="px-6 py-4">{Employee.phone.toString()}</td>
                         <td class="px-6 py-4">{Employee.address.toString()}</td>
                         <td class="px-6 py-4">${Employee.salary.toString()}</td>
-                        <td class="px-6 py-4">${Employee.password.toString()}</td>
+                        
+                        <td class="px-6 py-4">{Employee.position.toString()}</td>
                         <td class="px-6 py-4">
                           <div
                             onClick={() => setShowPopup_edit(true)}
@@ -172,7 +172,6 @@ export const Employees = () => {
                             Edit
                           </div>
                         </td>
-                        <td class="px-6 py-4">{Employee.position.toString()}</td>
                       </tr>
                     ))}
                   </tbody>
