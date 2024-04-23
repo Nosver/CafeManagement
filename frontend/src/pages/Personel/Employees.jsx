@@ -73,22 +73,25 @@ export const Employees = () => {
   const closePopup_edit = () => setShowPopup_edit(false);
 
   const searchButtonSubmit = (keyword) => {
-    if(keyword == ''){
-        if(employeesShow.length != employees.length)
-          setEmployeesShow(employees);
-        return;
+    if (keyword == '') {
+      if (employeesShow.length != employees.length)
+        setEmployeesShow(employees);
+      return;
     }
-    let newArr = employees.filter( employee => employee.fullName.toLowerCase().includes(keyword.toLowerCase()));   
+    let newArr = employees.filter(employee => employee.fullName.toLowerCase().includes(keyword.toLowerCase()));
     setEmployeesShow(newArr);
-}
+  }
 
 
   if (showPopup_edit || showPopup) {
     document.body.classList.add('overflow-hidden')
-} else {
+  } else {
     document.body.classList.remove('overflow-hidden')
-}
+  }
 
+  const handleEditEmployee = (employee) => {
+    console.log(employee);
+  }
 
   return (
     <div>
@@ -98,7 +101,7 @@ export const Employees = () => {
       <div class="p-4 sm:ml-64">
         <div class="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700">
           <div class='flex flex-row w-6/6 mb-3'>
-            <SearchBar searchButtonSubmit = {searchButtonSubmit} class='mr-auto'></SearchBar>
+            <SearchBar searchButtonSubmit={searchButtonSubmit} class='mr-auto'></SearchBar>
             <InsertButton description="Add new Employee" onClick={openPopup} />
           </div>
           <div className="flex h-screen overflow-hidden">
@@ -126,7 +129,6 @@ export const Employees = () => {
                         title="Add New Employee"
                         closePopup={closePopup}
                         inputs={[
-                          { id: 'id', label: 'Id', type: 'text', hint: 'Type employee id' },
                           { id: 'fullName', label: 'Full Name', type: 'text', hint: 'Type employee full name' },
                           { id: 'email', label: 'Email', type: 'text', hint: 'Type employee email' },
                           { id: 'phone', label: 'Phone', type: 'text', hint: 'Type employee phone' },
@@ -141,10 +143,9 @@ export const Employees = () => {
                         submitButtonDescription='Edit Employee'
                         closePopup={closePopup_edit}
                         inputs={[
-                          { id: 'id', label: 'Id', type: 'text', placeholder: 'Type employee id' },
-                          { id: 'email', label: 'Email', type: 'text', placeholder: 'Type employee email' },
-                          { id: 'salary', label: 'salary', type: 'number', placeholder: 'Type employee salary' },
-                          { id: 'position', label: 'position', type: 'text', placeholder: 'Type employee position' },
+                          { id: 'email', label: 'Email', type: 'text', hint: 'Type employee email' },
+                          { id: 'salary', label: 'salary', type: 'number', hint: 'Type employee salary' },
+                          { id: 'position', label: 'position', type: 'text', hint: 'Type employee position' },
 
                         ]}
                       />
@@ -162,7 +163,7 @@ export const Employees = () => {
                         <td class="px-6 py-4">{Employee.phone.toString()}</td>
                         <td class="px-6 py-4">{Employee.address.toString()}</td>
                         <td class="px-6 py-4">${Employee.salary.toString()}</td>
-                        
+
                         <td class="px-6 py-4">{Employee.position.toString()}</td>
                         <td class="px-6 py-4">
                           <div

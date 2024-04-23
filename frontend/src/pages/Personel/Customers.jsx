@@ -147,9 +147,7 @@ export const Customers = () => {
                                             <th scope="col" class="px-6 py-3">
                                                 Phone
                                             </th>
-                                            <th scope="col" class="px-6 py-3">
-                                                Action
-                                            </th>
+                                            
                                         </tr>
                                     </thead>
 
@@ -214,12 +212,7 @@ export const Customers = () => {
                                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                                                     {customersArray.phone}
                                                 </td>
-                                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                                    <div >
-                                                        <FontAwesomeIcon icon={faPencil} style={{ cursor: 'pointer' }} onClick={() => console.log("clicked")}
-                                                        />
-                                                    </div>
-                                                </td>
+                                                
 
                                             </tr>
                                         ))}

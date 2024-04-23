@@ -187,6 +187,9 @@ export const Orders = () => {
                                     <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                                         <tr>
                                             <th scope="col" class="px-6 py-3">
+                                                ID
+                                            </th>
+                                            <th scope="col" class="px-6 py-3">
                                                 Customer Name
                                             </th>
                                             <th scope="col" class="px-6 py-3">
@@ -217,6 +220,9 @@ export const Orders = () => {
                                                 class={`border-b dark:bg-gray-800 dark:border-black-700 hover:bg-white dark:hover:bg-gray-600 }`
                                                 }>
                                                 <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                                    {orderA.id}
+                                                </th>
+                                                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                                     {orderA.customer}
                                                 </th>
                                                 <td class="px-6 py-4">
@@ -225,14 +231,14 @@ export const Orders = () => {
                                                 <td class="px-6 py-4">
 
                                                     <div>
-                                                    <StyledSelect className={`
-                                                    ${orderA.status == "Ready" ? 'bg-green-300' : 
-                                                    orderA.status == "Taken" ? 'bg-blue-300' :
-                                                    orderA.status == "Preparing" ? 'bg-yellow-300' :
-                                                    orderA.status == "Fulfilled" ? 'bg-purple-300' :
-                                                    orderA.status == "Canceled" ? 'bg-red-300' : 
-                                                    'bg-yellow-300'
-                                                    }`}
+                                                        <StyledSelect className={`
+                                                    ${orderA.status == "Ready" ? 'bg-green-300' :
+                                                                orderA.status == "Taken" ? 'bg-blue-300' :
+                                                                    orderA.status == "Preparing" ? 'bg-yellow-300' :
+                                                                        orderA.status == "Fulfilled" ? 'bg-purple-300' :
+                                                                            orderA.status == "Canceled" ? 'bg-red-300' :
+                                                                                'bg-yellow-300'
+                                                            }`}
                                                             value={orderA.status} onChange={(event) => handleStatusChange(event, index)}>
                                                             <option value="Taken">Taken</option>
                                                             <option value="Preparing">Preparing</option>

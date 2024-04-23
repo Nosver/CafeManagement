@@ -1,7 +1,14 @@
 import React from 'react';
 import { RequiredStockInput } from '../../components/personel/RequiredStockInput';
+import { toast } from 'react-toastify';
 
 export const EditProductPopup = ({ closePopup, selectedProduct }) => {
+
+    const handleDeleteProduct = () => {
+        closePopup();
+        toast.success('Product deleted successfully');
+    };
+    
     return (
         <div id="crud-modal" tabIndex="-1" aria-hidden="true" className="overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 bottom-0 z-50 flex justify-center items-center bg-gray-800/50">
             <div className="relative p-4 w-full max-w-md max-h-full">
@@ -97,15 +104,13 @@ export const EditProductPopup = ({ closePopup, selectedProduct }) => {
                             >
                                 Update Product
                             </button>
-
-
-                            {/*<button
+                            <button
+                            onClick={handleDeleteProduct}
                                 type="submit"
                                 className="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50"
                             >
                                 Delete Product
-    </button>*/}
-
+                            </button>
                         </div>
 
                     </form>

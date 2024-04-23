@@ -24,7 +24,7 @@ export const RequiredStockInput = ({ selectedProduct }) => {
   };
 
   const handleQuantityChange = (e) => {
-    setQuantity(e.target.value);
+      setQuantity(e.target.value);
   };
 
   const handleAddStock = () => {
@@ -32,8 +32,22 @@ export const RequiredStockInput = ({ selectedProduct }) => {
       toast.warning('Quantity must be greater than 0');
       return;
     }
+
     if (selectedStock.trim() !== '' && quantity.trim() !== '' && !stocksList.find(stock => stock.name === selectedStock.trim())) {
       setStocksList([...stocksList, { name: selectedStock.trim(), quantity: quantity }]);
+      setSelectedStock('');
+      setInputText('');
+      setQuantity('');
+    }
+    // If the selected stock is already in the list, do not add it again only update the quantity
+    else if(stocksList.find(stock => stock.name === selectedStock.trim())) {
+      const updatedStocks = stocksList.map(stock => {
+        if(stock.name === selectedStock.trim()) {
+          stock.quantity = quantity;
+        }
+        return stock;
+      });
+      setStocksList(updatedStocks);
       setSelectedStock('');
       setInputText('');
       setQuantity('');
@@ -54,8 +68,6 @@ export const RequiredStockInput = ({ selectedProduct }) => {
       setStocksList(selectedProduct.stock.map(stock => ({ name: stock.name.trim(), quantity: stock.amount })));
     }
   }, [selectedProduct]);
-
-
 
 
   return (
@@ -116,7 +128,7 @@ export const RequiredStockInput = ({ selectedProduct }) => {
             className="flex flex-wrap pl-4 pr-2 py-2 m-1 justify-between items-center text-sm font-medium rounded-xl cursor-pointer bg-blue-500 text-gray-200 hover:bg-blue-600 hover:text-gray-100 dark:bg-gray-700 dark:text-gray-200 dark:hover:bg-gray-800 dark:hover:text-gray-100"
             onClick={() => handleRemoveStock(stock.name)}
           >
-            {stock.name} - {stock.quantity} {predefinedStocks.find(item => item.name === stock.name).unit}
+            {stock.name}: {stock.quantity} {predefinedStocks.find(item => item.name === stock.name).unit}
             <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 ml-3 hover:text-gray-300" viewBox="0 0 20 20" fill="currentColor">
               <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
             </svg>
