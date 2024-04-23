@@ -1,7 +1,7 @@
 import image from '../img/Hot-Chocolate.jpg'
 
 const Hero = ({
-    title = 'Take your coffe',
+    title = 'Take your coffee',
     subtitle = 'Give the order online and take without any delay ',
   }) => {
     return (

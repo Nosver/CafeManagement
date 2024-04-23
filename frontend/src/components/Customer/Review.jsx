@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { toast } from 'react-toastify';
 
-const Review = ({close}) => {
+const Review = ({close, title}) => {
   const [stars, setStars] = useState(0);
   const [message, setMessage] = useState('');
 
@@ -22,7 +22,7 @@ const Review = ({close}) => {
         toast.warn("Message field shouln't be empty");
         return;
     }
-        
+    toast.success("Comment added")
     console.log('Stars:', stars);
     console.log('Message:', message);
 
@@ -45,7 +45,7 @@ const Review = ({close}) => {
           </div>
           <div className="bg-gray-200 w-full flex flex-col items-center">
             <div className="flex flex-col items-center py-6 space-y-3">
-              <span className="text-lg text-gray-800">How was quality of your order?</span>
+              <span className="text-lg text-gray-800">How was quality of {title}?</span>
               <div className="flex space-x-3">
                 {[1, 2, 3, 4, 5].map((value) => (
                   <svg
