@@ -36,6 +36,7 @@ export const PasswordPopup = ({ closePopup }) => {
     if(passwordAgain && isLongEnough && hasLowercase && hasSpecialChar && passwordMatch){
         console.log("Password changed successfully");
         toast.success("Password changed successfully");
+        closePopup();
     }
     else{
         console.log("Password change failed");
@@ -176,7 +177,6 @@ export const PasswordPopup = ({ closePopup }) => {
                     </div>
                 </div>
             </div>
-
         </div>
     )
 }

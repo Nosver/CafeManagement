@@ -147,7 +147,7 @@ export const Products = () => {
                                                 Category
                                             </th>
                                             <th scope="col" class="px-6 py-3">
-                                                Quantity
+                                                Predicted Quantity
                                             </th>
                                             <th scope="col" class="px-6 py-3">
                                                 Unit Price

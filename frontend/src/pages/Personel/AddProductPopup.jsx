@@ -45,6 +45,7 @@ export const AddProductPopup = ({ closePopup }) => {
                                     Price
                                 </label>
                                 <input
+                                    min='0'
                                     type='number'
                                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                                     placeholder='Enter a price'
@@ -59,19 +60,7 @@ export const AddProductPopup = ({ closePopup }) => {
                                     required
                                     placeholder='Select category'
                                 />
-                                <label className=" mt-5 block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                                    Quantity
-                                </label>
-                                <input
-                                    type='number'
-                                    placeholder='Type quantity'
-                                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                    required
-                                />
 
-                                <label className=" mt-5 block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                                    Add Stock info
-                                </label>
 
                                 <RequiredStockInput />
 
@@ -94,10 +83,10 @@ export const AddProductPopup = ({ closePopup }) => {
                                 </div>
 
                                 <label className=" mt-5 block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                                     Product Description
+                                    Product Description
                                 </label>
 
-                                <textarea  className='w-96'></textarea>
+                                <textarea className='w-96'></textarea>
 
 
 
@@ -115,8 +104,8 @@ export const AddProductPopup = ({ closePopup }) => {
                             >
                                 Add Product
                             </button>
-                            
-                            
+
+
                             {/*<button
                                 type="submit"
                                 className="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50"
