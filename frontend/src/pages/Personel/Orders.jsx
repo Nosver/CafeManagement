@@ -8,7 +8,6 @@ import styled from 'styled-components';
 
 const StyledSelect = styled.select`
   appearance: none; 
-  background: none;
   borders: none;
 `;
 
@@ -54,23 +53,24 @@ class Order {
 
         for (let i = 1; i <= numOrders; i++) {
             const numItems = faker.random.number({ min: 1, max: 5 });
-    
+
             for (let j = 1; j <= numItems; j++) {
                 const foodId = faker.random.number({ min: 1, max: 6 });
                 const foodName = faker.commerce.productName();
                 const amount = faker.random.number({ min: 1, max: 5 });
                 const unitPrice = parseFloat(faker.commerce.price());
-    
+
                 orderItems.push(
                     {
-                    id: j,
-                    food: {
-                        id: foodId,
-                        name: foodName,
-                    },
-                    amount: amount
-                }
-            );}
+                        id: j,
+                        food: {
+                            id: foodId,
+                            name: foodName,
+                        },
+                        amount: amount
+                    }
+                );
+            }
         }
         return orderItems;
     }
@@ -93,7 +93,7 @@ class Order {
 
 export const Orders = () => {
 
-    const [orders,setOrders] = useState([]);
+    const [orders, setOrders] = useState([]);
 
     for (let i = 0; i < 100; i++) {
         orders.push(Order.generateRandomOrder());
@@ -121,12 +121,12 @@ export const Orders = () => {
     };
 
     const openShowOrderDetailsPopup = (orderItems, orderStatus, orderTotalPrice) => {
-        orderItems.forEach( orderItem => addOrderItem(orderItem))
+        orderItems.forEach(orderItem => addOrderItem(orderItem))
         setSelectedOrderStatus(orderStatus)
         setSelectedOrderTotalPrice(orderTotalPrice)
         setIsEditPopupOpen(true)
     }
-    
+
     const closeShowOrderDetailsPopup = () => {
         setSelectedOrderItems([])
         setSelectedOrderStatus("")
@@ -134,21 +134,21 @@ export const Orders = () => {
         setIsEditPopupOpen(false)
     }
 
-    
+
     const [sidebarOpen, setSidebarOpen] = useState(true);
     const [isPopupOpen, setIsPopupOpen] = useState(null);
-    
+
 
     const searchButtonSubmit = (keyword) => {
-        if(keyword == ''){
-            if(ordersShow.length != ordersArray.length)
+        if (keyword == '') {
+            if (ordersShow.length != ordersArray.length)
                 setOrdersShow(ordersArray);
             return;
         }
 
-        let newArr = ordersArray.filter( order =>
+        let newArr = ordersArray.filter(order =>
             order.customer.toLowerCase().includes(keyword.toLowerCase())
-        );   
+        );
         setOrdersShow(newArr);
     }
 
@@ -175,7 +175,7 @@ export const Orders = () => {
             <div class="p-4 sm:ml-64">
                 <div class="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700">
                     <div class='flex flex-row w-6/6 mb-3'>
-                        <SearchBar searchButtonSubmit = {searchButtonSubmit} class='mr-auto'></SearchBar>
+                        <SearchBar searchButtonSubmit={searchButtonSubmit} class='mr-auto'></SearchBar>
                     </div>
                     <div className="flex h-screen overflow-hidden">
 
@@ -209,18 +209,13 @@ export const Orders = () => {
 
                                         {
                                             isEditPopupOpen &&
-                                            <OrderEditPopup orderItems = {selectedOrderItems} orderStatus = {selectedOrderStatus} orderTotalPrice = {selectedOrderTotalPrice} closePopup = {() => closeShowOrderDetailsPopup()} />
+                                            <OrderEditPopup orderItems={selectedOrderItems} orderStatus={selectedOrderStatus} orderTotalPrice={selectedOrderTotalPrice} closePopup={() => closeShowOrderDetailsPopup()} />
                                         }
                                         {ordersShow.map((orderA, index) => (
                                             <tr
                                                 key={index}
-                                                class={`
-                                        ${orderA.status === OrderStatus.READY ? 'bg-green-300' :
-                                                        orderA.status === OrderStatus.PREPARING ? 'bg-yellow-100' :
-                                                            orderA.status === OrderStatus.FULFILLED ? 'bg-purple-200' :
-                                                                orderA.status === OrderStatus.CANCELED ? 'bg-red-200' :
-                                                                    orderA.status === OrderStatus.TAKEN ? 'bg-violet-300' :
-                                                                        'bg-gray-200'} border-b dark:bg-gray-800 dark:border-black-700 hover:bg-white dark:hover:bg-gray-600 }`}>
+                                                class={`border-b dark:bg-gray-800 dark:border-black-700 hover:bg-white dark:hover:bg-gray-600 }`
+                                                }>
                                                 <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                                     {orderA.customer}
                                                 </th>
@@ -229,16 +224,24 @@ export const Orders = () => {
                                                 </td>
                                                 <td class="px-6 py-4">
 
-                                                <div>
-                                                    <StyledSelect value={orderA.status} onChange={(event) => handleStatusChange(event, index)}>
-                                                        <option value="Taken">Taken</option>
-                                                        <option value="Preparing">Preparing</option>
-                                                        <option value="Ready">Ready</option>
-                                                        <option value="Fulfilled">Fulfilled</option>
-                                                        <option value="Canceled">Canceled</option>
-                                                    </StyledSelect>
-                                                </div>
-                                                    
+                                                    <div>
+                                                    <StyledSelect className={`
+                                                    ${orderA.status == "Ready" ? 'bg-green-300' : 
+                                                    orderA.status == "Taken" ? 'bg-blue-300' :
+                                                    orderA.status == "Preparing" ? 'bg-yellow-300' :
+                                                    orderA.status == "Fulfilled" ? 'bg-purple-300' :
+                                                    orderA.status == "Canceled" ? 'bg-red-300' : 
+                                                    'bg-yellow-300'
+                                                    }`}
+                                                            value={orderA.status} onChange={(event) => handleStatusChange(event, index)}>
+                                                            <option value="Taken">Taken</option>
+                                                            <option value="Preparing">Preparing</option>
+                                                            <option value="Ready">Ready</option>
+                                                            <option value="Fulfilled">Fulfilled</option>
+                                                            <option value="Canceled">Canceled</option>
+                                                        </StyledSelect>
+                                                    </div>
+
                                                 </td>
                                                 <td class="px-6 py-4">
                                                     {new Date(orderA.date).toString().substring(0, 24)}
@@ -247,8 +250,8 @@ export const Orders = () => {
                                                     ${orderA.total_price.toFixed(2)}
                                                 </td>
                                                 <td class="px-6 py-4"
-                                                onClick={() => {
-                                                    openShowOrderDetailsPopup(orderA.orderItems, orderA.status, orderA.total_price)
+                                                    onClick={() => {
+                                                        openShowOrderDetailsPopup(orderA.orderItems, orderA.status, orderA.total_price)
                                                     }}>
                                                     <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Details</a>
                                                 </td>

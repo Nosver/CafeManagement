@@ -46,18 +46,11 @@ export const RequiredStockInput = ({selectedProduct}) => {
 
     useEffect(() => {
       if (selectedProduct && selectedProduct.stock) {
-        selectedProduct.stock.forEach(stockA => {
-          const trimmedName = stockA.name.trim();
-          // Check if the item already exists in stocksList
-          if (!stocksList.some(stock => stock.name === trimmedName)) {
-            setStocksList(prevStocksList => [
-              ...prevStocksList,
-              { name: trimmedName, quantity: stockA.amount }
-            ]);
-          }
-        });
+        setStocksList(selectedProduct.stock.map(stock => ({ name: stock.name.trim(), quantity: stock.amount })));
       }
     }, [selectedProduct]);
+  
+  
     
 
   return (
