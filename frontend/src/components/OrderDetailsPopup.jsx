@@ -8,14 +8,12 @@ export const OrderDetailsPopup = ({orderItems, orderStatus, orderTotalPrice, clo
 
     const renderOrderItems = () => {
         return orderItems.map((item, index) => (
-            <OrderDetailsItem orderItem={item} key={index} />
+            <OrderDetailsItem orderItem={item} key={index} orderStatus={orderStatus} />
         ));
     };
-    const [openReviewPopup,setOpenReviewPopup] = useState(false);
+   
 
-    const closeShowOrderDetailsPopup = () => {
-        setOpenReviewPopup(false);
-    };
+    
 
     const cancelOrder = () => {
         toast.success("Order canceled succesfully");
@@ -49,16 +47,10 @@ export const OrderDetailsPopup = ({orderItems, orderStatus, orderTotalPrice, clo
                     <div className='flex flex-row w-4/6 items-center justify-between'>
                         <span>Total Price: {orderTotalPrice}</span>
                         {orderStatus === "Taken" && <Button className='bg-gray-700 mb-2' onClick={cancelOrder}>Cancel Order</Button>}
-                        {orderStatus === "Fulfilled" && <Button className='bg-gray-700 mb-2 ' onClick={() => setOpenReviewPopup(true)}>Rate the service</Button>}
                     </div>
                 </div>
             </div>
 
-            {openReviewPopup && 
-            
-            <Review
-            close= {closeShowOrderDetailsPopup}
-            />}
 
         </div>
     );

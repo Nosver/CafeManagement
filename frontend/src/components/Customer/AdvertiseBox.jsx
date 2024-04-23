@@ -15,7 +15,7 @@ const AdvertiseBox = ({ image, title, description }) => {
 
         <div className = "flex flex-col w-2/6 justify-center">
           <Link className = "flex justify-center" to = "/menu">
-            <Button className="bg-custom-coffe-brown">Order Now</Button>
+            <Button className='bg-gray-800'>Order Now</Button>
           </Link>
         </div>
         
