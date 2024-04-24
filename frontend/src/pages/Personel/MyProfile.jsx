@@ -89,7 +89,7 @@ export const MyProfile = () => {
 
             </div>
 
-            <form
+            <div
               className='min-w-fit w-1/2 mx-auto'
             >
 
@@ -144,7 +144,7 @@ export const MyProfile = () => {
                 type="submit" class="w-24 py-2.5 bg-blue-700 text-white text-sm rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 hover:bg-blue-600">Update</button>
 
 
-            </form>
+            </div>
           </div>
 
           {/* <Calendar /> */}
