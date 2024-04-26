@@ -39,7 +39,7 @@ const PaymentType = {
 class Order {
 
     constructor(id, customer, payment_type, status, date, total_price, orderItems) {
-        this.id = Math.random().toString(36).substring(7);
+        this.id = id;
         this.customer = customer;
         this.payment_type = payment_type;
         this.status = status;
@@ -76,7 +76,7 @@ class Order {
     }
 
     static generateRandomOrder() {
-        const id = Math.random().toString(36).substring(7);
+        const id = faker.random.number({ min: 100, max: 10000 });
         const customers = ['Kemal Yıldırım', 'Doğukan Yılmaz', 'Masis Aramyan', 'Güney Kırcı', 'Ahmet Demir', 'John Doe', 'Jane Smith', 'Doe Johnson', 'Smith Brown', 'Alice Williams', 'Bob Johnson', 'Charlie Davis', 'David Wilson', 'Eve Taylor', 'Frank Anderson', 'Grace Thomas', 'Heidi Jackson'];
         const statuses = [OrderStatus.READY, OrderStatus.PREPARING, OrderStatus.FULFILLED, OrderStatus.CANCELED, OrderStatus.TAKEN];
         const payment_types = [PaymentType.CASH, PaymentType.CREDIT_CARD, PaymentType.COFFE_CARD];
