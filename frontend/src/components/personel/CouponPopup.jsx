@@ -34,7 +34,7 @@ const CouponPopup = ({closePopup}) => {
 
     return (
       <div>
-          <div id="crud-modal" tabindex="-1" aria-hidden="true" class="overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 bottom-0 z-50 flex justify-center items-center bg-gray-800 bg-opacity-75">                
+          <div id="crud-modal" tabindex="-1" aria-hidden="true" class="overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 bottom-0 z-50 flex justify-center items-center bg-gray-800/50 bg-opacity-75">                
           
             <div class="relative p-4 w-full max-w-md max-h-full">
 
@@ -78,7 +78,7 @@ const CouponPopup = ({closePopup}) => {
                       </div>
                       
                       <div className='flex flex-row justify-center'>
-                        <Button className='w-2/6' onClick={submitCoupon}>Submit</Button>
+                        <Button className='w-2/6 bg-blue-700' onClick={submitCoupon}>Submit</Button>
                       </div>
 
                   </form>

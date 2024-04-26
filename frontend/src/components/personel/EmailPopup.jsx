@@ -40,7 +40,7 @@ export const EmailPopup = ({ closePopup }) => {
 
     return (
 <div>
-  <div id="crud-modal" tabindex="-1" aria-hidden="true" class="overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 bottom-0 z-50 flex justify-center items-center bg-gray-800 bg-opacity-75">
+  <div id="crud-modal" tabindex="-1" aria-hidden="true" class="overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 bottom-0 z-50 flex justify-center items-center bg-gray-800/50 bg-opacity-75">
     <div class="relative p-4 w-full max-w-lg bg-white rounded-lg shadow dark:bg-gray-700">
       <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
         <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
@@ -71,7 +71,7 @@ export const EmailPopup = ({ closePopup }) => {
             </div>
           </div>
           <div className='flex flex-row justify-center mb-0'>
-            <Button className='w-2/6' onClick={sendEmail}>Send</Button>
+            <Button className='w-2/6 bg-blue-700' onClick={sendEmail}>Send</Button>
           </div>
         </form>
       </div>

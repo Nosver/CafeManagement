@@ -208,12 +208,15 @@ export const Orders = () => {
                                             </th>
                                         </tr>
                                     </thead>
+                                    <div>
+                                    {
+                                        isEditPopupOpen &&
+                                        <OrderEditPopup orderItems={selectedOrderItems} orderStatus={selectedOrderStatus} orderTotalPrice={selectedOrderTotalPrice} closePopup={() => closeShowOrderDetailsPopup()} />
+                                    }
+                                    </div>
                                     <tbody>
 
-                                        {
-                                            isEditPopupOpen &&
-                                            <OrderEditPopup orderItems={selectedOrderItems} orderStatus={selectedOrderStatus} orderTotalPrice={selectedOrderTotalPrice} closePopup={() => closeShowOrderDetailsPopup()} />
-                                        }
+
                                         {ordersShow.map((orderA, index) => (
                                             <tr
                                                 key={index}

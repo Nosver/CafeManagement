@@ -116,8 +116,8 @@ export const Customers = () => {
                     <div class='flex flex-row w-6/6 mb-3'>
                         <SearchBar searchButtonSubmit = {searchButtonSubmit} class='mr-auto'></SearchBar>
                         <div class='flex items-center space-x-4'>
-                            <Button onClick={openEmailPopup}>Send E-Mail</Button>
-                            <Button onClick={openCouponPopup}>Send Coupon</Button>
+                            <Button className='bg-blue-700 text-white' onClick={openEmailPopup}>Send E-Mail</Button>
+                            <Button className='bg-blue-700 text-white' onClick={openCouponPopup}>Send Coupon</Button>
                         </div>
                     </div>
 

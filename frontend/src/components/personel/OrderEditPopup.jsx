@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 
-export const OrderEditPopup = ({orderItems, orderStatus, orderTotalPrice, closePopup}) => {
+export const OrderEditPopup = ({ orderItems, orderStatus, orderTotalPrice, closePopup }) => {
 
     return (
-        <div className="fixed top-0 left-0 right-0 bottom-0 w-full h-full flex items-center justify-center bg-gray-800/50 ">
+        <div className="fixed top-0 left-0 right-0 bottom-0 w-full h-full flex items-center justify-center bg-gray-800/50 z-50">
             <div className="bg-white rounded-lg p-4 w-4/6 h-6/6 overflow-y-auto">
                 <div className="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
                     <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
@@ -33,7 +33,7 @@ export const OrderEditPopup = ({orderItems, orderStatus, orderTotalPrice, closeP
                                 <span>{item.food.name}</span>
                                 <span>{item.amount}</span>
                             </div>
-                        )) 
+                        ))
                     }
                 </div>
 
@@ -44,7 +44,7 @@ export const OrderEditPopup = ({orderItems, orderStatus, orderTotalPrice, closeP
                     </div>
                 </div>
 
-                
+
 
             </div>
         </div>
