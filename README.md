@@ -26,8 +26,4 @@ The Cafe Management System is aimed at helping cafe owners manage various aspect
    ```bash
    npm run dev
    ```
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
+   
