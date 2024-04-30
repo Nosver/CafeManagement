@@ -28,16 +28,16 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private ProductCategory productCategory;
+    private String name;
 
     private Double price;
 
+    private String description;
+
+    private Boolean isMultisized;
+
     @OneToMany(mappedBy =  "product")
     private List<RequiredStock> requiredStocks;
-
-    private String name;
-
-    private String description;
 
     private String imagePath;
     
