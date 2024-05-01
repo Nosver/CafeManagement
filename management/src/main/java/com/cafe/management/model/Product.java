@@ -4,12 +4,7 @@ import java.util.List;
 
 import com.cafe.management.model.enums.ProductCategory;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
@@ -40,7 +35,10 @@ public class Product {
     private List<RequiredStock> requiredStocks;
 
     private String imagePath;
-    
+
+    @OneToOne
+    private CartItem cartItem;
+
    /* @ManyToMany(mappedBy = "productList")
     private List<Cart> chart;*/
 }
