@@ -46,7 +46,6 @@ public class User {
     @Size(max = 255)
     private String address;
 
-
     private String avatar;
 
 
