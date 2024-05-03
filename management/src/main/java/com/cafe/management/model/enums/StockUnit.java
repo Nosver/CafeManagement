@@ -1,6 +1,7 @@
 package com.cafe.management.model.enums;
 
-public enum ItemUnit {
+public enum StockUnit {
     GRAM,
-    MILLILITER
+    MILLILITER,
+    PIECE
 }

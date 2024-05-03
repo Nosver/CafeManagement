@@ -1,14 +1,17 @@
 package com.cafe.management.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.cafe.management.model.enums.Position;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 @Entity
 @Getter
@@ -26,8 +29,13 @@ public class User {
 
     private String role;
 
+    @Email
+    @NotNull
+    @Column(unique = true)
     private String email;
 
+    @NotNull
+    @Size(min = 6)
     private String password;
 
     private String address;
@@ -38,11 +46,10 @@ public class User {
 
     private String emailVerificationLink;
 
-    private String position;
+    @Enumerated(EnumType.STRING)
+    private Position position;
 
     private Double salary;
-
-    // Carts
 
     @CreationTimestamp
     private Timestamp createdAt;
@@ -51,6 +58,22 @@ public class User {
     private Timestamp updatedAt;
 
     private Timestamp lastLogin;
+
+    @OneToMany(mappedBy = "user")
+    private List<Comment> comments;
+
+    @OneToOne
+    private Cart cart;
+
+    @OneToMany(mappedBy = "user")
+    private List<Order> orders;
+
+    @OneToMany(mappedBy = "user")
+    private List<Coupon> coupons;
+
+    @NotNull
+    private Boolean isAccountEnabled;
+
 }
 
 

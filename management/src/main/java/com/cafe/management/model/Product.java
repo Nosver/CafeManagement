@@ -36,9 +36,13 @@ public class Product {
 
     private String imagePath;
 
-    @OneToOne
-    private CartItem cartItem;
+    @OneToMany(mappedBy = "product")
+    private List<CartItem> cartItem;
 
-   /* @ManyToMany(mappedBy = "productList")
-    private List<Cart> chart;*/
+    @Enumerated(EnumType.STRING)
+    private ProductCategory category;
+
+    @OneToMany(mappedBy = "product")
+    private List<Comment> comments;
+
 }

@@ -1,5 +1,6 @@
 package com.cafe.management.model;
 
+import com.cafe.management.model.enums.StockUnit;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -24,8 +25,11 @@ public class Stock {
 
     private Double quantity;
 
-    private String stockUnit;
+    @Enumerated(EnumType.STRING)
+    private StockUnit stockUnit;
 
     private Double unitPrice;
 
+    @OneToOne
+    private RequiredStock requiredStock;
 }

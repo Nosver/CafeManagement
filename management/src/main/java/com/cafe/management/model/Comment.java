@@ -1,6 +1,5 @@
 package com.cafe.management.model;
 
-import com.cafe.management.model.enums.ProductSize;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -10,7 +9,8 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class CartItem {
+public class Comment {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -19,12 +19,11 @@ public class CartItem {
     @JoinColumn(name = "product_id", referencedColumnName = "id")
     private Product product;
 
+    private String description;
+
+    private Integer star;
+
     @ManyToOne
-    @JoinColumn(name = "cart_id", referencedColumnName = "id")
-    private Cart cart;
-
-    @Enumerated(EnumType.STRING)
-    private ProductSize size;
-
-    private int amount;
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    private User user;
 }
