@@ -1,6 +1,7 @@
 package com.cafe.management.model;
 
 import com.cafe.management.model.enums.Position;
+import com.cafe.management.model.enums.Role;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Min;
@@ -25,9 +26,13 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotNull
+    @Size(min = 2, max = 100)
     private String fullName;
 
-    private String role;
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    private Role role;
 
     @Email
     @NotNull
@@ -38,17 +43,22 @@ public class User {
     @Size(min = 6)
     private String password;
 
+    @Size(max = 255)
     private String address;
+
 
     private String avatar;
 
+
     private String phoneNumber;
+
 
     private String emailVerificationLink;
 
     @Enumerated(EnumType.STRING)
     private Position position;
 
+    @Min(value = 0)
     private Double salary;
 
     @CreationTimestamp
@@ -75,5 +85,3 @@ public class User {
     private Boolean isAccountEnabled;
 
 }
-
-
