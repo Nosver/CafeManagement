@@ -3,6 +3,9 @@ import { useState } from 'react';
 import { toast } from 'react-toastify';
 import { Link } from 'react-router-dom';
 import background2 from "../img/cafe-2-bg.jpg";
+import PhoneInput from 'react-phone-input-2';
+import 'react-phone-input-2/lib/style.css'
+
 
 function isPasswordStrong(password) {
   // Criteria for a strong password
@@ -15,6 +18,10 @@ function isPasswordStrong(password) {
   // Check if password meets all criteria
   return password.length >= minLength && hasUpperCase && hasLowerCase && hasNumber && hasSpecialChar;
 }
+
+
+
+
 
 export const SignUpPage = () => {
 
@@ -36,6 +43,20 @@ export const SignUpPage = () => {
 
   }
 
+  const handleChange = (value) => {
+    setPhoneNumber(value);
+    setValid(validatePhoneNumber(value));
+  };
+
+  const validatePhoneNumber = (phoneNumber) => {
+    const phoneNumberPattern = /^\+?[1-9]\d{1,14}$/;
+
+    return phoneNumberPattern.test(phoneNumber);
+  };
+
+  const [phoneNumber, setPhoneNumber] = useState('');
+  const [valid, setValid] = useState(true);
+
   return (
     <section className='bg-indigo-50'>
       <div style={{
@@ -46,7 +67,7 @@ export const SignUpPage = () => {
         backdropFilter: 'blur(10px)',
         height: '100vh'
       }}>
-        <div className='container m-auto max-w-2xl py-10'>
+        <div className='container m-auto max-w-2xl '>
           <div className='bg-white/60 px-6 py-4 mb-4 shadow-md rounded-md border m-4 md:m-0'>
             <form onSubmit={signUpButtonClicked}>
 
@@ -81,6 +102,21 @@ export const SignUpPage = () => {
                   onChange={(event) => setEmail(event.target.value)}
                 />
               </div>
+
+              <div className='mb-4'>
+                <label className='block text-gray-700 font-bold mb-2'>
+                  Phone Number
+                  
+                </label>
+                <PhoneInput
+                    country={'tr'}
+                    value={phoneNumber}
+                    onChange={handleChange}
+                    inputStyle={{ width: '100%' }} 
+                  />
+              </div>
+
+
 
               <div className='mb-4'>
                 <label className='block text-gray-700 font-bold mb-2'>
