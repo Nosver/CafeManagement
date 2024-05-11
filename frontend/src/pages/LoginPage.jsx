@@ -4,29 +4,35 @@ import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { Link } from 'react-router-dom';
 import background2 from "../img/cafe-2-bg.jpg";
+import { GoogleLogin } from '@react-oauth/google';
 
+import { jwtDecode } from "jwt-decode";
 
 const LoginPage = () => {
 
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
-    const navigate = useNavigate();
+  const navigate = useNavigate();
 
-    const loginButtonClicked = (event) => {
-        event.preventDefault();
+  const loginButtonClicked = (event) => {
+    event.preventDefault();
 
-        if(email == "dogu@mail.com" && password == '1234'){
-          toast.success("You've successfully entered!", )
-            return navigate('/homepage')
-        }else{
-          toast.info("email or password is incorrect!")
-        }
-        
+    if (email == "dogu@mail.com" && password == '1234') {
+      toast.success("You've successfully entered!",)
+      return navigate('/homepage')
+    } else {
+      toast.info("email or password is incorrect!")
     }
 
+  }
+
+  
+
+  
+
   return (
-    <section style={{ 
+    <section style={{
       backgroundImage: `url(${background2})`,
       backgroundPosition: 'center',
       backgroundSize: 'cover',
@@ -36,8 +42,8 @@ const LoginPage = () => {
     }} className='bg-indigo-50'>
       <div className='container m-auto max-w-2xl py-24'>
         <div className='bg-white/60 px-6 py-8 mb-4 shadow-md rounded-md border m-4 md:m-0'>
-          <form onSubmit= {loginButtonClicked}>
-    
+          <form onSubmit={loginButtonClicked}>
+
             <h2 className='text-3xl text-center font-semibold mb-6'>Login Screen</h2>
 
             <div className='mb-4'>
@@ -80,6 +86,20 @@ const LoginPage = () => {
               >
                 Login
               </button>
+
+              <div className="flex items-center justify-center dark:bg-gray-800 mt-4">
+              <GoogleLogin
+                onSuccess={credentialResponse => {
+                  var response = jwtDecode(credentialResponse.credential)
+                  console.log(response);
+                  navigate('/welcome')
+                }}
+                onError={() => {
+                  console.log('Login Failed');
+                }}
+              />
+              </div>
+                
             </div>
 
           </form>

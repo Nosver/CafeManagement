@@ -30,6 +30,7 @@ import { PaymentFail } from './components/PaymentFail';
 import { MyProfile } from './pages/Personel/MyProfile';
 import { NotFoundPage404 } from './pages/Customer/NotFoundPage404';
 import CustomerProfile from './pages/Customer/CustomerProfile';
+import { GoogleOAuthProvider } from '@react-oauth/google';
 
 
 const router = createBrowserRouter(
@@ -74,7 +75,11 @@ const router = createBrowserRouter(
 
 const App = () => {
 
-  return <RouterProvider router={router} />
+  
+
+  return (<GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID}>
+    <RouterProvider router={router} />
+  </GoogleOAuthProvider>)
 }
 
 export default App;

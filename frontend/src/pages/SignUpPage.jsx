@@ -5,6 +5,9 @@ import { Link } from 'react-router-dom';
 import background2 from "../img/cafe-2-bg.jpg";
 import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css'
+import { GoogleLogin } from '@react-oauth/google';
+import { jwtDecode } from "jwt-decode";
+import { useNavigate } from 'react-router-dom';
 
 
 function isPasswordStrong(password) {
@@ -24,6 +27,7 @@ function isPasswordStrong(password) {
 
 
 export const SignUpPage = () => {
+  const navigate = useNavigate();
 
   const [email, setEmail] = useState('');
   const [fullName, setfullName] = useState('');
@@ -106,14 +110,14 @@ export const SignUpPage = () => {
               <div className='mb-4'>
                 <label className='block text-gray-700 font-bold mb-2'>
                   Phone Number
-                  
+
                 </label>
                 <PhoneInput
-                    country={'tr'}
-                    value={phoneNumber}
-                    onChange={handleChange}
-                    inputStyle={{ width: '100%' }} 
-                  />
+                  country={'tr'}
+                  value={phoneNumber}
+                  onChange={handleChange}
+                  inputStyle={{ width: '100%' }}
+                />
               </div>
 
 
@@ -161,10 +165,16 @@ export const SignUpPage = () => {
               <p className='text-center my-3'>Or</p>
 
               <div className="flex items-center justify-center dark:bg-gray-800">
-                <button className="px-4 py-2 border flex gap-2 border-slate-900 dark:border-slate-700 rounded-full text-slate-700 dark:text-slate-200 hover:border-slate-400 dark:hover:border-slate-500 hover:text-slate-900 dark:hover:text-slate-300 hover:shadow transition duration-150">
-                  <img className="w-6 h-6" src="https://www.svgrepo.com/show/475656/google-color.svg" loading="lazy" alt="google logo" />
-                  <span>Continue with Google</span>
-                </button>
+                <GoogleLogin
+                  onSuccess={credentialResponse => {
+                    var response = jwtDecode(credentialResponse.credential)
+                    console.log(response);
+                    navigate('/welcome')
+                  }}
+                  onError={() => {
+                    console.log('Login Failed');
+                  }}
+                />
               </div>
 
             </form>

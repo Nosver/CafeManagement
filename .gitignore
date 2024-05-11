@@ -6,3 +6,4 @@ management/src/main/resources/application.properties
 /.vscode
 /.idea
 /.confidential
+frontend/.env
