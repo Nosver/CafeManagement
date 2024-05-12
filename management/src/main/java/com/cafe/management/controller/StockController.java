@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.cafe.management.model.Stock;
 import com.cafe.management.service.StockService;
 
-@CrossOrigin
 @RestController
 public class StockController {
 

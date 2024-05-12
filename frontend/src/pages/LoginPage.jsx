@@ -15,19 +15,65 @@ const LoginPage = () => {
 
   const navigate = useNavigate();
 
-  const loginButtonClicked = (event) => {
+  const loginButtonClicked = async (event) => {
     event.preventDefault();
-
-    if (email == "dogu@mail.com" && password == '1234') {
-      toast.success("You've successfully entered!",)
-      return navigate('/homepage')
-    } else {
-      toast.info("email or password is incorrect!")
-    }
-
-  }
-
+    console.log(email)
+    
+    console.log(password)
   
+    try {
+      const response = await fetch('http://localhost:8080/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, password }),
+      });
+  
+      if (!response.ok) {
+        throw new Error('Failed to log in');
+      }
+
+      const responseData = await response.json();
+      toast.success("You've successfully entered!");
+      if (responseData.role === 'ADMIN' || responseData.role === 'EMPLOYEE') {
+        navigate('/dashboard');
+      } else {
+        navigate('/homepage');
+      }
+
+      
+    } catch (error) {
+      toast.error('An error occurred while logging in');
+      console.error('Error logging in:', error);
+    }
+  };
+
+  const handleSuccess = async (credentialResponse) => {
+    try {
+      const token = credentialResponse.credential; 
+      const decodedToken = jwtDecode(token);
+      const requestBody = {
+        email: decodedToken.email,
+      };
+      const response = await fetch('http://localhost:8080/googleLogin', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(requestBody),
+      });
+
+      if (!response.ok) {
+        toast.error("Account not found please try registering")
+        throw new Error('Failed to authenticate with server');
+      }
+
+      navigate('/welcome');
+    } catch (error) {
+      
+    }
+  };
 
   
 
@@ -89,11 +135,7 @@ const LoginPage = () => {
 
               <div className="flex items-center justify-center dark:bg-gray-800 mt-4">
               <GoogleLogin
-                onSuccess={credentialResponse => {
-                  var response = jwtDecode(credentialResponse.credential)
-                  console.log(response);
-                  navigate('/welcome')
-                }}
+                onSuccess={handleSuccess}
                 onError={() => {
                   console.log('Login Failed');
                 }}

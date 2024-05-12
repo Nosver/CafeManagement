@@ -35,15 +35,39 @@ export const SignUpPage = () => {
   const [password, setPassword] = useState('');
   const [passwordRepeat, setPasswordRepeat] = useState('');
 
-  const signUpButtonClicked = (event) => {
+  const signUpButtonClicked = async (event) => {
     event.preventDefault();
 
     if (password != passwordRepeat) {
       toast.info("Passwords do not match!");
+      return
     }
     if (!isPasswordStrong(password)) {
       toast.info("Password should contain at least 8 characters, including uppercase and lowercase letters, numbers, and special characters.");
+      return
     }
+    const requestBody={
+        email:email,
+        password:password,
+        fullName:fullName,
+        phoneNumber:phoneNumber,
+        role:"CUSTOMER"
+
+    }
+    const response = await fetch('http://localhost:8080/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(requestBody),
+      });
+      const responseData = await response.json();
+
+      if(responseData.message=="User already exist"){ 
+        toast.warn("You have already registered!");
+        return
+      }
+      toast.info("verification email is sent, please check your inbox")
 
   }
 
@@ -56,6 +80,43 @@ export const SignUpPage = () => {
     const phoneNumberPattern = /^\+?[1-9]\d{1,14}$/;
 
     return phoneNumberPattern.test(phoneNumber);
+  };
+  const handleSuccess = async (credentialResponse) =>{
+      const token = credentialResponse.credential; 
+      const decodedToken = jwtDecode(token);
+      const requestBody = {
+        email: decodedToken.email,
+        fullName: decodedToken.name,
+        avatar: decodedToken.picture
+      };
+
+      const response = await fetch('http://localhost:8080/googleRegister', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(requestBody),
+      });
+    
+      if (!response.ok) {
+        toast.error("Error Occured")
+        throw new Error('Failed to authenticate with server');
+      }
+      toast.success("successfully registered via Google")
+
+      const requestBody2 = {
+        email: decodedToken.email,
+      };
+      const response2 = await fetch('http://localhost:8080/googleLogin', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(requestBody2),
+      });
+
+      navigate('/welcome')
+    
   };
 
   const [phoneNumber, setPhoneNumber] = useState('');
@@ -166,11 +227,7 @@ export const SignUpPage = () => {
 
               <div className="flex items-center justify-center dark:bg-gray-800">
                 <GoogleLogin
-                  onSuccess={credentialResponse => {
-                    var response = jwtDecode(credentialResponse.credential)
-                    console.log(response);
-                    navigate('/welcome')
-                  }}
+                  onSuccess={handleSuccess}
                   onError={() => {
                     console.log('Login Failed');
                   }}

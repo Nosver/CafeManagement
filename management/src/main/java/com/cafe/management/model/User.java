@@ -1,6 +1,7 @@
 package com.cafe.management.model;
 
 import com.cafe.management.model.enums.Position;
+import com.cafe.management.model.enums.Provider;
 import com.cafe.management.model.enums.Role;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
@@ -10,8 +11,12 @@ import jakarta.validation.constraints.Size;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.sql.Timestamp;
+import java.util.Collection;
 import java.util.List;
 
 @Entity
@@ -20,7 +25,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class User {
+public class User implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -57,6 +62,9 @@ public class User {
     @Enumerated(EnumType.STRING)
     private Position position;
 
+    @Enumerated(EnumType.STRING)
+    private Provider provider;
+
     @Min(value = 0)
     private Double salary;
 
@@ -83,4 +91,36 @@ public class User {
     @NotNull
     private Boolean isAccountEnabled;
 
+    @OneToMany(mappedBy = "user")
+    private List<Token> tokens;
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of(new SimpleGrantedAuthority(role.name()));
+    }
+
+    @Override
+    public String getUsername() {
+        return email;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
 }
