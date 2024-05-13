@@ -44,7 +44,7 @@ const LoginPage = () => {
 
       
     } catch (error) {
-      toast.error('An error occurred while logging in');
+      toast.error('wrong email or password');
       console.error('Error logging in:', error);
     }
   };

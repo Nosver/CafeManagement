@@ -7,6 +7,7 @@ import com.cafe.management.model.enums.Provider;
 import com.cafe.management.model.enums.Role;
 import com.cafe.management.repository.TokenRepository;
 import com.cafe.management.repository.UserRepository;
+import jakarta.mail.MessagingException;
 import org.springframework.stereotype.Service;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -18,6 +19,7 @@ import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class AuthenticationService {
@@ -29,19 +31,22 @@ public class AuthenticationService {
 
     private final AuthenticationManager authenticationManager;
 
+    private final MailSenderService mailSenderService;
     public AuthenticationService(UserRepository repository,
                                  PasswordEncoder passwordEncoder,
                                  JwtService jwtService,
                                  TokenRepository tokenRepository,
-                                 AuthenticationManager authenticationManager) {
+                                 AuthenticationManager authenticationManager,
+                                 MailSenderService mailSenderService) {
         this.repository = repository;
         this.passwordEncoder = passwordEncoder;
         this.jwtService = jwtService;
         this.tokenRepository = tokenRepository;
         this.authenticationManager = authenticationManager;
+        this.mailSenderService=mailSenderService;
     }
 
-    public AuthenticationResponse register(User request) {
+    public AuthenticationResponse register(User request) throws MessagingException {
 
         // check if user already exist. if exist than authenticate the user
         if(repository.findByEmail(request.getUsername()).isPresent()) {
@@ -60,10 +65,24 @@ public class AuthenticationService {
 
         user.setPhoneNumber(request.getPhoneNumber());
         user.setRole(request.getRole());
-
+        user.setIsAccountEnabled(false);
+        user.setEmailVerificationLink(UUID.randomUUID().toString());
         user = repository.save(user);
 
         //String jwt = jwtService.generateToken(user);
+
+
+        String subject = "Verify Your Email for Cafe-In Registration";
+        String body = "<html>" +
+                "<body style='font-family: Arial, sans-serif;'>" +
+                "<h2>Hi " + user.getFullName() + ",</h2>" +
+                "<p>We just need to verify your email address before you register for Cafe-In.</p>" +
+                "<p><strong>Verify your email address:</strong> <a href='http://localhost:3000/verify-email?token="+user.getEmailVerificationLink()+"'>Click here</a></p>" +
+                "<p>Thanks!<br/>– Cafe-in Technology</p>" +
+                "</body>" +
+                "</html>";
+
+        mailSenderService.sendNewMail(user.getEmail(), subject, body);
 
         //saveUserToken(jwt, user);
 
@@ -124,7 +143,9 @@ public class AuthenticationService {
         user.setRole(Role.CUSTOMER);
         user.setAvatar(request.getAvatar());
         user.setLastLogin(Timestamp.from(Instant.now()));
+        user.setIsAccountEnabled(true);
         user = repository.save(user);
+
 
         return new AuthenticationResponse(null, "User registration was successful",user.getRole().toString());
 
@@ -144,5 +165,15 @@ public class AuthenticationService {
         saveUserToken(jwt, user);
 
         return new AuthenticationResponse(jwt, "User login was successful",user.getRole().toString());
+    }
+    public boolean verifyEmail(String verificationCode){
+        Optional<User> user =repository.findByEmailVerificationLink(verificationCode);
+        if(user.isPresent()){
+            user.get().setIsAccountEnabled(true);
+            user.get().setEmailVerificationLink(null);
+            repository.save(user.get());
+            return true;
+        }
+        return false;
     }
 }

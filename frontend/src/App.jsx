@@ -31,6 +31,7 @@ import { MyProfile } from './pages/Personel/MyProfile';
 import { NotFoundPage404 } from './pages/Customer/NotFoundPage404';
 import CustomerProfile from './pages/Customer/CustomerProfile';
 import { GoogleOAuthProvider } from '@react-oauth/google';
+import VerifyEmailPage from './pages/Customer/VerifyEmailPage';
 
 
 const router = createBrowserRouter(
@@ -67,6 +68,7 @@ const router = createBrowserRouter(
       <Route path='/SignUpPage' element={<SignUpPage />} />
       <Route path='/Welcome' element={<WelcomePage />} />
       <Route path='/Logout' element={<WelcomePage />} />
+      <Route path='/verify-email' element={<VerifyEmailPage />} />
 
 
     </Route>
