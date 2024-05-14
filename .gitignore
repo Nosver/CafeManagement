@@ -7,4 +7,3 @@ management/src/main/resources/application.properties
 /.idea
 /.confidential
 frontend/.env
-
