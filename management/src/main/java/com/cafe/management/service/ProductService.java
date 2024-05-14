@@ -17,7 +17,7 @@ public class ProductService {
     public Product addProduct(Product product){
         
         // if product already exists in db, dont add it again
-        Optional<Product> existingProduct = productRepository.findProductByName(product.getName());
+        Optional<Product> existingProduct = productRepository.findByName(product.getName());
         if(existingProduct.isPresent()){
             return null;
         }

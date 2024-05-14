@@ -11,15 +11,15 @@ import lombok.*;
 @Data
 public class RequiredStock {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy =GenerationType.IDENTITY)
     private Long id;
 
-    private Double amount;
+    private Double requiredAmount;
 
     @OneToOne
-    private Stock stock;
+    private InventoryItem inventoryItem;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id", referencedColumnName = "id")
     private Product product;
 

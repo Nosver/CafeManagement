@@ -133,10 +133,7 @@ export const Employees = () => {
                           { id: 'email', label: 'Email', type: 'text', hint: 'Type employee email' },
                           { id: 'phone', label: 'Phone', type: 'text', hint: 'Type employee phone' },
                           { id: 'address', label: 'Address', type: 'text', hint: 'Type employee address' },
-                          { id: 'Salary', label: 'Salary', type: 'number', hint: 'Type employee salary' },
-                          { id: 'Position', label: 'Position', type: 'text', hint: 'Type employee position' }
                         ]}
-                        submitButtonDescription='Add Employee'
                       />
                     }
 
@@ -147,8 +144,8 @@ export const Employees = () => {
                         closePopup={closePopup_edit}
                         inputs={[
                           { id: 'email', label: 'Email', type: 'text', hint: 'Type employee email' },
-                          { id: 'Salary', label: 'salary', type: 'number', hint: 'Type employee salary' },
-                          { id: 'Position', label: 'position', type: 'text', hint: 'Type employee position' },
+                          { id: 'salary', label: 'salary', type: 'number', hint: 'Type employee salary' },
+                          { id: 'position', label: 'position', type: 'text', hint: 'Type employee position' },
 
                         ]}
                       />

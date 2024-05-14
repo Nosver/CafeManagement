@@ -34,7 +34,7 @@ public class OrderController {
     private PaymentService paymentService;
 
 
-    @PostMapping("customer_only/order")
+    @PostMapping("/order")
     public PaymentResponse createOrder(@RequestBody Order order) throws StripeException {
         return paymentService.createPaymentLink(order);
 
@@ -110,7 +110,7 @@ public class OrderController {
     private String stripeApiKey;
 
     @Hidden
-    @GetMapping("employee_and_admin/transactions")
+    @GetMapping("/transactions")
     public List<Session> getTransactions() throws StripeException {
         // Set the Stripe API key
         Stripe.apiKey = stripeApiKey;

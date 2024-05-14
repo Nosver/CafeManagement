@@ -48,9 +48,8 @@ export const WelcomePage = () => {
                         <Spinner />
                     </div>
                 </div>
-{
-    /*
-     <div className="flex justify-center">
+
+                <div className="flex justify-center">
 
 
                     <Dropdown color='blue' label="Links ">
@@ -132,9 +131,6 @@ export const WelcomePage = () => {
 
 
                 </div>
-    */
-}
-               
             </div>
 
         </>
