@@ -1,5 +1,6 @@
 package com.cafe.management.model;
 
+import com.cafe.management.model.enums.ProductSize;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -9,18 +10,21 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class RequiredStock {
+public class CartItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    private Double amount;
-
-    @OneToOne
-    private Stock stock;
 
     @ManyToOne
     @JoinColumn(name = "product_id", referencedColumnName = "id")
     private Product product;
 
+    @ManyToOne
+    @JoinColumn(name = "cart_id", referencedColumnName = "id")
+    private Cart cart;
+
+    @Enumerated(EnumType.STRING)
+    private ProductSize size;
+
+    private int amount;
 }

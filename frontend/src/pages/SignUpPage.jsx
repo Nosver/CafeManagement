@@ -3,6 +3,12 @@ import { useState } from 'react';
 import { toast } from 'react-toastify';
 import { Link } from 'react-router-dom';
 import background2 from "../img/cafe-2-bg.jpg";
+import PhoneInput from 'react-phone-input-2';
+import 'react-phone-input-2/lib/style.css'
+import { GoogleLogin } from '@react-oauth/google';
+import { jwtDecode } from "jwt-decode";
+import { useNavigate } from 'react-router-dom';
+
 
 function isPasswordStrong(password) {
   // Criteria for a strong password
@@ -16,7 +22,12 @@ function isPasswordStrong(password) {
   return password.length >= minLength && hasUpperCase && hasLowerCase && hasNumber && hasSpecialChar;
 }
 
+
+
+
+
 export const SignUpPage = () => {
+  const navigate = useNavigate();
 
   const [email, setEmail] = useState('');
   const [fullName, setfullName] = useState('');
@@ -24,17 +35,92 @@ export const SignUpPage = () => {
   const [password, setPassword] = useState('');
   const [passwordRepeat, setPasswordRepeat] = useState('');
 
-  const signUpButtonClicked = (event) => {
+  const signUpButtonClicked = async (event) => {
     event.preventDefault();
 
     if (password != passwordRepeat) {
       toast.info("Passwords do not match!");
+      return
     }
     if (!isPasswordStrong(password)) {
       toast.info("Password should contain at least 8 characters, including uppercase and lowercase letters, numbers, and special characters.");
+      return
     }
+    const requestBody={
+        email:email,
+        password:password,
+        fullName:fullName,
+        phoneNumber:phoneNumber,
+        role:"CUSTOMER"
+
+    }
+    const response = await fetch('http://localhost:8080/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(requestBody),
+      });
+      const responseData = await response.json();
+
+      if(responseData.message=="User already exist"){ 
+        toast.warn("You have already registered!");
+        return
+      }
+      toast.info("verification email is sent, please check your inbox")
 
   }
+
+  const handleChange = (value) => {
+    setPhoneNumber(value);
+    setValid(validatePhoneNumber(value));
+  };
+
+  const validatePhoneNumber = (phoneNumber) => {
+    const phoneNumberPattern = /^\+?[1-9]\d{1,14}$/;
+
+    return phoneNumberPattern.test(phoneNumber);
+  };
+  const handleSuccess = async (credentialResponse) =>{
+      const token = credentialResponse.credential; 
+      const decodedToken = jwtDecode(token);
+      const requestBody = {
+        email: decodedToken.email,
+        fullName: decodedToken.name,
+        avatar: decodedToken.picture
+      };
+
+      const response = await fetch('http://localhost:8080/googleRegister', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(requestBody),
+      });
+    
+      if (!response.ok) {
+        toast.error("Error Occured")
+        throw new Error('Failed to authenticate with server');
+      }
+      toast.success("successfully registered via Google")
+
+      const requestBody2 = {
+        email: decodedToken.email,
+      };
+      const response2 = await fetch('http://localhost:8080/googleLogin', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(requestBody2),
+      });
+
+      navigate('/welcome')
+    
+  };
+
+  const [phoneNumber, setPhoneNumber] = useState('');
+  const [valid, setValid] = useState(true);
 
   return (
     <section className='bg-indigo-50'>
@@ -46,7 +132,7 @@ export const SignUpPage = () => {
         backdropFilter: 'blur(10px)',
         height: '100vh'
       }}>
-        <div className='container m-auto max-w-2xl py-10'>
+        <div className='container m-auto max-w-2xl '>
           <div className='bg-white/60 px-6 py-4 mb-4 shadow-md rounded-md border m-4 md:m-0'>
             <form onSubmit={signUpButtonClicked}>
 
@@ -81,6 +167,21 @@ export const SignUpPage = () => {
                   onChange={(event) => setEmail(event.target.value)}
                 />
               </div>
+
+              <div className='mb-4'>
+                <label className='block text-gray-700 font-bold mb-2'>
+                  Phone Number
+
+                </label>
+                <PhoneInput
+                  country={'tr'}
+                  value={phoneNumber}
+                  onChange={handleChange}
+                  inputStyle={{ width: '100%' }}
+                />
+              </div>
+
+
 
               <div className='mb-4'>
                 <label className='block text-gray-700 font-bold mb-2'>
@@ -125,10 +226,12 @@ export const SignUpPage = () => {
               <p className='text-center my-3'>Or</p>
 
               <div className="flex items-center justify-center dark:bg-gray-800">
-                <button className="px-4 py-2 border flex gap-2 border-slate-900 dark:border-slate-700 rounded-full text-slate-700 dark:text-slate-200 hover:border-slate-400 dark:hover:border-slate-500 hover:text-slate-900 dark:hover:text-slate-300 hover:shadow transition duration-150">
-                  <img className="w-6 h-6" src="https://www.svgrepo.com/show/475656/google-color.svg" loading="lazy" alt="google logo" />
-                  <span>Continue with Google</span>
-                </button>
+                <GoogleLogin
+                  onSuccess={handleSuccess}
+                  onError={() => {
+                    console.log('Login Failed');
+                  }}
+                />
               </div>
 
             </form>

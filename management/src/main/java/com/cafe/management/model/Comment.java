@@ -9,18 +9,21 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class RequiredStock {
+public class Comment {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    private Double amount;
-
-    @OneToOne
-    private Stock stock;
 
     @ManyToOne
     @JoinColumn(name = "product_id", referencedColumnName = "id")
     private Product product;
 
+    private String description;
+
+    private Integer star;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    private User user;
 }

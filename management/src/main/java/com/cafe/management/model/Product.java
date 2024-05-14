@@ -4,12 +4,7 @@ import java.util.List;
 
 import com.cafe.management.model.enums.ProductCategory;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
@@ -28,19 +23,26 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private ProductCategory productCategory;
+    private String name;
 
     private Double price;
+
+    private String description;
+
+    private Boolean isMultisized;
 
     @OneToMany(mappedBy =  "product")
     private List<RequiredStock> requiredStocks;
 
-    private String name;
-
-    private String description;
-
     private String imagePath;
-    
-   /* @ManyToMany(mappedBy = "productList")
-    private List<Cart> chart;*/
+
+    @OneToMany(mappedBy = "product")
+    private List<CartItem> cartItem;
+
+    @Enumerated(EnumType.STRING)
+    private ProductCategory category;
+
+    @OneToMany(mappedBy = "product")
+    private List<Comment> comments;
+
 }

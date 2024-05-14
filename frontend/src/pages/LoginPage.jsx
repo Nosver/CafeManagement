@@ -4,29 +4,81 @@ import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { Link } from 'react-router-dom';
 import background2 from "../img/cafe-2-bg.jpg";
+import { GoogleLogin } from '@react-oauth/google';
 
+import { jwtDecode } from "jwt-decode";
 
 const LoginPage = () => {
 
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
-    const navigate = useNavigate();
+  const navigate = useNavigate();
 
-    const loginButtonClicked = (event) => {
-        event.preventDefault();
+  const loginButtonClicked = async (event) => {
+    event.preventDefault();
+    console.log(email)
+    
+    console.log(password)
+  
+    try {
+      const response = await fetch('http://localhost:8080/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, password }),
+      });
+  
+      if (!response.ok) {
+        throw new Error('Failed to log in');
+      }
 
-        if(email == "dogu@mail.com" && password == '1234'){
-          toast.success("You've successfully entered!", )
-            return navigate('/homepage')
-        }else{
-          toast.info("email or password is incorrect!")
-        }
-        
+      const responseData = await response.json();
+      toast.success("You've successfully entered!");
+      if (responseData.role === 'ADMIN' || responseData.role === 'EMPLOYEE') {
+        navigate('/dashboard');
+      } else {
+        navigate('/homepage');
+      }
+
+      
+    } catch (error) {
+      toast.error('wrong email or password');
+      console.error('Error logging in:', error);
     }
+  };
+
+  const handleSuccess = async (credentialResponse) => {
+    try {
+      const token = credentialResponse.credential; 
+      const decodedToken = jwtDecode(token);
+      const requestBody = {
+        email: decodedToken.email,
+      };
+      const response = await fetch('http://localhost:8080/googleLogin', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(requestBody),
+      });
+
+      if (!response.ok) {
+        toast.error("Account not found please try registering")
+        throw new Error('Failed to authenticate with server');
+      }
+
+      navigate('/welcome');
+    } catch (error) {
+      
+    }
+  };
+
+  
 
   return (
-    <section style={{ 
+    <section style={{
       backgroundImage: `url(${background2})`,
       backgroundPosition: 'center',
       backgroundSize: 'cover',
@@ -36,8 +88,8 @@ const LoginPage = () => {
     }} className='bg-indigo-50'>
       <div className='container m-auto max-w-2xl py-24'>
         <div className='bg-white/60 px-6 py-8 mb-4 shadow-md rounded-md border m-4 md:m-0'>
-          <form onSubmit= {loginButtonClicked}>
-    
+          <form onSubmit={loginButtonClicked}>
+
             <h2 className='text-3xl text-center font-semibold mb-6'>Login Screen</h2>
 
             <div className='mb-4'>
@@ -80,6 +132,16 @@ const LoginPage = () => {
               >
                 Login
               </button>
+
+              <div className="flex items-center justify-center dark:bg-gray-800 mt-4">
+              <GoogleLogin
+                onSuccess={handleSuccess}
+                onError={() => {
+                  console.log('Login Failed');
+                }}
+              />
+              </div>
+                
             </div>
 
           </form>
