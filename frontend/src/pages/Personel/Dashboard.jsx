@@ -16,9 +16,12 @@ import { BStats } from '../../imported-assets/partials/dashboard/BStats';
 import { faUserTie } from '@fortawesome/free-solid-svg-icons';
 import { faUsers } from '@fortawesome/free-solid-svg-icons';
 import { faMoneyBill1 } from '@fortawesome/free-regular-svg-icons';
+import Cookies from 'js-cookie';
 
 function Dashboard() {
 
+ 
+  console.log(Cookies.get('token'));
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const userName = "Dan Joe";

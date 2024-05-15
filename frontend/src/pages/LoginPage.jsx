@@ -5,6 +5,7 @@ import { toast } from 'react-toastify';
 import { Link } from 'react-router-dom';
 import background2 from "../img/cafe-2-bg.jpg";
 import { GoogleLogin } from '@react-oauth/google';
+import Cookies from 'js-cookie';
 
 import { jwtDecode } from "jwt-decode";
 
@@ -35,6 +36,10 @@ const LoginPage = () => {
       }
 
       const responseData = await response.json();
+      
+      const token = responseData.token;
+      Cookies.set('token', token)
+      
       toast.success("You've successfully entered!");
       if (responseData.role === 'ADMIN' || responseData.role === 'EMPLOYEE') {
         navigate('/dashboard');

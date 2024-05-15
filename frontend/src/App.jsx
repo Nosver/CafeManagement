@@ -16,6 +16,7 @@ import CustomerLayout from './layouts/CustomerLayout';
 import PersonelLayout from './layouts/PersonelLayout';
 import { Orders } from './pages/Personel/Orders';
 import OrdersPage from './pages/Customer/OrdersPage';
+import Cookies from 'js-cookie';
 
 
 import { Menu } from './pages/Customer/Menu';

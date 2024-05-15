@@ -4,101 +4,53 @@ import { Siderbar_1 } from '../../components/personel/Siderbar_1';
 import { InsertButton } from '../../components/personel/InsertButton';
 import { ItemPopup } from '../../components/personel/ItemPopup';
 import { SearchBar } from '../../components/personel/SearchBar';
+import { useEffect } from 'react';
+import Cookies from 'js-cookie';
+import AddStockPopup from './AddStockPopup';
 
-class stock {
-
-    constructor(id, name, price, quantity) {
-        this.id = id;
-        this.name = name;
-        this.price = price;
-        this.quantity = quantity;
-        this.ongoing_stock = 0;
-        this.total_price = price * quantity;
-    }
-
-    static getRandomStock() {
-        const id = Math.floor(Math.random() * 1000);
-        const names = [
-            'Arabic Bean',
-            'Milk',
-            'Water',
-            'Syrup',
-            'Sugar',
-            'Ice',
-            'Turkish Coffee',
-            'Tea Leafs',
-            'Raw Chocolate',
-            'Yoghurt',
-            'Cake',
-            'Vanilla Extract',
-            'Cinnamon',
-            'Whipped Cream',
-            'Caramel Sauce',
-            'Hazelnut Syrup',
-            'Almond Milk',
-            'Oat Milk',
-            'Soy Milk',
-            'Matcha Powder',
-            'Cocoa Powder',
-            'Espresso Shot',
-            'Chai Concentrate',
-            'Pumpkin Spice',
-            'Peppermint Syrup'
-        ];
-        const randomName = names[Math.floor(Math.random() * names.length)];
-        const randomPrice = Math.floor(Math.random() * 10.0) + 1.0;
-        const randomQuantity = Math.floor(Math.random() * 100) + 1;
-
-        return new stock(id, randomName, randomPrice, randomQuantity);
-    }
-
-    static getAllStocks() {
-        const stocks = [];
-        const names = [
-            'Arabic Bean',
-            'Milk',
-            'Water',
-            'Syrup',
-            'Sugar',
-            'Ice',
-            'Turkish Coffee',
-            'Tea Leafs',
-            'Raw Chocolate',
-            'Yoghurt',
-            'Cake',
-            'Vanilla Extract',
-            'Cinnamon',
-            'Whipped Cream',
-            'Caramel Sauce',
-            'Hazelnut Syrup',
-            'Almond Milk',
-            'Oat Milk',
-            'Soy Milk',
-            'Matcha Powder',
-            'Cocoa Powder',
-            'Espresso Shot',
-            'Chai Concentrate',
-            'Pumpkin Spice',
-            'Peppermint Syrup'
-        ];
-        for (name in names) {
-            stocks.push(new stock(name, names[name], Math.floor(Math.random() * 10.0) + 1.0, Math.floor(Math.random() * 100) + 1));
-        }
-        return stocks;
-    }
-
-}
 
 export const Stocks = () => {
-
+    const [stocksArray, setStocksArray] = useState([]);
     // Create random stocks for cafe
-    const stocks = stock.getAllStocks();
+    useEffect(() => {
+        const fetchStocks = async () => {
+          const token = Cookies.get('token');
+          
+          if (!token) {
+            setError('No token found');
+            return;
+          }
+    
+          try {
+            const response = await fetch('http://localhost:8080/admin_only/getAllStocks', {
+              method: 'GET',
+              headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+              }
+            });
+    
+            if (!response.ok) {
+              throw new Error(`HTTP error! status: ${response.status}`);
+            }
+    
+            const data = await response.json();
+            setStocksArray(data);
+            setStocksShow(data);
+          } catch (error) {
+            setError(error.message);
+          }
+        };
+    
+        fetchStocks();
+      }, []);
+    
 
-    const [stocksArray, setStocksArray] = useState(stocks);
+    
     const [stocksShow, setStocksShow] = useState(stocksArray);
 
     const [sidebarOpen, setSidebarOpen] = React.useState(true);
-    const [quantity, setQuantity] = useState(stock.quantity);
+    //const [quantity, setQuantity] = useState(stock.quantity);
     const [isPopupOpen, setIsPopupOpen] = useState(false);
 
     const [showPopup, setShowPopup] = useState(false);
@@ -117,7 +69,7 @@ export const Stocks = () => {
         }
 
         let newArr = stocksArray.filter( stock =>
-            stock.name.toLowerCase().includes(keyword.toLowerCase())
+            stock.stockName.toLowerCase().includes(keyword.toLowerCase())
         );   
         setStocksShow(newArr);
     }
@@ -154,11 +106,12 @@ export const Stocks = () => {
                                         Quantity
                                     </th>
                                     <th scope="col" class="px-6 py-3">
-                                        Unit Price
+                                        Unit Type
                                     </th>
                                     <th scope="col" class="px-6 py-3">
-                                        Ongoing Order
+                                        Unit Price
                                     </th>
+                                    
                                     <th scope="col" class="px-6 py-3">
                                         Total Price
                                     </th>
@@ -170,15 +123,10 @@ export const Stocks = () => {
                             <tbody>
 
                                 {showPopup &&
-                                    <ItemPopup
-                                        title="Add new stock"
-                                        submitButtonDescription='Submit'
+                                    <AddStockPopup
+                                        
                                         closePopup={closePopup}
-                                        inputs={[
-                                            { id: 'name', name: 'name', type: 'text', label: 'Name', hint: 'Enter the name'},
-                                            { id: 'quantity', name: 'quantity', type: 'number', label: 'Quantity', hint: 'Enter the quantity' },
-                                            { id: 'unit_price', name: 'unit_price', type: 'number', label: 'Unit Price', hint: 'Enter the unit price' },
-                                        ]}
+                                        
                                     />
                                 }
 
@@ -199,12 +147,12 @@ export const Stocks = () => {
                                 {stocksShow.map((stock, index) => (
                                     <tr key={index} onClick={() => setSelectedOrder(order)} 
                                             class={`${stock.quantity == 1 ? 'bg-red-400' : stock.quantity < 5 ? 'bg-red-300' : stock.quantity < 10 ? 'bg-red-200' : stock.quantity < 20 ? 'bg-red-100' : 'bg-white'} border-b dark:bg-gray-800 dark:border-black-700 hover:bg-white dark:hover:bg-gray-600 }`}>
-                                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">{stock.id}</th>
-                                        <td class="px-6 py-4">{stock.name}</td>
+                                        <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">{stock.id}</th>
+                                        <td class="px-6 py-4">{stock.stockName}</td>
                                         <td class="px-6 py-4">{stock.quantity}</td>
-                                        <td class="px-6 py-4">{stock.price}€</td>
-                                        <td class="px-6 py-4">{stock.ongoing_stock}</td>
-                                        <td class="px-6 py-4">${stock.total_price.toFixed(2)}</td>
+                                        <td class="px-6 py-4">{stock.stockUnit.toLowerCase()}</td>
+                                        <td class="px-6 py-4">{stock.unitPrice}₺</td>
+                                        <td class="px-6 py-4">{(stock.quantity * stock.unitPrice).toFixed(2)}₺</td>
                                         <td class="px-6 py-4">
                                             <div onClick={() => openPopup_edit(stock)} className="font-medium text-blue-600 dark:text-blue-500 hover:underline cursor-pointer">Edit</div>
                                         </td>
