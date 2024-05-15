@@ -4,21 +4,13 @@ import com.cafe.management.model.Order;
 import com.cafe.management.response.PaymentResponse;
 import com.cafe.management.service.PaymentService;
 import com.stripe.Stripe;
-import com.stripe.exception.SignatureVerificationException;
 import com.stripe.exception.StripeException;
-import com.stripe.model.Event;
-import com.stripe.model.Review;
 import com.stripe.model.checkout.Session;
-import com.stripe.net.Webhook;
 import com.stripe.param.checkout.SessionCreateParams;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
+
 
 @Service
 @PropertySource("classpath:secret.properties")

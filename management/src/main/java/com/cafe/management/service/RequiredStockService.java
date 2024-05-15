@@ -17,11 +17,11 @@ public class RequiredStockService {
 
     public void addRequiredStock(RequiredStock requiredStock){
         if(requiredStock.getStock() == null)return;
-        Stock s=stockService.findByStockName(requiredStock.getStock().getStockName());
+        Stock found =stockService.findByStockName(requiredStock.getStock().getStockName());
 
-        System.out.println(s);
-        if(s!=null){
-            requiredStock.setStock(s);
+
+        if(found != null){
+            requiredStock.setStock(found);
             requiredStockRepository.save(requiredStock);
         }
         else{

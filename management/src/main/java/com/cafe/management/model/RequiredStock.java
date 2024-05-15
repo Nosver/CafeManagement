@@ -16,7 +16,8 @@ public class RequiredStock {
 
     private Double amount;
 
-    @OneToOne
+    @ManyToOne
+    @JoinColumn(name = "stock_id", referencedColumnName = "id")
     private Stock stock;
 
     @ManyToOne

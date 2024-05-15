@@ -11,12 +11,8 @@ import com.stripe.model.*;
 import com.stripe.model.checkout.Session;
 import com.stripe.model.checkout.SessionCollection;
 import com.stripe.net.Webhook;
-import com.stripe.param.PayoutListParams;
 import com.stripe.param.checkout.SessionListParams;
-import io.micrometer.common.lang.NonNullApi;
 import io.swagger.v3.oas.annotations.Hidden;
-import io.swagger.v3.oas.annotations.OpenAPIDefinition;
-import io.swagger.v3.oas.annotations.info.Info;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -91,7 +87,7 @@ public class OrderController {
                 /*case "payment_intent.succeeded":
                     PaymentIntent paymentIntent = (PaymentIntent) stripeObject;
                     logger.info("Payment for {} succeeded.",paymentIntent.getAmount() );
-                    //handleSuccessfullPayment();
+                    //handleSuccessfulPayment();
                     // Then define and call a method to handle the successful payment intent.
                     // handlePaymentIntentSucceeded(paymentIntent);
                     break;

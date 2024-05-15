@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class UserController {
 
+    @SuppressWarnings("unused")
     @Autowired
     private UserService userService;
 
