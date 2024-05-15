@@ -20,9 +20,14 @@ public class StockController {
         return stockService.addStock(stock);
     }
     
-    
     @GetMapping("/getAllStocks")
     public List<Stock> getAllStocks(){
         return stockService.getAllStocks();
     }
+
+    @PostMapping("/updateStockById")
+    public void updateStockById(@RequestBody Stock updatedStock){
+        stockService.updateStockById(updatedStock.getId(), updatedStock);
+    }
+    
 }
