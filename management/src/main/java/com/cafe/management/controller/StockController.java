@@ -12,7 +12,7 @@ import com.cafe.management.model.Stock;
 import com.cafe.management.service.StockService;
 
 @RestController
-@RequestMapping("/public")
+@RequestMapping("/employee_and_admin")
 public class StockController {
 
     @Autowired

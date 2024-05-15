@@ -58,10 +58,8 @@ const AddStockPopup = ({ closePopup }) => {
           }
     
           const result = await response.json();
-          setMessage('Stock added successfully!');
           console.log('Success:', result);
         } catch (error) {
-          setMessage(`Error: ${error.message}`);
           console.error('Error:', error);
         }
       };
