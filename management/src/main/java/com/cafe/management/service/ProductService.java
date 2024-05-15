@@ -25,4 +25,29 @@ public class ProductService {
         return productRepository.save(product);
     }
 
+    public Product getProductById(Long id){
+        return productRepository.findById(id).orElse(null);
+    }
+
+    public void deleteProductById(Long id) throws IllegalArgumentException{
+        productRepository.deleteById(id);
+    }
+
+    public void updateProductById(Product updatedProduct){
+        Long id = updatedProduct.getId();
+        Product product = productRepository.findById(id).orElse(null);
+        if(product == null){
+            throw new IllegalArgumentException("Product with id " + id + " not found");
+        }
+
+        product.setName(updatedProduct.getName());
+        product.setPrice(updatedProduct.getPrice());
+        product.setDescription(updatedProduct.getDescription());
+        product.setIsMultisized(updatedProduct.getIsMultisized());
+        product.setImagePath(updatedProduct.getImagePath());
+        product.setCategory(updatedProduct.getCategory());
+    }
+
+    
+
 }
