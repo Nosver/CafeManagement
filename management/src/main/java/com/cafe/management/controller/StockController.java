@@ -3,13 +3,16 @@ package com.cafe.management.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.cafe.management.model.Stock;
 import com.cafe.management.service.StockService;
 
 @RestController
-@RequestMapping("/employee_and_admin")
+@RequestMapping("/public")
 public class StockController {
 
     @Autowired
@@ -26,8 +29,14 @@ public class StockController {
     }
 
     @PostMapping("/updateStockById")
-    public void updateStockById(@RequestBody Stock updatedStock){
-        stockService.updateStockById(updatedStock.getId(), updatedStock);
+    public ResponseEntity<Stock> updateStockById(@RequestBody Stock updatedStock){
+        try {
+            stockService.updateStockById(updatedStock.getId(), updatedStock);
+        } catch (Exception e) {
+            System.err.println("Stock with id " + updatedStock.getId() + " not found.");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        }
+        return ResponseEntity.ok(updatedStock);
     }
     
 }

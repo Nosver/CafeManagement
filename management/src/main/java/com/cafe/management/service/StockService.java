@@ -37,6 +37,13 @@ public class StockService {
     	return stockRepository.findAll();
     }
 
+    public Stock findByStockName(String stockName) {
+        
+        Stock found = stockRepository.findByStockName(stockName);
+
+        return found;
+    }
+
 
 
     
