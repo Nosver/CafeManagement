@@ -25,7 +25,8 @@ public class StockService {
         if (existingStock != null) {
             existingStock.setQuantity(updatedStock.getQuantity());
             existingStock.setStockUnit(updatedStock.getStockUnit());
-
+            existingStock.setStockName(updatedStock.getStockName());
+            existingStock.setUnitPrice(updatedStock.getUnitPrice());
             stockRepository.save(existingStock);
         } else {
             throw new IllegalArgumentException("Stock with id " + stockId + " not found.");

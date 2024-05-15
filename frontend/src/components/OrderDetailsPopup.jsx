@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import OrderDetailsItem from './OrderDetailsItem';
 import { Button } from "flowbite-react";
-import Review from '../components/Customer/Review';
+import Review from './Customer/Review';
 import { toast } from 'react-toastify';
 
 export const OrderDetailsPopup = ({orderItems, orderStatus, orderTotalPrice, closePopup}) => {
