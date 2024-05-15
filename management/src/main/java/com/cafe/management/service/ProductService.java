@@ -1,11 +1,8 @@
 package com.cafe.management.service;
 
 import com.cafe.management.model.Product;
-import com.cafe.management.model.RequiredStock;
 import com.cafe.management.repository.ProductRepository;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +14,7 @@ public class ProductService {
     @Autowired
     private ProductRepository productRepository;
 
+    @SuppressWarnings("unused")
     @Autowired
     private RequiredStockService requiredStockService;
 
