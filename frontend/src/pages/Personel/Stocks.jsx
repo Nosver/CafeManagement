@@ -7,6 +7,7 @@ import { SearchBar } from '../../components/personel/SearchBar';
 import { useEffect } from 'react';
 import Cookies from 'js-cookie';
 import AddStockPopup from './AddStockPopup';
+import EditStockPopup from './EditStockPopup';
 
 
 export const Stocks = () => {
@@ -131,21 +132,14 @@ export const Stocks = () => {
                                 }
 
                                 {showPopup_edit.show && showPopup_edit.stock &&
-                                    <ItemPopup
-                                        title="Edit stock"
-                                        submitButtonDescription='Submit'
-                                        closePopup={closePopup_edit}
-                                        inputs={[
-                                            { id: 'name', name: 'name', type: 'text', label: 'Name', placeholder: showPopup_edit.stock.name },
-                                            { id: 'quantity', name: 'quantity', type: 'number', label: 'Quantity', placeholder: showPopup_edit.stock.quantity },
-                                            { id: 'unit_price', name: 'unit_price', type: 'number', label: 'Unit Price', placeholder: showPopup_edit.stock.unit_price },
-                                        ]}
+                                    <EditStockPopup closePopup={closePopup_edit}
+                                        stock={showPopup_edit.stock}
                                     />
                                 }
 
 
                                 {stocksShow.map((stock, index) => (
-                                    <tr key={index} onClick={() => setSelectedOrder(order)} 
+                                    <tr key={index}  
                                             class={`${stock.quantity == 1 ? 'bg-red-400' : stock.quantity < 5 ? 'bg-red-300' : stock.quantity < 10 ? 'bg-red-200' : stock.quantity < 20 ? 'bg-red-100' : 'bg-white'} border-b dark:bg-gray-800 dark:border-black-700 hover:bg-white dark:hover:bg-gray-600 }`}>
                                         <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">{stock.id}</th>
                                         <td class="px-6 py-4">{stock.stockName}</td>
