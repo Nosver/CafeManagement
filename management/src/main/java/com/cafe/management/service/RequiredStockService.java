@@ -30,4 +30,8 @@ public class RequiredStockService {
 
     }
 
+    public RequiredStock findById(Long id){
+        return requiredStockRepository.findById(id).orElse(null);
+    }
+
 }

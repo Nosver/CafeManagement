@@ -3,6 +3,8 @@ package com.cafe.management.model;
 import java.util.List;
 
 import com.cafe.management.model.enums.StockUnit;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -33,5 +35,6 @@ public class Stock {
     private Double unitPrice;
 
     @OneToMany(mappedBy = "stock")
+    @JsonIgnore
     private List<RequiredStock> requiredStock;
 }

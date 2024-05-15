@@ -1,8 +1,8 @@
 package com.cafe.management.model.enums;
 
 public enum ProductCategory {
-    HOT_COFFE,
-    COLD_COFFE,
+    HOTBEVERAGE,
+    COLDBEVERAGE,
     SNACK,
-    COLD_BEVERAGES
+    DESSERT
 }

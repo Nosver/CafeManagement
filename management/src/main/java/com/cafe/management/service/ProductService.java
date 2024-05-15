@@ -1,8 +1,11 @@
 package com.cafe.management.service;
 
 import com.cafe.management.model.Product;
+import com.cafe.management.model.RequiredStock;
 import com.cafe.management.repository.ProductRepository;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,15 +17,35 @@ public class ProductService {
     @Autowired
     private ProductRepository productRepository;
 
+    @Autowired
+    private RequiredStockService requiredStockService;
+
     public Product addProduct(Product product){
         
-        // if product already exists in db, dont add it again
+        // if product already exists in db, don not add it again
         Optional<Product> existingProduct = productRepository.findProductByName(product.getName());
         if(existingProduct.isPresent()){
             return null;
         }
 
-        return productRepository.save(product);
+        /*
+        List<RequiredStock> found = product.getRequiredStocks();
+        if(found == null){ 
+            throw new IllegalArgumentException("Required stock is missing");
+        }
+        
+        List<RequiredStock> requiredStocksToBeInserted = new ArrayList<RequiredStock>();
+        for(RequiredStock requiredStock : found){
+            RequiredStock req = requiredStockService.findById(requiredStock.getId());
+            if(req != null){
+                requiredStocksToBeInserted.add(req);
+            }
+        }
+        product.setRequiredStocks(requiredStocksToBeInserted);
+         */
+
+        productRepository.save(product);
+        return product;
     }
 
     public Product getProductById(Long id){
