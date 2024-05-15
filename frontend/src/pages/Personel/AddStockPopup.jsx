@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components';
+import Cookies from 'js-cookie';
+import { toast } from 'react-toastify';
 
 const StyledSelect = styled.select`
   appearance: none; 
@@ -9,16 +11,60 @@ const StyledSelect = styled.select`
 const AddStockPopup = ({ closePopup }) => {
     const bg_color = "bg-slate-300"
     const [stockUnits,setStockUnits]= useState([]);
-    const [selectedUnit, setSelectedUnit] = useState(stockUnits[0])
+    const [selectedUnit, setSelectedUnit] = useState('')
+    const [stockName,setStockName]= useState('')
+    const [stockQuantity,setstockQuantity]= useState('')
+    const [unitPrice,setUnitPrice]= useState('')
 
     const handleUnitChange = (event, index) => {
         const newUnit = event.target.value;
         setSelectedUnit(newUnit)
     };
 
-    const onSubmitFunction = ()=>{
+    const onSubmitFunction = async (event) => {
+        const token = Cookies.get('token');
+        
+        if (!token) {
+          setMessage('No token found. Please login.');
+          return;
+        }
 
-    }
+        if(stockQuantity<=0 || unitPrice<=0){
+            event.preventDefault();
+            toast.warn("Invalid argument! Quantity and unit price can not be zero or negative")
+            
+            return;
+        }
+    
+        const stockData = {
+          stockName: stockName,
+          quantity: stockQuantity,
+          unitPrice: unitPrice,
+          stockUnit:selectedUnit.toUpperCase()
+        };
+    
+        try {
+          const response = await fetch('http://localhost:8080/employee_and_admin/addStock', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify(stockData)
+          });
+    
+          if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+          }
+    
+          const result = await response.json();
+          setMessage('Stock added successfully!');
+          console.log('Success:', result);
+        } catch (error) {
+          setMessage(`Error: ${error.message}`);
+          console.error('Error:', error);
+        }
+      };
 
     useEffect(() => {
         const fetchStocksUnits = async () => {
@@ -80,6 +126,7 @@ const AddStockPopup = ({ closePopup }) => {
 
                                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                                 placeholder="Enter the stock name"
+                                onChange={(event) => setStockName(event.target.value)}
                                 required
                             />
 
@@ -93,6 +140,8 @@ const AddStockPopup = ({ closePopup }) => {
 
                                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                                 placeholder="Enter the quantity"
+                                onChange={(event) => setstockQuantity(event.target.value)}
+
                                 required
                             />
 
@@ -103,7 +152,7 @@ const AddStockPopup = ({ closePopup }) => {
                             </label>
                             <input
                                 type='number'
-
+                                onChange={(event) => setUnitPrice(event.target.value)}
                                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                                 placeholder="Enter the Unit price"
                                 required
@@ -126,7 +175,7 @@ const AddStockPopup = ({ closePopup }) => {
 
                         </div>
                         <button
-                            onClick={() => onSubmitFunction()}
+                            onClick={(event) => onSubmitFunction(event)}
                             type="submit"
                             className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
                         >

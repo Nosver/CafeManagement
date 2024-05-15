@@ -22,7 +22,7 @@ export const Stocks = () => {
           }
     
           try {
-            const response = await fetch('http://localhost:8080/admin_only/getAllStocks', {
+            const response = await fetch('http://localhost:8080/employee_and_admin/getAllStocks', {
               method: 'GET',
               headers: {
                 'Authorization': `Bearer ${token}`,
@@ -150,7 +150,7 @@ export const Stocks = () => {
                                         <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">{stock.id}</th>
                                         <td class="px-6 py-4">{stock.stockName}</td>
                                         <td class="px-6 py-4">{stock.quantity}</td>
-                                        <td class="px-6 py-4">{stock.stockUnit.toLowerCase()}</td>
+                                        <td class="px-6 py-4">{stock.stockUnit ? stock.stockUnit.toLowerCase() : ''}</td>
                                         <td class="px-6 py-4">{stock.unitPrice}₺</td>
                                         <td class="px-6 py-4">{(stock.quantity * stock.unitPrice).toFixed(2)}₺</td>
                                         <td class="px-6 py-4">
