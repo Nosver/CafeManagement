@@ -9,7 +9,7 @@ import com.cafe.management.model.Stock;
 import com.cafe.management.service.StockService;
 
 @RestController
-@RequestMapping("/admin_only")
+@RequestMapping("/employee_and_admin")
 public class StockController {
 
     @Autowired
@@ -20,9 +20,14 @@ public class StockController {
         return stockService.addStock(stock);
     }
     
-    
     @GetMapping("/getAllStocks")
     public List<Stock> getAllStocks(){
         return stockService.getAllStocks();
     }
+
+    @PostMapping("/updateStockById")
+    public void updateStockById(@RequestBody Stock updatedStock){
+        stockService.updateStockById(updatedStock.getId(), updatedStock);
+    }
+    
 }

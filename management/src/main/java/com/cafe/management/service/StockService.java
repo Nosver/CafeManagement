@@ -20,19 +20,23 @@ public class StockService {
     }
     
     @Transactional
-    public void updateStockByName(String stockName, Stock updatedStock) {
-        Stock existingStock = stockRepository.findByStockName(stockName);
+    public void updateStockById(Long stockId, Stock updatedStock) {
+        Stock existingStock = stockRepository.findById(stockId).orElseThrow();
         if (existingStock != null) {
             existingStock.setQuantity(updatedStock.getQuantity());
             existingStock.setStockUnit(updatedStock.getStockUnit());
 
             stockRepository.save(existingStock);
         } else {
-            throw new IllegalArgumentException("Stock with name " + stockName + " not found.");
+            throw new IllegalArgumentException("Stock with id " + stockId + " not found.");
         }
     }
     
     public List<Stock> getAllStocks(){
     	return stockRepository.findAll();
     }
+
+
+
+    
 }
