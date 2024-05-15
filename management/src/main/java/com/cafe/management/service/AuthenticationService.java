@@ -65,7 +65,10 @@ public class AuthenticationService {
 
         user.setPhoneNumber(request.getPhoneNumber());
         user.setRole(request.getRole());
-        user.setIsAccountEnabled(false);
+        if(user.getRole().equals(Role.CUSTOMER))
+            user.setIsAccountEnabled(false);
+        else
+            user.setIsAccountEnabled(true);
         user.setEmailVerificationLink(UUID.randomUUID().toString());
         user = repository.save(user);
 
@@ -81,8 +84,8 @@ public class AuthenticationService {
                 "<p>Thanks!<br/>– Cafe-in Technology</p>" +
                 "</body>" +
                 "</html>";
-
-        mailSenderService.sendNewMail(user.getEmail(), subject, body);
+        if(user.getRole().equals(Role.CUSTOMER))
+            mailSenderService.sendNewMail(user.getEmail(), subject, body);
 
         //saveUserToken(jwt, user);
 

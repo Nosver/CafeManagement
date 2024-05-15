@@ -3,16 +3,13 @@ package com.cafe.management.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.cafe.management.model.Stock;
 import com.cafe.management.service.StockService;
 
 @RestController
+@RequestMapping("/admin_only")
 public class StockController {
 
     @Autowired
