@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/public")
+@RequestMapping("/employee_and_admin")
 public class ProductController {
 
     @Autowired

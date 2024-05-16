@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Siderbar_1 } from '../../components/personel/Siderbar_1';
 import { InsertButton } from '../../components/personel/InsertButton';
 import { ItemPopup } from '../../components/personel/ItemPopup';
 import { SearchBar } from '../../components/personel/SearchBar';
 import { AddProductPopup } from './AddProductPopup';
 import { EditProductPopup } from './EditProductPopup';
+import Cookies from 'js-cookie';
+
 
 const predefinedStocks = [
     { name: 'Coffee Beans', unit: 'gr' },
@@ -14,81 +16,52 @@ const predefinedStocks = [
 ];
 
 
-class product {
-
-    constructor(id, name, quantity, price, total_price, category, stock = []) {
-        this.id = id;
-        this.name = name;
-        this.category = category;
-        this.quantity = quantity;
-        this.price = price;
-        this.total_price = total_price;
-        this.stock = stock;
-    }
-
-    static getRandomProduct() {
-        const id = Math.floor(Math.random() * 1000);
-        const names = ['Premium Arabic Coffee', 'Premium Italian Latte', 'Standard Espresso', 'Strawberry Milkshake', 'Caramel Frappuccino', 'Vanilla Ice Cream', 'Black Coffee', 'Green Tea', 'Blueberry Muffin', 'Chocolate Chip Cookie', 'Cinnamon Roll', 'Apple Pie', 'Cheese Cake', 'Brownie', 'Mocha', 'Cappuccino', 'Hot Chocolate', 'Iced Tea', 'Lemonade', 'Orange Juice'];
-        const randomName = names[Math.floor(Math.random() * names.length)];
-        const randomQuantity = Math.floor(Math.random() * 100) + 1;
-        const randomPrice = (Math.random() * 20.0).toFixed(2);
-        const randomTotalPrice = randomPrice * randomQuantity;
-
-        // Randomly select stock from predefinedStocks
-        const randomIndex1 = Math.floor(Math.random() * predefinedStocks.length);
-        const randomStock = predefinedStocks[randomIndex1];
-
-        let randomIndex2;
-        do {
-            randomIndex2 = Math.floor(Math.random() * predefinedStocks.length);
-        } while (randomIndex2 === randomIndex1);  // Make sure the second random index is different
-
-        const randomStock2 = predefinedStocks[randomIndex2];
-
-        return new product(id, randomName, randomQuantity, randomPrice, randomTotalPrice, 'Other', [{ name: randomStock.name, unit: randomStock.unit, amount: Math.floor(Math.random() * 500) + 1 },{ name: randomStock2.name, unit: randomStock2.unit, amount: Math.floor(Math.random() * 500) + 1 }]);
-    }
-
-    static getAllProducts() {
-        const products = [];
-        const names = ['Premium Arabic Coffee', 'Premium Italian Latte', 'Standard Espresso', 'Strawberry Milkshake', 'Caramel Frappuccino', 'Vanilla Ice Cream', 'Black Coffee', 'Green Tea', 'Blueberry Muffin', 'Chocolate Chip Cookie', 'Cinnamon Roll', 'Apple Pie', 'Cheese Cake', 'Brownie', 'Mocha', 'Cappuccino', 'Hot Chocolate', 'Iced Tea', 'Lemonade', 'Orange Juice'];
-        const categories = ['Coffee', 'Milkshake', 'Frappuccino', 'Ice Cream', 'Tea', 'Muffin', 'Cookie', 'Roll', 'Pie', 'Cake', 'Brownie', 'Mocha', 'Cappuccino', 'Hot Chocolate', 'Iced Tea', 'Lemonade', 'Juice'];
-
-        for (let name of names) {
-            const productName = name;
-            const productPrice = (Math.random() * 20.0).toFixed(2);
-            const productQuantity = Math.floor(Math.random() * 100) + 1;
-            const productIngredient = name; // Assuming the ingredient is the same as the product name
-            const randomID = Math.floor(Math.random() * 1000);
-
-            // Assign a category based on the product name
-            const productCategory = categories.find(category => productName.includes(category)) || 'Other';
-
-            // Randomly select stock from predefinedStocks
-            const randomIndex1 = Math.floor(Math.random() * predefinedStocks.length);
-            const randomStock = predefinedStocks[randomIndex1];
-
-            let randomIndex2;
-            do {
-                randomIndex2 = Math.floor(Math.random() * predefinedStocks.length);
-            } while (randomIndex2 === randomIndex1);  // Make sure the second random index is different
-
-            const randomStock2 = predefinedStocks[randomIndex2];
-
-            const newProduct = new product(randomID, productName, productQuantity, productPrice, productPrice * productQuantity, productCategory, [{ name: randomStock.name, unit: randomStock.unit, amount: Math.floor(Math.random() * 500) + 1 },{ name: randomStock2.name, unit: randomStock2.unit, amount: Math.floor(Math.random() * 500) + 1 }]);
-            products.push(newProduct);
-        }
-
-        return products;
-    }
-}
 
 export const Products = () => {
 
-    // Create random products for cafe
-    const products = product.getAllProducts();
 
-    const [productsArray, setProductsArray] = useState(products);
-    const [productsShow, setProductsShow] = useState(productsArray);
+    useEffect(() => {
+        const fetchProducts = async () => {
+          const token = Cookies.get('token');
+          
+          if (!token) {
+            setError('No token found');
+            return;
+          }
+    
+          try {
+            const response = await fetch('http://localhost:8080/employee_and_admin/getAllProducts', {
+              method: 'GET',
+              headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+              }
+            });
+
+    
+            if (!response.ok) {
+              throw new Error(`HTTP error! status: ${response.status}`);
+            }
+    
+            const data = await response.json();
+
+            setProductsArray(data);
+            setProductsShow(data);
+
+          } catch (error) {
+            setError(error.message);
+          }
+        };
+    
+        fetchProducts();
+      }, []);
+
+
+    const [productsArray, setProductsArray] = useState([]);
+    const [productsShow, setProductsShow] = useState([]);
+
+    const [categoryArray, setCategoriesArray] = useState([]);
+
 
     const [showPopup, setShowPopup] = useState(false);
     const openPopup = () => setShowPopup(true);
@@ -190,14 +163,14 @@ export const Products = () => {
                                                     {product.category.toString()}
                                                 </td>
                                                 <td class="px-6 py-4">
-                                                    {product.quantity.toString()}
+                                                    {5}
                                                 </td>
                                                 <td class="px-6 py-4">
-                                                    {product.price.toString()}€
+                                                    {product.price.toString()}₺
                                                 </td>
 
                                                 <td class="px-6 py-4">
-                                                    ${product.total_price.toFixed(2)}
+                                                    {product.price * 5}₺
                                                 </td>
                                                 <td class="px-6 py-4">
                                                     <div
