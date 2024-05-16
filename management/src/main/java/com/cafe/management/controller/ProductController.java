@@ -29,7 +29,12 @@ public class ProductController {
     @PostMapping("/updateProductById")
     public ResponseEntity<Product> updateProductById(@RequestBody Product updatedProduct){
         productService.updateProductById(updatedProduct);
-        return ResponseEntity.status(HttpStatus.OK).build();
+        try {
+            productService.updateProductById(updatedProduct);
+            return ResponseEntity.status(HttpStatus.OK).build();
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to update product");
+        }
     }
     
     @PostMapping("/deleteProductById")
@@ -45,5 +50,14 @@ public class ProductController {
     @GetMapping("/getAllProducts")
     public ResponseEntity<List<Product>> getAllProducts(){
         return ResponseEntity.ok(productService.getAllProducts());
+    }
+
+    @GetMapping("/getProductByName") // get specific product with its detail like required stock, comments etc
+    public ResponseEntity<Product> getProductByName(@RequestParam String name){
+        Product product = productService.getProductByName(name);
+        if(product == null){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+        return ResponseEntity.ok(product);
     }
 }
