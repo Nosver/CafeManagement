@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/public")
@@ -26,15 +27,21 @@ public class ProductController {
         return ResponseEntity.status(HttpStatus.CREATED).body(resProduct);
     }
 
-    @PostMapping("/updateProductById")
-    public ResponseEntity<Product> updateProductById(@RequestBody Product updatedProduct){
-        productService.updateProductById(updatedProduct);
-        try {
-            productService.updateProductById(updatedProduct);
-            return ResponseEntity.status(HttpStatus.OK).build();
-        } catch (Exception e) {
-            throw new RuntimeException("Failed to update product");
+    @PostMapping("/updateProduct")
+    public ResponseEntity<Product> updateProduct(@RequestBody Product updatedProduct){
+        Optional<Product> found = productService.findProductById(updatedProduct.getId());
+        if(found == null){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
+
+        try {
+            productService.updateProduct(updatedProduct);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        }
+
+        return ResponseEntity.ok(updatedProduct);
     }
     
     @PostMapping("/deleteProductById")

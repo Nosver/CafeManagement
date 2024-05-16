@@ -1,6 +1,7 @@
 package com.cafe.management.service;
 
 import com.cafe.management.model.Product;
+import com.cafe.management.model.RequiredStock;
 import com.cafe.management.repository.ProductRepository;
 
 import java.util.List;
@@ -55,19 +56,25 @@ public class ProductService {
         productRepository.deleteById(id);
     }
 
-    public void updateProductById(Product updatedProduct){
+    public void updateProduct(Product updatedProduct){
         Long id = updatedProduct.getId();
         Product product = productRepository.findById(id).orElse(null);
         if(product == null){
             throw new IllegalArgumentException("Product with id " + id + " not found");
         }
 
+        // Create Required Product before saving product
+        List<RequiredStock> requiredStockList = requiredStockService.addRequiredStock(updatedProduct.getRequiredStocks());
+
+        // Create Product
         product.setName(updatedProduct.getName());
         product.setPrice(updatedProduct.getPrice());
         product.setDescription(updatedProduct.getDescription());
         product.setIsMultisized(updatedProduct.getIsMultisized());
         product.setImagePath(updatedProduct.getImagePath());
         product.setCategory(updatedProduct.getCategory());
+        product.setRequiredStocks(requiredStockList);
+        productRepository.save(product);
     }
 
     public List<Product> getAllProducts(){
@@ -77,6 +84,10 @@ public class ProductService {
     public Product getProductByName(String name) {
         Optional<Product> found = productRepository.findProductByName(name);
         return found.get();
+    }
+
+    public Optional<Product> findProductById(Long id){
+        return productRepository.findById(id);
     }
     
 
