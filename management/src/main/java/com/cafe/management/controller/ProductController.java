@@ -52,7 +52,7 @@ public class ProductController {
         return ResponseEntity.ok(productService.getAllProducts());
     }
 
-    @GetMapping("/getProductByName") // get specific product with its detail like required stock, comments etc
+    @GetMapping("/getProductByName") // Usage: http://XXXX/getProductByName?name=productname
     public ResponseEntity<Product> getProductByName(@RequestParam String name){
         Product product = productService.getProductByName(name);
         if(product == null){

@@ -1,5 +1,7 @@
 package com.cafe.management.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -21,6 +23,7 @@ public class RequiredStock {
     private Stock stock;
 
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "product_id", referencedColumnName = "id")
     private Product product;
 
