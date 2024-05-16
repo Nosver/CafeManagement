@@ -5,10 +5,9 @@ import com.cafe.management.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/public")
@@ -43,4 +42,8 @@ public class ProductController {
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
+    @GetMapping("/getAllProducts")
+    public ResponseEntity<List<Product>> getAllProducts(){
+        return ResponseEntity.ok(productService.getAllProducts());
+    }
 }

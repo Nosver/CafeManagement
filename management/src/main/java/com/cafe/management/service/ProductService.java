@@ -3,6 +3,7 @@ package com.cafe.management.service;
 import com.cafe.management.model.Product;
 import com.cafe.management.repository.ProductRepository;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -69,6 +70,9 @@ public class ProductService {
         product.setCategory(updatedProduct.getCategory());
     }
 
+    public List<Product> getAllProducts(){
+        return  productRepository.findAll();
+    }
     
 
 }
