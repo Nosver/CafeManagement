@@ -1,5 +1,6 @@
 package com.cafe.management.controller;
 
+import com.cafe.management.model.enums.ProductCategory;
 import com.cafe.management.model.enums.StockUnit;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,6 +17,13 @@ public class EnumController {
     @GetMapping("/GetStockUnits")
     public List<String> getStockUnits() {
         return Arrays.stream(StockUnit.values())
+                .map(Enum::name)
+                .collect(Collectors.toList());
+    }
+
+    @GetMapping("/GetProductCategories")
+    public List<String> getAllCategories() {
+        return Arrays.stream(ProductCategory.values())
                 .map(Enum::name)
                 .collect(Collectors.toList());
     }
