@@ -1,19 +1,28 @@
 import React, { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 
-export const RequiredStockInput = ({ selectedProduct }) => {
+export const RequiredStockInput = ({ selectedProduct, stocks }) => {
   const [selectedStock, setSelectedStock] = useState('');
   const [stocksList, setStocksList] = useState([]);
   const [inputText, setInputText] = useState('');
   const [quantity, setQuantity] = useState('');
 
-  // Önceden tanımlanmış öğelerin listesi
-  const predefinedStocks = [
-    { name: 'Coffee Beans', unit: 'gr' },
-    { name: 'Milk', unit: 'ml' },
-    { name: 'Sugar', unit: 'gr' },
-    { name: 'Flour', unit: 'gr' }
-  ];
+
+  const [predefinedStocks, setPredefinedStocks] = useState([]);
+
+  useEffect(() => {
+    const predefinedStocksConvert= () => {
+
+      const predefined = stocks.map(stock => ({
+        name: stock.stockName,
+        unit: stock.stockUnit
+      }));
+
+      setPredefinedStocks(predefined);
+    };
+
+    predefinedStocksConvert();
+  }, [stocks]);
 
   const handleSelectChange = (e) => {
     setSelectedStock(e.target.value);
@@ -73,7 +82,7 @@ export const RequiredStockInput = ({ selectedProduct }) => {
   return (
     <div className='mt-2'>
       {
-        console.log(stocksList)
+        console.log(predefinedStocks)
       }
       <div className='flex w-full flex-row mb-2 text-sm font-medium text-gray-900 dark:text-white'>
         <h3>Stocks</h3>

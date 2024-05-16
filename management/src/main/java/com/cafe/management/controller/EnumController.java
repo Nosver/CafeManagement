@@ -21,7 +21,7 @@ public class EnumController {
                 .collect(Collectors.toList());
     }
 
-    @GetMapping("/GetProductCategories")
+    @GetMapping("/getProductCategories")
     public List<String> getAllCategories() {
         return Arrays.stream(ProductCategory.values())
                 .map(Enum::name)

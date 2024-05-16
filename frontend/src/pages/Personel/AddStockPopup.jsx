@@ -9,11 +9,12 @@ const StyledSelect = styled.select`
 `;
 
 const AddStockPopup = ({ closePopup }) => {
+
     const bg_color = "bg-slate-300"
     const [stockUnits,setStockUnits]= useState([]);
     const [selectedUnit, setSelectedUnit] = useState('')
     const [stockName,setStockName]= useState('')
-    const [stockQuantity,setstockQuantity]= useState('')
+    const [stockQuantity,setStockQuantity]= useState('')
     const [unitPrice,setUnitPrice]= useState('')
 
     const handleUnitChange = (event, index) => {
@@ -40,7 +41,7 @@ const AddStockPopup = ({ closePopup }) => {
           stockName: stockName,
           quantity: stockQuantity,
           unitPrice: unitPrice,
-          stockUnit:selectedUnit.toUpperCase()
+          stockUnit: selectedUnit.toUpperCase()
         };
     
         try {
@@ -138,7 +139,7 @@ const AddStockPopup = ({ closePopup }) => {
 
                                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                                 placeholder="Enter the quantity"
-                                onChange={(event) => setstockQuantity(event.target.value)}
+                                onChange={(event) => setStockQuantity(event.target.value)}
 
                                 required
                             />

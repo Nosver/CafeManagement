@@ -1,17 +1,65 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { RequiredStockInput } from '../../components/personel/RequiredStockInput';
 import { useState } from 'react';
+import Cookies from 'js-cookie';
+
 
 export const AddProductPopup = ({ closePopup }) => {
-    const categoryOptions = ["Hot Beverage",
-        "Cold Beverage",
-        "Dessert",
-        "Pastry",
-        "Sandwich",
-        "Smoothe",
-        "Other"];
+
 
     const [selectedCategory, setSelectedCategory] = useState("");
+
+    const [categoryArray, setCategoryArray] = useState([]);
+    
+    const [stocksArray, setStocksArray] = useState([]);
+
+
+    useEffect(() => {
+        const fetchCategoriesAndStocks = async () => {
+          const token = Cookies.get('token');
+          
+          if (!token) {
+            setError('No token found');
+            return;
+          }
+    
+          try {
+            const response = await fetch('http://localhost:8080/public/getProductCategories', {
+              method: 'GET',
+              headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+              }
+            });
+
+            const response2 = await fetch('http://localhost:8080/employee_and_admin/getAllStocks', {
+              method: 'GET',
+              headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+              }
+            });
+
+    
+            if (!response.ok || !response2.ok) {
+              throw new Error(`HTTP error! status: ${response.status} ${response2.status}`);
+            }
+    
+            const data = await response.json();
+            const data2 = await response2.json();
+
+            setCategoryArray(data);
+            setStocksArray(data2);
+
+          } catch (error) {
+            setError(error.message);
+          }
+        };
+    
+        fetchCategoriesAndStocks();
+      }, []);
+
+
     return (
         <div id="crud-modal" tabIndex="-1" aria-hidden="true" className="overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 bottom-0 z-50 flex justify-center items-center bg-gray-800/50">
             <div className="relative p-4 w-full max-w-md max-h-full">
@@ -37,10 +85,6 @@ export const AddProductPopup = ({ closePopup }) => {
                     <form className="p-4 md:p-5 ">
                         <div className="grid gap-4 mb-4 grid-cols-2 w-96">
                             <div className="col-span-2" >
-
-
-
-
 
                                 <label className="  block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                                     Name
@@ -71,13 +115,13 @@ export const AddProductPopup = ({ closePopup }) => {
                                     required
                                 >
                                     <option value="">Select category</option>
-                                    {categoryOptions.map((category, index) => (
+                                    {categoryArray.map((category, index) => (
                                         <option key={index} value={category}>{category}</option>
                                     ))}
                                 </select>
 
 
-                                <RequiredStockInput />
+                                <RequiredStockInput stocks={stocksArray}/>
 
 
                                 <label className=" mt-5 block mb-2 text-sm font-medium text-gray-900 dark:text-white">
