@@ -9,10 +9,73 @@ export const AddProductPopup = ({ closePopup }) => {
 
     const [selectedCategory, setSelectedCategory] = useState("");
 
+    const [name, setName] = useState("");
+
+    const [price, setPrice] = useState("");
+
+    const [description, setDescription] = useState("");
+    
+    const [imgPath, setImgPath] = useState("");
+
     const [categoryArray, setCategoryArray] = useState([]);
     
     const [stocksArray, setStocksArray] = useState([]);
 
+    const [stocksListParent, setStocksListParent] = useState([]);
+
+    const handleStockList = (stocksList) => {
+        setStocksListParent(stocksList);
+    }
+
+
+
+    const onSubmitFunction = async (e) => {
+        e.preventDefault();
+        
+        const token = Cookies.get('token');
+          
+          if (!token) {
+            setError('No token found');
+            return;
+          }
+
+        const productData = {
+            name: name,
+            price: price,
+            description: description,
+            requiredStocks: stocksListParent.map(stock => ({
+                amount: stock.quantity,
+                stock: {
+                    stockName: stock.name
+                }
+            })),
+            category: selectedCategory
+        };
+
+        console.log(productData);
+
+          try {
+            const response = await fetch('http://localhost:8080/employee_and_admin/addProduct', {
+              method: 'POST',
+              headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify(productData)
+            });
+
+    
+            if (!response.ok) {
+              throw new Error(`HTTP error! status: ${response.status}`);
+            }
+    
+            const data = await response.json();
+
+          } catch (error) {
+            console.log(error.message);
+          }
+
+    }
 
     useEffect(() => {
         const fetchCategoriesAndStocks = async () => {
@@ -82,7 +145,7 @@ export const AddProductPopup = ({ closePopup }) => {
                         </button>
                     </div>
 
-                    <form className="p-4 md:p-5 ">
+                    <form className="p-4 md:p-5" onSubmit={onSubmitFunction}>
                         <div className="grid gap-4 mb-4 grid-cols-2 w-96">
                             <div className="col-span-2" >
 
@@ -94,6 +157,7 @@ export const AddProductPopup = ({ closePopup }) => {
                                     className="mb-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                                     required
                                     placeholder='Type product name'
+                                    onChange={(event) => setName(event.target.value)}
                                 />
                                 <label className=" mt-5 block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                                     Price
@@ -104,6 +168,7 @@ export const AddProductPopup = ({ closePopup }) => {
                                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                                     placeholder='Enter a price'
                                     required
+                                    onChange={(event) => setPrice(event.target.value)}
                                 />
                                 <label className="mt-5 block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                                     Category
@@ -121,7 +186,7 @@ export const AddProductPopup = ({ closePopup }) => {
                                 </select>
 
 
-                                <RequiredStockInput stocks={stocksArray}/>
+                                <RequiredStockInput stocks={stocksArray} handleStockList = {handleStockList}/>
 
 
                                 <label className=" mt-5 block mb-2 text-sm font-medium text-gray-900 dark:text-white">
@@ -145,11 +210,7 @@ export const AddProductPopup = ({ closePopup }) => {
                                     Product Description
                                 </label>
 
-                                <textarea className='w-96'></textarea>
-
-
-
-
+                                <textarea onChange={(event) => setDescription(event.target.value)} className='w-96'></textarea>
 
                             </div>
 
@@ -157,7 +218,6 @@ export const AddProductPopup = ({ closePopup }) => {
                         </div>
                         <div className='flex flex-row gap-4'>
                             <button
-                                onClick={() => onSubmitFunction()}
                                 type="submit"
                                 className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
                             >

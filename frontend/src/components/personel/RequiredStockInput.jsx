@@ -1,26 +1,26 @@
 import React, { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 
-export const RequiredStockInput = ({ selectedProduct, stocks }) => {
+export const RequiredStockInput = ({ handleStockList, selectedProduct, stocks }) => {
   const [selectedStock, setSelectedStock] = useState('');
   const [stocksList, setStocksList] = useState([]);
   const [inputText, setInputText] = useState('');
   const [quantity, setQuantity] = useState('');
-
-
   const [predefinedStocks, setPredefinedStocks] = useState([]);
 
-  useEffect(() => {
-    const predefinedStocksConvert= () => {
+  const sendDataToParent = (updatedStocksList) => {
+    console.log(updatedStocksList);
+    handleStockList(updatedStocksList);
+  };
 
+  useEffect(() => {
+    const predefinedStocksConvert = () => {
       const predefined = stocks.map(stock => ({
         name: stock.stockName,
         unit: stock.stockUnit
       }));
-
       setPredefinedStocks(predefined);
     };
-
     predefinedStocksConvert();
   }, [stocks]);
 
@@ -33,30 +33,37 @@ export const RequiredStockInput = ({ selectedProduct, stocks }) => {
   };
 
   const handleQuantityChange = (e) => {
-      setQuantity(e.target.value);
+    setQuantity(e.target.value);
   };
 
-  const handleAddStock = () => {
-    if(quantity <= 0) {
+  const handleAddStock = (e) => {
+    e.preventDefault();
+
+    if (quantity <= 0) {
       toast.warning('Quantity must be greater than 0');
       return;
     }
 
     if (selectedStock.trim() !== '' && quantity.trim() !== '' && !stocksList.find(stock => stock.name === selectedStock.trim())) {
-      setStocksList([...stocksList, { name: selectedStock.trim(), quantity: quantity }]);
+      setStocksList(prevStocksList => {
+        const newStocksList = [...prevStocksList, { name: selectedStock.trim(), quantity: quantity }];
+        sendDataToParent(newStocksList);  // Send the updated list to the parent
+        return newStocksList;
+      });
       setSelectedStock('');
       setInputText('');
       setQuantity('');
-    }
-    // If the selected stock is already in the list, do not add it again only update the quantity
-    else if(stocksList.find(stock => stock.name === selectedStock.trim())) {
-      const updatedStocks = stocksList.map(stock => {
-        if(stock.name === selectedStock.trim()) {
-          stock.quantity = quantity;
-        }
-        return stock;
+    } else if (stocksList.find(stock => stock.name === selectedStock.trim())) {
+      setStocksList(prevStocksList => {
+        const updatedStocks = prevStocksList.map(stock => {
+          if (stock.name === selectedStock.trim()) {
+            stock.quantity = quantity;
+          }
+          return stock;
+        });
+        sendDataToParent(updatedStocks);  // Send the updated list to the parent
+        return updatedStocks;
       });
-      setStocksList(updatedStocks);
       setSelectedStock('');
       setInputText('');
       setQuantity('');
@@ -64,9 +71,12 @@ export const RequiredStockInput = ({ selectedProduct, stocks }) => {
   };
 
   const handleRemoveStock = (stockToRemove) => {
-    setStocksList(stocksList.filter(stock => stock.name !== stockToRemove));
+    setStocksList(prevStocksList => {
+      const updatedStocks = prevStocksList.filter(stock => stock.name !== stockToRemove);
+      sendDataToParent(updatedStocks);  // Send the updated list to the parent
+      return updatedStocks;
+    });
   };
-
 
   const filteredStocks = predefinedStocks.filter(stock =>
     stock.name.toLowerCase().includes(inputText.toLowerCase())
@@ -75,22 +85,18 @@ export const RequiredStockInput = ({ selectedProduct, stocks }) => {
   useEffect(() => {
     if (selectedProduct && selectedProduct.stock) {
       setStocksList(selectedProduct.stock.map(stock => ({ name: stock.name.trim(), quantity: stock.amount })));
+      sendDataToParent(selectedProduct.stock.map(stock => ({ name: stock.name.trim(), quantity: stock.amount })));
     }
   }, [selectedProduct]);
 
-
   return (
     <div className='mt-2'>
-      {
-        console.log(predefinedStocks)
-      }
       <div className='flex w-full flex-row mb-2 text-sm font-medium text-gray-900 dark:text-white'>
         <h3>Stocks</h3>
       </div>
 
       <div className="flex items-center justify-center">
         <div className='flex flex-row gap-10'>
-
           <div className='flex flex-col'>
             <input
               id="input1"
@@ -110,7 +116,6 @@ export const RequiredStockInput = ({ selectedProduct, stocks }) => {
                 <option key={index} value={stock.name}>{stock.name}</option>
               ))}
             </select>
-
           </div>
           <div className='flex flex-col'>
             <button
@@ -139,11 +144,11 @@ export const RequiredStockInput = ({ selectedProduct, stocks }) => {
           >
             {stock.name}: {stock.quantity} {predefinedStocks.find(item => item.name === stock.name).unit}
             <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 ml-3 hover:text-gray-300" viewBox="0 0 20 20" fill="currentColor">
-              <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
+              <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-10.707a1 1 0 00-1.414-1.414L10 7.586 7.707 5.293a1 1 0 10-1.414 1.414L8.586 9 6.293 11.293a1 1 0 001.414 1.414L10 10.414l2.293 2.293a1 1 0 001.414-1.414L11.414 9l2.293-2.293z" clipRule="evenodd" />
             </svg>
           </span>
         ))}
       </div>
     </div>
-  )
-}
+  );
+};

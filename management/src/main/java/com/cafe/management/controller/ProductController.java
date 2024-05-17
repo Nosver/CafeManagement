@@ -19,6 +19,7 @@ public class ProductController {
 
     @PostMapping("/addProduct")
     public ResponseEntity<Product> addProduct(@RequestBody Product product){
+        System.out.print(product);
         Product resProduct = productService.addProduct(product);
         if(resProduct == null){
             return ResponseEntity.status(HttpStatus.FOUND).build();
