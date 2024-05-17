@@ -15,10 +15,7 @@ public class RequiredStockController {
     @Autowired
     private RequiredStockService requiredStockService;
 
-    @PostMapping("/addRequiredStock")
-    public void addRequiredStock(@RequestBody RequiredStock requiredStock){
-        requiredStockService.addRequiredStock(requiredStock);
-    }
+
     
 
 

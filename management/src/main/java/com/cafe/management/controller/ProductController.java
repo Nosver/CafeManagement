@@ -20,7 +20,6 @@ public class ProductController {
     @PostMapping("/addProduct")
     public ResponseEntity<Product> addProduct(@RequestBody Product product){
         Product resProduct = productService.addProduct(product);
-        System.out.println(product.getCategory());
         if(resProduct == null){
             return ResponseEntity.status(HttpStatus.FOUND).build();
         }
@@ -29,10 +28,6 @@ public class ProductController {
 
     @PostMapping("/updateProduct")
     public ResponseEntity<Product> updateProduct(@RequestBody Product updatedProduct){
-        Optional<Product> found = productService.findProductById(updatedProduct.getId());
-        if(found == null){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
-        }
 
         try {
             productService.updateProduct(updatedProduct);

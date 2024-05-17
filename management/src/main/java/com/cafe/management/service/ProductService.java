@@ -22,31 +22,26 @@ public class ProductService {
 
     public Product addProduct(Product product){
         
-        // if product already exists in db, don not add it again
         Optional<Product> existingProduct = productRepository.findProductByName(product.getName());
         if(existingProduct.isPresent()){
-            return null;
+            throw new IllegalArgumentException("Product Already exists");
         }
 
-        /*
-        List<RequiredStock> found = product.getRequiredStocks();
-        if(found == null){ 
-            throw new IllegalArgumentException("Required stock is missing");
+        if(product.getRequiredStocks().isEmpty()){
+            throw new IllegalArgumentException("required stock is empty");
         }
-        
-        List<RequiredStock> requiredStocksToBeInserted = new ArrayList<RequiredStock>();
-        for(RequiredStock requiredStock : found){
-            RequiredStock req = requiredStockService.findById(requiredStock.getId());
-            if(req != null){
-                requiredStocksToBeInserted.add(req);
-            }
-        }
-        product.setRequiredStocks(requiredStocksToBeInserted);
-         */
 
-        productRepository.save(product);
-        return product;
+
+        Product p= productRepository.save(product);
+
+
+        List<RequiredStock> requiredStocks= requiredStockService.addRequiredStocks(product.getRequiredStocks(),p) ;
+
+        return p;
+
     }
+
+
 
     public Product getProductById(Long id){
         return productRepository.findById(id).orElse(null);
@@ -56,25 +51,27 @@ public class ProductService {
         productRepository.deleteById(id);
     }
 
-    public void updateProduct(Product updatedProduct){
+    public Product updateProduct(Product updatedProduct){
         Long id = updatedProduct.getId();
         Product product = productRepository.findById(id).orElse(null);
         if(product == null){
             throw new IllegalArgumentException("Product with id " + id + " not found");
         }
 
-        // Create Required Product before saving product
-        List<RequiredStock> requiredStockList = requiredStockService.addRequiredStock(updatedProduct.getRequiredStocks());
+        // Delete All Required Stock for given product
+        requiredStockService.deleteRequiredStocks(product);
 
-        // Create Product
+        //create new Required stocks
+        List<RequiredStock> newRequiredStocks= requiredStockService.addRequiredStocks(updatedProduct.getRequiredStocks(),updatedProduct);
+
         product.setName(updatedProduct.getName());
         product.setPrice(updatedProduct.getPrice());
         product.setDescription(updatedProduct.getDescription());
         product.setIsMultisized(updatedProduct.getIsMultisized());
         product.setImagePath(updatedProduct.getImagePath());
         product.setCategory(updatedProduct.getCategory());
-        product.setRequiredStocks(requiredStockList);
-        productRepository.save(product);
+        product.setRequiredStocks(newRequiredStocks);
+       return productRepository.save(product);
     }
 
     public List<Product> getAllProducts(){

@@ -1,5 +1,6 @@
 package com.cafe.management.service;
 
+import com.cafe.management.model.Product;
 import com.cafe.management.model.RequiredStock;
 import com.cafe.management.model.Stock;
 import com.cafe.management.repository.RequiredStockRepository;
@@ -21,50 +22,28 @@ public class RequiredStockService {
     @Autowired
     private StockService stockService;
 
-    public RequiredStock addRequiredStock(RequiredStock requiredStock){
-
-        // Check for which product requiredProduct belong to
-
-        // Check if stock exists
+    public RequiredStock addRequiredStock(RequiredStock requiredStock, Product product){
         if(requiredStock.getStock() == null){
-            throw new IllegalArgumentException("Body does not contain stock!");
+            throw new IllegalArgumentException("Stock field does not exist");
         }
+        Stock found =stockService.findByStockName(requiredStock.getStock().getStockName());
 
-        // Check if stock exists in database
-        if(stockService.findByStockName(requiredStock.getStock().getStockName()) == null){
-            throw new IllegalArgumentException("Given stock name does not exists in database!");
-        }
 
-        // If required stock already exist change it
-        Optional<RequiredStock> found = requiredStockRepository.findByStock(requiredStock.getStock());
-
-        if(found.isPresent()){ 
-            RequiredStock founded = found.get();
-            founded.setProduct(requiredStock.getProduct());
-            founded.setAmount(requiredStock.getAmount());
-            founded.setStock(requiredStock.getStock());
-
-            return requiredStockRepository.save(founded);
-        }
-
-        // If not create new one
-        
-        Stock toBeCreated = stockService.findByStockName(requiredStock.getStock().getStockName());
-
-        if(toBeCreated != null){
-            requiredStock.setStock(toBeCreated);
-            return requiredStockRepository.save(requiredStock);
+        if(found != null){
+            requiredStock.setStock(found);
+            requiredStock.setProduct(product);
+            return  requiredStockRepository.save(requiredStock);
         }
         else{
-            throw new IllegalArgumentException("Stock not found in database");
+            throw new IllegalArgumentException("Stock not found");
         }
 
     }
 
-    public List<RequiredStock> addRequiredStock(List<RequiredStock> requiredStock){
+    public List<RequiredStock> addRequiredStocks(List<RequiredStock> requiredStock,Product product){
         List<RequiredStock> stockList = new ArrayList<RequiredStock>();
         for(RequiredStock reqStock : requiredStock){
-            stockList.add(addRequiredStock(reqStock));
+            stockList.add(addRequiredStock(reqStock,product));
         }
         return stockList;
     }
@@ -73,4 +52,8 @@ public class RequiredStockService {
         return requiredStockRepository.findById(id).orElse(null);
     }
 
+    public void deleteRequiredStocks(Product product)  {
+
+        requiredStockRepository.deleteRequiredStocksByProductId(product.getId());
+    }
 }
