@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 
-export const RequiredStockInput = ({ handleStockList, stocks }) => {
+export const RequiredStockInput2 = ({ handleStockList, stocks, stocksListParent }) => {
+
   const [selectedStock, setSelectedStock] = useState('');
-  const [stocksList, setStocksList] = useState([]);
+  const [stocksList, setStocksList] = useState([...stocksListParent]);
   const [inputText, setInputText] = useState('');
   const [quantity, setQuantity] = useState('');
   const [predefinedStocks, setPredefinedStocks] = useState([]);
+
 
   const sendDataToParent = (updatedStocksList) => {
     console.log(updatedStocksList);
@@ -89,7 +91,7 @@ export const RequiredStockInput = ({ handleStockList, stocks }) => {
       sendDataToParent(selectedProduct.stock.map(stock => ({ name: stock.name.trim(), quantity: stock.amount })));
     }
   }, [selectedProduct]);
-*/
+  */
 
   return (
     <div className='mt-2'>
@@ -138,13 +140,13 @@ export const RequiredStockInput = ({ handleStockList, stocks }) => {
         </div>
       </div>
       <div className='px-2 pt-2 pb-11 mb-3 flex flex-wrap rounded-lg bg-blue-200 dark:bg-gray-400 mt-5'>
-        {stocksList.map((stock, index) => (
+        {stocksList.map((reqStock, index) => (
           <span
             key={index}
             className="flex flex-wrap pl-4 pr-2 py-2 m-1 justify-between items-center text-sm font-medium rounded-xl cursor-pointer bg-blue-500 text-gray-200 hover:bg-blue-600 hover:text-gray-100 dark:bg-gray-700 dark:text-gray-200 dark:hover:bg-gray-800 dark:hover:text-gray-100"
             onClick={() => handleRemoveStock(stock.name)}
           >
-            {stock.name}: {stock.quantity} {predefinedStocks.find(item => item.name === stock.name).unit}
+            {reqStock.stock.stockName}: {reqStock.amount} {predefinedStocks.find(item => item.name === reqStock.stock).stockUnit}
             <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 ml-3 hover:text-gray-300" viewBox="0 0 20 20" fill="currentColor">
               <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-10.707a1 1 0 00-1.414-1.414L10 7.586 7.707 5.293a1 1 0 10-1.414 1.414L8.586 9 6.293 11.293a1 1 0 001.414 1.414L10 10.414l2.293 2.293a1 1 0 001.414-1.414L11.414 9l2.293-2.293z" clipRule="evenodd" />
             </svg>

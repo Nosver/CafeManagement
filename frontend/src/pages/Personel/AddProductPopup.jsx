@@ -6,7 +6,6 @@ import Cookies from 'js-cookie';
 
 export const AddProductPopup = ({ closePopup }) => {
 
-
     const [selectedCategory, setSelectedCategory] = useState("");
 
     const [name, setName] = useState("");
@@ -27,10 +26,7 @@ export const AddProductPopup = ({ closePopup }) => {
         setStocksListParent(stocksList);
     }
 
-
-
     const onSubmitFunction = async (e) => {
-        e.preventDefault();
         
         const token = Cookies.get('token');
           
@@ -74,7 +70,6 @@ export const AddProductPopup = ({ closePopup }) => {
           } catch (error) {
             console.log(error.message);
           }
-
     }
 
     useEffect(() => {

@@ -143,7 +143,7 @@ export const Products = () => {
                                         }
 
                                         {showPopup_edit &&
-                                            <EditProductPopup selectedProduct={selectedProduct} closePopup={closePopup_edit}/>
+                                            <EditProductPopup selectedProductName={selectedProduct.name} closePopup={closePopup_edit}/>
                                         }
 
                                         {productsShow.map((product, index) => (

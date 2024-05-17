@@ -1,24 +1,171 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { RequiredStockInput } from '../../components/personel/RequiredStockInput';
 import { toast } from 'react-toastify';
 import { useState } from 'react';
+import { RequiredStockInput2 } from '../../components/personel/RequiredStockInput2';
+import Cookies from 'js-cookie';
 
-export const EditProductPopup = ({ closePopup, selectedProduct }) => {
+
+export const EditProductPopup = ({ closePopup, selectedProductName }) => {
 
     const handleDeleteProduct = () => {
         closePopup();
         toast.success('Product deleted successfully');
     };
     
-    const categoryOptions = ["Hot Beverage",
-        "Cold Beverage",
-        "Dessert",
-        "Pastry",
-        "Sandwich",
-        "Smoothe",
-        "Other"];
+    const handleStockList = (stocksList) => {
+        setStocksListParent(stocksList);
+    }
 
-    const [selectedCategory, setSelectedCategory] = useState("");
+    const [name, setName] = useState("");
+
+    const [price, setPrice] = useState("");
+
+    const [description, setDescription] = useState("");
+    
+    const [imgPath, setImgPath] = useState("");
+
+    const [category, setCategory] = useState("");
+
+    const [categoryArray, setCategoryArray] = useState([]);
+    
+    const [stocksArray, setStocksArray] = useState([]);
+
+    const [stocksListParent, setStocksListParent] = useState([]);
+
+    const [selectedProduct, setSelectedProduct] = useState("");
+
+    const onSubmitFunction = async (e) => {
+        
+        const token = Cookies.get('token');
+          
+          if (!token) {
+            setError('No token found');
+            return;
+          }
+
+        const productData = {
+            name: name,
+            price: price,
+            description: description,
+            requiredStocks: stocksListParent.map(stock => ({
+                amount: stock.quantity,
+                stock: {
+                    stockName: stock.name
+                }
+            })),
+            category: category
+        };
+
+          try {
+            const response = await fetch('http://localhost:8080/employee_and_admin/addProduct', {
+              method: 'POST',
+              headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify(productData)
+            });
+
+    
+            if (!response.ok) {
+              throw new Error(`HTTP error! status: ${response.status}`);
+            }
+    
+            const data = await response.json();
+
+          } catch (error) {
+            console.log(error.message);
+          }
+    }
+    
+    const fetchProductByName = async () => {
+        const token = Cookies.get('token');
+          
+          if (!token) {
+            console.log('No token found');
+            return;
+          }
+    
+          try {
+            const response = await fetch('http://localhost:8080/employee_and_admin/getProductByName?name=' + selectedProductName, {
+              method: 'GET',
+              headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+              }
+            });
+
+    
+            if (!response.ok) {
+              throw new Error(`HTTP error! status: ${response.status}`);
+            }
+    
+            const data = await response.json();
+            setName(data.name);
+            setPrice(data.price);
+            setDescription(data.description);
+            setImgPath(data.imagePath);
+            setCategory(data.category);
+            setStocksListParent(prevRequiredStocks => [
+                ...prevRequiredStocks,
+                ...data.requiredStocks
+            ]);
+            return data;
+
+          } catch (error) {
+            console.log(error.message);
+          }
+    }
+
+
+    useEffect(() => {
+        const fetchCategoriesAndStocks = async () => {
+          const token = Cookies.get('token');
+          
+          if (!token) {
+            setError('No token found');
+            return;
+          }
+    
+          try {
+            const response = await fetch('http://localhost:8080/public/getProductCategories', {
+              method: 'GET',
+              headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+              }
+            });
+
+            const response2 = await fetch('http://localhost:8080/employee_and_admin/getAllStocks', {
+              method: 'GET',
+              headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+              }
+            });
+
+    
+            if (!response.ok || !response2.ok) {
+              throw new Error(`HTTP error! status: ${response.status} ${response2.status}`);
+            }
+    
+            const data = await response.json();
+            const data2 = await response2.json();
+
+            setCategoryArray(data);
+            setStocksArray(data2);
+
+          } catch (error) {
+            setError(error.message);
+          }
+        };
+    
+        setSelectedProduct(fetchProductByName());
+
+        fetchCategoriesAndStocks();
+      }, []);
+
 
     return (
         <div id="crud-modal" tabIndex="-1" aria-hidden="true" className="overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 bottom-0 z-50 flex justify-center items-center bg-gray-800/50">
@@ -55,6 +202,8 @@ export const EditProductPopup = ({ closePopup, selectedProduct }) => {
                                     className="mb-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                                     required
                                     placeholder='Type product name'
+                                    value={name}
+                                    onChange={(e) => setName(e.target.value)}
                                 />
                                 <label className=" mt-5 block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                                     Price
@@ -65,24 +214,26 @@ export const EditProductPopup = ({ closePopup, selectedProduct }) => {
                                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                                     placeholder='Enter a price'
                                     required
+                                    value={price}
+                                    onChange={(e) => setPrice(e.target.value)}
                                 />
                                <label className="mt-5 block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                                     Category
                                 </label>
                                 <select
                                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                    value={selectedCategory}
-                                    onChange={(e) => setSelectedCategory(e.target.value)}
+                                    value={category}
+                                    onChange={(e) => setCategory(e.target.value)}
                                     required
                                 >
                                     <option value="">Select category</option>
-                                    {categoryOptions.map((category, index) => (
+                                    {categoryArray.map((category, index) => (
                                         <option key={index} value={category}>{category}</option>
                                     ))}
                                 </select>
 
 
-                                <RequiredStockInput selectedProduct={selectedProduct} />
+                                <RequiredStockInput2 stocks={stocksArray}  handleStockList = {handleStockList} stocksListParent = {stocksListParent}/>
 
 
                                 <label className=" mt-5 block mb-2 text-sm font-medium text-gray-900 dark:text-white">
@@ -106,7 +257,11 @@ export const EditProductPopup = ({ closePopup, selectedProduct }) => {
                                     Product Description
                                 </label>
 
-                                <textarea className='w-96'></textarea>
+                                <textarea 
+                                className='w-96'
+                                value={description}
+                                onChange={(e) => setDescription(e.target.value)}
+                                ></textarea>
 
 
                             </div>
