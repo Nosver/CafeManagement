@@ -28,7 +28,7 @@ public class Product {
 
     private Boolean isMultisized;
 
-    @OneToMany(mappedBy =  "product")
+    @OneToMany(mappedBy =  "product",cascade = CascadeType.REMOVE)
     private List<RequiredStock> requiredStocks;
 
     private String imagePath;

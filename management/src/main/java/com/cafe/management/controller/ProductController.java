@@ -39,10 +39,15 @@ public class ProductController {
         return ResponseEntity.ok(updatedProduct);
     }
     
-    @PostMapping("/deleteProductById")
-    public ResponseEntity<Product> deleteProductById(@RequestBody Product product){
+    @DeleteMapping("/deleteProductById")
+    public ResponseEntity<Product> deleteProductById(@RequestParam Long productId){
+        //Check if product exists
+       Product p= productService.getProductById(productId);
+       if(p==null){
+           throw new IllegalArgumentException("Product is not exist");
+       }
         try {
-            productService.deleteProductById(product.getId());
+            productService.deleteProductById(productId);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
