@@ -77,9 +77,7 @@ function Dashboard() {
 
             <TopSales />
 
-            {/*<DashboardCard08 />
-
-            <DashboardCard09 />*/}
+           
 
             <LastComments />
 

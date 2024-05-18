@@ -88,7 +88,7 @@ const LoginPage = () => {
 
   return (
     <section style={{
-      backgroundImage: `url(${background2})`,
+      
       backgroundPosition: 'center',
       backgroundSize: 'cover',
       backgroundRepeat: 'no-repeat',
