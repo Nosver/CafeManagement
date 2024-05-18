@@ -12,7 +12,7 @@ const AddStockPopup = ({ closePopup }) => {
 
     const bg_color = "bg-slate-300"
     const [stockUnits,setStockUnits]= useState([]);
-    const [selectedUnit, setSelectedUnit] = useState('')
+    const [selectedUnit, setSelectedUnit] = useState('GRAM')
     const [stockName,setStockName]= useState('')
     const [stockQuantity,setStockQuantity]= useState('')
     const [unitPrice,setUnitPrice]= useState('')
