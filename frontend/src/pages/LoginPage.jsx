@@ -6,7 +6,6 @@ import { Link } from 'react-router-dom';
 import background2 from "../img/cafe-2-bg.jpg";
 import { GoogleLogin } from '@react-oauth/google';
 import Cookies from 'js-cookie';
-
 import { jwtDecode } from "jwt-decode";
 
 const LoginPage = () => {
@@ -38,8 +37,9 @@ const LoginPage = () => {
       const responseData = await response.json();
       
       const token = responseData.token;
+      const role= responseData.role;
       Cookies.set('token', token)
-      
+      Cookies.set('role', role)
       toast.success("You've successfully entered!");
       if (responseData.role === 'ADMIN' || responseData.role === 'EMPLOYEE') {
         navigate('/dashboard');
@@ -69,10 +69,14 @@ const LoginPage = () => {
         body: JSON.stringify(requestBody),
       });
 
+      const responseData = await response.json();
+
       if (!response.ok) {
         toast.error("Account not found please try registering")
         throw new Error('Failed to authenticate with server');
       }
+      Cookies.set("token",responseData.token)
+      Cookies.set('role', "CUSTOMER")
 
       navigate('/welcome');
     } catch (error) {

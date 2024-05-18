@@ -1,6 +1,7 @@
 package com.cafe.management.service;
 
 import com.cafe.management.model.AuthenticationResponse;
+import com.cafe.management.model.Mail;
 import com.cafe.management.model.Token;
 import com.cafe.management.model.User;
 import com.cafe.management.model.enums.Provider;
@@ -84,7 +85,8 @@ public class AuthenticationService {
                 "</body>" +
                 "</html>";
         if(user.getRole().equals(Role.CUSTOMER))
-            mailSenderService.sendNewMail(user.getEmail(), subject, body);
+            ;
+            mailSenderService.sendNewMail(new Mail(user.getEmail(), subject, body));
 
         //saveUserToken(jwt, user);
 

@@ -27,7 +27,7 @@ public class UserService {
 
     public List<User> getAllCustomers() {
         List<User> asd =  userRepository.findAllByRole(Role.CUSTOMER);
-        System.out.println(asd);
+        //System.out.println(asd);
         return asd;
     }
 

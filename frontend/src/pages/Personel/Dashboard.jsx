@@ -19,7 +19,9 @@ import { faMoneyBill1 } from '@fortawesome/free-regular-svg-icons';
 import Cookies from 'js-cookie';
 
 function Dashboard() {
-
+  if(Cookies.get('role')=="CUSTOMER"){
+    return (<p></p>)
+  }
  
   console.log(Cookies.get('token'));
   const [sidebarOpen, setSidebarOpen] = useState(false);
