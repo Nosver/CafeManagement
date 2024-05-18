@@ -12,9 +12,15 @@ export const EditProductPopup = ({ closePopup, selectedProductName }) => {
         closePopup();
         toast.success('Product deleted successfully');
     };
-    
+
     const handleStockList = (stocksList) => {
-        setStocksListParent(stocksList);
+        // Convert the current stocks list to a Map for easy lookup
+        const currentStocks = new Map(stocksListParent.map(stock => [stock.name, stock]));
+
+        // Only add the new stocks if they don't exist in the current stocks
+        const newStocks = stocksList.filter(stock => !currentStocks.has(stock.name));
+
+        setStocksListParent([...stocksListParent, ...newStocks]);
     }
 
     const [name, setName] = useState("");
@@ -22,13 +28,13 @@ export const EditProductPopup = ({ closePopup, selectedProductName }) => {
     const [price, setPrice] = useState("");
 
     const [description, setDescription] = useState("");
-    
+
     const [imgPath, setImgPath] = useState("");
 
     const [category, setCategory] = useState("");
 
     const [categoryArray, setCategoryArray] = useState([]);
-    
+
     const [stocksArray, setStocksArray] = useState([]);
 
     const [stocksListParent, setStocksListParent] = useState([]);
@@ -36,13 +42,13 @@ export const EditProductPopup = ({ closePopup, selectedProductName }) => {
     const [selectedProduct, setSelectedProduct] = useState("");
 
     const onSubmitFunction = async (e) => {
-        
+
         const token = Cookies.get('token');
-          
-          if (!token) {
+
+        if (!token) {
             setError('No token found');
             return;
-          }
+        }
 
         const productData = {
             name: name,
@@ -57,50 +63,50 @@ export const EditProductPopup = ({ closePopup, selectedProductName }) => {
             category: category
         };
 
-          try {
+        try {
             const response = await fetch('http://localhost:8080/employee_and_admin/addProduct', {
-              method: 'POST',
-              headers: {
-                'Authorization': `Bearer ${token}`,
-                'Content-Type': 'application/json'
-              },
-              body: JSON.stringify(productData)
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(productData)
             });
 
-    
+
             if (!response.ok) {
-              throw new Error(`HTTP error! status: ${response.status}`);
+                throw new Error(`HTTP error! status: ${response.status}`);
             }
-    
+
             const data = await response.json();
 
-          } catch (error) {
+        } catch (error) {
             console.log(error.message);
-          }
+        }
     }
-    
+
     const fetchProductByName = async () => {
         const token = Cookies.get('token');
-          
-          if (!token) {
+
+        if (!token) {
             console.log('No token found');
             return;
-          }
-    
-          try {
+        }
+
+        try {
             const response = await fetch('http://localhost:8080/employee_and_admin/getProductByName?name=' + selectedProductName, {
-              method: 'GET',
-              headers: {
-                'Authorization': `Bearer ${token}`,
-                'Content-Type': 'application/json'
-              }
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                }
             });
 
-    
+
             if (!response.ok) {
-              throw new Error(`HTTP error! status: ${response.status}`);
+                throw new Error(`HTTP error! status: ${response.status}`);
             }
-    
+
             const data = await response.json();
             setName(data.name);
             setPrice(data.price);
@@ -113,57 +119,58 @@ export const EditProductPopup = ({ closePopup, selectedProductName }) => {
             ]);
             return data;
 
-          } catch (error) {
+        } catch (error) {
             console.log(error.message);
-          }
-    }
-    
-
-  const fetchCategoriesAndStocks = async () => {
-    const token = Cookies.get('token');
-    if (!token) {
-        setError('No token found');
-        return;
+        }
     }
 
-    try {
-        const [categoryResponse, stockResponse] = await Promise.all([
-            fetch('http://localhost:8080/public/getProductCategories', {
-                method: 'GET',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                }
-            }),
-            fetch('http://localhost:8080/employee_and_admin/getAllStocks', {
-                method: 'GET',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                }
-            })
-        ]);
 
-        if (!categoryResponse.ok || !stockResponse.ok) {
-            throw new Error(`HTTP error! status: ${categoryResponse.status} ${stockResponse.status}`);
+    const fetchCategoriesAndStocks = async () => {
+        const token = Cookies.get('token');
+        if (!token) {
+            setError('No token found');
+            return;
         }
 
-        const [categoryData, stockData] = await Promise.all([
-            categoryResponse.json(),
-            stockResponse.json()
-        ]);
+        try {
+            const [categoryResponse, stockResponse] = await Promise.all([
+                fetch('http://localhost:8080/public/getProductCategories', {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    }
+                }),
+                fetch('http://localhost:8080/employee_and_admin/getAllStocks', {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    }
+                })
+            ]);
 
-        setCategoryArray(categoryData);
-        setStocksArray(stockData);
-    } catch (error) {
-        setError(error.message);
-    }
-};
+            if (!categoryResponse.ok || !stockResponse.ok) {
+                throw new Error(`HTTP error! status: ${categoryResponse.status} ${stockResponse.status}`);
+            }
 
-useEffect(() => {
-  fetchProductByName();
-  fetchCategoriesAndStocks();
-}, []);
+            const [categoryData, stockData] = await Promise.all([
+                categoryResponse.json(),
+                stockResponse.json()
+            ]);
+
+            setCategoryArray(categoryData);
+            setStocksArray(stockData);
+        } catch (error) {
+            setError(error.message);
+        }
+    };
+
+    useEffect(() => {
+        fetchProductByName();
+        fetchCategoriesAndStocks();
+        console.log("EditProductPopup useEffect called!!!");
+    }, []);
 
     return (
         <div id="crud-modal" tabIndex="-1" aria-hidden="true" className="overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 bottom-0 z-50 flex justify-center items-center bg-gray-800/50">
@@ -215,7 +222,7 @@ useEffect(() => {
                                     value={price}
                                     onChange={(e) => setPrice(e.target.value)}
                                 />
-                               <label className="mt-5 block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                <label className="mt-5 block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                                     Category
                                 </label>
                                 <select
@@ -231,7 +238,7 @@ useEffect(() => {
                                 </select>
 
 
-                                <RequiredStockInput2 stocks={stocksArray}  handleStockList = {handleStockList} stocksListParent = {stocksListParent}/>
+                                <RequiredStockInput2 stocks={stocksArray} handleStockList={handleStockList} stocksListParent={stocksListParent} />
 
 
                                 <label className=" mt-5 block mb-2 text-sm font-medium text-gray-900 dark:text-white">
@@ -255,10 +262,10 @@ useEffect(() => {
                                     Product Description
                                 </label>
 
-                                <textarea 
-                                className='w-96'
-                                value={description}
-                                onChange={(e) => setDescription(e.target.value)}
+                                <textarea
+                                    className='w-96'
+                                    value={description}
+                                    onChange={(e) => setDescription(e.target.value)}
                                 ></textarea>
 
 
@@ -274,7 +281,7 @@ useEffect(() => {
                                 Update Product
                             </button>
                             <button
-                            onClick={handleDeleteProduct}
+                                onClick={handleDeleteProduct}
                                 type="submit"
                                 className="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50"
                             >

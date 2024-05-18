@@ -54,6 +54,7 @@ export const Products = () => {
         };
     
         fetchProducts();
+        console.log("Products useEffect Called!")
       }, []);
 
 
