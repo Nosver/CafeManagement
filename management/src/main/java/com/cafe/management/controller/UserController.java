@@ -35,7 +35,8 @@ public class UserController {
     }
 
     @PostMapping("/sendCouponToEveryone")
-    public ResponseEntity<Coupon> sendCoupon(Coupon coupon){
+    public ResponseEntity<Coupon> sendCoupon(@RequestBody Coupon coupon){
+
         try {
             userService.sendCoupon(coupon);
             return ResponseEntity.ok(coupon);

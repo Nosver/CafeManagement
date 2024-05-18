@@ -14,7 +14,10 @@ public class CouponService {
     CouponRepository couponRepository;
 
     public Coupon createCoupon(User customer, Coupon coupon){
+        
         coupon.setUser(customer);
+
+        
         return couponRepository.save(coupon);
     }
 }
