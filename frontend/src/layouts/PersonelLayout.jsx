@@ -2,6 +2,7 @@ import { Sidebar } from 'flowbite-react';
 import React, { useState } from 'react'
 import {Outlet} from 'react-router-dom'
 import Cookies from 'js-cookie';
+import UnauthorizedPage from '../pages/UnauthorizedPage';
 
 const PersonelLayout = () => {
 

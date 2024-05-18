@@ -3,10 +3,16 @@ import { CartProductItem } from '../../components/Customer/CartProductItem'
 import { useState } from 'react';
 import { useEffect } from 'react';
 import { toast } from 'react-toastify';
-
+import Cookies from 'js-cookie';
+import UnauthorizedPage from '../UnauthorizedPage';
 
 export const CartPage = () => {
-
+    console.log(Cookies.get("role"))
+    if (Cookies.get("role") != "CUSTOMER" || Cookies.get("role") === undefined){
+        
+        return <UnauthorizedPage/>
+    }
+    else{
 
 
     const [products, setProducts] = useState([
@@ -270,4 +276,5 @@ export const CartPage = () => {
         </div>
     </section>
     )
+}
 }
