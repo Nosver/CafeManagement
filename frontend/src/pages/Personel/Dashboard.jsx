@@ -17,10 +17,11 @@ import { faUserTie } from '@fortawesome/free-solid-svg-icons';
 import { faUsers } from '@fortawesome/free-solid-svg-icons';
 import { faMoneyBill1 } from '@fortawesome/free-regular-svg-icons';
 import Cookies from 'js-cookie';
+import UnauthorizedPage from '../UnauthorizedPage';
 
 function Dashboard() {
   if(Cookies.get('role')=="CUSTOMER"){
-    return (<p></p>)
+    return (<UnauthorizedPage/>)
   }
  
   console.log(Cookies.get('token'));
