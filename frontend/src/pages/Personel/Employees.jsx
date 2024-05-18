@@ -5,6 +5,7 @@ import faker from 'faker';
 import { ItemPopup } from '../../components/personel/ItemPopup';
 import { InsertButton } from '../../components/personel/InsertButton';
 import { SearchBar } from '../../components/personel/SearchBar';
+import Cookies from 'js-cookie';
 
 class Employee {
   constructor(id, fullName, email, phone, address, city, country, postal_code
@@ -58,6 +59,16 @@ class Employee {
 }
 
 export const Employees = () => {
+
+  const ROLE = Cookies.get('role');
+
+  if (ROLE !== "ADMIN") {
+    return (
+      <div>
+        <h1>Unauthorized Access</h1>
+      </div>
+    );
+  }
 
   const employeeArray = Employee.generateRandomEmployees(50);
 
