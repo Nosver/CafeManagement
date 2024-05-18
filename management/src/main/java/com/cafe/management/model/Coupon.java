@@ -5,6 +5,8 @@ import lombok.*;
 
 import java.sql.Date;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Data
 @Entity
 @NoArgsConstructor
@@ -27,6 +29,7 @@ public class Coupon {
 
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id")
+    @JsonIgnore
     private User user;
 
 }

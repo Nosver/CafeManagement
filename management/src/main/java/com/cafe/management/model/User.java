@@ -85,7 +85,7 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "user")
     private List<Order> orders;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Coupon> coupons;
 
     @NotNull

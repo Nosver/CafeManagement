@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Siderbar_1 } from '../../components/personel/Siderbar_1';
 import { InsertButton } from '../../components/personel/InsertButton';
 import { Button } from 'flowbite-react';
@@ -10,55 +10,72 @@ import { EmailPopup } from '../../components/personel/EmailPopup';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPencil } from '@fortawesome/free-solid-svg-icons';
 
+import Cookies from 'js-cookie';
+
+
 class Customer {
-    constructor(id, name, coffePayBalance, moneySpendLastMonth, phone, totalSpendings) {
+    constructor(id, name, phone, totalSpendings) {
         this.id = id;
         this.name = name;
-        this.coffePayBalance = coffePayBalance;
-        this.moneySpendLastMonth = moneySpendLastMonth;
         this.phone = phone;
         this.totalSpendings = totalSpendings;
     }
-
-    static generateRandomPhoneNumber = () => {
-        const areaCode = Math.floor(Math.random() * 900) + 100; // generates a random three digit number between 100 and 999
-        const prefix = Math.floor(Math.random() * 900) + 100; // generates a random three digit number between 100 and 999
-        const lineNumber = Math.floor(Math.random() * 9000) + 1000; // generates a random four digit number between 1000 and 9999
-
-        return `+90 ${areaCode} ${prefix} ${lineNumber}`;
-    }
-
-    static generateRandomCustomer() {
-        const id = Math.floor(Math.random() * 9000) + 1000;
-        const names = ['Kemal Yıldırım', 'Doğukan Yılmaz', 'Masis Aramyan', 'Güney Kırcı', 'Ahmet Demir', 'John Doe', 'Jane Smith', 'Doe Johnson', 'Smith Brown', 'Alice Williams', 'Bob Johnson', 'Charlie Davis', 'David Wilson', 'Eve Taylor', 'Frank Anderson', 'Grace Thomas', 'Heidi Jackson'];
-        const randomName = names[Math.floor(Math.random() * names.length)];
-        const randomCoffePayBalance = Math.floor(Math.random() * 100.0) + 1.0;
-        const randomMoneySpendLastMonth = Math.floor(Math.random() * 100.0) + 1.0;
-        const randomTotalSpendings = Math.floor(Math.random() * 100.0) + 1.0;
-        const phone = this.generateRandomPhoneNumber();
-
-        return new Customer(id, randomName, randomCoffePayBalance, randomMoneySpendLastMonth, phone, randomTotalSpendings);
-    }
-
-    static getCustomers(number) {
-        let customers = [];
-        for (let i = 0; i < number; i++) {
-            customers.push(Customer.generateRandomCustomer());
-        }
-        return customers;
-    }
-
 }
 
 export const Customers = () => {
 
-    const [customersArray, setCustomersArray] = useState(Customer.getCustomers(100));
+    const fetchCustomers = async () => {
+        const token = Cookies.get('token');
 
+        if (!token) {
+            console.log('No token found');
+            return;
+        }
+
+        try {
+            const response = await fetch('http://localhost:8080/employee_and_admin/getAllCustomers', {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            const data = await response.json();
+
+            // set to the class
+            const newCustomersArray = data.map(customer =>
+                new Customer(customer.id, customer.fullName, customer.phoneNumber, 0)
+            );
+            return newCustomersArray;
+
+        } catch (error) {
+            console.log(error.message);
+            return [];
+        }
+
+    };
+
+    const [customersArray, setCustomersArray] = useState([]);
     const [customersShow, setCustomersShow] = useState(customersArray);
-
     const [showPopup, setShowPopup] = useState(false)
-
     const [showEmailPopup, setShowEmailPopup] = useState(false);
+    const [showCouponPopup, setShowCouponPopup] = useState(false);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            const result = await fetchCustomers();
+            setCustomersArray(result);
+            setCustomersShow(result);
+            console.log(result);
+        };
+
+        fetchData();
+    }, []);
 
     const openPopup = () => {
         setShowPopup(true)
@@ -67,11 +84,6 @@ export const Customers = () => {
     const closePopup = () => {
         setShowPopup(false)
     }
-
-
-    const [showCouponPopup, setShowCouponPopup] = useState(false)
-
-
 
     const openCouponPopup = () => {
         setShowCouponPopup(true)
@@ -95,15 +107,15 @@ export const Customers = () => {
     }
 
     const searchButtonSubmit = (keyword) => {
-        if(keyword == ''){
-            if(customersShow.length != customersArray.length)
+        if (keyword == '') {
+            if (customersShow.length != customersArray.length)
                 setCustomersShow(customersArray);
             return;
         }
 
-        let newArr = customersArray.filter( customer =>
+        let newArr = customersArray.filter(customer =>
             customer.name.toLowerCase().includes(keyword.toLowerCase())
-        );   
+        );
         setCustomersShow(newArr);
     }
 
@@ -114,7 +126,7 @@ export const Customers = () => {
                 <div class="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700">
 
                     <div class='flex flex-row w-6/6 mb-3'>
-                        <SearchBar searchButtonSubmit = {searchButtonSubmit} class='mr-auto'></SearchBar>
+                        <SearchBar searchButtonSubmit={searchButtonSubmit} class='mr-auto'></SearchBar>
                         <div class='flex items-center space-x-4'>
                             <Button className='bg-blue-700 text-white' onClick={openEmailPopup}>Send E-Mail</Button>
                             <Button className='bg-blue-700 text-white' onClick={openCouponPopup}>Send Coupon</Button>
@@ -136,18 +148,12 @@ export const Customers = () => {
                                                 Customer Name
                                             </th>
                                             <th scope="col" class="px-6 py-3">
-                                                CoffePay Balance
-                                            </th>
-                                            <th scope="col" class="px-6 py-3">
-                                                Money Spend Last Month
-                                            </th>
-                                            <th scope="col" class="px-6 py-3">
                                                 Total Spendings
                                             </th>
                                             <th scope="col" class="px-6 py-3">
                                                 Phone
                                             </th>
-                                            
+
                                         </tr>
                                     </thead>
 
@@ -198,21 +204,14 @@ export const Customers = () => {
                                                 <td class="px-6 py-4 whitespace-nowrap">
                                                     <div class="text-sm text-gray-900">{customersArray.name}</div>
                                                 </td>
-                                                <td class="px-6 py-4 whitespace-nowrap">
-                                                    <div class="text-sm text-gray-500">
-                                                        ${customersArray.coffePayBalance}
-                                                    </div>
-                                                </td>
-                                                <td class="px-6 py-4 whitespace-nowrap">
-                                                    <div class="text-sm text-gray-500">${customersArray.moneySpendLastMonth}</div>
-                                                </td>
+
                                                 <td class="px-6 py-4 whitespace-nowrap">
                                                     <div class="text-sm text-gray-500">${customersArray.totalSpendings}</div>
                                                 </td>
                                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                                                     {customersArray.phone}
                                                 </td>
-                                                
+
 
                                             </tr>
                                         ))}
