@@ -117,55 +117,53 @@ export const EditProductPopup = ({ closePopup, selectedProductName }) => {
             console.log(error.message);
           }
     }
-
-
-    useEffect(() => {
-        const fetchCategoriesAndStocks = async () => {
-          const token = Cookies.get('token');
-          
-          if (!token) {
-            setError('No token found');
-            return;
-          }
     
-          try {
-            const response = await fetch('http://localhost:8080/public/getProductCategories', {
-              method: 'GET',
-              headers: {
-                'Authorization': `Bearer ${token}`,
-                'Content-Type': 'application/json'
-              }
-            });
 
-            const response2 = await fetch('http://localhost:8080/employee_and_admin/getAllStocks', {
-              method: 'GET',
-              headers: {
-                'Authorization': `Bearer ${token}`,
-                'Content-Type': 'application/json'
-              }
-            });
+  const fetchCategoriesAndStocks = async () => {
+    const token = Cookies.get('token');
+    if (!token) {
+        setError('No token found');
+        return;
+    }
 
-    
-            if (!response.ok || !response2.ok) {
-              throw new Error(`HTTP error! status: ${response.status} ${response2.status}`);
-            }
-    
-            const data = await response.json();
-            const data2 = await response2.json();
+    try {
+        const [categoryResponse, stockResponse] = await Promise.all([
+            fetch('http://localhost:8080/public/getProductCategories', {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                }
+            }),
+            fetch('http://localhost:8080/employee_and_admin/getAllStocks', {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                }
+            })
+        ]);
 
-            setCategoryArray(data);
-            setStocksArray(data2);
+        if (!categoryResponse.ok || !stockResponse.ok) {
+            throw new Error(`HTTP error! status: ${categoryResponse.status} ${stockResponse.status}`);
+        }
 
-          } catch (error) {
-            setError(error.message);
-          }
-        };
-    
-        setSelectedProduct(fetchProductByName());
+        const [categoryData, stockData] = await Promise.all([
+            categoryResponse.json(),
+            stockResponse.json()
+        ]);
 
-        fetchCategoriesAndStocks();
-      }, []);
+        setCategoryArray(categoryData);
+        setStocksArray(stockData);
+    } catch (error) {
+        setError(error.message);
+    }
+};
 
+useEffect(() => {
+  fetchProductByName();
+  fetchCategoriesAndStocks();
+}, []);
 
     return (
         <div id="crud-modal" tabIndex="-1" aria-hidden="true" className="overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 bottom-0 z-50 flex justify-center items-center bg-gray-800/50">

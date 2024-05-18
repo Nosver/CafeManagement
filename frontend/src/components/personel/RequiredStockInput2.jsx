@@ -11,7 +11,6 @@ export const RequiredStockInput2 = ({ handleStockList, stocks, stocksListParent 
 
 
   const sendDataToParent = (updatedStocksList) => {
-    console.log(updatedStocksList);
     handleStockList(updatedStocksList);
   };
 
@@ -92,6 +91,7 @@ export const RequiredStockInput2 = ({ handleStockList, stocks, stocksListParent 
     }
   }, [selectedProduct]);
   */
+ //console.log(stocksListParent)
 
   return (
     <div className='mt-2'>
@@ -140,13 +140,13 @@ export const RequiredStockInput2 = ({ handleStockList, stocks, stocksListParent 
         </div>
       </div>
       <div className='px-2 pt-2 pb-11 mb-3 flex flex-wrap rounded-lg bg-blue-200 dark:bg-gray-400 mt-5'>
-        {stocksList.map((reqStock, index) => (
+        {stocksListParent.map((reqStock, index) => (
           <span
             key={index}
             className="flex flex-wrap pl-4 pr-2 py-2 m-1 justify-between items-center text-sm font-medium rounded-xl cursor-pointer bg-blue-500 text-gray-200 hover:bg-blue-600 hover:text-gray-100 dark:bg-gray-700 dark:text-gray-200 dark:hover:bg-gray-800 dark:hover:text-gray-100"
-            onClick={() => handleRemoveStock(stock.name)}
+            onClick={() => handleRemoveStock(reqStock.name)}
           >
-            {reqStock.stock.stockName}: {reqStock.amount} {predefinedStocks.find(item => item.name === reqStock.stock).stockUnit}
+            {reqStock.stock.stockName}: {reqStock.amount} {reqStock.stock.stockUnit}
             <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 ml-3 hover:text-gray-300" viewBox="0 0 20 20" fill="currentColor">
               <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-10.707a1 1 0 00-1.414-1.414L10 7.586 7.707 5.293a1 1 0 10-1.414 1.414L8.586 9 6.293 11.293a1 1 0 001.414 1.414L10 10.414l2.293 2.293a1 1 0 001.414-1.414L11.414 9l2.293-2.293z" clipRule="evenodd" />
             </svg>
