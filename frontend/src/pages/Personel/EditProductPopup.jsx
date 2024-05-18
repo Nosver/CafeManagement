@@ -20,7 +20,7 @@ export const EditProductPopup = ({ closePopup, selectedProductName }) => {
         // Only add the new stocks if they don't exist in the current stocks
         const newStocks = stocksList.filter(stock => !currentStocks.has(stock.name));
 
-        setStocksListParent([...stocksListParent, ...newStocks]);
+        setStocksListParent([...stocksList]);
     }
 
     const [name, setName] = useState("");
@@ -39,10 +39,12 @@ export const EditProductPopup = ({ closePopup, selectedProductName }) => {
 
     const [stocksListParent, setStocksListParent] = useState([]);
 
+    const [id,setId]=useState('');
+
     const [selectedProduct, setSelectedProduct] = useState("");
-
+    console.log("parent is")
+    console.log(stocksListParent)
     const onSubmitFunction = async (e) => {
-
         const token = Cookies.get('token');
 
         if (!token) {
@@ -51,20 +53,21 @@ export const EditProductPopup = ({ closePopup, selectedProductName }) => {
         }
 
         const productData = {
-            name: name,
-            price: price,
-            description: description,
-            requiredStocks: stocksListParent.map(stock => ({
-                amount: stock.quantity,
-                stock: {
-                    stockName: stock.name
-                }
-            })),
-            category: category
-        };
-
+          id:id,
+          name: name,
+          price: price,
+          description: description,
+          requiredStocks: stocksListParent.map(reqStock => ({
+              amount: reqStock.amount,
+              stock: {
+                  stockName: reqStock.stock.stockName
+              }
+          })),
+          category: category
+      };
+      console.log(productData)
         try {
-            const response = await fetch('http://localhost:8080/employee_and_admin/addProduct', {
+            const response = await fetch('http://localhost:8080/employee_and_admin/updateProduct', {
                 method: 'POST',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -78,7 +81,6 @@ export const EditProductPopup = ({ closePopup, selectedProductName }) => {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
 
-            const data = await response.json();
 
         } catch (error) {
             console.log(error.message);
@@ -108,6 +110,7 @@ export const EditProductPopup = ({ closePopup, selectedProductName }) => {
             }
 
             const data = await response.json();
+            setId(data.id)
             setName(data.name);
             setPrice(data.price);
             setDescription(data.description);
@@ -274,8 +277,8 @@ export const EditProductPopup = ({ closePopup, selectedProductName }) => {
                         </div>
                         <div className='flex flex-row gap-4'>
                             <button
-                                onClick={() => onSubmitFunction()}
-                                type="submit"
+                                onClick={onSubmitFunction}
+                               
                                 className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
                             >
                                 Update Product
