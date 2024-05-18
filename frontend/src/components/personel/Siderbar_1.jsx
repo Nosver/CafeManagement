@@ -2,8 +2,7 @@ import React, { useState } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom';
 import SidebarItem from './SidebarItem'; // adjust the path according to your file structure
 import { Spacer } from "@nextui-org/spacer";
-
-
+import Cookies from 'js-cookie';
 
 let tabActiveStatus = {
     dashboard: false,
@@ -27,6 +26,8 @@ function handleActiveTab(tab) {
 }
 
 export const Siderbar_1 = () => {
+
+    const ROLE = Cookies.get('role');
 
     const text_color = "text-gray-200";
     const bg_color = "bg-slate-800";
@@ -98,12 +99,14 @@ export const Siderbar_1 = () => {
                             <span class="flex-1 ms-3 whitespace-nowrap text-white">Customers</span>
                         </SidebarItem>
 
-                        <SidebarItem
+                        {ROLE === "ADMIN" && (
+                            <SidebarItem
                             path="/employees"
                             handleActiveTab={handleActiveTab}
                         >
                             <span class="flex-1 ms-3 whitespace-nowrap text-white">Employees</span>
                         </SidebarItem>
+                        )}
 
                         <SidebarItem
                             path="/myprofile"
