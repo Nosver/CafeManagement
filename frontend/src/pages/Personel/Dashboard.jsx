@@ -28,7 +28,7 @@ function Dashboard() {
   if(ROLE !== "ADMIN" && ROLE !== "EMPLOYEE"){
     return (
       <div>
-        <h1>Unauthorized Access</h1>
+        <UnauthorizedPage />
       </div>
     );
   }

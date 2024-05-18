@@ -6,6 +6,7 @@ import { ItemPopup } from '../../components/personel/ItemPopup';
 import { InsertButton } from '../../components/personel/InsertButton';
 import { SearchBar } from '../../components/personel/SearchBar';
 import Cookies from 'js-cookie';
+import UnauthorizedPage from '../UnauthorizedPage';
 
 class Employee {
   constructor(id, fullName, email, phone, address, city, country, postal_code
@@ -65,7 +66,7 @@ export const Employees = () => {
   if (ROLE !== "ADMIN") {
     return (
       <div>
-        <h1>Unauthorized Access</h1>
+        <UnauthorizedPage />
       </div>
     );
   }
