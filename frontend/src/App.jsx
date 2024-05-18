@@ -51,6 +51,8 @@ const router = createBrowserRouter(
         <Route path='/fail/*' element={<PaymentFail />} />
         <Route path='/Profile/*' element={<CustomerProfile />} />
         <Route path='*' element={<NotFoundPage404 />} />
+        <Route path='/LoginPage' element={<LoginPage />} />
+        <Route path='/SignUpPage' element={<SignUpPage />} />
       </Route>
 
       <Route path='/' element={<PersonelLayout />}>
@@ -65,8 +67,8 @@ const router = createBrowserRouter(
 
       </Route>
 
-      <Route path='/LoginPage' element={<LoginPage />} />
-      <Route path='/SignUpPage' element={<SignUpPage />} />
+      
+      
       <Route path='/Welcome' element={<WelcomePage />} />
       <Route path='/Logout' element={<WelcomePage />} />
       <Route path='/verify-email' element={<VerifyEmailPage />} />

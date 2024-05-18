@@ -23,6 +23,10 @@ function Dashboard() {
     return (<p></p>)
   }
  
+  if(Cookies.get('role')=="ADMIN"){
+
+  }
+  
   console.log(Cookies.get('token'));
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
@@ -64,9 +68,7 @@ function Dashboard() {
 
             <TopSales />
 
-            {/*<DashboardCard08 />
-
-            <DashboardCard09 />*/}
+           
 
             <LastComments />
 
