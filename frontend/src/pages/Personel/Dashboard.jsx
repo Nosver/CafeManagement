@@ -19,12 +19,18 @@ import { faMoneyBill1 } from '@fortawesome/free-regular-svg-icons';
 import Cookies from 'js-cookie';
 
 function Dashboard() {
-  if(Cookies.get('role')=="CUSTOMER"){
-    return (<p></p>)
-  }
- 
+
+  const ROLE = Cookies.get('role');
   console.log(Cookies.get('token'));
   const [sidebarOpen, setSidebarOpen] = useState(false);
+
+  if(ROLE !== "ADMIN" && ROLE !== "EMPLOYEE"){
+    return (
+      <div>
+        <h1>Unauthorized Access</h1>
+      </div>
+    );
+  }
 
   const userName = "Dan Joe";
   return (
@@ -48,19 +54,25 @@ function Dashboard() {
           {/* Cards */}
           <div className="grid grid-cols-12 gap-6">
 
-            <BStats Label={"Customers"} Data={"12.500"} Icon={faUserTie} />
-            <BStats Label={"Monthly Profit"} Data={"95.550₺"} Icon={faMoneyBill1} />
-            <BStats Label={"Employees"} Data={"27"} Icon={faUsers} />
+            {ROLE === "ADMIN" && (
+              <>
+                <BStats Label={"Customers"} Data={"12.500"} Icon={faUserTie} />
+                <BStats Label={"Monthly Profit"} Data={"95.550₺"} Icon={faMoneyBill1} />
+                <BStats Label={"Employees"} Data={"27"} Icon={faUsers} />
+              </>
+            )}
+
             <TopCustomersList />
 
             <RecentReviews />
 
-            <LastTransactions />
-
-            <ProfitChart />
-
-            <ExpenditureIncome />
-
+            {ROLE === "ADMIN" && (
+              <>
+                <LastTransactions />
+                <ProfitChart />
+                <ExpenditureIncome />
+              </>
+            )}
 
             <TopSales />
 
