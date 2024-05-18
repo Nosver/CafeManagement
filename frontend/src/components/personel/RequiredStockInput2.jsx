@@ -23,6 +23,7 @@ export const RequiredStockInput2 = ({ handleStockList, stocks, stocksListParent 
       setPredefinedStocks(predefined);
     };
     predefinedStocksConvert();
+    console.log("requiredStocks2 useEffect Called!")
   }, [stocks]);
 
   const handleSelectChange = (e) => {
@@ -91,7 +92,7 @@ export const RequiredStockInput2 = ({ handleStockList, stocks, stocksListParent 
     }
   }, [selectedProduct]);
   */
- //console.log(stocksListParent)
+  //console.log(stocksListParent)
 
   return (
     <div className='mt-2'>
@@ -144,7 +145,7 @@ export const RequiredStockInput2 = ({ handleStockList, stocks, stocksListParent 
           <span
             key={index}
             className="flex flex-wrap pl-4 pr-2 py-2 m-1 justify-between items-center text-sm font-medium rounded-xl cursor-pointer bg-blue-500 text-gray-200 hover:bg-blue-600 hover:text-gray-100 dark:bg-gray-700 dark:text-gray-200 dark:hover:bg-gray-800 dark:hover:text-gray-100"
-            onClick={() => handleRemoveStock(reqStock.name)}
+            onClick={() => handleRemoveStock(reqStock.stock.stockName)}
           >
             {reqStock.stock.stockName}: {reqStock.amount} {reqStock.stock.stockUnit}
             <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 ml-3 hover:text-gray-300" viewBox="0 0 20 20" fill="currentColor">
