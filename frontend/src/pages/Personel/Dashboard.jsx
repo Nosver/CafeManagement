@@ -22,16 +22,10 @@ import UnauthorizedPage from '../UnauthorizedPage';
 function Dashboard() {
 
   const ROLE = Cookies.get('role');
-  console.log(Cookies.get('token'));
+  console.log(ROLE);
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
-  if(ROLE !== "ADMIN" && ROLE !== "EMPLOYEE"){
-    return (
-      <div>
-        <UnauthorizedPage />
-      </div>
-    );
-  }
+
 
   const userName = "Dan Joe";
   return (

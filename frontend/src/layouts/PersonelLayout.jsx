@@ -8,7 +8,7 @@ const PersonelLayout = () => {
 
   const ROLE = Cookies.get('role');
 
-  if(ROLE !== "ADMIN" || ROLE !== "EMPLOYEE"){
+  if(ROLE != "ADMIN"  &&  ROLE != "EMPLOYEE"){
     return (
       <div>
         <UnauthorizedPage />
