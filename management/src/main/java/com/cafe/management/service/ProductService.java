@@ -1,5 +1,6 @@
 package com.cafe.management.service;
 
+import com.cafe.management.dto.ProductDTO;
 import com.cafe.management.model.Product;
 import com.cafe.management.model.RequiredStock;
 import com.cafe.management.repository.ProductRepository;
@@ -35,7 +36,7 @@ public class ProductService {
         Product p= productRepository.save(product);
 
 
-        List<RequiredStock> requiredStocks= requiredStockService.addRequiredStocks(product.getRequiredStocks(),p) ;
+        requiredStockService.addRequiredStocks(product.getRequiredStocks(),p) ;
 
         return p;
 
@@ -83,8 +84,21 @@ public class ProductService {
         return found.get();
     }
 
-    public Optional<Product> findProductById(Long id){
-        return productRepository.findById(id);
+    public Product getProductByIdWithoutRequiredStocks(Long id) {
+        Optional<Product> found = productRepository.findById(id);
+        if(found.isEmpty()){
+            throw new IllegalArgumentException("Product with id " + id + " not found");
+        }
+        Product original = found.get();
+        Product response = new Product();
+        response.setId(original.getId());
+        response.setName(original.getName());
+        response.setPrice(original.getPrice());
+        response.setDescription(original.getDescription());
+        response.setIsMultisized(original.getIsMultisized());
+        response.setImagePath(original.getImagePath());
+        response.setCategory(original.getCategory());
+        return response;
     }
     
 

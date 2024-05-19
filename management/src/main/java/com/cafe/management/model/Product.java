@@ -3,6 +3,7 @@ package com.cafe.management.model;
 import java.util.List;
 
 import com.cafe.management.model.enums.ProductCategory;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -34,6 +35,7 @@ public class Product {
     private String imagePath;
 
     @OneToMany(mappedBy = "product")
+    @JsonIgnore
     private List<CartItem> cartItem;
 
     @Enumerated(EnumType.STRING)

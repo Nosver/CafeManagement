@@ -1,6 +1,8 @@
 package com.cafe.management.model;
 
 import com.cafe.management.model.enums.ProductSize;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.*;
 import lombok.*;
 
