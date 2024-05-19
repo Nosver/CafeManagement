@@ -7,6 +7,8 @@ import lombok.*;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Getter
 @Setter
@@ -23,14 +25,14 @@ public class Cart {
     @Min(value = 0)
     private Double totalPrice;
 
-    private String status;
-
     @OneToMany(mappedBy = "cart")
+    @JsonIgnore
     private List<CartItem> cartItems;
 
     @OneToOne
     private Order order;
 
-    @OneToOne
+    @ManyToOne
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
 }

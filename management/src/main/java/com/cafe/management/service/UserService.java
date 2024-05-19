@@ -3,17 +3,13 @@ package com.cafe.management.service;
 import com.cafe.management.model.Coupon;
 import com.cafe.management.model.User;
 import com.cafe.management.model.enums.Role;
-import com.cafe.management.repository.CouponRepository;
 import com.cafe.management.repository.UserRepository;
-import com.cafe.management.service.CouponService;
-import com.stripe.model.Customer;
 
-import java.rmi.ServerError;
+
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -54,6 +50,10 @@ public class UserService {
 
             sendCoupon(customer, coupon);
         }
+    }
+
+    public Optional<User> findById(Long id) {
+        return userRepository.findById(id);
     }
 
 }

@@ -81,8 +81,8 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "user")
     private List<Comment> comments;
 
-    @OneToOne
-    private Cart cart;
+    @OneToMany(mappedBy = "user")
+    private List<Cart> cart;
 
     @OneToMany(mappedBy = "user")
     private List<Order> orders;
