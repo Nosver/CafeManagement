@@ -2,9 +2,18 @@ import React, { useEffect, useRef, useState } from 'react'
 import OrderItem from '../../components/OrderItem';
 import OrderCategorySelector from '../../components/OrderStatusSelector';
 import { OrderDetailsPopup } from '../../components/OrderDetailsPopup';
-
-
+import Cookies from 'js-cookie';
+import UnauthorizedPage from '../UnauthorizedPage';
 const OrdersPage = () => {
+  const ROLE = Cookies.get('role');
+
+  if(ROLE != "CUSTOMER"){
+    return (
+      <div>
+        <UnauthorizedPage />
+      </div>
+    );
+  }
 
   const [selectedOrderItems, setSelectedOrderItems] = useState([]);
 

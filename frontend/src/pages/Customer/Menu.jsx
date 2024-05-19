@@ -43,7 +43,7 @@ export const Menu = () => {
             itemName: "Ice Americano",
             itemDescription: "A refreshing blend of bold espresso and chilled water, served over ice. Perfect for a cool pick-me-up on a warm day.",
             itemPrice: "90.00",
-            imagePath: "https://www.pinoscoffee.com/wp-content/uploads/2022/05/pinos-coffee-ayvalik-iced-americano-150x150.jpg",
+            imagePath: "https://publiccafein.blob.core.windows.net/publiccafein/graph%20feedback.png",
             category: "Cold Beverage",
             rating: "3.2"
         },

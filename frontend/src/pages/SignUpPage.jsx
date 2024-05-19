@@ -125,14 +125,14 @@ export const SignUpPage = () => {
   return (
     <section className='bg-indigo-50'>
       <div style={{
-        backgroundImage: `url(${background2})`,
+       
         backgroundPosition: 'center',
         backgroundSize: 'cover',
         backgroundRepeat: 'no-repeat',
         backdropFilter: 'blur(10px)',
         height: '100vh'
       }}>
-        <div className='container m-auto max-w-2xl '>
+        <div className='container m-auto max-w-2xl'>
           <div className='bg-white/60 px-6 py-4 mb-4 shadow-md rounded-md border m-4 md:m-0'>
             <form onSubmit={signUpButtonClicked}>
 

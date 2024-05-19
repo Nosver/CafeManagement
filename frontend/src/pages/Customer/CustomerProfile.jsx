@@ -1,7 +1,19 @@
 import React, { useState } from 'react';
 import './CustomerProfile.css';
-
+import Cookies from 'js-cookie';
+import UnauthorizedPage from '../UnauthorizedPage';
 const CustomerProfile = () => {
+
+    const ROLE = Cookies.get('role');
+
+  if(ROLE != "CUSTOMER" ){
+    return (
+      <div>
+        <UnauthorizedPage />
+      </div>
+    );
+  }
+
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
