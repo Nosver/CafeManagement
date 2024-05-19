@@ -8,6 +8,8 @@ import 'react-phone-input-2/lib/style.css'
 import { GoogleLogin } from '@react-oauth/google';
 import { jwtDecode } from "jwt-decode";
 import { useNavigate } from 'react-router-dom';
+import Cookies from 'js-cookie';
+
 
 
 function isPasswordStrong(password) {
@@ -27,6 +29,7 @@ function isPasswordStrong(password) {
 
 
 export const SignUpPage = () => {
+
   const navigate = useNavigate();
 
   const [email, setEmail] = useState('');
@@ -97,6 +100,8 @@ export const SignUpPage = () => {
         },
         body: JSON.stringify(requestBody),
       });
+
+      
     
       if (!response.ok) {
         toast.error("Error Occured")
@@ -114,6 +119,13 @@ export const SignUpPage = () => {
         },
         body: JSON.stringify(requestBody2),
       });
+
+      // Set cookie
+      const responseData = await response2.json();
+      const token2 = responseData.token;
+      const role= responseData.role;
+      Cookies.set('token', token2)
+      Cookies.set('role', role)
 
       navigate('/welcome')
     

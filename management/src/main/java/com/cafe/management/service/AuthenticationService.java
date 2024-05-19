@@ -1,6 +1,7 @@
 package com.cafe.management.service;
 
 import com.cafe.management.model.AuthenticationResponse;
+import com.cafe.management.model.Cart;
 import com.cafe.management.model.Mail;
 import com.cafe.management.model.Token;
 import com.cafe.management.model.User;
@@ -21,12 +22,14 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+// ecustomer@gmail.com1231231
+// 5gsn7P)sBn
 @Service
 public class AuthenticationService {
     private final UserRepository repository;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
-
+    private final CartService cartService;
     private final TokenRepository tokenRepository;
 
     private final AuthenticationManager authenticationManager;
@@ -37,13 +40,16 @@ public class AuthenticationService {
                                  JwtService jwtService,
                                  TokenRepository tokenRepository,
                                  AuthenticationManager authenticationManager,
-                                 MailSenderService mailSenderService) {
+                                 MailSenderService mailSenderService,
+                                 CartService cartService
+                                 ) {
         this.repository = repository;
         this.passwordEncoder = passwordEncoder;
         this.jwtService = jwtService;
         this.tokenRepository = tokenRepository;
         this.authenticationManager = authenticationManager;
         this.mailSenderService=mailSenderService;
+        this.cartService = cartService;
     }
 
     public AuthenticationResponse register(User request) throws MessagingException {
@@ -61,6 +67,7 @@ public class AuthenticationService {
         user.setEmail(request.getEmail());
 
 
+
         user.setPassword(passwordEncoder.encode(request.getPassword()));
 
         user.setPhoneNumber(request.getPhoneNumber());
@@ -74,7 +81,9 @@ public class AuthenticationService {
 
         //String jwt = jwtService.generateToken(user);
 
-
+        // Create empty cart for given customer id
+        cartService.createCartById(user.getId());
+        
         String subject = "Verify Your Email for Cafe-In Registration";
         String body = "<html>" +
                 "<body style='font-family: Arial, sans-serif;'>" +
@@ -114,6 +123,7 @@ public class AuthenticationService {
         return new AuthenticationResponse(jwt, "User login was successful",user.getRole().toString());
 
     }
+    
     private void revokeAllTokenByUser(User user) {
         List<Token> validTokens = tokenRepository.findAllTokensByUser(user.getId());
         if(validTokens.isEmpty()) {
@@ -126,6 +136,7 @@ public class AuthenticationService {
 
         tokenRepository.saveAll(validTokens);
     }
+    
     private void saveUserToken(String jwt, User user ) {
         Token token = new Token();
         token.setToken(jwt);
@@ -150,6 +161,8 @@ public class AuthenticationService {
         user.setIsAccountEnabled(true);
         user = repository.save(user);
 
+        // Create empty cart for given customer id
+        cartService.createCartById(user.getId());
 
         return new AuthenticationResponse(null, "User registration was successful",user.getRole().toString());
 
