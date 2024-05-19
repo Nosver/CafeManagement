@@ -3,6 +3,7 @@ package com.cafe.management.model;
 import com.cafe.management.model.enums.Position;
 import com.cafe.management.model.enums.Provider;
 import com.cafe.management.model.enums.Role;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Min;
@@ -25,6 +26,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
+@ToString
 public class User implements UserDetails {
 
     @Id
@@ -86,6 +88,7 @@ public class User implements UserDetails {
     private List<Order> orders;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @JsonIgnore
     private List<Coupon> coupons;
 
     @NotNull
