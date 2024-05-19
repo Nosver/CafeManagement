@@ -41,16 +41,22 @@ export const Customers = () => {
                 }
             });
 
+            
+
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
 
             const data = await response.json();
 
+            console.log(data);
+
             // set to the class
             const newCustomersArray = data.map(customer =>
                 new Customer(customer.id, customer.fullName, customer.phoneNumber, 0)
             );
+
+            
             return newCustomersArray;
 
         } catch (error) {

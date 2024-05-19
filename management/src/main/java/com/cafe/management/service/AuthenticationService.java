@@ -61,12 +61,17 @@ public class AuthenticationService {
 /*
 * Set other fields
 * */
+
+        // Set user details for all roles
         User user = new User();
         user.setFullName(request.getFullName());
         user.setProvider(Provider.LOCAL);
         user.setEmail(request.getEmail());
-
-
+        user.setAddress(request.getAddress());
+        user.setAvatar(request.getAvatar());
+        user.setSalary(request.getSalary());
+        user.setPosition(request.getPosition());
+    
 
         user.setPassword(passwordEncoder.encode(request.getPassword()));
 
@@ -79,10 +84,7 @@ public class AuthenticationService {
         user.setEmailVerificationLink(UUID.randomUUID().toString());
         user = repository.save(user);
 
-        //String jwt = jwtService.generateToken(user);
-
-        // Create empty cart for given customer id
-        cartService.createCartById(user.getId());
+        //String jwt = jwtService.generateToken(user);        
         
         String subject = "Verify Your Email for Cafe-In Registration";
         String body = "<html>" +
@@ -93,10 +95,11 @@ public class AuthenticationService {
                 "<p>Thanks!<br/>– Cafe-in Technology</p>" +
                 "</body>" +
                 "</html>";
-        if(user.getRole().equals(Role.CUSTOMER))
-            ;
+        if(user.getRole().equals(Role.CUSTOMER)){
+            cartService.createCartById(user.getId());
             mailSenderService.sendNewMail(new Mail(user.getEmail(), subject, body));
-
+        }
+    
         //saveUserToken(jwt, user);
 
         return new AuthenticationResponse(null, "User registration was successful",user.getRole().toString());

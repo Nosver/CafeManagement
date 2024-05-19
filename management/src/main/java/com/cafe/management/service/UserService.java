@@ -56,4 +56,8 @@ public class UserService {
         return userRepository.findById(id);
     }
 
+    public List<User> getAllEmployees(){
+        return userRepository.findAllByRole(Role.EMPLOYEE);
+    }
+
 }

@@ -95,6 +95,7 @@ public class User implements UserDetails {
     private Boolean isAccountEnabled;
 
     @OneToMany(mappedBy = "user")
+    @JsonIgnore
     private List<Token> tokens;
 
     @Override

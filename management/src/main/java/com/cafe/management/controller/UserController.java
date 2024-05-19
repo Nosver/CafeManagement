@@ -17,14 +17,13 @@ import org.springframework.http.ResponseEntity;
 
 
 @RestController
-@RequestMapping("/public")
 public class UserController {
 
     @SuppressWarnings("unused")
     @Autowired
     private UserService userService;
 
-    @GetMapping("/getAllCustomers")
+    @GetMapping("/employee_and_admin/getAllCustomers")
     public ResponseEntity<List<User>> getAllCustomers(){
         List<User> customerList = userService.getAllCustomers();
         try {
@@ -34,7 +33,7 @@ public class UserController {
         }
     }
 
-    @PostMapping("/sendCouponToEveryone")
+    @PostMapping("/employee_and_admin/sendCouponToEveryone")
     public ResponseEntity<Coupon> sendCoupon(@RequestBody Coupon coupon){
 
         try {
@@ -44,5 +43,17 @@ public class UserController {
             return ResponseEntity.badRequest().build();
         }
     }
+
+    @GetMapping("/admin_only/getAllEmployees")
+    public ResponseEntity<List<User>> getAllEmployees(){
+
+        try {
+            List<User> employeeList = userService.getAllEmployees();
+            return ResponseEntity.ok(employeeList);
+        } catch (Exception e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
 
 }

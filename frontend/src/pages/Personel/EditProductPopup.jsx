@@ -8,9 +8,43 @@ import Cookies from 'js-cookie';
 
 export const EditProductPopup = ({ closePopup, selectedProductName }) => {
 
-    const handleDeleteProduct = () => {
+
+    const handleDeleteProduct = async () => {
+
+        const confirmDelete = window.confirm("Are you sure you want to delete this product?");
+        if (!confirmDelete) {
+            return;
+        }
+
         closePopup();
-        toast.success('Product deleted successfully');
+
+        const token = Cookies.get('token');
+
+        if (!token) {
+            setError('No token found');
+            return;
+        }
+
+        try {
+            const response = await fetch('http://localhost:8080/employee_and_admin/deleteProductById?productId=' + id, {
+                method: 'DELETE',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                }
+            });
+
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            toast.success('Product deleted successfully');
+            window.location.reload();
+
+        } catch (error) {
+            toast.error('An error occurred while deleting the product');
+        }
     };
 
     const handleStockList = (stocksList) => {
@@ -39,7 +73,7 @@ export const EditProductPopup = ({ closePopup, selectedProductName }) => {
 
     const [stocksListParent, setStocksListParent] = useState([]);
 
-    const [id,setId]=useState('');
+    const [id, setId] = useState('');
 
     const [selectedProduct, setSelectedProduct] = useState("");
     console.log("parent is")
@@ -53,19 +87,19 @@ export const EditProductPopup = ({ closePopup, selectedProductName }) => {
         }
 
         const productData = {
-          id:id,
-          name: name,
-          price: price,
-          description: description,
-          requiredStocks: stocksListParent.map(reqStock => ({
-              amount: reqStock.amount,
-              stock: {
-                  stockName: reqStock.stock.stockName
-              }
-          })),
-          category: category
-      };
-      console.log(productData)
+            id: id,
+            name: name,
+            price: price,
+            description: description,
+            requiredStocks: stocksListParent.map(reqStock => ({
+                amount: reqStock.amount,
+                stock: {
+                    stockName: reqStock.stock.stockName
+                }
+            })),
+            category: category
+        };
+        console.log(productData)
         try {
             const response = await fetch('http://localhost:8080/employee_and_admin/updateProduct', {
                 method: 'POST',
@@ -278,14 +312,14 @@ export const EditProductPopup = ({ closePopup, selectedProductName }) => {
                         <div className='flex flex-row gap-4'>
                             <button
                                 onClick={onSubmitFunction}
-                               
+
                                 className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
                             >
                                 Update Product
                             </button>
                             <button
                                 onClick={handleDeleteProduct}
-                                type="submit"
+
                                 className="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50"
                             >
                                 Delete Product
