@@ -1,12 +1,15 @@
 package com.cafe.management.controller;
 
+import com.cafe.management.model.AuthenticationResponse;
 import com.cafe.management.model.Coupon;
 import com.cafe.management.model.User;
+import com.cafe.management.model.enums.Role;
 import com.cafe.management.service.UserService;
 
 import java.rmi.ServerError;
 import java.util.List;
 
+import jakarta.mail.MessagingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -55,5 +58,33 @@ public class UserController {
         }
     }
 
+    @PostMapping("/employee_and_admin/updateEmployee")
+    public ResponseEntity<User> updateEmployee(
+            @RequestBody User request
+    ){
+        if(request.getRole() != Role.EMPLOYEE){
+            return ResponseEntity.badRequest().build();
+        }
+        return ResponseEntity.ok(userService.updateUser(request));
+    }
 
+    @PostMapping("/admin_only/updateAdmin")
+    public ResponseEntity<User> updateAdmin(
+            @RequestBody User request
+    ){
+        if(request.getRole() != Role.ADMIN){
+            return ResponseEntity.badRequest().build();
+        }
+        return ResponseEntity.ok(userService.updateUser(request));
+    }
+
+    @PostMapping("/customer_only/updateCustomer")
+    public ResponseEntity<User> updateCustomer(
+            @RequestBody User request
+    ){
+        if(request.getRole() != Role.CUSTOMER){
+            return ResponseEntity.badRequest().build();
+        }
+        return ResponseEntity.ok(userService.updateUser(request));
+    }
 }

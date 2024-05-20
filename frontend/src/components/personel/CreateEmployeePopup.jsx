@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import styled from 'styled-components';
 import Cookies from 'js-cookie';
 import { toast } from 'react-toastify';
+import PhoneInput from 'react-phone-input-2';
 
 const StyledSelect = styled.select`
   appearance: none; 
@@ -10,23 +11,67 @@ const StyledSelect = styled.select`
 export const CreateEmployeePopup = ({ closePopup }) => {
 
     const [name, setName] = useState('');
+    const [password, setPassword] = useState('');
     const [email, setEmail] = useState('');
     const [phone, setPhone] = useState('');
+    const [validPhone, setValidPhone] = useState(true);
     const [salary, setSalary] = useState('');
-    const [position, setPosition] = useState('');
+    const [position, setPosition] = useState('CASHIER');
     const [address, setAddress] = useState('');
 
-    const onSubmitFunction = (event) => {
-        event.preventDefault();
+
+    const addEmployee = async () => {
+        
+        const token = Cookies.get('token');
+        
+        if (!token) {
+          setMessage('No token found. Please login.');
+          return;
+        }
     
         const employeeData = {
-            name: name,
-            email: email,
-            phone: phone,
-            salary: salary,
-            position: position,
-            address: address
-            };
+          fullName: name,
+          email: email,
+          password:password,
+          phoneNumber:phone,
+          salary: salary,
+          position: position.toUpperCase(),
+          address: address,
+          role: "EMPLOYEE"
+        };
+    
+        try {
+          const response = await fetch('http://localhost:8080/register', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'           
+            },
+            body: JSON.stringify(employeeData)
+          });
+    
+          if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+          }
+    
+          const result = await response.json();
+          console.log('Success:', result);
+        } catch (error) {
+          console.error('Error:', error);
+        }
+    }
+
+    const handleChange = (value) => {
+        setPhone(value);
+        setValidPhone(validatePhoneNumber(value));
+      };
+    
+      const validatePhoneNumber = (phoneNumber) => {
+        const phoneNumberPattern = /^\+?[1-9]\d{1,14}$/;
+    
+        return phoneNumberPattern.test(phoneNumber);
+      };
+
+    const onSubmitFunction = (event) => {
 
         const token = Cookies.get('token');
 
@@ -40,8 +85,8 @@ export const CreateEmployeePopup = ({ closePopup }) => {
             return;
         }
 
-        if (phone.length !== 10) {
-            toast.warn("Invalid argument! Phone number must be 10 digits")
+        if(!validPhone){
+            toast.warn("Invalid argument! Phone number must have 10 characters!")
             return;
         }
 
@@ -59,12 +104,9 @@ export const CreateEmployeePopup = ({ closePopup }) => {
             toast.warn("Invalid argument! Address must be at least 5 characters")
             return;
         }
-
         
         try {
-            
-            // register the employee
-
+            addEmployee();
         } catch (error) {
             console.log('Error:', error);
         }
@@ -163,15 +205,29 @@ export const CreateEmployeePopup = ({ closePopup }) => {
 
                         <div className="grid gap-4 mb-4 ">
                             <label>
-                                Phone Number
+                                Password
                             </label>
                             <input
-                                type='Phone'
+                                type='password'
+
                                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                placeholder="Enter the Phone Number"
-                                onChange={(event) => setPhone(event.target.value)}
+                                placeholder="Enter the password"
+                                onChange={(event) => setPassword(event.target.value)}
                                 required
                             />
+
+                        </div>
+
+                        <div className="grid gap-4 mb-4 ">
+                            <label>
+                                Phone Number
+                            </label>
+                            <PhoneInput
+                                country={'tr'}
+                                value={phone}
+                                onChange={handleChange}
+                                inputStyle={{ width: '100%' }}
+                                />
 
                         </div>
 
@@ -192,14 +248,11 @@ export const CreateEmployeePopup = ({ closePopup }) => {
                             <label>
                                 Position
                             </label>
-                            <StyledSelect
-                                value={"selectedUnit"} >
+                            <StyledSelect value={position} onChange={(event) => setPosition(event.target.value)}>
                                 {positionsList.map((position) => (
                                     <option value={position.toLowerCase()}>{position.toLowerCase()}</option>
                                 )
-
                                 )}
-
                             </StyledSelect>
 
                         </div>

@@ -10,10 +10,14 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
 public class UserService {
+
+    @Autowired
+    PasswordEncoder passwordEncoder;
 
     @Autowired
     private UserRepository userRepository;
@@ -59,5 +63,26 @@ public class UserService {
     public List<User> getAllEmployees(){
         return userRepository.findAllByRole(Role.EMPLOYEE);
     }
+
+    public User updateUser(User user){
+
+        Optional<User> nUser  = userRepository.findById(user.getId());
+
+        if(nUser.isEmpty()) throw new IllegalArgumentException("User not found!");
+
+        nUser.get().setFullName(user.getFullName());
+        nUser.get().setAddress(user.getAddress());
+        nUser.get().setAvatar(user.getAvatar());
+        nUser.get().setEmail(user.getEmail());
+        nUser.get().setPassword(passwordEncoder.encode(user.getPassword()));
+        nUser.get().setPhoneNumber(user.getPhoneNumber());
+        nUser.get().setPosition(user.getPosition());
+        nUser.get().setSalary(user.getSalary());
+
+        System.out.print(nUser.get());
+
+        return userRepository.save(nUser.get());
+    }
+
 
 }

@@ -12,12 +12,12 @@ import javax.naming.AuthenticationException;
 
 @RestController
 public class AuthenticationController {
+
     private final AuthenticationService authService;
 
     public AuthenticationController(AuthenticationService authService) {
         this.authService = authService;
     }
-
 
     @PostMapping("/register")
     public ResponseEntity<AuthenticationResponse> register(

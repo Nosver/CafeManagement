@@ -27,7 +27,6 @@ function isPasswordStrong(password) {
 
 
 
-
 export const SignUpPage = () => {
 
   const navigate = useNavigate();
@@ -84,6 +83,7 @@ export const SignUpPage = () => {
 
     return phoneNumberPattern.test(phoneNumber);
   };
+
   const handleSuccess = async (credentialResponse) =>{
       const token = credentialResponse.credential; 
       const decodedToken = jwtDecode(token);
