@@ -8,6 +8,7 @@ import { SearchBar } from '../../components/personel/SearchBar';
 import Cookies from 'js-cookie';
 import UnauthorizedPage from '../UnauthorizedPage';
 import { CreateEmployeePopup } from '../../components/personel/CreateEmployeePopup';
+import UpdateEmployeePopup from '../../components/personel/UpdateEmployeePopup';
 
 class Employee {
   constructor(id, fullName, email, phone, address,
@@ -26,9 +27,7 @@ class Employee {
   }
 }
 
-export const Employees = () => {
-
-  
+export const Employees = () => {  
 
   const ROLE = Cookies.get('role');
 
@@ -41,7 +40,7 @@ export const Employees = () => {
   }
 
   useEffect(() => {
-    const fetchProducts = async () => {
+    const fetchEmployees = async () => {
       const token = Cookies.get('token');
 
       if (!token) {
@@ -78,7 +77,7 @@ export const Employees = () => {
       }
     };
 
-    fetchProducts();
+    fetchEmployees();
     console.log("Products useEffect Called!")
   }, []);
 
@@ -91,9 +90,9 @@ export const Employees = () => {
   const openPopup = () => setShowPopup(true);
   const closePopup = () => setShowPopup(false);
 
-  const [showPopup_edit, setShowPopup_edit] = useState(false);
-  const openPopup_edit = () => setShowPopup_edit(true);
-  const closePopup_edit = () => setShowPopup_edit(false);
+  const [showPopup_edit, setShowPopup_edit] = useState({show: false, employee: null});
+  const openPopup_edit = (employee) => setShowPopup_edit({ show: true, employee});
+  const closePopup_edit = () => setShowPopup_edit({ show: false, stock: null });
 
   const searchButtonSubmit = (keyword) => {
     if (keyword == '') {
@@ -118,9 +117,7 @@ export const Employees = () => {
 
   return (
     <div>
-
       <Siderbar_1 />
-
       <div class="p-4 sm:ml-64">
         <div class="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700">
           <div class='flex flex-row w-6/6 mb-3'>
@@ -154,18 +151,8 @@ export const Employees = () => {
                       />
                     }
 
-                    {showPopup_edit &&
-                      <ItemPopup
-                        title="Edit Employee"
-                        submitButtonDescription='Edit Employee'
-                        closePopup={closePopup_edit}
-                        inputs={[
-                          { id: 'email', label: 'Email', type: 'text', hint: 'Type employee email' },
-                          { id: 'Salary', label: 'salary', type: 'number', hint: 'Type employee salary' },
-                          { id: 'Position', label: 'position', type: 'text', hint: 'Type employee position' },
-
-                        ]}
-                      />
+                    {showPopup_edit.show && showPopup_edit.employee &&
+                      <UpdateEmployeePopup closePopup={() =>  setShowPopup_edit({show:false, employee:null})} employee={showPopup_edit.employee}/>
                     }
 
                     {employeesShow.map((Employee, index) => (
@@ -184,7 +171,7 @@ export const Employees = () => {
                         <td class="px-6 py-4">{Employee.position || ""}</td>
                         <td class="px-6 py-4">
                           <div
-                            onClick={() => setShowPopup_edit(true)}
+                            onClick={() => openPopup_edit(Employee)}
                             className="font-medium text-blue-600 dark:text-blue-500 hover:underline cursor-pointer"
                           >
                             Edit

@@ -9,7 +9,7 @@ const StyledSelect = styled.select`
   borders: none;
 `;
 
-const EditStockPopup = ({ closePopup,stock }) => {
+const EditStockPopup = ({ closePopup, stock }) => {
     console.log(stock.stockUnit);
     const [stockUnits,setStockUnits]= useState([]);
     const [selectedUnit, setSelectedUnit] = useState(stock.stockUnit.toLowerCase())
