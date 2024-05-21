@@ -78,6 +78,9 @@ public class UserService {
         nUser.get().setPhoneNumber(user.getPhoneNumber());
         nUser.get().setPosition(user.getPosition());
         nUser.get().setSalary(user.getSalary());
+        nUser.get().setUpdatedAt(user.getUpdatedAt());
+        nUser.get().setCreatedAt(user.getCreatedAt());
+        nUser.get().setTokens(user.getTokens());
 
         System.out.print(nUser.get());
 

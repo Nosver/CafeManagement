@@ -55,9 +55,7 @@ public class User implements UserDetails {
 
     private String avatar;
 
-
     private String phoneNumber;
-
 
     private String emailVerificationLink;
 
