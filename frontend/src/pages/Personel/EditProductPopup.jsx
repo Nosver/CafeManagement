@@ -63,6 +63,10 @@ export const EditProductPopup = ({ closePopup, selectedProductName }) => {
 
     const [description, setDescription] = useState("");
 
+    const [isMultisized, setIsMultisized] = useState("");
+
+    const [selectedFile, setSelectedFile] = useState(null);
+
     const [imgPath, setImgPath] = useState("");
 
     const [category, setCategory] = useState("");
@@ -75,9 +79,39 @@ export const EditProductPopup = ({ closePopup, selectedProductName }) => {
 
     const [id, setId] = useState('');
 
-    const [selectedProduct, setSelectedProduct] = useState("");
-    console.log("parent is")
-    console.log(stocksListParent)
+    const handleUpload = async () => {
+        const formData = new FormData();
+        formData.append('image', selectedFile);
+    
+        try {
+            const response = await fetch('http://localhost:8080/public/upload', {
+                method: 'POST',
+                body: formData,
+            });
+    
+            if (response.ok) {
+                const result = await response.json();
+                console.log('Upload successful:', result);
+                return result.publicUrl;
+            } else {
+                const errorText = await response.text();
+                console.error('Upload failed:', response.status, errorText);
+                alert(`Upload failed: ${response.status} - ${errorText}`);
+                return null;
+            }
+        } catch (error) {
+            console.error('Error uploading file:', error);
+            alert('Error uploading file');
+            return null;
+        }
+    };
+    
+
+    const handleFileChange = (event) => {
+        setSelectedFile(event.target.files[0]);
+    };
+
+    
     const onSubmitFunction = async (e) => {
         const token = Cookies.get('token');
 
@@ -86,40 +120,98 @@ export const EditProductPopup = ({ closePopup, selectedProductName }) => {
             return;
         }
 
-        const productData = {
-            id: id,
-            name: name,
-            price: price,
-            description: description,
-            requiredStocks: stocksListParent.map(reqStock => ({
-                amount: reqStock.amount,
-                stock: {
-                    stockName: reqStock.stock.stockName
+        if (selectedFile == null) {
+
+
+            const productData = {
+                id: id,
+                name: name,
+                price: price,
+                description: description,
+                requiredStocks: stocksListParent.map(reqStock => ({
+                    amount: reqStock.amount,
+                    stock: {
+                        stockName: reqStock.stock.stockName
+                    }
+                })),
+                isMultisized: isMultisized,
+                category: category,
+                imagePath: imgPath
+            };
+
+
+            console.log(productData)
+            try {
+                const response = await fetch('http://localhost:8080/employee_and_admin/updateProduct', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(productData)
+                });
+
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
                 }
-            })),
-            category: category
-        };
-        console.log(productData)
-        try {
-            const response = await fetch('http://localhost:8080/employee_and_admin/updateProduct', {
-                method: 'POST',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(productData)
-            });
 
 
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
+            } catch (error) {
+                console.log(error.message);
+            }
+        }
+        else {
+            e.preventDefault()
+
+            const uploadedImageUrl = await handleUpload();
+            console.log(uploadedImageUrl)
+            if (!uploadedImageUrl) {
+                return;
             }
 
+            const productData = {
+                id: id,
+                name: name,
+                price: price,
+                description: description,
+                requiredStocks: stocksListParent.map(reqStock => ({
+                    amount: reqStock.amount,
+                    stock: {
+                        stockName: reqStock.stock.stockName
+                    }
+                })),
+                isMultisized: isMultisized,
+                category: category,
+                imagePath: uploadedImageUrl
+            };
 
-        } catch (error) {
-            console.log(error.message);
+            console.log(productData);
+
+            try {
+                const response = await fetch('http://localhost:8080/employee_and_admin/updateProduct', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(productData)
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const data = await response.json();
+                console.log(data);
+
+            } catch (error) {
+                console.log(error.message);
+            }
+            window.location.reload();
+
         }
-    }
+    };
 
     const fetchProductByName = async () => {
         const token = Cookies.get('token');
@@ -150,6 +242,7 @@ export const EditProductPopup = ({ closePopup, selectedProductName }) => {
             setDescription(data.description);
             setImgPath(data.imagePath);
             setCategory(data.category);
+            setIsMultisized(data.isMultisized)
             setStocksListParent(prevRequiredStocks => [
                 ...prevRequiredStocks,
                 ...data.requiredStocks
@@ -291,8 +384,16 @@ export const EditProductPopup = ({ closePopup, selectedProductName }) => {
                                             <p className="mb-1 text-xs text-gray-500 dark:text-gray-400"><span className="font-semibold">Click to upload</span> or drag and drop</p>
                                             <p className="text-2xs text-gray-500 dark:text-gray-400">SVG, PNG or JPG</p>
                                         </div>
-                                        <input id="dropzone-file" type="file" className="hidden" accept=".jpg, .jpeg, .png, .gif" />
+                                        <input onChange={handleFileChange} id="dropzone-file" type="file" className="hidden" accept=".jpg, .jpeg, .png, .gif" />
                                     </label>
+                                </div>
+                                {selectedFile && (
+                                    <p className="mt-2 text-sm text-green-600 dark:text-green-400">Image selected: {selectedFile.name}</p>
+                                )}
+
+                                <div class="flex mt-5">
+                                    <input onChange={(event) => { setIsMultisized(event.target.checked) }} checked={isMultisized} type="checkbox" class="shrink-0 mt-0.5 border-gray-300 rounded text-blue-600 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-700 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800" id="hs-default-checkbox" />
+                                    <label for="hs-default-checkbox" class="ml-2 text-sm font-medium text-gray-900 dark:text-white">Is product multisized?</label>
                                 </div>
 
                                 <label className=" mt-5 block mb-2 text-sm font-medium text-gray-900 dark:text-white">

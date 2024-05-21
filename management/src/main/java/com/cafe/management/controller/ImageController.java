@@ -1,7 +1,9 @@
 package com.cafe.management.controller;
 
+import com.cafe.management.response.ImageResponse;
 import com.cafe.management.service.ImageService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -15,11 +17,11 @@ import java.io.IOException;
 public class ImageController {
 
     @Autowired
-    private ImageService imageMetadataService;
+    private ImageService imageService;
 
     @PostMapping("/upload")
-    public String uploadImageWithCaption(@RequestParam("image") MultipartFile imageFile) throws IOException {
-        return imageMetadataService.uploadImageWithCaption(imageFile);
+    public ResponseEntity<ImageResponse> uploadImageWithCaption(@RequestParam("image") MultipartFile imageFile) throws IOException {
+        return ResponseEntity.ok(new ImageResponse(imageService.uploadImageWithCaption(imageFile)));
     }
 
 

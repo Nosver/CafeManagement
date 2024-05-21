@@ -2,10 +2,9 @@ import React, { useEffect } from 'react';
 import { RequiredStockInput } from '../../components/personel/RequiredStockInput';
 import { useState } from 'react';
 import Cookies from 'js-cookie';
-
+import { toast } from 'react-toastify';
 
 export const AddProductPopup = ({ closePopup }) => {
-
     const [selectedCategory, setSelectedCategory] = useState("");
 
     const [name, setName] = useState("");
@@ -13,28 +12,71 @@ export const AddProductPopup = ({ closePopup }) => {
     const [price, setPrice] = useState("");
 
     const [description, setDescription] = useState("");
-    
+
     const [imgPath, setImgPath] = useState("");
 
     const [categoryArray, setCategoryArray] = useState([]);
-    
+
     const [stocksArray, setStocksArray] = useState([]);
 
     const [stocksListParent, setStocksListParent] = useState([]);
 
+    const [isMultisized, setIsmultisized] = useState(false);
+    const [selectedFile, setSelectedFile] = useState(null);
+    const [uploadedImgePath, setUploadedImgePath] = useState("")
+
     const handleStockList = (stocksList) => {
         setStocksListParent(stocksList);
     }
+    const handleFileChange = (event) => {
+        setSelectedFile(event.target.files[0]);
+    };
+
+    const handleUpload = async () => {
+        const formData = new FormData();
+        formData.append('image', selectedFile);
+    
+        try {
+            const response = await fetch('http://localhost:8080/public/upload', {
+                method: 'POST',
+                body: formData,
+            });
+    
+            if (response.ok) {
+                const result = await response.json();
+                console.log(result);
+                return result.publicUrl;
+            } else {
+                console.error('Upload failed:', response.statusText);
+                alert('Upload failed: ' + response.statusText);
+                return null;
+            }
+        } catch (error) {
+            console.error('Error uploading file:', error);
+            alert('Error uploading file');
+            return null;
+        }
+    };
 
     const onSubmitFunction = async (e) => {
-        
+        e.preventDefault();
+
         const token = Cookies.get('token');
-          
-          if (!token) {
+    
+        if (!token) {
             setError('No token found');
             return;
-          }
-
+        }
+        if (!selectedFile) {
+            toast.error('Please select an image!');
+            return;
+        }
+    
+        const uploadedImageUrl = await handleUpload();
+        if (!uploadedImageUrl) {
+            return;
+        }
+    
         const productData = {
             name: name,
             price: price,
@@ -45,77 +87,81 @@ export const AddProductPopup = ({ closePopup }) => {
                     stockName: stock.name
                 }
             })),
-            category: selectedCategory
+            isMultisized: isMultisized,
+            category: selectedCategory,
+            imagePath: uploadedImageUrl
         };
-
+    
         console.log(productData);
-
-          try {
+    
+        try {
             const response = await fetch('http://localhost:8080/employee_and_admin/addProduct', {
-              method: 'POST',
-              headers: {
-                'Authorization': `Bearer ${token}`,
-                'Content-Type': 'application/json'
-              },
-              body: JSON.stringify(productData)
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(productData)
             });
-
     
             if (!response.ok) {
-              throw new Error(`HTTP error! status: ${response.status}`);
+                throw new Error(`HTTP error! status: ${response.status}`);
             }
     
             const data = await response.json();
-
-          } catch (error) {
+            console.log(data);
+    
+        } catch (error) {
             console.log(error.message);
-          }
-    }
+        }
+        window.location.reload();
+    };
+    
 
     useEffect(() => {
         const fetchCategoriesAndStocks = async () => {
-          const token = Cookies.get('token');
-          
-          if (!token) {
-            setError('No token found');
-            return;
-          }
-    
-          try {
-            const response = await fetch('http://localhost:8080/public/getProductCategories', {
-              method: 'GET',
-              headers: {
-                'Authorization': `Bearer ${token}`,
-                'Content-Type': 'application/json'
-              }
-            });
+            const token = Cookies.get('token');
 
-            const response2 = await fetch('http://localhost:8080/employee_and_admin/getAllStocks', {
-              method: 'GET',
-              headers: {
-                'Authorization': `Bearer ${token}`,
-                'Content-Type': 'application/json'
-              }
-            });
-
-    
-            if (!response.ok || !response2.ok) {
-              throw new Error(`HTTP error! status: ${response.status} ${response2.status}`);
+            if (!token) {
+                setError('No token found');
+                return;
             }
-    
-            const data = await response.json();
-            const data2 = await response2.json();
 
-            setCategoryArray(data);
-            setStocksArray(data2);
+            try {
+                const response = await fetch('http://localhost:8080/public/getProductCategories', {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
 
-          } catch (error) {
-            setError(error.message);
-          }
+                const response2 = await fetch('http://localhost:8080/employee_and_admin/getAllStocks', {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+
+                if (!response.ok || !response2.ok) {
+                    throw new Error(`HTTP error! status: ${response.status} ${response2.status}`);
+                }
+
+                const data = await response.json();
+                const data2 = await response2.json();
+
+                setCategoryArray(data);
+                setStocksArray(data2);
+
+            } catch (error) {
+                setError(error.message);
+            }
         };
-    
+
         fetchCategoriesAndStocks();
-      }, []);
+    }, []);
 
 
     return (
@@ -181,7 +227,7 @@ export const AddProductPopup = ({ closePopup }) => {
                                 </select>
 
 
-                                <RequiredStockInput stocks={stocksArray} handleStockList = {handleStockList}/>
+                                <RequiredStockInput stocks={stocksArray} handleStockList={handleStockList} />
 
 
                                 <label className=" mt-5 block mb-2 text-sm font-medium text-gray-900 dark:text-white">
@@ -197,8 +243,16 @@ export const AddProductPopup = ({ closePopup }) => {
                                             <p className="mb-1 text-xs text-gray-500 dark:text-gray-400"><span className="font-semibold">Click to upload</span> or drag and drop</p>
                                             <p className="text-2xs text-gray-500 dark:text-gray-400">SVG, PNG or JPG</p>
                                         </div>
-                                        <input id="dropzone-file" type="file" className="hidden" accept=".jpg, .jpeg, .png, .gif" />
+                                        <input onChange={handleFileChange} id="dropzone-file" type="file" className="hidden" accept=".jpg, .jpeg, .png" />
                                     </label>
+                                </div>
+                                {selectedFile && (
+                                    <p className="mt-2 text-sm text-green-600 dark:text-green-400">Image selected: {selectedFile.name}</p>
+                                )}
+
+                                <div class="flex mt-5">
+                                    <input onChange={(event) => { setIsmultisized(event.target.checked) }} type="checkbox" class="shrink-0 mt-0.5 border-gray-300 rounded text-blue-600 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-700 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800" id="hs-default-checkbox" />
+                                    <label for="hs-default-checkbox" class="ml-2 text-sm font-medium text-gray-900 dark:text-white">Is product multisized?</label>
                                 </div>
 
                                 <label className=" mt-5 block mb-2 text-sm font-medium text-gray-900 dark:text-white">

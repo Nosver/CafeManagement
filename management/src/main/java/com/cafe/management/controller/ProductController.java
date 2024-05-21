@@ -31,13 +31,12 @@ public class ProductController {
     public ResponseEntity<Product> updateProduct(@RequestBody Product updatedProduct){
 
         try {
-            productService.updateProduct(updatedProduct);
+            return ResponseEntity.ok(productService.updateProduct(updatedProduct));
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         }
 
-        return ResponseEntity.ok(updatedProduct);
     }
     
     @DeleteMapping("/deleteProductById")

@@ -51,7 +51,7 @@ export const Menu = () => {
             itemName: "Latte",
             itemDescription: "A creamy and smooth coffee drink made with espresso and steamed milk.",
             itemPrice: "85.00",
-            imagePath: "https://www.pinoscoffee.com/wp-content/uploads/2022/05/pinos-coffee-ayvalik-latte-150x150.jpg",
+            imagePath: "https://publiccafein.blob.core.windows.net/publiccafein/comparisonR.png",
             category: "Hot Beverage",
             rating: "3"
         },
