@@ -3,7 +3,7 @@ import { Button } from 'flowbite-react';
 import { toast } from 'react-toastify';
 import Wysiwyg from './Wysiwyg';
 import { useState } from 'react';
-
+import Cookies from 'js-cookie';
 
 export const EmailPopup = ({ closePopup }) => {
 
@@ -14,21 +14,40 @@ export const EmailPopup = ({ closePopup }) => {
     setTitle(event.target.value);
   };
 
-    function sendEmail() {
+    const sendEmail = async () => {
+      const token = Cookies.get('token')
         if (editorContent.trim() === '' || title.trim() === '') {
             toast.warn("Both Fields must be filled");
             return;
         }
 
         console.log(editorContent)
-        //API post call
-        if (true) { // successfull sent
-            toast.success("email sent successfull");
-            closePopup()
-        }else{
-            toast.error("email could not be sent consult your system admin");
-
+        const Email={
+          subject:title,
+          body:editorContent
         }
+        
+        try {
+          const response = await fetch('http://localhost:8080/employee_and_admin/sendMailToAllCustomers', {
+              method: 'POST',
+              headers: {
+                  'Authorization': `Bearer ${token}`,
+                  'Content-Type': 'application/json'
+              },
+              body: JSON.stringify(Email)
+          });
+
+          if (!response.ok) {
+              throw new Error(`HTTP error! status: ${response.status}`);
+          }
+
+          
+          toast.success("email sent successfull");
+          closePopup()
+      } catch (error) {
+          console.log(error.message);
+          toast.error("email could not be sent consult your system admin");
+      }
 
     }
 
