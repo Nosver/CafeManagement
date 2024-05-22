@@ -14,7 +14,7 @@ const UpdateEmployeePopup = ({ closePopup, employee }) => {
     const [name, setName] = useState(employee.fullName);
     const [password, setPassword] = useState(employee.password);
     const [email, setEmail] = useState(employee.email);
-    const [phone, setPhone] = useState(employee.phoneNumber);
+    const [phone, setPhone] = useState(employee.phone);
     const [validPhone, setValidPhone] = useState(true);
     const [salary, setSalary] = useState(employee.salary);
     const [position, setPosition] = useState(employee.position);
@@ -22,9 +22,8 @@ const UpdateEmployeePopup = ({ closePopup, employee }) => {
 
     const [positions, setPositions] = useState([]);
 
-    
-    const updateEmployee = async () => {
-        
+    console.log(employee.phone);
+    const updateEmployee = async (e) => {
         const token = Cookies.get('token');
         
         if (!token) {
@@ -65,6 +64,7 @@ const UpdateEmployeePopup = ({ closePopup, employee }) => {
         } catch (error) {
           console.error('Error:', error);
         }
+
     }
 
     const handleChange = (value) => {
@@ -79,8 +79,8 @@ const UpdateEmployeePopup = ({ closePopup, employee }) => {
     };
 
 
-    const onSubmitFunction = (event) => {
-
+    const onSubmitFunction =  async (event) => {
+        event.preventDefault();
         const token = Cookies.get('token');
         
         if (!token) {
@@ -114,11 +114,14 @@ const UpdateEmployeePopup = ({ closePopup, employee }) => {
         }
 
         try {
-            updateEmployee();
+            const asd= await updateEmployee();
+
         } catch (error) {
             console.log('Error:', error);
         }
-        
+
+        window.location.reload();
+
       };
 
 
