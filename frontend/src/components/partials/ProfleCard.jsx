@@ -1,13 +1,12 @@
 import React, { useState } from 'react'
 
-export const ProfleCard = ({ Person }) => {
+export const ProfleCard = ({ id, name, surname, email, password, address, role, photo }) => {
 
     const [isChangePhotoPopupVisible, setIsChangePhotoPopupVisible] = useState(false);
 
     const handlePhotoChange = () => {
 
     }
-
 
     const MyProfilePhotoUploadPopup = () => {
         return (
@@ -36,9 +35,9 @@ export const ProfleCard = ({ Person }) => {
                 </div>
                 
                 <div class="flex flex-col items-center pb-10 mt-5">
-                    <img class="w-24 h-24 mb-3 rounded-full shadow-lg" src={Person.photo} alt="Person image" />
-                    <h5 class="mb-1 text-xl font-medium text-gray-900 dark:text-white">{Person.name}</h5>
-                    <span class="text-sm text-gray-500 dark:text-gray-400">{Person.role}</span>
+                    <img class="w-24 h-24 mb-3 rounded-full shadow-lg" src={photo} alt="Person image" />
+                    <h5 class="mb-1 text-xl font-medium text-gray-900 dark:text-white">{name}</h5>
+                    <span class="text-sm text-gray-500 dark:text-gray-400">{role}</span>
                     <div class="flex mt-4 md:mt-6">
                         <a
                             href="#"

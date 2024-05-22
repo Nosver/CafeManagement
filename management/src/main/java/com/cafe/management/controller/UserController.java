@@ -17,17 +17,17 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.http.ResponseEntity;
-
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 @RestController
 public class UserController {
 
-    @SuppressWarnings("unused")
     @Autowired
     private UserService userService;
 
     @GetMapping("/employee_and_admin/getAllCustomers")
-    public ResponseEntity<List<User>> getAllCustomers(){
+    public ResponseEntity<List<User>> getAllCustomers() {
         List<User> customerList = userService.getAllCustomers();
         try {
             return ResponseEntity.ok(customerList);
@@ -37,7 +37,7 @@ public class UserController {
     }
 
     @PostMapping("/employee_and_admin/sendCouponToEveryone")
-    public ResponseEntity<Coupon> sendCoupon(@RequestBody Coupon coupon){
+    public ResponseEntity<Coupon> sendCoupon(@RequestBody Coupon coupon) {
 
         try {
             userService.sendCoupon(coupon);
@@ -48,7 +48,7 @@ public class UserController {
     }
 
     @GetMapping("/admin_only/getAllEmployees")
-    public ResponseEntity<List<User>> getAllEmployees(){
+    public ResponseEntity<List<User>> getAllEmployees() {
 
         try {
             List<User> employeeList = userService.getAllEmployees();
@@ -60,9 +60,8 @@ public class UserController {
 
     @PostMapping("/employee_and_admin/updateEmployee")
     public ResponseEntity<User> updateEmployee(
-            @RequestBody User request
-    ){
-        if(request.getRole() != Role.EMPLOYEE){
+            @RequestBody User request) {
+        if (request.getRole() != Role.EMPLOYEE) {
             return ResponseEntity.badRequest().build();
         }
         return ResponseEntity.ok(userService.updateUser(request));
@@ -70,9 +69,8 @@ public class UserController {
 
     @PostMapping("/admin_only/updateAdmin")
     public ResponseEntity<User> updateAdmin(
-            @RequestBody User request
-    ){
-        if(request.getRole() != Role.ADMIN){
+            @RequestBody User request) {
+        if (request.getRole() != Role.ADMIN) {
             return ResponseEntity.badRequest().build();
         }
         return ResponseEntity.ok(userService.updateUser(request));
@@ -80,11 +78,23 @@ public class UserController {
 
     @PostMapping("/customer_only/updateCustomer")
     public ResponseEntity<User> updateCustomer(
-            @RequestBody User request
-    ){
-        if(request.getRole() != Role.CUSTOMER){
+            @RequestBody User request) {
+        if (request.getRole() != Role.CUSTOMER) {
             return ResponseEntity.badRequest().build();
         }
         return ResponseEntity.ok(userService.updateUser(request));
+    }
+
+    @GetMapping("/public/whoami")
+    public ResponseEntity<User> whoAmI() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        // Check if the principal is an instance of User
+        if (authentication.getPrincipal() instanceof User) {
+            User user = (User) authentication.getPrincipal();
+            return ResponseEntity.ok(user);
+        }
+
+        return ResponseEntity.notFound().build();
     }
 }

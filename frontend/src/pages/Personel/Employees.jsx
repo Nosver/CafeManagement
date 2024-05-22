@@ -78,7 +78,6 @@ export const Employees = () => {
     };
 
     fetchEmployees();
-    console.log("Products useEffect Called!")
   }, []);
 
 

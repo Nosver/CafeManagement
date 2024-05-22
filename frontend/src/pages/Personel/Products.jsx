@@ -19,40 +19,40 @@ const predefinedStocks = [
 
 export const Products = () => {
 
+    const fetchProducts = async () => {
+        const token = Cookies.get('token');
+        
+        if (!token) {
+          setError('No token found');
+          return;
+        }
+  
+        try {
+          const response = await fetch('http://localhost:8080/employee_and_admin/getAllProducts', {
+            method: 'GET',
+            headers: {
+              'Authorization': `Bearer ${token}`,
+              'Content-Type': 'application/json'
+            }
+          });
+
+  
+          if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+          }
+  
+          const data = await response.json();
+
+          setProductsArray(data);
+          setProductsShow(data);
+
+        } catch (error) {
+          setError(error.message);
+        }
+      };
 
     useEffect(() => {
-        const fetchProducts = async () => {
-          const token = Cookies.get('token');
-          
-          if (!token) {
-            setError('No token found');
-            return;
-          }
-    
-          try {
-            const response = await fetch('http://localhost:8080/employee_and_admin/getAllProducts', {
-              method: 'GET',
-              headers: {
-                'Authorization': `Bearer ${token}`,
-                'Content-Type': 'application/json'
-              }
-            });
-
-    
-            if (!response.ok) {
-              throw new Error(`HTTP error! status: ${response.status}`);
-            }
-    
-            const data = await response.json();
-
-            setProductsArray(data);
-            setProductsShow(data);
-
-          } catch (error) {
-            setError(error.message);
-          }
-        };
-    
+        
         fetchProducts();
         console.log("Products useEffect Called!")
       }, []);
