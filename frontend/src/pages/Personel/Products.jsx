@@ -164,14 +164,14 @@ export const Products = () => {
                                                     {product.category.toString()}
                                                 </td>
                                                 <td class="px-6 py-4">
-                                                    {5}
+                                                    {product.predictedStock}
                                                 </td>
                                                 <td class="px-6 py-4">
                                                     {product.price.toString()}₺
                                                 </td>
 
                                                 <td class="px-6 py-4">
-                                                    {product.price * 5}₺
+                                                    {product.price * product.predictedStock}₺
                                                 </td>
                                                 <td class="px-6 py-4">
                                                     <div

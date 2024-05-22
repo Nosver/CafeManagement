@@ -121,7 +121,7 @@ export const EditProductPopup = ({ closePopup, selectedProductName }) => {
         }
 
         if (selectedFile == null) {
-
+            e.preventDefault()
 
             const productData = {
                 id: id,
@@ -160,6 +160,8 @@ export const EditProductPopup = ({ closePopup, selectedProductName }) => {
             } catch (error) {
                 console.log(error.message);
             }
+            window.location.reload();
+
         }
         else {
             e.preventDefault()

@@ -3,9 +3,11 @@ package com.cafe.management.service;
 import com.cafe.management.dto.ProductDTO;
 import com.cafe.management.model.Product;
 import com.cafe.management.model.RequiredStock;
+import com.cafe.management.model.Stock;
 import com.cafe.management.repository.ProductRepository;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,9 +19,11 @@ public class ProductService {
     @Autowired
     private ProductRepository productRepository;
 
-    @SuppressWarnings("unused")
     @Autowired
     private RequiredStockService requiredStockService;
+
+    @Autowired
+    private StockService stocksService;
 
     public Product addProduct(Product product){
         
@@ -32,7 +36,9 @@ public class ProductService {
             throw new IllegalArgumentException("required stock is empty");
         }
 
+        Double predictedStock= (double) calculatePredictedStocks(product.getRequiredStocks());
 
+        product.setPredictedStock(predictedStock);
         Product p= productRepository.save(product);
 
 
@@ -41,7 +47,38 @@ public class ProductService {
         return p;
 
     }
+    public void recalculatePredictedStocks(){
+        List<Product> allProducts = getAllProducts();
+        for(Product product:allProducts){
+            int predictedStock=calculatePredictedStocks(product.getRequiredStocks());
+            System.out.println(predictedStock);
+            if(predictedStock!=100000.0){
+                product.setPredictedStock((double)predictedStock);
+                productRepository.save(product);
+            }
 
+
+        }
+    }
+    public int calculatePredictedStocks( List<RequiredStock> stocks) {
+        Double prediction= 100000.0;
+        List<Stock> stockList=stocksService.getAllRequiredStocks();
+        for (RequiredStock wanted : stocks) {
+            for (Stock stock : stockList) {
+                if (wanted.getStock().getStockName().equals(stock.getStockName())) {
+                    double amount= stock.getQuantity()/ wanted.getAmount();
+                    prediction= Double.min(amount,prediction);
+
+                }
+
+            }
+
+            }
+
+
+        return prediction.intValue();
+
+    }
 
 
     public Product getProductById(Long id){
@@ -72,6 +109,9 @@ public class ProductService {
         product.setImagePath(updatedProduct.getImagePath());
         product.setCategory(updatedProduct.getCategory());
         product.setRequiredStocks(newRequiredStocks);
+        Double predictedStock= (double) calculatePredictedStocks(product.getRequiredStocks());
+
+        product.setPredictedStock(predictedStock);
        return productRepository.save(product);
     }
 

@@ -2,7 +2,10 @@ package com.cafe.management.service;
 
 import java.util.List;
 
+import com.cafe.management.model.Product;
+import com.cafe.management.model.RequiredStock;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import com.cafe.management.model.Stock;
@@ -14,6 +17,14 @@ import jakarta.transaction.Transactional;
 public class StockService {
     @Autowired
     private StockRepository stockRepository;
+
+
+
+    private ProductService productService;
+
+    StockService(@Lazy  ProductService productService){
+        this.productService=productService;
+    }
 
     public Stock addStock(Stock stock){
        return stockRepository.save(stock);
@@ -28,6 +39,7 @@ public class StockService {
             existingStock.setStockName(updatedStock.getStockName());
             existingStock.setUnitPrice(updatedStock.getUnitPrice());
             stockRepository.save(existingStock);
+
         } else {
             throw new IllegalArgumentException("Stock with id " + stockId + " not found.");
         }
@@ -45,6 +57,7 @@ public class StockService {
     }
 
 
-
-    
+    public List<Stock> getAllRequiredStocks() {
+         return  stockRepository.findAll();
+    }
 }

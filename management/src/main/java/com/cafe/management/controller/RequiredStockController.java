@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/public")
 public class RequiredStockController {
 
-    @Autowired
-    private RequiredStockService requiredStockService;
+    //@Autowired
+    //private RequiredStockService requiredStockService;
 
 
     

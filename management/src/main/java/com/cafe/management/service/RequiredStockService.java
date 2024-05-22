@@ -56,4 +56,8 @@ public class RequiredStockService {
 
         requiredStockRepository.deleteRequiredStocksByProductId(product.getId());
     }
+
+    public List<RequiredStock> getAllRequiredStocks(){
+        return requiredStockRepository.findAll();
+    }
 }

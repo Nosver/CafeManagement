@@ -29,6 +29,8 @@ public class Product {
 
     private Boolean isMultisized;
 
+    private Double predictedStock;
+
     @OneToMany(mappedBy =  "product",cascade = CascadeType.REMOVE)
     private List<RequiredStock> requiredStocks;
 

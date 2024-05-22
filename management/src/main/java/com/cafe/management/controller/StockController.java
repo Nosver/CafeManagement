@@ -2,7 +2,9 @@ package com.cafe.management.controller;
 
 import java.util.List;
 
+import com.cafe.management.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,6 +18,10 @@ public class StockController {
 
     @Autowired
     private StockService stockService;
+    @Autowired
+    private ProductService productService;
+
+
 
     @PostMapping("/addStock")
     public Stock addStock(@RequestBody Stock stock){
@@ -31,6 +37,7 @@ public class StockController {
     public ResponseEntity<Stock> updateStockById(@RequestBody Stock updatedStock){
         try {
             stockService.updateStockById(updatedStock.getId(), updatedStock);
+            productService.recalculatePredictedStocks();
         } catch (Exception e) {
             System.err.println("Stock with id " + updatedStock.getId() + " not found.");
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
