@@ -117,49 +117,48 @@ export const AddProductPopup = ({ closePopup }) => {
         window.location.reload();
     };
     
+    const fetchCategoriesAndStocks = async () => {
+        const token = Cookies.get('token');
+
+        if (!token) {
+            setError('No token found');
+            return;
+        }
+
+        try {
+            const response = await fetch('http://localhost:8080/public/getProductCategories', {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            const response2 = await fetch('http://localhost:8080/employee_and_admin/getAllStocks', {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                }
+            });
+
+
+            if (!response.ok || !response2.ok) {
+                throw new Error(`HTTP error! status: ${response.status} ${response2.status}`);
+            }
+
+            const data = await response.json();
+            const data2 = await response2.json();
+
+            setCategoryArray(data);
+            setStocksArray(data2);
+
+        } catch (error) {
+            setError(error.message);
+        }
+    };
 
     useEffect(() => {
-        const fetchCategoriesAndStocks = async () => {
-            const token = Cookies.get('token');
-
-            if (!token) {
-                setError('No token found');
-                return;
-            }
-
-            try {
-                const response = await fetch('http://localhost:8080/public/getProductCategories', {
-                    method: 'GET',
-                    headers: {
-                        'Authorization': `Bearer ${token}`,
-                        'Content-Type': 'application/json'
-                    }
-                });
-
-                const response2 = await fetch('http://localhost:8080/employee_and_admin/getAllStocks', {
-                    method: 'GET',
-                    headers: {
-                        'Authorization': `Bearer ${token}`,
-                        'Content-Type': 'application/json'
-                    }
-                });
-
-
-                if (!response.ok || !response2.ok) {
-                    throw new Error(`HTTP error! status: ${response.status} ${response2.status}`);
-                }
-
-                const data = await response.json();
-                const data2 = await response2.json();
-
-                setCategoryArray(data);
-                setStocksArray(data2);
-
-            } catch (error) {
-                setError(error.message);
-            }
-        };
-
         fetchCategoriesAndStocks();
     }, []);
 

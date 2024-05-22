@@ -1,27 +1,26 @@
 import React, { useState, useEffect } from 'react';
 import ProductCategorySelector from '../../components/Customer/ProductCategorySelector';
-import { useRef } from 'react';
-import Popup from '../../components/Customer/MenuPopup';
 import MenuItem from '../../components/Customer/MenuItem';
+import MenuPopup from '../../components/Customer/MenuPopup';
 
 export const Menu = () => {
+
     const [isPopupOpen, setIsPopupOpen] = useState(false);
     const [selectedItemName, setSelectedItemName] = useState("");
     const [selectedItemDescription, setSelectedItemDescription] = useState("");
     const [selectedItemPrice, setSelectedItemPrice] = useState("");
     const [selectedImagePath, setSelectedImagePath] = useState("");
     const [currentPage, setCurrentPage] = useState(1);
-    const [selectedCategory, setSelectedCategory] = useState('Hot Beverage');
-    const [selectedRaiting, setSelectedItemRaiting]= useState(0);
+    const [selectedCategory, setSelectedCategory] = useState('HOTBEVERAGE');
+    const [selectedRating, setSelectedRating] = useState(0);
     const itemsPerPage = 5; 
-    const productCategorySelectorRef = useRef(null); // Define a ref for ProductCategorySelector
 
     const openPopup = (item) => {
-        setSelectedItemName(item.itemName);
-        setSelectedItemDescription(item.itemDescription);
-        setSelectedItemPrice(item.itemPrice);
+        setSelectedItemName(item.name);
+        setSelectedItemDescription(item.description);
+        setSelectedItemPrice(item.price);
         setSelectedImagePath(item.imagePath);
-        setSelectedItemRaiting(item.rating)
+        setSelectedRating(item.rating);
         setIsPopupOpen(true);
     };
 
@@ -34,127 +33,15 @@ export const Menu = () => {
     };
 
     const handleTabSelect = (selectedTab) => {
-        setSelectedCategory(selectedTab.id);
+        setSelectedCategory(selectedTab);
         setCurrentPage(1); 
     };
 
-    const menuItems = [
-        {
-            itemName: "Ice Americano",
-            itemDescription: "A refreshing blend of bold espresso and chilled water, served over ice. Perfect for a cool pick-me-up on a warm day.",
-            itemPrice: "90.00",
-            imagePath: "https://publiccafein.blob.core.windows.net/publiccafein/graph%20feedback.png",
-            category: "Cold Beverage",
-            rating: "3.2"
-        },
-        {
-            itemName: "Latte",
-            itemDescription: "A creamy and smooth coffee drink made with espresso and steamed milk.",
-            itemPrice: "85.00",
-            imagePath: "https://publiccafein.blob.core.windows.net/publiccafein/comparisonR.png",
-            category: "Hot Beverage",
-            rating: "3"
-        },
-        {
-            itemName: "Cappuccino",
-            itemDescription: "A classic Italian coffee drink made with espresso and frothed milk.",
-            itemPrice: "80.00",
-            imagePath: "https://www.pinoscoffee.com/wp-content/uploads/2022/05/pinos-coffee-ayvalik-latte-150x150.jpg",
-            category: "Hot Beverage"
-            ,
-            rating: 3
-        },
-        {
-            itemName: "Espresso",
-            itemDescription: "A strong and bold shot of espresso, perfect for espresso lovers.",
-            itemPrice: "70.00",
-            imagePath: "https://www.pinoscoffee.com/wp-content/uploads/2022/05/pinos-coffee-ayvalik-latte-150x150.jpg",
-            category: "Hot Beverage",
-            rating: 3
-        },
-        {
-            itemName: "Mocha",
-            itemDescription: "A delightful blend of espresso, steamed milk, chocolate syrup, and whipped cream.",
-            itemPrice: "95.00",
-            imagePath: "https://www.pinoscoffee.com/wp-content/uploads/2022/05/pinos-coffee-ayvalik-latte-150x150.jpg",
-            category: "Hot Beverage",
-            rating: 3
-        },
-        {
-            itemName: "Macchiato",
-            itemDescription: "A shot of espresso with a dollop of foamed milk, creating a deliciously balanced coffee experience.",
-            itemPrice: "85.00",
-            imagePath: "https://www.pinoscoffee.com/wp-content/uploads/2022/05/pinos-coffee-ayvalik-latte-150x150.jpg",
-            category: "Hot Beverage",
-            rating: 3
-        },
-        {
-            itemName: "Flat White",
-            itemDescription: "A velvety-smooth coffee drink made with espresso and steamed milk, topped with a thin layer of microfoam.",
-            itemPrice: "90.00",
-            imagePath: "https://www.pinoscoffee.com/wp-content/uploads/2022/05/pinos-coffee-ayvalik-latte-150x150.jpg",
-            category: "Hot Beverage",
-            rating: 3
-        },
-        {
-            itemName: "Affogato",
-            itemDescription: "A heavenly dessert consisting of a scoop of vanilla gelato or ice cream topped with a shot of hot espresso.",
-            itemPrice: "100.00",
-            imagePath: "https://www.pinoscoffee.com/wp-content/uploads/2022/05/pinos-coffee-ayvalik-latte-150x150.jpg",
-            category: "Dessert",
-            rating: 3
-        },
-        {
-            itemName: "Cold Brew",
-            itemDescription: "A smooth and refreshing coffee brewed with cold water over a longer period, resulting in a low-acid and full-bodied flavor.",
-            itemPrice: "85.00",
-            imagePath: "https://www.pinoscoffee.com/wp-content/uploads/2022/05/pinos-coffee-ayvalik-latte-150x150.jpg",
-            category: "Cold Beverage",
-            rating: 3
-        },
-        {
-            itemName: "Frappuccino",
-            itemDescription: "A blended coffee beverage with ice, milk, and flavored syrup, topped with whipped cream.",
-            itemPrice: "110.00",
-            imagePath: "https://www.pinoscoffee.com/wp-content/uploads/2022/05/pinos-coffee-ayvalik-latte-150x150.jpg",
-            category: "Cold Beverage",
-            rating: 3
-        },
-        {
-            itemName: "Tiramisu",
-            itemDescription: "An Italian dessert made with ladyfingers, coffee, mascarpone cheese, and cocoa powder.",
-            itemPrice: "120.00",
-            imagePath: "https://www.example.com/tiramisu.jpg",
-            category: "Dessert",
-            rating: 3
-        },
-        {
-            itemName: "Croissant",
-            itemDescription: "A buttery and flaky pastry made with layers of dough.",
-            itemPrice: "60.00",
-            imagePath: "https://www.example.com/croissant.jpg",
-            category: "Pastry",
-            rating: 3
-        },
-        {
-            itemName: "Club Sandwich",
-            itemDescription: "A classic sandwich with layers of ham, turkey, bacon, lettuce, tomato, and mayonnaise.",
-            itemPrice: "150.00",
-            imagePath: "https://www.example.com/club-sandwich.jpg",
-            category: "Sandwich",
-            rating: 3
-        },
-        {
-            itemName: "Banana Smoothie",
-            itemDescription: "A creamy and refreshing smoothie made with ripe bananas and yogurt.",
-            itemPrice: "80.00",
-            imagePath: "https://www.example.com/banana-smoothie.jpg",
-            category: "Smoothie",
-            rating: 3
-        }
-    ];
+    const [menuItems, setMenuItems] = useState([]);
 
- if(isPopupOpen){
+    const [categories, setCategories] = useState([]);
+
+    if(isPopupOpen){
         document.body.classList.add('overflow-hidden')
     }else{
         document.body.classList.remove('overflow-hidden')
@@ -168,14 +55,69 @@ export const Menu = () => {
         return filteredItems.slice(startIndex, endIndex).map((item, index) => (
             <MenuItem
                 key={index}
-                itemName={item.itemName}
-                itemDescription={item.itemDescription}
-                itemPrice={item.itemPrice}
+                name={item.name}
+                description={item.description}
+                price={item.price}
                 imagePath={item.imagePath}
                 onClick={() => openPopup(item)}
             />
         ));
     };
+
+    const fetchProducts = async () => {
+  
+        try {
+          const response = await fetch('http://localhost:8080/public/getAllProducts', {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json'
+            }
+          });
+
+  
+          if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+          }
+  
+          const data = await response.json();
+
+          setMenuItems(data);
+
+        } catch (error) {
+          console.log(error.message);
+        }
+      };
+
+      const fetchCategories = async () => {
+
+        try {
+            const response = await fetch('http://localhost:8080/public/getProductCategories', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            const data = await response.json();
+
+            setCategories(data);
+
+        } catch (error) {
+            console.log(error.message);
+        }
+    };
+
+    useEffect(() =>
+        {
+            fetchCategories();
+            fetchProducts();
+        },
+        []
+    );
 
     useEffect(() => {
         handleRenderItems();
@@ -184,12 +126,11 @@ export const Menu = () => {
     return (
         <>
             <div className='mt-2 mb-2 flex justify-center '>
-                <ProductCategorySelector ref={productCategorySelectorRef} onTabSelect={handleTabSelect}></ProductCategorySelector>
+                <ProductCategorySelector selectedCategory = {selectedCategory} categories = {categories} onTabSelect={handleTabSelect}></ProductCategorySelector>
             </div>
             {handleRenderItems()}
             {isPopupOpen && (
-                <Popup onClose={closePopup} itemName={selectedItemName} itemDescription={selectedItemDescription} itemPrice={selectedItemPrice} imagePath={selectedImagePath} produtRating={selectedRaiting}
-                />
+                <MenuPopup onClose={closePopup} name={selectedItemName} description={selectedItemDescription} price={selectedItemPrice} imagePath={selectedImagePath} rating={selectedRating} />
             )}
 
             <nav  className="bg-center flex justify-center mt-2 mb-2" aria-label="Page navigation example">
