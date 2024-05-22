@@ -5,25 +5,21 @@ import Comment from './Comment';
 import TotalStars from '../TotalStars';
 
 
-const Popup = ({ onClose, itemName, itemDescription, itemPrice, imagePath ,produtRating}) => {
+const MenuPopup = ({ onClose, name, description, price, imagePath, rating}) => {
 
   const [quantityValue, setQuantityValue] = useState(0);
 
-  const [priceArr, setPriceArr] = useState([(parseFloat(itemPrice)*0.9).toFixed(2), itemPrice, (parseFloat(itemPrice)*1.1).toFixed(2)]);
+  const [priceArr, setPriceArr] = useState([(parseFloat(price)*0.9).toFixed(2), price, (parseFloat(price)*1.1).toFixed(2)]);
 
   const showToastSuccess = (message) => {
-
     toast.success(message);
   };
-  const showToastWarning = (message) => {
 
+  const showToastWarning = (message) => {
     toast.warn(message);
   };
 
   const [selectedOption, setSelectedOption] = useState("medium"); 
-
-
-  
 
   const comments = [
     {
@@ -62,15 +58,12 @@ const Popup = ({ onClose, itemName, itemDescription, itemPrice, imagePath ,produ
       content: "Vivamus tristique odio sit amet ligula vehicula, ac eleifend eros fermentum. Nulla facilisi."
     },
     // Add more comments as needed
-  ];
+    ];
 
   const handleOptionChange = (event) => {
-   
     setSelectedOption(event.target.value);
 };
 
-
-  
 
   function processAddToCart() {
     if (selectedOption == null) {
@@ -78,17 +71,15 @@ const Popup = ({ onClose, itemName, itemDescription, itemPrice, imagePath ,produ
       return;
     }
 
-
     if (quantityValue !== 0) {
       //post API Call
-      showToastSuccess(`Added ${quantityValue} ${itemName}(s) to cart`);
+
+      showToastSuccess(`Added ${quantityValue} ${name}(s) to cart`);
       onClose();
       return;
     }
 
     showToastWarning("Please select a quantity greater than 0");
-
-
   }
 
   function decreaseQuantity() {
@@ -104,29 +95,19 @@ const Popup = ({ onClose, itemName, itemDescription, itemPrice, imagePath ,produ
     <div className="overlay fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-800/50 bg-opacity-75 z-50 "  >
       <div className="bg-white rounded-lg p-8 w-auto relative">
         <button className="bg-gray-700 hover:bg-black  text-white px-4 py-2 rounded-md  absolute top-0 right-0 mr-4 mt-4" onClick={onClose}>X</button>
-
-        <h2 className="text-2xl font-bold mb-4">{itemName}</h2>
-
-
+        <h2 className="text-2xl font-bold mb-4">{name}</h2>
 
         <div className='flex flex-row gap-10'>
           <div classname='flex flex-col gap-10'>
 
+            <img src= {imagePath} alt="Item Image" className="w-64 h-64 object-cover mb-4" />
 
-            <img src={imagePath} alt="Item Image" className="w-64 h-64 object-cover mb-4" />
-
-
-
-            <TotalStars rating={produtRating} />
+            <TotalStars rating= {rating} />
 
           </div>
-
-
-
           <div className='flex flex-col gap-4'>
 
-            <p className="text-lg mb-2 w-15">{itemDescription}</p>
-
+            <p className="text-lg mb-2 w-15">{description}</p>
 
             <div >
               <div className='flex flex-row gap-10'>
@@ -177,20 +158,12 @@ const Popup = ({ onClose, itemName, itemDescription, itemPrice, imagePath ,produ
                   </li>
                 </ul>
 
-               
-
-
-
-
                 <div className="max-h-80 max-w-80 overflow-y-auto">
                   {comments.map((comment, index) => (
                    <Comment key={index} comment={comment} />
                   ))}
                 </div>
               </div>
-
-
-
 
               <div className='flex items-center space-x-7 mt-5'>
                 <button className="bg-gray-700 hover:bg-black  text-white px-4 py-2 rounded-md " onClick={processAddToCart}>Add to Cart</button>
@@ -212,12 +185,9 @@ const Popup = ({ onClose, itemName, itemDescription, itemPrice, imagePath ,produ
           </div>
         </div>
 
-
-
-
       </div>
     </div>
   );
 };
 
-export default Popup;
+export default MenuPopup;
