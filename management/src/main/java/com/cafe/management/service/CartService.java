@@ -40,5 +40,9 @@ public class CartService {
         newCart.setTotalPrice(0.0);
         return cartRepository.save(newCart);
     }
+
+    public Optional<Cart> getActiveCartByUserId(Long id) {
+        return cartRepository.getActiveCartByUserId(id);
+    }
     
 }

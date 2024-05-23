@@ -1,6 +1,7 @@
 package com.cafe.management.controller;
 
 import com.cafe.management.model.AuthenticationResponse;
+import com.cafe.management.model.Cart;
 import com.cafe.management.model.Coupon;
 import com.cafe.management.model.User;
 import com.cafe.management.model.enums.Role;
@@ -97,4 +98,5 @@ public class UserController {
 
         return ResponseEntity.notFound().build();
     }
+
 }

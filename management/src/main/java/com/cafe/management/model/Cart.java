@@ -30,7 +30,7 @@ public class Cart {
     private List<CartItem> cartItems;
 
     @OneToOne
-    private Order order;
+    private Order order; // if null then its active
 
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id")

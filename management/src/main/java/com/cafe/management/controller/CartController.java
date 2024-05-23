@@ -2,6 +2,7 @@ package com.cafe.management.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,6 +26,11 @@ public class CartController {
         } catch (Exception e) {
             return ResponseEntity.badRequest().build();
         }
+    }
+
+    @GetMapping("/getActiveCartByUserId/{id}")
+    public ResponseEntity<Cart> getActiveCartByUserId(@PathVariable Long id){
+        return ResponseEntity.ok(cartService.getActiveCartByUserId(id).get());
     }
 
     

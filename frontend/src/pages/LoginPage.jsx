@@ -38,8 +38,10 @@ const LoginPage = () => {
       
       const token = responseData.token;
       const role= responseData.role;
+      const id = responseData.id;
       Cookies.set('token', token)
       Cookies.set('role', role)
+      Cookies.set('id', id)
       toast.success("You've successfully entered!");
       if (responseData.role === 'ADMIN' || responseData.role === 'EMPLOYEE') {
         navigate('/dashboard');

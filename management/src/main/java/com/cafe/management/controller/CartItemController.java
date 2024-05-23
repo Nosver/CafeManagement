@@ -17,14 +17,24 @@ public class CartItemController {
     @Autowired
     private CartItemService cartItemService;
 
-    @PostMapping("/createCartItem")
-    public ResponseEntity<CartItem> createCartItem(@RequestBody CartItem cartItem){
-        try {
-            return ResponseEntity.ok(cartItemService.createCartItem(cartItem));
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResponseEntity.badRequest().build();
-        }
+
+
+    @PostMapping("/addCartItem")
+    public ResponseEntity<CartItem> addCartItem(@RequestBody CartItem cartItem){
+        /*
+        Usage:
+
+         cartItem: {
+                cart: {
+                    user: {
+                        id: 231231
+                    }
+                }
+            }
+
+         */
+
+        return ResponseEntity.ok(cartItemService.addCartItem(cartItem));
     }
 
 }
