@@ -6,6 +6,7 @@ import com.cafe.management.model.RequiredStock;
 import com.cafe.management.model.Stock;
 import com.cafe.management.repository.ProductRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -115,8 +116,26 @@ public class ProductService {
        return productRepository.save(product);
     }
 
+    public List<ProductDTO> getAllProductsWithoutRequiredStocks(){
+        List<Product> products= productRepository.findAll();
+        List<ProductDTO> res= new ArrayList<ProductDTO>();
+        for (Product p: products){
+            ProductDTO productdto = new ProductDTO();
+            productdto.setCategory(p.getCategory());
+            productdto.setName(p.getName());
+            productdto.setDescription(p.getDescription());
+            productdto.setPrice(p.getPrice());
+            productdto.setId(p.getId());
+            productdto.setImagePath(p.getImagePath());
+            productdto.setIsMultisized(p.getIsMultisized());
+            productdto.setPredictedStock(p.getPredictedStock());
+            res.add(productdto);
+        }
+        return res;
+    }
+
     public List<Product> getAllProducts(){
-        return productRepository.findAll();
+        return  productRepository.findAll();
     }
 
     public Product getProductByName(String name) {

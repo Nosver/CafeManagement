@@ -62,7 +62,7 @@ public class UserController {
     @PostMapping("/employee_and_admin/updateEmployee")
     public ResponseEntity<User> updateEmployee(
             @RequestBody User request) {
-        if (request.getRole() != Role.EMPLOYEE) {
+        if (request.getRole() == Role.CUSTOMER) {
             return ResponseEntity.badRequest().build();
         }
         return ResponseEntity.ok(userService.updateUser(request));

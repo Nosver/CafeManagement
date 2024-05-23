@@ -99,7 +99,7 @@ export const MyProfile = () => {
       setPassword(result.password);
       setAddress(result.address);
       setRole(result.role);
-      setPhoto(result.photo);
+      setPhoto(result.avatar);
       setPhone(result.phoneNumber);
       setSalary(result.salary);
       setPosition(result.position);
@@ -118,7 +118,8 @@ export const MyProfile = () => {
   const [isPasswordPopupVisible, setisPasswordPopupVisible] = useState(false)
   const closePopup = () => setisPasswordPopupVisible(false);
 
-  const handleUpdateButton = () => {
+  const handleUpdateButton = (e) => {
+    e.preventDefault();
     if (window.confirm('Are you sure you want to update your information?')) {
       try {
         updateEmployee()

@@ -31,7 +31,7 @@ public class Product {
 
     private Double predictedStock;
 
-    @OneToMany(mappedBy =  "product",cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy =  "product",cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
     private List<RequiredStock> requiredStocks;
 
     private String imagePath;

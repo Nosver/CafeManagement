@@ -1,5 +1,6 @@
 package com.cafe.management.controller;
 
+import com.cafe.management.dto.ProductDTO;
 import com.cafe.management.model.Product;
 import com.cafe.management.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;

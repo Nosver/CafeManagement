@@ -28,7 +28,7 @@ export const Products = () => {
         }
   
         try {
-          const response = await fetch('http://localhost:8080/employee_and_admin/getAllProducts', {
+          const response = await fetch('http://localhost:8080/employee_and_admin/getAllProductsWithoutRequiredStocks', {
             method: 'GET',
             headers: {
               'Authorization': `Bearer ${token}`,

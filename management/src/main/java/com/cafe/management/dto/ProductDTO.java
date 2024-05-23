@@ -18,4 +18,5 @@ public class ProductDTO {
     private Boolean isMultisized;
     private String imagePath;
     private ProductCategory category;
+    private Double predictedStock;
 }

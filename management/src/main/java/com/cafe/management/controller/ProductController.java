@@ -1,5 +1,6 @@
 package com.cafe.management.controller;
 
+import com.cafe.management.dto.ProductDTO;
 import com.cafe.management.model.Product;
 import com.cafe.management.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,6 +58,11 @@ public class ProductController {
     @GetMapping("/getAllProducts")
     public ResponseEntity<List<Product>> getAllProducts(){
         return ResponseEntity.ok(productService.getAllProducts());
+    }
+
+    @GetMapping("/getAllProductsWithoutRequiredStocks")
+    public ResponseEntity<List<ProductDTO>> getAllProductsWithoutReqStocks(){
+        return ResponseEntity.ok(productService.getAllProductsWithoutRequiredStocks());
     }
 
     @GetMapping("/getProductByName") // Usage: http://XXXX/getProductByName?name=productname
