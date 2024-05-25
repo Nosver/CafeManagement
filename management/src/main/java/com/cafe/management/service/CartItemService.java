@@ -38,7 +38,6 @@ public class CartItemService {
 
     public CartItem addCartItem(CartItem cartItem) throws NameNotFoundException {
 
-
         // Find user
         Optional<User> user = userService.findById(cartItem.getCart().getUser().getId());
 
@@ -61,7 +60,6 @@ public class CartItemService {
             throw new IllegalArgumentException("Request does not contain product");
         }
 
-
         Product p = productService.getProductById(cartItem.getProduct().getId());
         if (p == null) {
             throw new IllegalArgumentException("Corresponding product not found!");
@@ -70,16 +68,16 @@ public class CartItemService {
             throw new IllegalArgumentException("Not enough stock!");
         }
 
-        Optional<CartItem> products = getCartItemByCartIdAndProductId(activeCart.get().getId(), p.getId(), cartItem.getSize());
+        Optional<CartItem> products = getCartItemByCartIdAndProductId(activeCart.get().getId(), p.getId(),
+                cartItem.getSize());
 
-        //update existing cart item
+        // update existing cart item
         if (products.isPresent()) {
-            //update the amount
+            // update the amount
             if (p.getPredictedStock() >= products.get().getAmount() + cartItem.getAmount()) {
                 products.get().setAmount(products.get().getAmount() + cartItem.getAmount());
 
-
-                CartItem c=cartItemRepository.save(products.get());
+                CartItem c = cartItemRepository.save(products.get());
                 activeCart.get().setTotalPrice(cartService.calculateTotalPrice(activeCart.get()));
                 cartService.addCart(activeCart.get());
                 return c;
@@ -88,25 +86,22 @@ public class CartItemService {
                 throw new NameNotFoundException("Not enough stock!");
             }
 
-
         }
 
-        // Set the new cart item        
+        // Set the new cart item
         CartItem newCartItem = new CartItem();
         newCartItem.setAmount(cartItem.getAmount());
         newCartItem.setCart(activeCart.get());
         newCartItem.setProduct(p);
         newCartItem.setSize(cartItem.getSize());
 
-
-        CartItem c= cartItemRepository.save(newCartItem);
+        CartItem c = cartItemRepository.save(newCartItem);
 
         activeCart.get().setTotalPrice(cartService.calculateTotalPrice(activeCart.get()));
         cartService.addCart(activeCart.get());
 
         return c;
     }
-
 
     public Optional<CartItem> getCartItemByCartIdAndProductId(Long cartId, Long productId, ProductSize size) {
         return cartItemRepository.getCartItemByCartIdAndProductId(cartId, productId, size);
@@ -119,7 +114,6 @@ public class CartItemService {
             throw new IllegalArgumentException("Cart item is not found");
         }
 
-
         if (cartItem.getProduct() == null) {
             throw new IllegalArgumentException("product is not found");
         }
@@ -129,47 +123,58 @@ public class CartItemService {
             throw new IllegalArgumentException("user is not found");
         }
 
-        //check if predicted stock is available
+        // check if predicted stock is available
         if (item.get().getProduct().getPredictedStock() > cartItem.getAmount()) {
             item.get().setAmount(cartItem.getAmount());
             item.get().setSize(cartItem.getSize());
-            CartItem saved =cartItemRepository.save(item.get());
+            CartItem saved = cartItemRepository.save(item.get());
 
-            //recalculate total price of cart
+            // recalculate total price of cart
             Double totalPrice = cartService.calculateTotalPrice(cart.get());
             cart.get().setTotalPrice(totalPrice);
             cartService.addCart(cart.get());
+
+            mergeDuplicateCartItems(saved);
             return saved;
         }
 
         throw new IllegalArgumentException("not enough stock to update cartItem");
 
-
     }
 
     public void deleteCartItemById(Long cartItemId) {
 
-        CartItem cartItem= cartItemRepository.findById(cartItemId).get();
+        CartItem cartItem = cartItemRepository.findById(cartItemId).get();
         cartItemRepository.deleteById(cartItemId);
 
-        Cart c=cartService.getCartById(cartItem.getCart().getId());
+        Cart c = cartService.getCartById(cartItem.getCart().getId());
         c.setTotalPrice(cartService.calculateTotalPrice(c));
         cartService.addCart(c);
 
     }
 
+    public void mergeDuplicateCartItems(CartItem cartItem) {
 
-   /*public List<CartItem> getAllCartItemsOfCustomer(Long userId){
-       Optional<Cart> userCart= cartService.getActiveCartByUserId(userId);
-       List<CartItem> cartItems= new ArrayList<CartItem>();
-       if(!userCart.isPresent()){
-           throw new IllegalArgumentException("")
-       }
+        List<CartItem> duplicates = cartItemRepository.getAllDuplicateCartItemsByProductAndCartId(
+                cartItem.getCart().getId(), cartItem.getProduct().getId(), cartItem.getSize());
 
-       for () {
+        // Check if duplicates exists
+        if (duplicates.size() <= 1) {
+            return;
+        }
 
-       }
-   }*/
+        int amount = 0;
 
+        for (CartItem dup : duplicates) {
+            amount += dup.getAmount();
+        }
+
+        // Delete second one
+        cartItemRepository.deleteById(duplicates.get(1).getId());
+
+        // Update first one
+        duplicates.get(0).setAmount(amount);
+        cartItemRepository.save(duplicates.get(0));
+    }
 
 }
