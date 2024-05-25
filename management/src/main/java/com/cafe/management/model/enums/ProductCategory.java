@@ -4,5 +4,8 @@ public enum ProductCategory {
     HOTBEVERAGE,
     COLDBEVERAGE,
     SNACK,
-    DESSERT
+    DESSERT,
+    PASTRY,
+    SANDWICH,
+    SMOOTHIE,
 }

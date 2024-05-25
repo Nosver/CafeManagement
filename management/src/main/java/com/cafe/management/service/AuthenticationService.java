@@ -68,7 +68,6 @@ public class AuthenticationService {
         user.setProvider(Provider.LOCAL);
         user.setEmail(request.getEmail());
         user.setAddress(request.getAddress());
-        user.setAvatar(request.getAvatar());
         user.setSalary(request.getSalary());
         user.setPosition(request.getPosition());
     
@@ -77,11 +76,13 @@ public class AuthenticationService {
 
         user.setPhoneNumber(request.getPhoneNumber());
         user.setRole(request.getRole());
-        if(user.getRole().equals(Role.CUSTOMER))
+        user.setAvatar("https://publiccafein.blob.core.windows.net/publiccafein/avatar-default-svgrepo-com.svg");
+        if(user.getRole().equals(Role.CUSTOMER)){
+            user.setEmailVerificationLink(UUID.randomUUID().toString());
             user.setIsAccountEnabled(false);
+        }
         else
             user.setIsAccountEnabled(true);
-        user.setEmailVerificationLink(UUID.randomUUID().toString());
         user = repository.save(user);
 
         //String jwt = jwtService.generateToken(user);        
@@ -128,16 +129,12 @@ public class AuthenticationService {
     }
     
     private void revokeAllTokenByUser(User user) {
-        List<Token> validTokens = tokenRepository.findAllTokensByUser(user.getId());
-        if(validTokens.isEmpty()) {
-            return;
-        }
 
-        validTokens.forEach(t-> {
-            t.setLoggedOut(true);
-        });
 
-        tokenRepository.saveAll(validTokens);
+        tokenRepository.deleteUserTokens(user.getId());
+
+
+
     }
     
     private void saveUserToken(String jwt, User user ) {

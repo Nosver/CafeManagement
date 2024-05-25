@@ -9,6 +9,7 @@ import com.cafe.management.repository.UserRepository;
 import java.util.List;
 import java.util.Optional;
 
+import com.stripe.service.TokenService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -24,6 +25,9 @@ public class UserService {
 
     @Autowired
     private CouponService couponService;
+
+    @Autowired
+    private JwtService jwtService;
 
     public List<User> getAllCustomers() {
         List<User> asd =  userRepository.findAllByRole(Role.CUSTOMER);
@@ -87,5 +91,17 @@ public class UserService {
         return userRepository.save(nUser.get());
     }
 
+    public void deleteEmployee(Long employeeId){
+        Optional<User> employee= userRepository.findById(employeeId);
+        if(employee.isEmpty()){
+            throw new IllegalArgumentException("No Employee found with given id");
+        }
+        if(employee.get().getRole()!=Role.EMPLOYEE){
+            throw new IllegalArgumentException("user with given id is not employee");
+        }
+        jwtService.deleteUserTokens(employeeId);
+        userRepository.deleteById(employeeId);
+
+    }
 
 }

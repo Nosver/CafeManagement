@@ -14,9 +14,10 @@ import Cookies from 'js-cookie';
 
 
 class Customer {
-    constructor(id, name, phone, totalSpendings) {
+    constructor(id, name, email,phone, totalSpendings) {
         this.id = id;
         this.name = name;
+        this.email=email;
         this.phone = phone;
         this.totalSpendings = totalSpendings;
     }
@@ -53,7 +54,7 @@ export const Customers = () => {
 
             // set to the class
             const newCustomersArray = data.map(customer =>
-                new Customer(customer.id, customer.fullName, customer.phoneNumber, 0)
+                new Customer(customer.id, customer.fullName, customer.email,customer.phoneNumber, 0)
             );
 
             
@@ -154,6 +155,9 @@ export const Customers = () => {
                                                 Customer Name
                                             </th>
                                             <th scope="col" class="px-6 py-3">
+                                                Customer E-mail
+                                            </th>
+                                            <th scope="col" class="px-6 py-3">
                                                 Total Spendings
                                             </th>
                                             <th scope="col" class="px-6 py-3">
@@ -209,6 +213,10 @@ export const Customers = () => {
                                                 </td>
                                                 <td class="px-6 py-4 whitespace-nowrap">
                                                     <div class="text-sm text-gray-900">{customersArray.name}</div>
+                                                </td>
+
+                                                <td class="px-6 py-4 whitespace-nowrap">
+                                                    <div class="text-sm text-gray-900">{customersArray.email}</div>
                                                 </td>
 
                                                 <td class="px-6 py-4 whitespace-nowrap">
