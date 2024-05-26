@@ -53,9 +53,7 @@ public class UserService {
 
         // Get all customers
         List<User> customerList = userRepository.findAllByRole(Role.CUSTOMER);
-        System.out.println(customerList);
         for(User customer : customerList){
-
             sendCoupon(customer, coupon);
         }
     }
