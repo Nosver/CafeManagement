@@ -8,8 +8,10 @@ import { useNavigate } from 'react-router-dom';
 import { Spinner } from 'flowbite-react';
 
 
-const MenuPopup = ({ onClose,id, name, description, price, imagePath, rating}) => {
+const MenuPopup = ({ onClose,id, name, description, price, imagePath, rating, isMultisized}) => {
+
   const navigate = useNavigate();
+  
   const [quantityValue, setQuantityValue] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -172,52 +174,73 @@ const processAddToCart = async () => {
 
             <div >
               <div className='flex flex-row gap-10'>
+                {!isMultisized &&
                 <ul class=" w-7/12 space-y-6 md:grid md:grid-cols-1 md:space-y-0 md:gap-6">
                   <li >
-                    <input type="radio" id="hosting-small"  value="small" class="hidden peer" onClick={handleOptionChange} checked={selectedOption === "small"}  />
-                    <label for="hosting-small" class="inline-flex items-center justify-between w-full p-3 text-gray-500 bg-white border border-gray-200 rounded-lg cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 dark:peer-checked:text-blue-500 peer-checked:border-blue-600 peer-checked:text-blue-600 hover:text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700">
+                    <input type="radio" id="hosting-standard"  value="medium" class="hidden peer" onClick={handleOptionChange} checked={selectedOption === "medium"}  />
+                    <label for="hosting-standard" class="inline-flex items-center justify-between w-full p-3 text-gray-500 bg-white border border-gray-200 rounded-lg cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 dark:peer-checked:text-blue-500 peer-checked:border-blue-600 peer-checked:text-blue-600 hover:text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700">
                       <div class="block w-11/12">
                         <div className='flex flex-row fill-inherit'>
-                          <div class="w-full text-lg font-semibold">Small</div>
-                          <p className="text-xl font-bold text-right ">{priceArr[0]}₺</p>
-
-                        </div>
-
-                        <div class="w-full">Light and flavorful! Perfect for a quick energy boost.</div>
-                      </div>
-                    </label>
-                  </li>
-                  <li>
-                    <input type="radio" id="hosting-big"  value="medium" class="hidden peer" onClick={handleOptionChange} checked={selectedOption === "medium"}    />
-                    <label for="hosting-big" class="inline-flex items-center justify-between w-full p-3 text-gray-500 bg-white border border-gray-200 rounded-lg cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 dark:peer-checked:text-blue-500 peer-checked:border-blue-600 peer-checked:text-blue-600 hover:text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700">
-
-                      <div class="block w-11/12">
-                        <div className='flex flex-row fill-inherit'>
-                          <div class="w-full text-lg font-semibold">Medium</div>
+                          <div class="w-full text-lg font-semibold">Standard</div>
                           <p className="text-xl font-bold text-right ">{priceArr[1]}₺</p>
 
                         </div>
 
                         <div class="w-full">Just right for satisfaction. Enjoy more flavor and fulfillment in every sip or bite.</div>
                       </div>
-
-                    </label>
-                  </li>
-                  <li>
-                    <input type="radio" id="hosting-L"  value="large" class="hidden peer" onClick={handleOptionChange} checked={selectedOption === "large"}  />
-                    <label for="hosting-L" class="inline-flex items-center justify-between w-full p-3 text-gray-500 bg-white border border-gray-200 rounded-lg cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 dark:peer-checked:text-blue-500 peer-checked:border-blue-600 peer-checked:text-blue-600 hover:text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700">
-                      <div class="block w-11/12">
-                        <div className='flex flex-row fill-inherit'>
-                          <div class="w-full text-lg font-semibold">Large</div>
-                          <p className="text-xl font-bold text-right ">{priceArr[2]}₺</p>
-
-                        </div>
-
-                        <div class="w-full">For those craving more, our large size offers the perfect solution.</div>
-                      </div>
                     </label>
                   </li>
                 </ul>
+                }
+
+                {isMultisized &&
+                  <ul class=" w-7/12 space-y-6 md:grid md:grid-cols-1 md:space-y-0 md:gap-6">
+                    <li >
+                      <input type="radio" id="hosting-small"  value="small" class="hidden peer" onClick={handleOptionChange} checked={selectedOption === "small"}  />
+                      <label for="hosting-small" class="inline-flex items-center justify-between w-full p-3 text-gray-500 bg-white border border-gray-200 rounded-lg cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 dark:peer-checked:text-blue-500 peer-checked:border-blue-600 peer-checked:text-blue-600 hover:text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700">
+                        <div class="block w-11/12">
+                          <div className='flex flex-row fill-inherit'>
+                            <div class="w-full text-lg font-semibold">Small</div>
+                            <p className="text-xl font-bold text-right ">{priceArr[0]}₺</p>
+
+                          </div>
+
+                          <div class="w-full">Light and flavorful! Perfect for a quick energy boost.</div>
+                        </div>
+                      </label>
+                    </li>
+                    <li>
+                      <input type="radio" id="hosting-big"  value="medium" class="hidden peer" onClick={handleOptionChange} checked={selectedOption === "medium"}    />
+                      <label for="hosting-big" class="inline-flex items-center justify-between w-full p-3 text-gray-500 bg-white border border-gray-200 rounded-lg cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 dark:peer-checked:text-blue-500 peer-checked:border-blue-600 peer-checked:text-blue-600 hover:text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700">
+
+                        <div class="block w-11/12">
+                          <div className='flex flex-row fill-inherit'>
+                            <div class="w-full text-lg font-semibold">Medium</div>
+                            <p className="text-xl font-bold text-right ">{priceArr[1]}₺</p>
+
+                          </div>
+
+                          <div class="w-full">Just right for satisfaction. Enjoy more flavor and fulfillment in every sip or bite.</div>
+                        </div>
+
+                      </label>
+                    </li>
+                    <li>
+                      <input type="radio" id="hosting-L"  value="large" class="hidden peer" onClick={handleOptionChange} checked={selectedOption === "large"}  />
+                      <label for="hosting-L" class="inline-flex items-center justify-between w-full p-3 text-gray-500 bg-white border border-gray-200 rounded-lg cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 dark:peer-checked:text-blue-500 peer-checked:border-blue-600 peer-checked:text-blue-600 hover:text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700">
+                        <div class="block w-11/12">
+                          <div className='flex flex-row fill-inherit'>
+                            <div class="w-full text-lg font-semibold">Large</div>
+                            <p className="text-xl font-bold text-right ">{priceArr[2]}₺</p>
+
+                          </div>
+
+                          <div class="w-full">For those craving more, our large size offers the perfect solution.</div>
+                        </div>
+                      </label>
+                    </li>
+                  </ul>
+                }
 
                 <div className="max-h-80 max-w-80 overflow-y-auto">
                   {comments.map((comment, index) => (

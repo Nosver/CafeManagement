@@ -14,7 +14,9 @@ export const Menu = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [selectedCategory, setSelectedCategory] = useState('HOTBEVERAGE');
     const [selectedRating, setSelectedRating] = useState(0);
-    const [selectedId,setSelectedId]=useState(0);
+    const [selectedId, setSelectedId]=useState(0);
+    const [isMultisized, setIsMultisized]=useState(false);
+
     const itemsPerPage = 5; 
 
     const openPopup = (item) => {
@@ -24,6 +26,7 @@ export const Menu = () => {
         setSelectedImagePath(item.imagePath);
         setSelectedRating(item.rating);
         setSelectedId(item.id)
+        setIsMultisized(item.isMultisized);
         setIsPopupOpen(true);
     };
 
@@ -133,7 +136,7 @@ export const Menu = () => {
             </div>
             {handleRenderItems()}
             {isPopupOpen && (
-                <MenuPopup onClose={closePopup} name={selectedItemName} description={selectedItemDescription} price={selectedItemPrice} imagePath={selectedImagePath} rating={selectedRating} id={selectedId}/>
+                <MenuPopup onClose={closePopup} name={selectedItemName} description={selectedItemDescription} price={selectedItemPrice} imagePath={selectedImagePath} rating={selectedRating} id={selectedId} isMultisized = {isMultisized}/>
             )}
 
             <nav  className="bg-center flex justify-center mt-2 mb-2" aria-label="Page navigation example">
