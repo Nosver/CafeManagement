@@ -153,12 +153,12 @@ export const CartPage = () => {
                         <div class="mt-8">
                             <div class="flex items-center justify-between pb-6">
                             {cart && cart.cartItems ? <p class="font-normal text-lg leading-8 text-black">{cart.cartItems.length} Item(s)</p> : <p class="font-normal text-lg leading-8 text-black">0 Item(s)</p>}
-                                <p class="font-medium text-lg leading-8 text-black">{cart.totalPrice}₺</p>
+                                <p class="font-medium text-lg leading-8 text-black">{cart.totalPrice && cart.totalPrice.toFixed(2)}₺</p>
                             </div>
                             <p>{
-                                cart && cart.cartItems ?                                cart.cartItems.map(item => (
+                                cart && cart.cartItems ? cart.cartItems.map(item => (
                                     <span key={item.id}>
-                                        {item.name} x{item.quantity}<br />
+                                        {item.product.name} x{item.amount}<br />
                                     </span>
                                 )) 
                                 : <p> No items in the cart</p>
@@ -201,7 +201,7 @@ export const CartPage = () => {
                                 </div>
                                 <div class="flex items-center justify-between py-8">
                                     { cart && cart.cartItems ? <p class="font-medium text-xl leading-8 text-black">{cart.cartItems.length} Item(s)</p> : <p class="font-medium text-xl leading-8 text-black">0 Item(s)</p>}
-                                    <p class="font-semibold text-xl leading-8 text-green-700">{cart.totalPrice}₺</p>
+                                    <p class="font-semibold text-xl leading-8 text-green-700">{cart.totalPrice && cart.totalPrice.toFixed(2)}₺</p>
                                 </div>
                                 <button
                                     class="w-full text-center bg-green-700 rounded-full py-4 px-6 font-semibold text-lg text-white transition-all duration-500 hover:bg-green-900" onClick={handleCheckoutClick}>Checkout</button>

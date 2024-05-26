@@ -96,7 +96,7 @@ export const CartProductItem = ({ cartItem }) => {
         else if(cartItem.size == 'LARGE')
             sizeConstant = 1.1;
 
-        setTotalPrice(cartItem.product.price * cartItem.amount * sizeConstant);
+        setTotalPrice((cartItem.product.price * cartItem.amount * sizeConstant).toFixed(2));
     }, [cartItem.amount, cartItem.product.price]);
 
     return (
