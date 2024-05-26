@@ -152,6 +152,43 @@ const UpdateEmployeePopup = ({ closePopup, employee }) => {
         fetchPositions();
       }, []);
 
+      const handleFireEmployee= async () => {
+
+        const confirmDelete = window.confirm("Are you sure you want to Fire this Employee?");
+        if (!confirmDelete) {
+            return;
+        }
+
+        closePopup();
+
+        const token = Cookies.get('token');
+
+        if (!token) {
+            setError('No token found');
+            return;
+        }
+
+        try {
+            const response = await fetch('http://localhost:8080/admin_only/deleteEmployee/' + employee.id, {
+                method: 'DELETE',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                }
+            });
+
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            toast.success('Employe fired deleted successfully');
+            window.location.reload();
+
+        } catch (error) {
+            toast.error('An error occurred while firing the employee :)');
+        }
+    };
 
     return(
         <div id="crud-modal" tabindex="-1" aria-hidden="true" class="overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 bottom-0 z-50 flex justify-center items-center bg-gray-800/50">
@@ -276,6 +313,7 @@ const UpdateEmployeePopup = ({ closePopup, employee }) => {
                                 required
                             />
                         </div>
+                        <div className='flex flex-row gap-4'>
                         <button
                             onClick={(event) => onSubmitFunction(event)}
                             type="submit"
@@ -283,6 +321,15 @@ const UpdateEmployeePopup = ({ closePopup, employee }) => {
                         >
                             Update Employee
                         </button>
+                        <button
+                                onClick={handleFireEmployee}
+
+                                className="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50"
+                            >
+                                Fire Employee
+                            </button>
+                        </div>
+                        
                     </form>
 
                 </div>

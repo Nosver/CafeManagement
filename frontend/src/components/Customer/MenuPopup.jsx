@@ -3,11 +3,15 @@ import { useState } from 'react';
 import { toast } from 'react-toastify';
 import Comment from './Comment';
 import TotalStars from '../TotalStars';
+import Cookies from 'js-cookie';
+import { useNavigate } from 'react-router-dom';
+import { Spinner } from 'flowbite-react';
 
 
-const MenuPopup = ({ onClose, name, description, price, imagePath, rating}) => {
-
+const MenuPopup = ({ onClose,id, name, description, price, imagePath, rating}) => {
+  const navigate = useNavigate();
   const [quantityValue, setQuantityValue] = useState(0);
+  const [isLoading, setIsLoading] = useState(false);
 
   const [priceArr, setPriceArr] = useState([(parseFloat(price)*0.9).toFixed(2), price, (parseFloat(price)*1.1).toFixed(2)]);
 
@@ -65,17 +69,72 @@ const MenuPopup = ({ onClose, name, description, price, imagePath, rating}) => {
 };
 
 
-  function processAddToCart() {
+const processAddToCart = async () => {
+
+    if(Cookies.get('role')!="CUSTOMER"){
+      showToastWarning("you need to login!!")
+      navigate('/LoginPage');
+      return
+    }
+
     if (selectedOption == null) {
       showToastWarning(`Please select size to continue`);
       return;
     }
 
     if (quantityValue !== 0) {
-      //post API Call
+      console.log(selectedOption.toUpperCase());
 
-      showToastSuccess(`Added ${quantityValue} ${name}(s) to cart`);
-      onClose();
+
+      const token = Cookies.get('token');
+        
+      if (!token) {
+        setMessage('No token found. Please login.');
+        return;
+      }
+  
+      const cartItemBody = {
+        cart: {
+          user:{
+            
+        }
+        },
+        product:{
+            id:id
+        },
+        size: selectedOption.toUpperCase(),
+        amount:quantityValue
+      };
+  
+      try {
+        setIsLoading(true);
+        const response = await fetch('http://localhost:8080/customer_only/addCartItem', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',  
+            'Authorization': `Bearer ${token}`                 
+          },
+          body: JSON.stringify(cartItemBody)
+        });
+        setIsLoading(false)
+        
+        if (response.status === 417) {
+          toast.warn('Not enough stock, try with less quantity!');
+          return;
+        }
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+  
+        const result = await response.json();
+        console.log('Success:', result);
+        showToastSuccess(`Added ${quantityValue} ${name}(s) to cart`);
+        onClose();
+      } catch (error) {
+        console.error('Error:', error);
+      }
+
+      
       return;
     }
 
@@ -92,7 +151,9 @@ const MenuPopup = ({ onClose, name, description, price, imagePath, rating}) => {
   };
 
   return (
+  
     <div className="overlay fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-800/50 bg-opacity-75 z-50 "  >
+      
       <div className="bg-white rounded-lg p-8 w-auto relative">
         <button className="bg-gray-700 hover:bg-black  text-white px-4 py-2 rounded-md  absolute top-0 right-0 mr-4 mt-4" onClick={onClose}>X</button>
         <h2 className="text-2xl font-bold mb-4">{name}</h2>

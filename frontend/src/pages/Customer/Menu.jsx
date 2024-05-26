@@ -3,6 +3,7 @@ import ProductCategorySelector from '../../components/Customer/ProductCategorySe
 import MenuItem from '../../components/Customer/MenuItem';
 import MenuPopup from '../../components/Customer/MenuPopup';
 
+
 export const Menu = () => {
 
     const [isPopupOpen, setIsPopupOpen] = useState(false);
@@ -13,6 +14,7 @@ export const Menu = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [selectedCategory, setSelectedCategory] = useState('HOTBEVERAGE');
     const [selectedRating, setSelectedRating] = useState(0);
+    const [selectedId,setSelectedId]=useState(0);
     const itemsPerPage = 5; 
 
     const openPopup = (item) => {
@@ -21,6 +23,7 @@ export const Menu = () => {
         setSelectedItemPrice(item.price);
         setSelectedImagePath(item.imagePath);
         setSelectedRating(item.rating);
+        setSelectedId(item.id)
         setIsPopupOpen(true);
     };
 
@@ -130,7 +133,7 @@ export const Menu = () => {
             </div>
             {handleRenderItems()}
             {isPopupOpen && (
-                <MenuPopup onClose={closePopup} name={selectedItemName} description={selectedItemDescription} price={selectedItemPrice} imagePath={selectedImagePath} rating={selectedRating} />
+                <MenuPopup onClose={closePopup} name={selectedItemName} description={selectedItemDescription} price={selectedItemPrice} imagePath={selectedImagePath} rating={selectedRating} id={selectedId}/>
             )}
 
             <nav  className="bg-center flex justify-center mt-2 mb-2" aria-label="Page navigation example">

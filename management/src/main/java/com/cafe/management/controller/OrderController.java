@@ -22,7 +22,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @PropertySource("classpath:secret.properties")
 public class OrderController {
@@ -106,7 +105,7 @@ public class OrderController {
     private String stripeApiKey;
 
     @Hidden
-    @GetMapping("employee_and_admin/transactions")
+    @GetMapping("admin_only/transactions")
     public List<Session> getTransactions() throws StripeException {
         // Set the Stripe API key
         Stripe.apiKey = stripeApiKey;

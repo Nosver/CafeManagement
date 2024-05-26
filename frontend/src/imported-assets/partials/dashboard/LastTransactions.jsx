@@ -2,6 +2,7 @@ import React from 'react';
 import { useState } from 'react';
 import { useEffect } from 'react';
 import axios from 'axios';
+import Cookies from 'js-cookie';
 
 
 function LastTransactions() {
@@ -9,14 +10,29 @@ function LastTransactions() {
   const [transactions, setTransactions] = useState([]);
 
   useEffect(() => {
-    // Fetch data from the API
-    axios.get('http://localhost:8080/transactions')
-      .then(response => {
-        setTransactions(response.data);
-      })
-      .catch(error => {
-        console.error('Error fetching transactions:', error);
-      });
+    // Define the Bearer token
+    const token = Cookies.get('token');
+
+    // Fetch data from the API with the Authorization header
+    fetch('http://localhost:8080/admin_only/transactions', {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      }
+    })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Network response was not ok ' + response.statusText);
+      }
+      return response.json();
+    })
+    .then(data => {
+      setTransactions(data);
+    })
+    .catch(error => {
+      console.error('Error fetching transactions:', error);
+    });
   }, []);
 
   return (

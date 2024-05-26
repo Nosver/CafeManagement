@@ -1,6 +1,7 @@
 package com.cafe.management.controller;
 
 import com.cafe.management.model.CartItem;
+import com.cafe.management.model.User;
 import com.cafe.management.model.enums.ProductSize;
 import com.cafe.management.repository.CartItemRepository;
 import com.cafe.management.service.CartItemService;
@@ -9,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.management.RuntimeErrorException;
@@ -16,7 +19,7 @@ import javax.naming.NameNotFoundException;
 import java.util.List;
 
 @RestController
-@RequestMapping("/public")
+@RequestMapping("/customer_only")
 public class CartItemController {
 
     @SuppressWarnings("unused")
@@ -39,6 +42,14 @@ public class CartItemController {
             }
 
          */
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User user= new User();
+        if (authentication.getPrincipal() instanceof User) {
+            user = (User) authentication.getPrincipal();
+
+        }
+        cartItem.getCart().getUser().setId(user.getId());
         try {
             return ResponseEntity.ok(cartItemService.addCartItem(cartItem));
         } catch (IllegalArgumentException | NameNotFoundException c) {
