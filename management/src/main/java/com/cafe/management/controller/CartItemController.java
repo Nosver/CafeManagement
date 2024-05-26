@@ -60,8 +60,21 @@ public class CartItemController {
     }
 
     @PostMapping("/updateCartItem")
-    public CartItem updateCartItem(@RequestBody CartItem cartItem){
-        return cartItemService.updateCartItem(cartItem);
+    public ResponseEntity<CartItem> updateCartItem(@RequestBody CartItem cartItem){
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User user= new User();
+        if (authentication.getPrincipal() instanceof User) {
+            user = (User) authentication.getPrincipal();
+
+        }
+
+        try {
+            return ResponseEntity.ok(cartItemService.updateCartItem(cartItem, user.getId()));
+        } catch (Exception e) {
+            // Not enough stock
+            return ResponseEntity.badRequest().build();
+        }
     }
 
     @DeleteMapping("/deleteCartItem/{id}")

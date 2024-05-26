@@ -108,7 +108,8 @@ public class CartItemService {
 
     }
 
-    public CartItem updateCartItem(CartItem cartItem) {
+    public CartItem updateCartItem(CartItem cartItem, Long userId) {
+
         Optional<CartItem> item = cartItemRepository.findById(cartItem.getId());
         if (item.isEmpty()) {
             throw new IllegalArgumentException("Cart item is not found");
@@ -117,7 +118,9 @@ public class CartItemService {
         if (cartItem.getProduct() == null) {
             throw new IllegalArgumentException("product is not found");
         }
-        Optional<Cart> cart = cartService.getActiveCartByUserId(cartItem.getCart().getUser().getId());
+        Optional<Cart> cart = cartService.getActiveCartByUserId(userId);
+
+        
 
         if (!cart.isPresent()) {
             throw new IllegalArgumentException("user is not found");
