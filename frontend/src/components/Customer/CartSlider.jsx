@@ -1,74 +1,64 @@
-import { Fragment, useState } from 'react'
+import { Fragment, useEffect, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import { XMarkIcon } from '@heroicons/react/24/outline'
 import { NavLink } from 'react-router-dom';
 
-
-
-
+import Cookies from 'js-cookie';
+import { toast } from 'react-toastify';
 
 
 export const CartSlider = () => {
 
-  const [cartItems, setCartItems] = useState([
-    {
-      id: 1,
-      name: 'Espresso',
-      size: 'Small',
-      price: '12.00',
-      quantity: 2,
-      imageSrc: 'https://example.com/espresso.jpg',
-    },
-    {
-      id: 2,
-      name: 'Cappuccino',
-      size: 'Medium',
-      price: '15.00',
-      quantity: 1,
-      imageSrc: 'https://example.com/cappuccino.jpg',
-    },
-    {
-      id: 3,
-      name: 'Latte',
-      size: 'Medium',
-      price: '18.00',
-      quantity: 3,
-      imageSrc: 'https://example.com/latte.jpg',
-    },
-    {
-      id: 4,
-      name: 'Mocha',
-      size: 'Large',
-      price: '20.00',
-      quantity: 1,
-      imageSrc: 'https://example.com/mocha.jpg',
-    },
-    {
-      id: 5,
-      name: 'Tea',
-      size: 'Small',
-      price: '10.00',
-      quantity: 1,
-      imageSrc: 'https://example.com/tea.jpg',
+  const [cart, setCart] = useState([]);
+
+  const fetchCartItems = async () => {
+
+    const token = Cookies.get('token')
+
+    try {
+      const response = await fetch(`http://localhost:8080/public/getActiveCartByToken`, {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
+      });
+
+      const data = await response.json();
+
+      console.log(data)
+      setCart(data);
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+    } catch (error) {
+      console.log(error.message);
     }
-    // Daha fazla ürün eklenebilir.
-  ]);
+  }
 
   function removeItem(item) {
-    const updatedProducts = cartItems.map(p => {
-      if (p.id === item.id) {
-        //api delete call
-        return null; 
+    const token = Cookies.get('token')
+
+    fetch(`http://localhost:8080/customer_only/deleteCartItem/${item.id}`, {
+      method: 'DELETE',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
       }
-      return p;    
-    }).filter(Boolean);
-    setCartItems(updatedProducts);
+    }).then(() => fetchCartItems())
+
+    toast.success("Item removed from cart")
   }
 
   const [open, setOpen] = useState(true);
 
-  const totalPrice = cartItems.reduce((acc, product) => acc + parseFloat(product.price) * product.quantity, 0);
+  // const totalPrice = cartItems.reduce((acc, product) => acc + parseFloat(product.price) * product.quantity, 0);
 
+  useEffect(() => {
+    fetchCartItems();
+  }, []);
 
   return (
     <Transition.Root show={open} as={Fragment}>
@@ -118,12 +108,11 @@ export const CartSlider = () => {
                       <div className="mt-8">
                         <div className="flow-root">
                           <ul role="list" className="-my-6 divide-y divide-gray-200">
-                            {cartItems.length > 0 ? cartItems.map((item) => (
+                            {cart && cart.cartItems ? cart.cartItems.map((item) => (
                               <li key={item.id} className="flex py-6">
                                 <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
                                   <img
-                                    src={item.imageSrc}
-                                    alt={item.imageAlt}
+                                    src={item.product.imagePath}
                                     className="h-full w-full object-cover object-center"
                                   />
                                 </div>
@@ -132,14 +121,15 @@ export const CartSlider = () => {
                                   <div>
                                     <div className="flex justify-between text-base font-medium text-gray-900">
                                       <h3>
-                                        <a href={item.href}>{item.name}</a>
+                                        <a>{item.product.name}</a>
                                       </h3>
-                                      <p className="ml-4" dangerouslySetInnerHTML={{ __html: item.price + ' x ' + item.quantity + '&nbsp;&nbsp;&nbsp;' + ((parseFloat(item.price) * parseFloat(item.quantity))).toFixed(2).toString() + ' ₺' }}>
-                                      </p>                                    </div>
+                                      <p className="ml-4" dangerouslySetInnerHTML={{ __html: item.product.price * (item.size === 'SMALL' ? 0.9 : item.size === 'MEDIUM' ? 1 : 1.1).toFixed(2).toString() + ' x ' + item.amount + '&nbsp;&nbsp;&nbsp;' + ((parseFloat(item.product.price) * (item.size === 'SMALL' ? 0.9 : item.size === 'MEDIUM' ? 1 : 1.1).toFixed(2).toString() * parseFloat(item.amount))).toFixed(2).toString() + ' ₺' }}>
+                                      </p>                                    
+                                      </div>
                                     <p className="mt-1 text-sm text-gray-500">{item.size}</p>
                                   </div>
                                   <div className="flex flex-1 items-end justify-between text-sm">
-                                    <p className="text-gray-500">Quantity {item.quantity}</p>
+                                    <p className="text-gray-500">Quantity {item.amount}</p>
 
                                     <div className="flex">
                                       <button onClick={() => removeItem(item)}
@@ -152,7 +142,7 @@ export const CartSlider = () => {
                                   </div>
                                 </div>
                               </li>
-                            )) : <p>no items in the cart</p>}
+                            )) : <p> No items in the cart</p>}
                           </ul>
                         </div>
                       </div>
@@ -161,7 +151,7 @@ export const CartSlider = () => {
                     <div className="border-t border-gray-200 px-4 py-6 sm:px-6">
                       <div className="flex justify-between text-base font-medium text-gray-900">
                         <p>Total</p>
-                        <p>{totalPrice} ₺</p>
+                        <p>{cart.totalPrice} ₺</p>
                       </div>
                       <div className="mt-6">
                         <NavLink

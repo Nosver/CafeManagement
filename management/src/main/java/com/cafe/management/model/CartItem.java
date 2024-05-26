@@ -1,6 +1,7 @@
 package com.cafe.management.model;
 
 import com.cafe.management.model.enums.ProductSize;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -22,6 +23,7 @@ public class CartItem {
 
     @ManyToOne
     @JoinColumn(name = "cart_id", referencedColumnName = "id")
+    @JsonIgnore
     private Cart cart;
 
     @Enumerated(EnumType.STRING)

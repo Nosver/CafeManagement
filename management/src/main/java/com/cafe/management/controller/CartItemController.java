@@ -49,9 +49,9 @@ public class CartItemController {
             user = (User) authentication.getPrincipal();
 
         }
-        cartItem.getCart().getUser().setId(user.getId());
+
         try {
-            return ResponseEntity.ok(cartItemService.addCartItem(cartItem));
+            return ResponseEntity.ok(cartItemService.addCartItem(cartItem, user.getId()));
         } catch (IllegalArgumentException | NameNotFoundException c) {
             return ResponseEntity.status(417).build();
 
@@ -66,6 +66,7 @@ public class CartItemController {
 
     @DeleteMapping("/deleteCartItem/{id}")
     public ResponseEntity<Boolean> deleteCartItemById(@PathVariable("id") Long cartItemId ){
+        System.out.println("------------------------> Customer request for" + cartItemId + " cart item deletion!");
         try {
             cartItemService.deleteCartItemById(cartItemId);
             return ResponseEntity.ok(Boolean.TRUE);

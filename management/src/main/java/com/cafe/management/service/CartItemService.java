@@ -36,10 +36,10 @@ public class CartItemService {
     @Autowired
     private CartService cartService;
 
-    public CartItem addCartItem(CartItem cartItem) throws NameNotFoundException {
+    public CartItem addCartItem(CartItem cartItem, Long userId) throws NameNotFoundException {
 
         // Find user
-        Optional<User> user = userService.findById(cartItem.getCart().getUser().getId());
+        Optional<User> user = userService.findById(userId);
 
         if (!user.isPresent()) {
             throw new IllegalArgumentException("User not found!");

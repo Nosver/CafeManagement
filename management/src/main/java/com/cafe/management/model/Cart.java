@@ -26,7 +26,6 @@ public class Cart {
     private Double totalPrice;
 
     @OneToMany(mappedBy = "cart")
-    @JsonIgnore
     private List<CartItem> cartItems;
 
     @OneToOne

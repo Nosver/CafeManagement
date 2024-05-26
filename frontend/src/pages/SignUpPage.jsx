@@ -126,6 +126,7 @@ export const SignUpPage = () => {
       const role= responseData.role;
       Cookies.set('token', token2)
       Cookies.set('role', role)
+      Cookies.set('id', id)
 
       navigate('/welcome')
     
