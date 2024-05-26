@@ -23,4 +23,8 @@ public class PublicController {
         return ResponseEntity.ok(productService.getAllProducts());
     }
 
+    @GetMapping("/getAllProductsWithoutRequiredStocksPublic")
+    public ResponseEntity<List<ProductDTO>> getAllProductsWithoutReqStocks(){
+        return ResponseEntity.ok(productService.getAllProductsWithoutRequiredStocks());
+    }
 }

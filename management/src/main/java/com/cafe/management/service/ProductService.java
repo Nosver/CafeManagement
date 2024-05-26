@@ -63,7 +63,7 @@ public class ProductService {
     }
     public int calculatePredictedStocks( List<RequiredStock> stocks) {
         Double prediction= 100000.0;
-        List<Stock> stockList=stocksService.getAllRequiredStocks();
+        List<Stock> stockList=stocksService.getAllStocks();
         for (RequiredStock wanted : stocks) {
             for (Stock stock : stockList) {
                 if (wanted.getStock().getStockName().equals(stock.getStockName())) {

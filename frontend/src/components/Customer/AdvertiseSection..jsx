@@ -7,9 +7,9 @@ import AdvertiseBox from './AdvertiseBox'
 const AdvertiseSection = () => {
   return (
 
-    <section className = 'flex flex-col mb-4'>
+    <section className = 'flex flex-col mb-4 w-full items-center justify-center'>
 
-        <section className = 'flex flex-row'>
+        <section className = 'flex flex-row w-full items-center justify-center'>
             <AdvertiseBox
             image= {image2}
             title="Special Offer"
@@ -22,7 +22,7 @@ const AdvertiseSection = () => {
             />
         </section>
 
-        <section className = 'flex flex-row'>
+        <section className = 'flex flex-row w-full items-center justify-center'>
             <AdvertiseBox
             image = {image}
             title="Special Offer"
@@ -35,7 +35,7 @@ const AdvertiseSection = () => {
             />
         </section>
 
-        <section className = 'flex flex-row'>
+        <section className = 'flex flex-row w-full items-center justify-center'>
             <AdvertiseBox
             image= {image}
             title="Special Offer"
