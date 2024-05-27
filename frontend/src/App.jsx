@@ -56,7 +56,7 @@ const router = createBrowserRouter(
       </Route>
 
       <Route path='/' element={<PersonelLayout />}>
-        <Route path='/test' element={<TestPage />} />
+        
         <Route path='/orders' element={<Orders />} />
         <Route path='/dashboard' element={<Dashboard />} />
         <Route path='/stocks' element={<Stocks />} />
@@ -67,7 +67,6 @@ const router = createBrowserRouter(
 
       </Route>
 
-      
       
       <Route path='/Welcome' element={<WelcomePage />} />
       <Route path='/Logout' element={<WelcomePage />} />

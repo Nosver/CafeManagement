@@ -35,26 +35,29 @@ public class UserService {
         return asd;
     }
 
-    public void sendCoupon(User Customer, Coupon coupon){
+    public void sendCoupon(User customer, Coupon coupon){
 
         // Append coupon
         try {
-            Customer.getCoupons().add(coupon);
-            Coupon newCoupon = couponService.createCoupon(Customer, coupon);
-            Customer.getCoupons().add(newCoupon);
-            userRepository.save(Customer);
+
+           couponService.createCoupon(customer,coupon);
         } catch (Exception e) {
             throw new RuntimeException("Failed to append coupon to customer: " + e.getMessage());
         }
 
     }
 
-    public void sendCoupon(Coupon coupon){
+    public void sendCoupons(Coupon coupon){
 
         // Get all customers
         List<User> customerList = userRepository.findAllByRole(Role.CUSTOMER);
         for(User customer : customerList){
-            sendCoupon(customer, coupon);
+            Coupon c= new Coupon();
+            c.setDescription(coupon.getDescription());
+            c.setTitle(coupon.getTitle());
+            c.setDiscountPercent(coupon.getDiscountPercent());
+            c.setExpireDate(coupon.getExpireDate());
+            sendCoupon(customer, c);
         }
     }
 

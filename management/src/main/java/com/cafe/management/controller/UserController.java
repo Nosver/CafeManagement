@@ -37,7 +37,7 @@ public class UserController {
     public ResponseEntity<Coupon> sendCoupon(@RequestBody Coupon coupon) {
 
         try {
-            userService.sendCoupon(coupon);
+            userService.sendCoupons(coupon);
             return ResponseEntity.ok(coupon);
         } catch (Exception e) {
             return ResponseEntity.badRequest().build();

@@ -8,6 +8,7 @@ import UnauthorizedPage from '../UnauthorizedPage';
 
 export const CartPage = () => {
 
+    const [isLoading, setIsLoading] = useState(false);
     const [cart, setCart] = useState([]);
 
     if (Cookies.get("role") != "CUSTOMER" || Cookies.get("role") === undefined) {
@@ -21,6 +22,7 @@ export const CartPage = () => {
             const token = Cookies.get('token')
 
             try {
+                setIsLoading(true)
                 const response = await fetch(`http://localhost:8080/public/getActiveCartByToken`, {
                     method: 'GET',
                     headers: {
@@ -28,7 +30,7 @@ export const CartPage = () => {
                         'Content-Type': 'application/json'
                     }
                 });
-
+                setIsLoading(false)
                 const data = await response.json();
 
                 setCart(data);
@@ -44,7 +46,7 @@ export const CartPage = () => {
             }
         }
 
-        
+
 
         const sizeModifiers = {
             small: 0.9,  // Decrease price by 10%
@@ -58,7 +60,6 @@ export const CartPage = () => {
         }, []); // Include sizeModifiers and products in the dependencies array
 
 
-        const [totalPrice, setTotalPrice] = useState(0);
 
         const handleCheckoutClick = (event) => {
             event.preventDefault(); // Prevent default form submission behavior
@@ -106,8 +107,8 @@ export const CartPage = () => {
                         class="col-span-12 xl:col-span-8 lg:pr-8 pt-14 pb-8 lg:py-24 w-full max-xl:max-w-3xl max-xl:mx-auto">
                         <div class="flex items-center justify-between pb-8 border-b border-gray-300">
                             <h2 class="font-manrope font-bold text-3xl leading-10 text-black">Shopping Cart</h2>
-                        {cart && cart.cartItems ? <h2 class="font-manrope font-bold text-3xl leading-10 text-black">{cart.cartItems.length} Item(s)</h2> : 
-                            <h2 class="font-manrope font-bold text-3xl leading-10 text-black">0 Item(s)</h2>}
+                            {cart && cart.cartItems ? <h2 class="font-manrope font-bold text-3xl leading-10 text-black">{cart.cartItems.length} Item(s)</h2> :
+                                <h2 class="font-manrope font-bold text-3xl leading-10 text-black">0 Item(s)</h2>}
                         </div>
                         {cart && cart.cartItems ?
                             cart.cartItems.length > 0 ? <div class="grid grid-cols-12 mt-8 max-md:hidden pb-6 border-b border-gray-200">
@@ -127,12 +128,32 @@ export const CartPage = () => {
                             </div> : <p class="font-normal text-lg leading-8 text-gray-400 mt-5">No items in the cart</p>
                             : <p class="font-normal text-lg leading-8 text-gray-400 mt-5">No items in the cart</p>
                         }
-
+                        {isLoading && (
+                            <div className="flex items-center justify-center">
+                                <svg
+                                    aria-hidden="true"
+                                    className="w-8 h-8 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600"
+                                    viewBox="0 0 100 101"
+                                    fill="none"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                >
+                                    <path
+                                        d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
+                                        fill="currentColor"
+                                    />
+                                    <path
+                                        d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
+                                        fill="currentFill"
+                                    />
+                                </svg>
+                                <span className="sr-only">Loading...</span>
+                            </div>
+                        )}
 
 
 
                         <div>
-                            { cart && cart.cartItems ? cart.cartItems.map(item => (
+                            {cart && cart.cartItems ? cart.cartItems.map(item => (
                                 <CartProductItem
                                     key={item.id}
                                     cartItem={item}
@@ -140,7 +161,7 @@ export const CartPage = () => {
 
                                 />
                             )) : <p> No items in the cart</p>
-                        }
+                            }
                         </div>
 
 
@@ -152,7 +173,7 @@ export const CartPage = () => {
                             Order Summary</h2>
                         <div class="mt-8">
                             <div class="flex items-center justify-between pb-6">
-                            {cart && cart.cartItems ? <p class="font-normal text-lg leading-8 text-black">{cart.cartItems.length} Item(s)</p> : <p class="font-normal text-lg leading-8 text-black">0 Item(s)</p>}
+                                {cart && cart.cartItems ? <p class="font-normal text-lg leading-8 text-black">{cart.cartItems.length} Item(s)</p> : <p class="font-normal text-lg leading-8 text-black">0 Item(s)</p>}
                                 <p class="font-medium text-lg leading-8 text-black">{cart.totalPrice && cart.totalPrice.toFixed(2)}₺</p>
                             </div>
                             <p>{
@@ -160,8 +181,8 @@ export const CartPage = () => {
                                     <span key={item.id}>
                                         {item.product.name} x{item.amount}<br />
                                     </span>
-                                )) 
-                                : <p> No items in the cart</p>
+                                ))
+                                    : <p> No items in the cart</p>
 
                             }
                             </p>
@@ -200,7 +221,7 @@ export const CartPage = () => {
                                         class="rounded-full w-full bg-black py-3 px-4 text-white text-sm font-semibold text-center mb-8 transition-all duration-500 hover:bg-black/80">Apply</button>
                                 </div>
                                 <div class="flex items-center justify-between py-8">
-                                    { cart && cart.cartItems ? <p class="font-medium text-xl leading-8 text-black">{cart.cartItems.length} Item(s)</p> : <p class="font-medium text-xl leading-8 text-black">0 Item(s)</p>}
+                                    {cart && cart.cartItems ? <p class="font-medium text-xl leading-8 text-black">{cart.cartItems.length} Item(s)</p> : <p class="font-medium text-xl leading-8 text-black">0 Item(s)</p>}
                                     <p class="font-semibold text-xl leading-8 text-green-700">{cart.totalPrice && cart.totalPrice.toFixed(2)}₺</p>
                                 </div>
                                 <button

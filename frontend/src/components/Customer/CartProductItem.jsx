@@ -8,12 +8,16 @@ import { toast } from 'react-toastify';
 // Product card component
 export const CartProductItem = ({ cartItem }) => {
 
+    const [isLoading,setIsLoading]= useState(false);
+
+
     const updateCartItem = async (cartItem) => {
         const token = Cookies.get('token')
 
         console.log("Update cart item: ", cartItem)
 
         try {
+            setIsLoading(true)
             const response = await fetch(`http://localhost:8080/customer_only/updateCartItem`, {
                 method: 'POST',
                 headers: {
@@ -22,6 +26,7 @@ export const CartProductItem = ({ cartItem }) => {
                 },
                 body: JSON.stringify(cartItem)
             });
+            setIsLoading(false)
 
             if (!response.ok) {
                 toast.error("Not enough stock for this product.")

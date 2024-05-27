@@ -11,7 +11,7 @@ import com.cafe.management.repository.CouponRepository;
 public class CouponService {
 
     @Autowired
-    CouponRepository couponRepository;
+    private CouponRepository couponRepository;
 
     public Coupon createCoupon(User customer, Coupon coupon){
         
