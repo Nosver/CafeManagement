@@ -19,9 +19,6 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String paymentId;
-
-
     private Double totalPrice;
 
     @OneToOne
@@ -33,7 +30,6 @@ public class Order {
     @CreationTimestamp
     private Timestamp createdAt;
 
-    private String paymentSession;
 
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id")

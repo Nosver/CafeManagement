@@ -7,6 +7,7 @@ import { toast } from 'react-toastify';
 
 // Product card component
 export const CartProductItem = ({ cartItem }) => {
+    const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
     const [isLoading,setIsLoading]= useState(false);
 
@@ -27,10 +28,11 @@ export const CartProductItem = ({ cartItem }) => {
                 body: JSON.stringify(cartItem)
             });
             setIsLoading(false)
-
+           
             if (!response.ok) {
                 toast.error("Not enough stock for this product.")
-                return;
+                await sleep(1000)
+                window.location.reload();
             }
 
             window.location.reload();

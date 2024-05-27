@@ -70,18 +70,36 @@ export const CartPage = () => {
         };
 
         const createOrder = async () => {
+
+            
+
+
+
+
             try {
-                const order = {
-                    id: 999, //Change here!!
-                    totalPrice: parseFloat(cart.totalPrice) //Change here!!
+                
+                const token = Cookies.get('token')
+
+                const cartData = {
+                    id:cart.id,
+                    totalPrice: cart.totalPrice,
+                    cartItems: cart.cartItems.map(item => ({
+                        product: {
+                            id: item.product.id,
+                            predictedStock: item.product.predictedStock
+                        },
+                        amount: item.amount
+                    }))
                 };
 
-                const response = await fetch('http://localhost:8080/order', {
+                const response = await fetch('http://localhost:8080/customer_only/order', {
                     method: 'POST',
                     headers: {
-                        'Content-Type': 'application/json'
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`,
+
                     },
-                    body: JSON.stringify(order) // Send order data as JSON in the request body
+                    body: JSON.stringify(cartData) 
                 });
                 if (response.ok) {
                     const responseData = await response.json();
@@ -89,7 +107,8 @@ export const CartPage = () => {
                     console.log('Payment URL:', paymentUrl);
                     // Redirect the user to the payment URL
                     window.location.href = paymentUrl;
-                } else {
+                } else if(response.status === 400){
+                    toast.error("Not enough stock")
                     console.error('Failed to create order');
                 }
             } catch (error) {

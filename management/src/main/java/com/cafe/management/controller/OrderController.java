@@ -1,9 +1,11 @@
 package com.cafe.management.controller;
 
 
+import com.cafe.management.model.Cart;
 import com.cafe.management.model.Order;
 import com.cafe.management.response.PaymentResponse;
-import com.cafe.management.service.PaymentService;
+import com.cafe.management.service.OrderService;
+import com.cafe.management.service.impl.PaymentService;
 import com.stripe.Stripe;
 import com.stripe.exception.SignatureVerificationException;
 import com.stripe.exception.StripeException;
@@ -18,6 +20,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.http.HttpStatusCode;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -28,11 +32,23 @@ public class OrderController {
     @Autowired
     private PaymentService paymentService;
 
+    @Autowired
+    private OrderService orderService;
 
     @PostMapping("customer_only/order")
-    public PaymentResponse createOrder(@RequestBody Order order) throws StripeException {
-        return paymentService.createPaymentLink(order);
+    public ResponseEntity<PaymentResponse> createOrder(@RequestBody Cart cart) throws StripeException {
+       try{
+           return ResponseEntity.ok(paymentService.createOrder(cart));
+       }catch (Exception e){
+           return ResponseEntity.status(HttpStatusCode.valueOf(400)).build();
+       }
 
+
+    }
+
+    @PostMapping("/customer_only/isValidOrder")
+    public boolean isValidOrder(@RequestBody Cart cart){
+     return  orderService.isValidOrder(cart);
     }
 
     @Value("${stripe.webhook.secret}")
@@ -70,9 +86,7 @@ public class OrderController {
             if (dataObjectDeserializer.getObject().isPresent()) {
                 stripeObject = dataObjectDeserializer.getObject().get();
             } else {
-                // Deserialization failed, probably due to an API version mismatch.
-                // Refer to the Javadoc documentation on `EventDataObjectDeserializer` for
-                // instructions on how to handle this case, or return an error here.
+
             }
             // Handle the event
             switch (event.getType()) {
@@ -80,21 +94,19 @@ public class OrderController {
                     Session session = (Session) stripeObject;
                     logger.info("Checkout session ID = {}", session.getId());
 
-
-                    break;
-
-                /*case "payment_intent.succeeded":
-                    PaymentIntent paymentIntent = (PaymentIntent) stripeObject;
-                    logger.info("Payment for {} succeeded.",paymentIntent.getAmount() );
+                    /*
+                    * Get cart by session id
+                    * get the user from the cart
+                    *
+                    * create new order from the old active cart
+                    * set order state
+                    *
+                    * create new cart for user
+                    * */
                     //handleSuccessfulPayment();
-                    // Then define and call a method to handle the successful payment intent.
-                    // handlePaymentIntentSucceeded(paymentIntent);
-                    break;
-*/
 
-                /*default:
-                    logger.warn("Unhandled event type: {}",  event.getType());
-                    break;*/
+
+                    break;
             }
             return "";
 
