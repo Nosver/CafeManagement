@@ -28,9 +28,6 @@ public class ProductController {
             return ResponseEntity.status(HttpStatus.FOUND).build();
         }
 
-
-
-
     }
 
     @PostMapping("/updateProduct")

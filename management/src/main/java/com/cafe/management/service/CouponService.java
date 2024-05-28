@@ -20,7 +20,6 @@ public class CouponService {
         
         coupon.setUser(customer);
 
-        
         return couponRepository.save(coupon);
     }
 

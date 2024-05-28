@@ -92,6 +92,7 @@ public class User implements UserDetails {
     @JsonIgnore
     private List<Coupon> coupons;
 
+    // There is a problem with that
     @NotNull
     private Boolean isAccountEnabled;
 

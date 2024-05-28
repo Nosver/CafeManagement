@@ -1,5 +1,6 @@
 package com.cafe.management.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 

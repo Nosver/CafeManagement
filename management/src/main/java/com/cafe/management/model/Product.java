@@ -45,6 +45,7 @@ public class Product {
     private ProductCategory category;
 
     @OneToMany(mappedBy = "product")
+    @JsonIgnore
     private List<Comment> comments;
 
 }
