@@ -15,6 +15,6 @@ public interface StockRepository extends JpaRepository<Stock,Long> {
     @Transactional
     @Query("UPDATE Stock i SET i = :updatedStock WHERE i.stockName = :stockName")
     int updateStockByName(@Param("stockName") String stockName, @Param("updatedStock") Stock updatedStock);
-
+    @Query("SELECT s FROM Stock s WHERE s.stockName = :stockName")
     Stock findByStockName(String stockName);
 }

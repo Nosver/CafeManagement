@@ -26,8 +26,12 @@ public class StockService {
         this.productService=productService;
     }
 
-    public Stock addStock(Stock stock){
-       return stockRepository.save(stock);
+    @Transactional
+    public Stock addStock(Stock stock) {
+        if (stockRepository.findByStockName(stock.getStockName()) != null) {
+            throw new IllegalArgumentException("Stock already exists");
+        }
+        return stockRepository.save(stock);
     }
     
     @Transactional

@@ -2,6 +2,7 @@ import React from 'react'
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import Cookies from 'js-cookie';
+import { toast } from 'react-toastify';
 
 
 const StyledSelect = styled.select`
@@ -24,6 +25,7 @@ const EditStockPopup = ({ closePopup, stock }) => {
 
 
     const onSubmitFunction = async (event) => {
+      event.preventDefault();
 
         const token = Cookies.get('token');
         
@@ -58,6 +60,10 @@ const EditStockPopup = ({ closePopup, stock }) => {
             body: JSON.stringify(stockData)
           });
     
+          if(response.status==400){
+            toast.warn("Stock name must be unique")
+            return;
+          }
           if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
           }
@@ -67,11 +73,12 @@ const EditStockPopup = ({ closePopup, stock }) => {
         
 
         } catch (error) {
-         event.preventDefault();
 
           console.error('Error:', error);
 
         }
+        window.location.reload();
+        
       };
 
 

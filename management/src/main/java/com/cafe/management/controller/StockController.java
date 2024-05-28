@@ -24,8 +24,13 @@ public class StockController {
 
 
     @PostMapping("/addStock")
-    public Stock addStock(@RequestBody Stock stock){
-        return stockService.addStock(stock);
+    public ResponseEntity<Stock> addStock(@RequestBody Stock stock){
+        try {
+            return ResponseEntity.ok(stockService.addStock(stock));
+
+        }catch (Exception e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
     }
 
     @GetMapping("/getAllStocks")
@@ -39,7 +44,6 @@ public class StockController {
             stockService.updateStockById(updatedStock.getId(), updatedStock);
             productService.recalculatePredictedStocks();
         } catch (Exception e) {
-            System.err.println("Stock with id " + updatedStock.getId() + " not found.");
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         }
         return ResponseEntity.ok(updatedStock);

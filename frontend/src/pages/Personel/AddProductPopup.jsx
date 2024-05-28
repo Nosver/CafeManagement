@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { RequiredStockInput } from '../../components/personel/RequiredStockInput';
 import { useState } from 'react';
 import Cookies from 'js-cookie';
-import { toast } from 'react-toastify';
+import { ToastContainer, toast } from 'react-toastify';
 
 export const AddProductPopup = ({ closePopup }) => {
     const [selectedCategory, setSelectedCategory] = useState("");
@@ -104,6 +104,10 @@ export const AddProductPopup = ({ closePopup }) => {
                 body: JSON.stringify(productData)
             });
     
+            if(response.status==302){
+                toast.error("Product already exists");
+                return;
+            }
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }

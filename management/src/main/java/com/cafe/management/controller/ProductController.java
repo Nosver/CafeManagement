@@ -20,12 +20,17 @@ public class ProductController {
 
     @PostMapping("/addProduct")
     public ResponseEntity<Product> addProduct(@RequestBody Product product){
-        System.out.print(product);
-        Product resProduct = productService.addProduct(product);
-        if(resProduct == null){
+
+        try{
+            return  ResponseEntity.status(HttpStatus.CREATED).body(productService.addProduct(product));
+
+        }catch (Exception e){
             return ResponseEntity.status(HttpStatus.FOUND).build();
         }
-        return ResponseEntity.status(HttpStatus.CREATED).body(resProduct);
+
+
+
+
     }
 
     @PostMapping("/updateProduct")
@@ -35,7 +40,7 @@ public class ProductController {
             return ResponseEntity.ok(productService.updateProduct(updatedProduct));
         } catch (Exception e) {
             e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
         }
 
     }

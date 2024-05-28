@@ -151,7 +151,10 @@ export const EditProductPopup = ({ closePopup, selectedProductName }) => {
                     body: JSON.stringify(productData)
                 });
 
-
+                if(response.status==409){
+                    toast.warn("Could not change the name to existing product");
+                    return;
+                }
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }

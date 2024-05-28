@@ -24,6 +24,8 @@ const AddStockPopup = ({ closePopup }) => {
 
     const onSubmitFunction = async (event) => {
         const token = Cookies.get('token');
+        event.preventDefault();
+
         
         if (!token) {
           setMessage('No token found. Please login.');
@@ -54,6 +56,12 @@ const AddStockPopup = ({ closePopup }) => {
             body: JSON.stringify(stockData)
           });
     
+          if(response.status==400){
+            
+
+            toast.error("Stock already exists");
+            return;
+          }
           if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
           }
@@ -63,6 +71,8 @@ const AddStockPopup = ({ closePopup }) => {
         } catch (error) {
           console.error('Error:', error);
         }
+        window.location.reload();
+
       };
 
     useEffect(() => {
