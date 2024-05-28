@@ -5,6 +5,7 @@ import com.cafe.management.model.Cart;
 import com.cafe.management.model.Coupon;
 import com.cafe.management.model.User;
 import com.cafe.management.model.enums.Role;
+import com.cafe.management.service.CouponService;
 import com.cafe.management.service.UserService;
 
 import java.rmi.ServerError;
@@ -22,6 +23,9 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private CouponService couponService;
 
     @GetMapping("/employee_and_admin/getAllCustomers")
     public ResponseEntity<List<User>> getAllCustomers() {
@@ -100,5 +104,13 @@ public class UserController {
         userService.deleteEmployee(employeeId);
     }
 
+    @GetMapping("customer_only/getAllCoupons/{customerId}")
+    public ResponseEntity<List<Coupon>> getCoupon(@PathVariable Long customerId){
+        try {
+            return ResponseEntity.ok(couponService.findByUserId(customerId));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().build();
+        }
+    }
 
 }
