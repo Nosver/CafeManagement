@@ -94,17 +94,8 @@ public class OrderController {
                     Session session = (Session) stripeObject;
                     logger.info("Checkout session ID = {}", session.getId());
 
-                    /*
-                    * Get cart by session id
-                    * get the user from the cart
-                    *
-                    * create new order from the old active cart
-                    * set order state
-                    *
-                    * create new cart for user
-                    * */
-                    //handleSuccessfulPayment();
 
+                    orderService.processOrder(session.getId());
 
                     break;
             }

@@ -77,7 +77,10 @@ public class UserService {
 
         nUser.get().setFullName(user.getFullName());
         nUser.get().setAddress(user.getAddress());
-        nUser.get().setAvatar(user.getAvatar());
+        if(!user.getAvatar().isEmpty()){
+            nUser.get().setAvatar(user.getAvatar());
+            
+        }
         nUser.get().setEmail(user.getEmail());
         nUser.get().setPassword(passwordEncoder.encode(user.getPassword()));
         nUser.get().setPhoneNumber(user.getPhoneNumber());

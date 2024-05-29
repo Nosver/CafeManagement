@@ -10,6 +10,7 @@ export const CartPage = () => {
 
     const [isLoading, setIsLoading] = useState(false);
     const [cart, setCart] = useState([]);
+    console.log(cart)
 
     if (Cookies.get("role") != "CUSTOMER" || Cookies.get("role") === undefined) {
 

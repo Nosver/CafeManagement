@@ -6,7 +6,6 @@ import MenuPopup from '../../components/Customer/MenuPopup';
 
 export const Menu = () => {
     const [isLoading, setIsLoading] = useState(false);
-
     const [isPopupOpen, setIsPopupOpen] = useState(false);
     const [selectedItemName, setSelectedItemName] = useState("");
     const [selectedItemDescription, setSelectedItemDescription] = useState("");
@@ -54,6 +53,7 @@ export const Menu = () => {
         document.body.classList.remove('overflow-hidden')
     }
 
+   
 
     const handleRenderItems = () => {
         const filteredItems = menuItems.filter(item => item.category === selectedCategory);
@@ -75,7 +75,7 @@ export const Menu = () => {
   
         try {
             setIsLoading(true);
-          const response = await fetch('http://localhost:8080/public/getAllProducts', {
+          const response = await fetch('http://localhost:8080/public/getAllProductsWithoutRequiredStocksPublic', {
             method: 'GET',
             headers: {
               'Content-Type': 'application/json'

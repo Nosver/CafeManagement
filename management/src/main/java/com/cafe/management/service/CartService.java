@@ -75,4 +75,8 @@ public class CartService {
 
         return c.get();
     }
+
+    public Optional<Cart> findCartBySessionId(String sessionId){
+        return cartRepository.findBySessionId(sessionId);
+    }
 }
