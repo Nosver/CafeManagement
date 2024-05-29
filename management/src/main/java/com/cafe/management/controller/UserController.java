@@ -85,6 +85,18 @@ public class UserController {
         }
         return ResponseEntity.ok(userService.updateUser(request));
     }
+    @PostMapping("employee_and_admin/updatePassword")
+    public ResponseEntity<Boolean> updatePassword( @RequestBody User password){
+        User user=getUser();
+        try {
+            userService.updatePassword(user, password.getPassword());
+            return ResponseEntity.ok(Boolean.TRUE);
+        }catch (Exception e){
+            return ResponseEntity.ok(Boolean.FALSE);
+
+        }
+
+    }
 
     @GetMapping("/public/whoami")
     public ResponseEntity<User> whoAmI() {
@@ -113,4 +125,12 @@ public class UserController {
         }
     }
 
+    private User getUser(){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication.getPrincipal() instanceof User) {
+            User user = (User) authentication.getPrincipal();
+            return user;
+        }
+        return null;
+    }
 }

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import 'flowbite';
 import { toast } from 'react-toastify';
-
+import Cookies from 'js-cookie';
 export const PasswordPopup = ({ closePopup }) => {
 
     const [password, setPassword] = useState('');
@@ -17,6 +17,39 @@ export const PasswordPopup = ({ closePopup }) => {
         setHasSpecialChar(/[!@#?]/.test(password));
     }, [password]);
 
+    const changePassword = async (e) =>{
+
+        const token =Cookies.get('token');
+        const body ={
+            password:password
+        }
+
+    try {
+      const response = await fetch('http://localhost:8080/employee_and_admin/updatePassword', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(body)
+       
+      });
+
+
+      if (!response.ok) {
+        e.preventDefault()
+        toast.error("Could not change the password ")
+        throw new Error(`HTTP error! status: ${response.status}`);
+        
+      }
+      toast.success("Password changed successfully");
+
+      
+
+    } catch (error) {
+      console.log(error.message);
+    }
+    }
 
     const handlePasswordChange = (event) => {
         setPassword(event.target.value);
@@ -34,8 +67,13 @@ export const PasswordPopup = ({ closePopup }) => {
 
    const handleSubmit = (event) => {
     if(passwordAgain && isLongEnough && hasLowercase && hasSpecialChar && passwordMatch){
+
+
         console.log("Password changed successfully");
-        toast.success("Password changed successfully");
+        
+        changePassword();
+
+        
         closePopup();
     }
     else{
@@ -115,6 +153,7 @@ export const PasswordPopup = ({ closePopup }) => {
 
                             <form>
 
+                                {/*
                                 <div class="mb-6">
                                     <label for="password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white mt-4">Old Password</label>
                                     <input data-popover-target="popover-password" data-popover-placement="bottom" type="password" id="password" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required />
@@ -125,7 +164,7 @@ export const PasswordPopup = ({ closePopup }) => {
                                         </div>
                                         <div data-popper-arrow></div>
                                     </div>
-                                </div>
+                                </div>*/ }
 
                                 <div class="mb-6">
                                     <label for="password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">New Password</label>

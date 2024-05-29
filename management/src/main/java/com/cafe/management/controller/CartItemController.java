@@ -53,6 +53,7 @@ public class CartItemController {
         try {
             return ResponseEntity.ok(cartItemService.addCartItem(cartItem, user.getId()));
         } catch (IllegalArgumentException | NameNotFoundException c) {
+            c.printStackTrace();
             return ResponseEntity.status(417).build();
 
 

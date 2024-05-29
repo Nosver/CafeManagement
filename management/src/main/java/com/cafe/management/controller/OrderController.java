@@ -1,6 +1,7 @@
 package com.cafe.management.controller;
 
 
+import com.cafe.management.dto.OrderDTO;
 import com.cafe.management.model.Cart;
 import com.cafe.management.model.Order;
 import com.cafe.management.response.PaymentResponse;
@@ -121,5 +122,10 @@ public class OrderController {
         // Retrieve a list of transactions from Stripe
         return sessions.getData();
 
+    }
+
+    @GetMapping("employee_and_admin/getOrdersForErp")
+    public ResponseEntity<List<OrderDTO>> getOrdersForErp(){
+        return ResponseEntity.ok(orderService.getAllOrders());
     }
 }

@@ -1,5 +1,6 @@
 package com.cafe.management.service;
 
+import com.cafe.management.dto.OrderDTO;
 import com.cafe.management.model.Cart;
 import com.cafe.management.model.CartItem;
 import com.cafe.management.model.Order;
@@ -80,6 +81,18 @@ public class OrderService {
         cart1.setTotalPrice(0.0);
         cart1.setUser(cart.get().getUser());
         cartService.addCart(cart1);
+
+    }
+
+    public List<OrderDTO> getAllOrders(){
+        List<Order> orders= orderRepository.findAll();
+
+        List<OrderDTO> dtos = new ArrayList<OrderDTO>();
+        for (Order order: orders){
+            OrderDTO dto= new OrderDTO(order.getId(),order.getTotalPrice(),order.getCart().getCartItems(),order.getStatus(),order.getCreatedAt(),order.getUser().getFullName());
+            dtos.add(dto);
+        }
+        return dtos;
 
     }
 }

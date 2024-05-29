@@ -35,9 +35,11 @@ public class UserService {
         return asd;
     }
 
+    public void changePassword(){
+
+    }
     public void sendCoupon(User customer, Coupon coupon){
 
-        // Append coupon
         try {
 
            couponService.createCoupon(customer,coupon);
@@ -77,7 +79,7 @@ public class UserService {
 
         nUser.get().setFullName(user.getFullName());
         nUser.get().setAddress(user.getAddress());
-        if(!user.getAvatar().isEmpty()){
+        if(user.getAvatar()!=null){
             nUser.get().setAvatar(user.getAvatar());
             
         }
@@ -108,4 +110,14 @@ public class UserService {
 
     }
 
+    public void updatePassword(User user, String password) {
+        Optional<User> user1 =userRepository.findByEmail(user.getEmail());
+
+        if(user1.isEmpty()){
+            throw new IllegalArgumentException("User not found");
+        }
+        user1.get().setPassword(passwordEncoder.encode(password));
+        userRepository.save(user1.get());
+
+    }
 }
