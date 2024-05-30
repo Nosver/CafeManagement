@@ -2,6 +2,7 @@ package com.cafe.management.service;
 
 import java.util.List;
 
+import com.cafe.management.model.CartItem;
 import com.cafe.management.model.Product;
 import com.cafe.management.model.RequiredStock;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,6 +63,22 @@ public class StockService {
 
 
     public List<Stock> getAllRequiredStocks() {
-         return  stockRepository.findAll();
+        return stockRepository.findAll();
+    }
+
+    public void decreaseStock(List<CartItem> cartStocks) {
+        // Decrease stock
+            // Take existing stock
+            // updateStockById(stockId, ExistingStock - cartStock)
+        // Calculate predicted stock for all
+        throw new UnsupportedOperationException("Method not implemented");
+    }
+
+    public void increaseStock(List<CartItem> stocks) {
+        // Increase stock
+            // Take existing stock
+            // updateStockById(stockId, ExistingStock + cartStock)
+        // Calculate predicted stock for all
+        throw new UnsupportedOperationException("Method not implemented");
     }
 }
