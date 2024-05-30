@@ -7,8 +7,12 @@ import com.cafe.management.model.Order;
 import com.cafe.management.model.Product;
 import com.cafe.management.model.enums.Status;
 import com.cafe.management.repository.OrderRepository;
+
+import org.apache.coyote.BadRequestException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException.BadRequest;
 
 import java.util.*;
 
@@ -94,5 +98,23 @@ public class OrderService {
         }
         return dtos;
 
+    }
+    public void cancelOrder(Order order) throws BadRequestException {
+        
+        Order found = orderRepository.getReferenceById(order.getId());
+
+        if(found.getStatus() == Status.SERVED){
+            throw new BadRequestException("Cannot cancel already fulfilled order");
+        }
+
+        if (found.getStatus() == Status.CANCELLED) {
+            throw new BadRequestException("Cannot cancel already cancelled order");
+        }
+
+        found.setStatus(Status.CANCELLED);
+        orderRepository.save(found);
+
+        // Take the stock back
+        throw new UnsupportedOperationException("Method not completed");
     }
 }

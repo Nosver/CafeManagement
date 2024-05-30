@@ -1,12 +1,14 @@
 package com.cafe.management.controller;
 
 
+import com.azure.core.annotation.Post;
 import com.cafe.management.dto.OrderDTO;
 import com.cafe.management.model.Cart;
 import com.cafe.management.model.Order;
 import com.cafe.management.response.PaymentResponse;
 import com.cafe.management.service.OrderService;
 import com.cafe.management.service.impl.PaymentService;
+import com.nimbusds.openid.connect.sdk.assurance.Status;
 import com.stripe.Stripe;
 import com.stripe.exception.SignatureVerificationException;
 import com.stripe.exception.StripeException;
@@ -16,6 +18,8 @@ import com.stripe.model.checkout.SessionCollection;
 import com.stripe.net.Webhook;
 import com.stripe.param.checkout.SessionListParams;
 import io.swagger.v3.oas.annotations.Hidden;
+
+import org.apache.coyote.BadRequestException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -127,5 +131,18 @@ public class OrderController {
     @GetMapping("employee_and_admin/getOrdersForErp")
     public ResponseEntity<List<OrderDTO>> getOrdersForErp(){
         return ResponseEntity.ok(orderService.getAllOrders());
+    }
+
+    @PostMapping("employee_and_admin/cancelOrder")
+    public ResponseEntity<String> cancelOrder(@RequestBody Order order){
+        // NOT COMPLETED YET
+        try {
+            orderService.cancelOrder(order);
+            return ResponseEntity.ok().body("Order has been cancelled.");
+        } catch (BadRequestException bad) {
+            return ResponseEntity.badRequest().body("Cannot cancel already fulfilled order.");
+        } catch (Exception e){
+            return ResponseEntity.internalServerError().body("Unable to cancel order");
+        }
     }
 }
