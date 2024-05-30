@@ -93,31 +93,13 @@ export const SignUpPage = () => {
         avatar: decodedToken.picture
       };
 
-      const response = await fetch('http://localhost:8080/googleRegister', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(requestBody),
-      });
-
       
-    
-      if (!response.ok) {
-        toast.error("Error Occured")
-        throw new Error('Failed to authenticate with server');
-      }
-      toast.success("successfully registered via Google")
-
-      const requestBody2 = {
-        email: decodedToken.email,
-      };
       const response2 = await fetch('http://localhost:8080/googleLogin', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(requestBody2),
+        body: JSON.stringify(requestBody),
       });
 
       // Set cookie
@@ -126,7 +108,6 @@ export const SignUpPage = () => {
       const role= responseData.role;
       Cookies.set('token', token2)
       Cookies.set('role', role)
-      Cookies.set('id', id)
 
       navigate('/welcome')
     

@@ -78,7 +78,6 @@ const LoginPage = () => {
         throw new Error('Failed to authenticate with server');
       }
       Cookies.set("token",responseData.token)
-      Cookies.set('id',responseData.id)
       Cookies.set('role', "CUSTOMER")
 
       navigate('/welcome');

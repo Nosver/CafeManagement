@@ -169,6 +169,23 @@ public class AuthenticationService {
     }
 
     public AuthenticationResponse loginWithGoogle(User request) {
+        if(repository.findByEmail(request.getUsername()).isEmpty()) {
+            User user = new User();
+            user.setFullName(request.getFullName());
+            user.setProvider(Provider.GOOGLE);
+            user.setEmail(request.getEmail());
+            String dummyPass="111111";
+            user.setPassword(passwordEncoder.encode(dummyPass));
+            user.setRole(Role.CUSTOMER);
+            user.setAvatar(request.getAvatar());
+            user.setLastLogin(Timestamp.from(Instant.now()));
+            user.setIsAccountEnabled(true);
+            user = repository.save(user);
+
+            // Create empty cart for given customer id
+            cartService.createCartById(user.getId());
+        }
+
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         request.getUsername(),"111111"
