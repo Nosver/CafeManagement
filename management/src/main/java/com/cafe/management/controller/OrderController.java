@@ -126,9 +126,8 @@ public class OrderController {
 
     @PostMapping("employee_and_admin/cancelOrder")
     public ResponseEntity<String> cancelOrder(@RequestBody Order order) {
-        // NOT COMPLETED YET
         try {
-            orderService.cancelOrder(order);
+            orderService.cancelOrderAndUndoStockChanges(order);
             return ResponseEntity.ok().body("Order has been cancelled.");
         } catch (BadRequestException bad) {
             return ResponseEntity.badRequest().body("Cannot cancel already fulfilled order.");

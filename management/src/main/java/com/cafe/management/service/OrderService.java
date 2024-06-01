@@ -114,7 +114,8 @@ public class OrderService {
         return dtos;
 
     }
-    public void cancelOrder(Order order) throws BadRequestException {
+
+    public void cancelOrderAndUndoStockChanges(Order order) throws BadRequestException {
         
         Order found = orderRepository.getReferenceById(order.getId());
 
@@ -129,8 +130,12 @@ public class OrderService {
         found.setStatus(Status.CANCELLED);
         orderRepository.save(found);
 
-        // Take the stock back
-        throw new UnsupportedOperationException("Method not completed");
+        // Undo the stock changes
+        Cart orderCart = found.getCart();
+        stockService.increaseStock(orderCart);
+
+        // Update predicted stocks
+        productService.recalculatePredictedStocks();
     }
 
     @Transactional
