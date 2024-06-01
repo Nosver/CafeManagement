@@ -11,8 +11,11 @@ import com.cafe.management.service.UserService;
 import java.rmi.ServerError;
 import java.util.List;
 
+import com.stripe.model.tax.Registration;
 import jakarta.mail.MessagingException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -96,6 +99,15 @@ public class UserController {
 
         }
 
+    }
+
+    @PostMapping("employee_and_admin/updateUserProfile")
+    public ResponseEntity<User> updateUserProfile(@RequestBody User user){
+        try{
+            return ResponseEntity.ok(userService.updateAdminEmployeeProfile(user));
+        }catch (IllegalArgumentException e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
     }
 
     @GetMapping("/public/whoami")

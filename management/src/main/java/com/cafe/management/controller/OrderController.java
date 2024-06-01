@@ -42,69 +42,58 @@ public class OrderController {
 
     @PostMapping("customer_only/order")
     public ResponseEntity<PaymentResponse> createOrder(@RequestBody Cart cart) throws StripeException {
-       try{
-           return ResponseEntity.ok(paymentService.createOrder(cart));
-       }catch (Exception e){
-           return ResponseEntity.status(HttpStatusCode.valueOf(400)).build();
-       }
+        try {
+            return ResponseEntity.ok(paymentService.createOrder(cart));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatusCode.valueOf(400)).build();
+        }
 
 
     }
 
     @PostMapping("/customer_only/isValidOrder")
-    public boolean isValidOrder(@RequestBody Cart cart){
-     return  orderService.isValidOrder(cart);
+    public boolean isValidOrder(@RequestBody Cart cart) {
+        return orderService.isValidOrder(cart);
     }
 
     @Value("${stripe.webhook.secret}")
     private String endpointSecret;
 
-    private final Logger logger= LoggerFactory.getLogger(OrderController.class);
+    private final Logger logger = LoggerFactory.getLogger(OrderController.class);
+
     @Hidden
     @PostMapping("/stripe/events")
-    public String handleStripeEvent(@RequestBody String payload, @RequestHeader("Stripe-Signature") String sigHeader){
+    public void handleStripeEvent(@RequestBody String payload, @RequestHeader("Stripe-Signature") String sigHeader) {
+
+        if (endpointSecret == null) {
+            return;
+        }
+
+        Event event;
+
+        try {
+            event = Webhook.constructEvent(
+                    payload, sigHeader, endpointSecret
+            );
+        } catch (SignatureVerificationException e) {
+            logger.info("⚠️  Webhook error while validating signature.");
+            return;
+        }
 
 
-            if(endpointSecret== null)
-                return "";
-
-                Event event;
-                // Only verify the event if you have an endpoint secret defined.
-                // Otherwise use the basic event deserialized with GSON.
-                try {
-                    event = Webhook.constructEvent(
-                            payload, sigHeader, endpointSecret
-                    );
-                } catch (SignatureVerificationException e) {
-                    // Invalid signature
-                    logger.info("⚠️  Webhook error while validating signature.");
-                    return "";
-                }
+        EventDataObjectDeserializer dataObjectDeserializer = event.getDataObjectDeserializer();
+        StripeObject stripeObject = null;
+        if (dataObjectDeserializer.getObject().isPresent()) {
+            stripeObject = dataObjectDeserializer.getObject().get();
+        }
+        // Handle the event
+        if (event.getType().equals("checkout.session.completed")) {
+            Session session = (Session) stripeObject;
+            logger.info("Checkout session ID = {}", session.getId());
 
 
-
-
-
-        // Deserialize the nested object inside the event
-            EventDataObjectDeserializer dataObjectDeserializer = event.getDataObjectDeserializer();
-            StripeObject stripeObject = null;
-            if (dataObjectDeserializer.getObject().isPresent()) {
-                stripeObject = dataObjectDeserializer.getObject().get();
-            } else {
-
-            }
-            // Handle the event
-            switch (event.getType()) {
-                case "checkout.session.completed":
-                    Session session = (Session) stripeObject;
-                    logger.info("Checkout session ID = {}", session.getId());
-
-
-                    orderService.processOrder(session.getId());
-
-                    break;
-            }
-            return "";
+            orderService.processOrder(session.getId());
+        }
 
 
     }
@@ -129,19 +118,19 @@ public class OrderController {
     }
 
     @GetMapping("employee_and_admin/getOrdersForErp")
-    public ResponseEntity<List<OrderDTO>> getOrdersForErp(){
+    public ResponseEntity<List<OrderDTO>> getOrdersForErp() {
         return ResponseEntity.ok(orderService.getAllOrders());
     }
 
     @PostMapping("employee_and_admin/cancelOrder")
-    public ResponseEntity<String> cancelOrder(@RequestBody Order order){
+    public ResponseEntity<String> cancelOrder(@RequestBody Order order) {
         // NOT COMPLETED YET
         try {
             orderService.cancelOrder(order);
             return ResponseEntity.ok().body("Order has been cancelled.");
         } catch (BadRequestException bad) {
             return ResponseEntity.badRequest().body("Cannot cancel already fulfilled order.");
-        } catch (Exception e){
+        } catch (Exception e) {
             return ResponseEntity.internalServerError().body("Unable to cancel order");
         }
     }
