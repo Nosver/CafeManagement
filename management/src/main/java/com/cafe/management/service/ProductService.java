@@ -91,10 +91,10 @@ public class ProductService {
     }
 
     public Product updateProduct(Product updatedProduct){
+
         if(productRepository.findProductByName(updatedProduct.getName()).isPresent()){
             throw new IllegalArgumentException("Not possible to change name");
         }
-
 
         Long id = updatedProduct.getId();
         Product product = productRepository.findById(id).orElse(null);

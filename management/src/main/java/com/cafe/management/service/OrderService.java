@@ -5,7 +5,9 @@ import com.cafe.management.model.*;
 import com.cafe.management.model.enums.Status;
 import com.cafe.management.repository.OrderRepository;
 
+import jakarta.transaction.Transactional;
 import org.apache.coyote.BadRequestException;
+import org.aspectj.weaver.ast.Or;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -130,4 +132,19 @@ public class OrderService {
         // Take the stock back
         throw new UnsupportedOperationException("Method not completed");
     }
+
+    @Transactional
+    public void updateOrderStatusById(Long orderId, Order updatedOrder) {
+
+        Order existingOrder = orderRepository.findById(orderId).orElseThrow();
+
+        if (existingOrder != null) {
+            existingOrder.setId(updatedOrder.getId());
+            existingOrder.setStatus(updatedOrder.getStatus());
+            orderRepository.save(existingOrder);
+        }else {
+            throw new IllegalArgumentException("Order with id " + orderId + " not found.");
+        }
+    }
+
 }

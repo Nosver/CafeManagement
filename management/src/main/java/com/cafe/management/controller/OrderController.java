@@ -5,6 +5,7 @@ import com.azure.core.annotation.Post;
 import com.cafe.management.dto.OrderDTO;
 import com.cafe.management.model.Cart;
 import com.cafe.management.model.Order;
+import com.cafe.management.model.Stock;
 import com.cafe.management.response.PaymentResponse;
 import com.cafe.management.service.OrderService;
 import com.cafe.management.service.impl.PaymentService;
@@ -25,6 +26,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -134,4 +136,15 @@ public class OrderController {
             return ResponseEntity.internalServerError().body("Unable to cancel order");
         }
     }
+
+    @PostMapping("employee_and_admin/updateOrderStatus")
+    public ResponseEntity<Order> updateOrderStatusById(@RequestBody Order updatedOrder){
+        try {
+            orderService.updateOrderStatusById(updatedOrder.getId(), updatedOrder);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        }
+        return ResponseEntity.ok(updatedOrder);
+    }
+
 }
