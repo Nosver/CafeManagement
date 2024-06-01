@@ -109,6 +109,15 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
     }
+    @PostMapping("employee_and_admin/updateAvatar")
+    public ResponseEntity<Boolean> updateAvatarErp(@RequestBody User user){
+        try {
+            userService.updateAvatar(user);
+            return ResponseEntity.ok(Boolean.TRUE);
+        }catch (IllegalArgumentException e){
+            return ResponseEntity.badRequest().build();
+        }
+    }
 
     @GetMapping("/public/whoami")
     public ResponseEntity<User> whoAmI() {

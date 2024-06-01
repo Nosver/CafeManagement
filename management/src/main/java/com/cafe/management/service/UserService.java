@@ -14,6 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.swing.text.html.Option;
+
 @Service
 public class UserService {
 
@@ -134,5 +136,14 @@ public class UserService {
         user1.get().setFullName(user.getFullName());
 
         return userRepository.save(user1.get());
+    }
+
+    public void updateAvatar(User user) {
+       Optional<User> user1= userRepository.findById(user.getId());
+        if(user1.isEmpty()){
+            throw new IllegalArgumentException("User not found");
+        }
+        user1.get().setAvatar(user.getAvatar());
+        userRepository.save(user1.get());
     }
 }
