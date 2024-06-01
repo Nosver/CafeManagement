@@ -120,4 +120,19 @@ public class UserService {
         userRepository.save(user1.get());
 
     }
+
+    public User updateAdminEmployeeProfile(User user){
+        Optional<User> user1= userRepository.findById(user.getId());
+        if(user1.isEmpty()){
+            throw new IllegalArgumentException("User not found");
+        }
+        if(user1.get().getRole()==Role.CUSTOMER){
+            throw new IllegalArgumentException("Invalid role");
+        }
+        user1.get().setEmail(user.getEmail());
+        user1.get().setAddress(user.getAddress());
+        user1.get().setFullName(user.getFullName());
+
+        return userRepository.save(user1.get());
+    }
 }

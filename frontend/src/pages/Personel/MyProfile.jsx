@@ -36,19 +36,14 @@ export const MyProfile = () => {
 
     const employeeData = {
       id: id,
-      fullName: name,
-      password: password,
-      phoneNumber: phone || null,
-      salary: salary || null,
-      position: position ? position.toUpperCase() : null,
+      fullName: name,   
       address: address,
       email:email,
-      role: role
     };
 
 
     try {
-      const response = await fetch('http://localhost:8080/employee_and_admin/updateEmployee', {
+      const response = await fetch('http://localhost:8080/employee_and_admin/updateUserProfile', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
