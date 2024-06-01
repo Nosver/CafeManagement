@@ -81,4 +81,8 @@ public class StockService {
         // Calculate predicted stock for all
         throw new UnsupportedOperationException("Method not implemented");
     }
+
+    public List<Stock> getCriticalStocks(){
+        return stockRepository.getCriticalStocks();
+    }
 }

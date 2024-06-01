@@ -49,4 +49,9 @@ public class StockController {
         return ResponseEntity.ok(updatedStock);
     }
 
+    @GetMapping("/getCriticalStocks")
+    public ResponseEntity<List<Stock>> getCriticalStocks(){
+        return ResponseEntity.ok(stockService.getCriticalStocks());
+    }
+
 }

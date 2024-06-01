@@ -1,51 +1,41 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import Cookies from 'js-cookie';
 
 function LastComments() {
   // Static data array
-  const comments = [
-    {
-      userid: 1,
-      username: 'CoffeeLover22',
-      comment: 'Enjoyed the cozy atmosphere and the aroma of freshly brewed coffee!',
-      productKey: 'Cappuccino',
-      stars: 5
-    },
-    {
-      userid: 2,
-      username: 'TeaEnthusiast',
-      comment: 'The selection of teas here is impressive, had a delightful cup of chamomile tea.',
-      productKey: 'Chamomile Tea',
-      stars: 4
-    },
-    {
-      userid: 3,
-      username: 'PastryFanatic',
-      comment: 'The pastries are always so delicious and fresh!',
-      productKey: 'Croissant',
-      stars: 5
-    },
-    {
-      userid: 4,
-      username: 'HealthyEater',
-      comment: 'Appreciate the healthy options on the menu, the avocado toast was fantastic.',
-      productKey: 'Avocado Toast',
-      stars: 3
-    },
-    {
-      userid: 5,
-      username: 'SmoothieAddict',
-      comment: 'Loved the variety of smoothies available, the berry blast smoothie was so refreshing.',
-      productKey: 'Berry Blast Smoothie',
-      stars: 2
-    },
-    {
-      userid: 5,
-      username: 'SmoothieAddict',
-      comment: 'Awful taste',
-      productKey: 'Ice Mocha',
-      stars: 2
-    },
-  ];
+  const [comments,setComments] = useState([]);
+
+  const fetchComments = async () =>{
+    const token = Cookies.get('token')
+
+    try {
+      const response = await fetch(`http://localhost:8080/employee_and_admin/getRecentComments`, {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
+      });
+
+
+      const data = await response.json();
+
+      setComments(data);
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+    } catch (error) {
+      console.log(error.message);
+    }
+  }
+  useEffect(() => {
+    
+    fetchComments()
+   
+  }, [])
+  
 
 
   return (
@@ -74,10 +64,10 @@ function LastComments() {
                   </div>
                   <div className=' text-sm font-medium text-slate-800 hover:text-slate-900 dark:text-slate-100 dark:hover:text-white'>{comment.comment} 
                   <br />
-                  {Array(comment.stars).fill('⭐️').join('')}
+                  {Array(comment.star).fill('⭐️').join('')}
                   </div>
                 </td>
-                <td className="text-sm font-medium text-slate-800 hover:text-slate-900 dark:text-slate-100 dark:hover:text-white">{comment.productKey}</td>
+                <td className="text-sm font-medium text-slate-800 hover:text-slate-900 dark:text-slate-100 dark:hover:text-white">{comment.product}</td>
               </tr>
             ))}
           </tbody>

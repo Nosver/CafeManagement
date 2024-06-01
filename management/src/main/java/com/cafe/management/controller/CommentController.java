@@ -1,5 +1,6 @@
 package com.cafe.management.controller;
 
+import com.cafe.management.dto.CommentDTO;
 import com.cafe.management.model.Comment;
 import com.cafe.management.model.Product;
 import com.cafe.management.service.CommentService;
@@ -12,13 +13,12 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/customer_only")
 public class CommentController {
 
     @Autowired
     private CommentService commentService;
 
-    @PostMapping("/addComment")
+    @PostMapping("/customer_only/addComment")
     public ResponseEntity<Comment> addComment(@RequestBody Comment comment){
         try{
             return  ResponseEntity.status(HttpStatus.CREATED).body(commentService.addComment(comment));
@@ -28,7 +28,7 @@ public class CommentController {
         }
     }
 
-    @GetMapping("/getCommentsByProduct")
+    @GetMapping("/customer_only/getCommentsByProduct")
     public ResponseEntity<List<Comment>> getCommentsByProduct(@RequestParam Long id){
         Optional<List<Comment>> commentsOfProduct = commentService.getCommentsByProductId(id);
         if(commentsOfProduct.isPresent()){
@@ -36,6 +36,11 @@ public class CommentController {
         }else{
             return ResponseEntity.badRequest().build();
         }
+    }
+
+    @GetMapping("employee_and_admin/getRecentComments")
+    public List<CommentDTO> getRecentComments(){
+        return commentService.getRecentComments();
     }
 
 

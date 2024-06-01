@@ -9,6 +9,8 @@ import com.cafe.management.model.Stock;
 
 import jakarta.transaction.Transactional;
 
+import java.util.List;
+
 public interface StockRepository extends JpaRepository<Stock,Long> {
 	
 	@Modifying
@@ -17,4 +19,7 @@ public interface StockRepository extends JpaRepository<Stock,Long> {
     int updateStockByName(@Param("stockName") String stockName, @Param("updatedStock") Stock updatedStock);
     @Query("SELECT s FROM Stock s WHERE s.stockName = :stockName")
     Stock findByStockName(String stockName);
+
+    @Query("SELECT s FROM Stock s WHERE s.quantity <= 10")
+    List<Stock> getCriticalStocks();
 }

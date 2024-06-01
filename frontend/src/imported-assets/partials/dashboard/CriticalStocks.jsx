@@ -1,16 +1,43 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBoxes } from '@fortawesome/free-solid-svg-icons';
+import Cookies from 'js-cookie';
+import { useEffect } from 'react';
 
 function CriticalStocks() {
   // Static data array
-  const stocks = [
-    { product: 'Milk', leftoverStock: 10, unit: 'L' },
-    { product: 'Suagar', leftoverStock: 5, unit: 'KG' },
-    { product: 'Product C', leftoverStock: 0, unit: 'pcs' },
-    { product: 'Product D', leftoverStock: 15, unit: 'pcs' },
-    { product: 'Product E', leftoverStock: 3, unit: 'pcs' },
-  ];
+  const [stocks,setStocks] = useState([]);
+
+
+
+  const fetchCriticalStocks = async ()=>{
+    const token = Cookies.get('token')
+
+
+        try {
+            const response = await fetch(`http://localhost:8080/employee_and_admin/getCriticalStocks`, {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+            });
+           
+            const data= await response.json();
+
+            setStocks(data)
+
+        } catch (error) {
+            console.log(error.message);
+        }
+  }
+  useEffect(() => {
+   
+    fetchCriticalStocks();
+
+  }, [])
+  
+    
 
   return (
     <div className="col-span-full xl:col-span-6 bg-white dark:bg-slate-800 shadow-lg rounded-sm border border-slate-200 dark:border-slate-700">
@@ -31,10 +58,10 @@ function CriticalStocks() {
                 <div className="grow flex items-center border-b border-slate-200 dark:border-slate-700 text-sm py-2">
                   <div className="grow flex justify-between">
                     <div className="self-center">
-                      <span className="font-medium text-slate-800 hover:text-slate-900 dark:text-slate-100 dark:hover:text-white">{stock.product}</span>
+                      <span className="font-medium text-slate-800 hover:text-slate-900 dark:text-slate-100 dark:hover:text-white">{stock.stockName}</span>
                     </div>
                     <div className="shrink-0 self-start ml-2">
-                      <span className="font-medium text-red-600 dark:text-slate-100">{stock.leftoverStock} {stock.unit}</span>
+                      <span className="font-medium text-red-600 dark:text-slate-100">{stock.quantity} {stock.stockUnit}</span>
                     </div>
                   </div>
                 </div>
