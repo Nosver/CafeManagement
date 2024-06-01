@@ -1,11 +1,11 @@
 import { useState, forwardRef, useRef, useImperativeHandle } from "react";
 
 let tabs = [
-    { id: 'Taken', label: 'Taken' },
-    { id: 'Preparing', label: 'Preparing' },
-    { id: 'Ready', label: 'Ready' },
-    { id: 'Fulfilled', label: 'Fulfilled' },
-    { id: 'Canceled', label: 'Canceled' }
+    { id: 'ORDER_RECEIVED', label: 'ORDER_RECEIVED' },
+    { id: 'PREPARING', label: 'PREPARING' },
+    { id: 'READY', label: 'READY' },
+    { id: 'SERVED', label: 'SERVED' },
+    { id: 'CANCELLED', label: 'CANCELLED' }
   ];
   
 

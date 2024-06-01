@@ -1,29 +1,26 @@
-import React, { useState } from 'react';
+import React from 'react';
 import OrderDetailsItem from './OrderDetailsItem';
 import { Button } from "flowbite-react";
-import Review from './Customer/Review';
 import { toast } from 'react-toastify';
 
-export const OrderDetailsPopup = ({orderItems, orderStatus, orderTotalPrice, closePopup}) => {
-
+export const OrderDetailsPopup = ({ order, closePopup }) => {
     const renderOrderItems = () => {
-        return orderItems.map((item, index) => (
-            <OrderDetailsItem orderItem={item} key={index} orderStatus={orderStatus} />
+        if (!order || !order.cartItems) {
+            return <p>No items available for this order.</p>;
+        }
+        return order.cartItems.map((cartItem, index) => (
+            <OrderDetailsItem cartItem={cartItem} key={index} />
         ));
     };
-   
-
-    
 
     const cancelOrder = () => {
-        toast.success("Order canceled succesfully");
+        toast.success("Order canceled successfully");
         closePopup();
     };
 
-
-
     return (
-        <div className="fixed top-0 left-0 right-0 bottom-0 w-full h-full flex items-center justify-center bg-gray-800/50 bg-opacity-75 z-50 ">
+        <div className="fixed top-0 left-0 right-0 bottom-0 w-full h-full flex items-center justify-center bg-gray-800/50 bg-opacity-75 z-50">
+            {console.log(order)}
             <div className="bg-white rounded-lg p-4 w-4/6 h-4/6 overflow-y-auto">
                 <div className="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
                     <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
@@ -45,13 +42,11 @@ export const OrderDetailsPopup = ({orderItems, orderStatus, orderTotalPrice, clo
                 <div className='flex flex-col items-center justify-center mt-2'>
                     {renderOrderItems()}
                     <div className='flex flex-row w-4/6 items-center justify-between'>
-                        <span>Total Price: {orderTotalPrice}</span>
-                        {orderStatus === "Taken" && <Button className='bg-gray-700 mb-2' onClick={cancelOrder}>Cancel Order</Button>}
+                        <span>Total Price: {order.totalPrice}₺</span>
+                        {order.status === "ORDER_RECEIVED" && <Button className='bg-gray-700 mb-2' onClick={cancelOrder}>Cancel Order</Button>}
                     </div>
                 </div>
             </div>
-
-
         </div>
     );
 };

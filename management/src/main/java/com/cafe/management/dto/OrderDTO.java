@@ -17,6 +17,7 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 public class OrderDTO {
+
     private Long id;
 
     private Double totalPrice;
@@ -28,5 +29,4 @@ public class OrderDTO {
     private Timestamp createdAt;
 
     private String userName;
-
 }
