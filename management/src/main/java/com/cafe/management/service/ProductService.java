@@ -122,7 +122,7 @@ public class ProductService {
     }
 
     public List<ProductDTO> getAllProductsWithoutRequiredStocks(){
-        List<Product> products= productRepository.findAll();
+        List<Product> products= productRepository.getAllProductsWithStocks();
         List<ProductDTO> res= new ArrayList<ProductDTO>();
         for (Product p: products){
             ProductDTO productdto = new ProductDTO();

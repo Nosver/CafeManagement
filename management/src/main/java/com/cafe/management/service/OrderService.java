@@ -1,10 +1,7 @@
 package com.cafe.management.service;
 
 import com.cafe.management.dto.OrderDTO;
-import com.cafe.management.model.Cart;
-import com.cafe.management.model.CartItem;
-import com.cafe.management.model.Order;
-import com.cafe.management.model.Product;
+import com.cafe.management.model.*;
 import com.cafe.management.model.enums.Status;
 import com.cafe.management.repository.OrderRepository;
 
@@ -24,6 +21,12 @@ public class OrderService {
 
     @Autowired
     private OrderRepository orderRepository;
+
+    @Autowired
+    private StockService stockService;
+
+    @Autowired
+    private ProductService productService;
 
     public boolean isValidOrder(Cart cart) {
         Map<Product, Double> productMap = new HashMap<>();
@@ -67,6 +70,16 @@ public class OrderService {
             throw new IllegalArgumentException("Cart is not found");
         }
 
+        //Decrease stock
+        for(CartItem c: cart.get().getCartItems()){
+           for(RequiredStock req: c.getProduct().getRequiredStocks()){
+            req.getStock().setQuantity(req.getStock().getQuantity() - (req.getAmount() * c.getAmount()) );
+            stockService.updateStockById(req.getStock().getId(),req.getStock());
+           }
+        }
+
+        //update predicted stocks
+        productService.recalculatePredictedStocks();
 
         Order order= new Order();
         order.setUser(cart.get().getUser());
