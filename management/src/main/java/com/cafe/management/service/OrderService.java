@@ -111,26 +111,32 @@ public class OrderService {
         return dtos;
     }
 
-/*
+
+    @Transactional
     public void cancelOrder(Order order) throws BadRequestException {
         
-        Order found = orderRepository.getReferenceById(order.getId());
+        Order foundOrder = orderRepository.getReferenceById(order.getId());
+        Cart cart = foundOrder.getCart();
 
-        if(found.getStatus() == Status.SERVED){
-            throw new BadRequestException("Cannot cancel already fulfilled order");
+        if(foundOrder.getStatus() == Status.ORDER_RECEIVED){
+
+            foundOrder.setStatus(Status.CANCELLED);
+            orderRepository.save(foundOrder);
+
+            for(CartItem c: cart.getCartItems()){
+                for(RequiredStock req: c.getProduct().getRequiredStocks()){
+                    req.getStock().setQuantity(req.getStock().getQuantity() + (req.getAmount() * c.getAmount()) );
+                    stockService.updateStockById(req.getStock().getId(),req.getStock());
+                }
+            }
+            productService.recalculatePredictedStocks();
+            orderRepository.save(foundOrder);
+        }
+        else{
+            throw new BadRequestException("Cannot cancel the order if it is not in ORDER_RECEIVED situation.");
         }
 
-        if (found.getStatus() == Status.CANCELLED) {
-            throw new BadRequestException("Cannot cancel already cancelled order");
-        }
-
-        found.setStatus(Status.CANCELLED);
-        orderRepository.save(found);
-
-        // Take the stock back
-        throw new UnsupportedOperationException("Method not completed");
     }
-*/
 
     @Transactional
     public void cancelOrderByIdCustomer(Long orderId){
@@ -157,11 +163,19 @@ public class OrderService {
     }
 
     @Transactional
-    public void updateOrderStatusById(Long orderId, Order updatedOrder) {
+    public void updateOrderStatusById(Long orderId, Order updatedOrder) throws BadRequestException {
 
         Order existingOrder = orderRepository.findById(orderId).orElseThrow();
 
+        if(updatedOrder.getStatus() == existingOrder.getStatus()){
+            return;
+        }
+
         if (existingOrder != null) {
+            if(updatedOrder.getStatus() == Status.CANCELLED){
+                cancelOrder(updatedOrder);
+                return;
+            }
             existingOrder.setId(updatedOrder.getId());
             existingOrder.setStatus(updatedOrder.getStatus());
             orderRepository.save(existingOrder);
