@@ -19,14 +19,14 @@ const OrderItem = ({order, openPopup}) => {
 
       <div className = "flex justify-start flex-row w-5/6 mt-3">
         {
-          order.orderItems.map( orderItem =>
-            <img className='rounded-lg mb-4 mx-2' src={image} width={55}></img>
+          order.cartItems.map( cartItem =>
+            <img className='rounded-lg mb-4 mx-2' src={cartItem.product.imagePath} width={55}></img>
           )
         }
       </div>
 
       <div className = "flex justify-between flex-row w-5/6 mb-2">
-        <button className="text-grey-500 focus:outline-none" onClick={ () => openPopup(order.orderItems, order.status, order.totalPrice)}>
+        <button className="text-grey-500 focus:outline-none" onClick={ () => openPopup(order)}>
           See Details
         </button>
           <span>

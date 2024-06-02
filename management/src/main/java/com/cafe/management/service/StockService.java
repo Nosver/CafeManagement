@@ -1,7 +1,9 @@
 package com.cafe.management.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import com.cafe.management.model.Cart;
 import com.cafe.management.model.CartItem;
 import com.cafe.management.model.Product;
 import com.cafe.management.model.RequiredStock;
@@ -19,12 +21,10 @@ public class StockService {
     @Autowired
     private StockRepository stockRepository;
 
-
-
     private ProductService productService;
 
-    StockService(@Lazy  ProductService productService){
-        this.productService=productService;
+    StockService(@Lazy ProductService productService) {
+        this.productService = productService;
     }
 
     @Transactional
@@ -34,7 +34,7 @@ public class StockService {
         }
         return stockRepository.save(stock);
     }
-    
+
     @Transactional
     public void updateStockById(Long stockId, Stock updatedStock) {
         Stock existingStock = stockRepository.findById(stockId).orElseThrow();
@@ -49,40 +49,38 @@ public class StockService {
             throw new IllegalArgumentException("Stock with id " + stockId + " not found.");
         }
     }
-    
-    public List<Stock> getAllStocks(){
-    	return stockRepository.findAll();
+
+    public List<Stock> getAllStocks() {
+        return stockRepository.findAll();
     }
 
     public Stock findByStockName(String stockName) {
-        
-        Stock found = stockRepository.findByStockName(stockName);
-
-        return found;
+        return stockRepository.findByStockName(stockName);
     }
-
 
     public List<Stock> getAllRequiredStocks() {
         return stockRepository.findAll();
     }
 
-    public void decreaseStock(List<CartItem> cartStocks) {
-        // Decrease stock
-            // Take existing stock
-            // updateStockById(stockId, ExistingStock - cartStock)
-        // Calculate predicted stock for all
-        throw new UnsupportedOperationException("Method not implemented");
+    public void decreaseStock(Cart cart) {
+        for (CartItem c : cart.getCartItems()) {
+            for (RequiredStock req : c.getProduct().getRequiredStocks()) {
+                req.getStock().setQuantity(req.getStock().getQuantity() - (req.getAmount() * c.getAmount()));
+                updateStockById(req.getStock().getId(), req.getStock());
+            }
+        }
     }
 
-    public void increaseStock(List<CartItem> stocks) {
-        // Increase stock
-            // Take existing stock
-            // updateStockById(stockId, ExistingStock + cartStock)
-        // Calculate predicted stock for all
-        throw new UnsupportedOperationException("Method not implemented");
+    public void increaseStock(Cart cart) {
+        for (CartItem c : cart.getCartItems()) {
+            for (RequiredStock req : c.getProduct().getRequiredStocks()) {
+                req.getStock().setQuantity(req.getStock().getQuantity() + (req.getAmount() * c.getAmount()));
+                updateStockById(req.getStock().getId(), req.getStock());
+            }
+        }
     }
 
-    public List<Stock> getCriticalStocks(){
+    public List<Stock> getCriticalStocks() {
         return stockRepository.getCriticalStocks();
     }
 }

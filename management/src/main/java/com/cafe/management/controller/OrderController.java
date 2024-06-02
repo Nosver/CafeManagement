@@ -124,6 +124,12 @@ public class OrderController {
         return ResponseEntity.ok(orderService.getAllOrders());
     }
 
+    @GetMapping("customer_only/getOrdersForCustomer")
+    public ResponseEntity<List<OrderDTO>> getOrdersForCustomer() {
+        return ResponseEntity.ok(orderService.getAllOrders());
+    }
+
+
     @PostMapping("employee_and_admin/cancelOrder")
     public ResponseEntity<String> cancelOrder(@RequestBody Order order) {
         // NOT COMPLETED YET
@@ -136,6 +142,8 @@ public class OrderController {
             return ResponseEntity.internalServerError().body("Unable to cancel order");
         }
     }
+
+
 
     @PostMapping("employee_and_admin/updateOrderStatus")
     public ResponseEntity<Order> updateOrderStatusById(@RequestBody Order updatedOrder){
