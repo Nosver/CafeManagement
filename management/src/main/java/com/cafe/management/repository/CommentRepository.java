@@ -16,4 +16,7 @@ public interface CommentRepository extends JpaRepository<Comment,Long> {
 
     @Query("SELECT c FROM Comment c ORDER BY c.id DESC")
     List<Comment> getRecentComments(Pageable pageable);
+
+    @Query("SELECT c.star as star, COUNT(c) as count FROM Comment c GROUP BY c.star")
+    List<Object[]> countStars();
 }

@@ -18,7 +18,8 @@ const OrderDetailsItem = ({cartItem, orderStatus}) => {
 
         <div className = "flex flex-col w-full items-start">
           <span>Product Name: {cartItem.product.name}</span>
-          <span>Amount: {cartItem.product.price}</span>
+          <span>Amount: {cartItem.amount}</span>
+          <span>Size: {cartItem.size}</span>
         </div>
         {orderStatus === "FULFILLED" && <Button className='bg-gray-700 mb-2 mr-10 w-56 h-16 ' onClick={() => setOpenReviewPopup(true)}>Rate the Product</Button>}
 

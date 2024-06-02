@@ -1,5 +1,6 @@
 package com.cafe.management.service;
 
+import com.cafe.management.dto.UserRoleCount;
 import com.cafe.management.model.Coupon;
 import com.cafe.management.model.User;
 import com.cafe.management.model.enums.Role;
@@ -159,5 +160,9 @@ public class UserService {
         currentUser.get().setPhoneNumber(updatedUser.getPhoneNumber());
 
         return userRepository.save(currentUser.get());
+    }
+
+    public List<UserRoleCount> getCompanyDetails() {
+        return userRepository.getCompanyDetails();
     }
 }
