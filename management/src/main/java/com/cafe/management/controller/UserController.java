@@ -89,7 +89,19 @@ public class UserController {
         return ResponseEntity.ok(userService.updateUser(request));
     }
     @PostMapping("employee_and_admin/updatePassword")
-    public ResponseEntity<Boolean> updatePassword( @RequestBody User password){
+    public ResponseEntity<Boolean> updatePasswordErp( @RequestBody User password){
+        User user=getUser();
+        try {
+            userService.updatePassword(user, password.getPassword());
+            return ResponseEntity.ok(Boolean.TRUE);
+        }catch (Exception e){
+            return ResponseEntity.ok(Boolean.FALSE);
+
+        }
+
+    }
+    @PostMapping("customer_only/updatePassword")
+    public ResponseEntity<Boolean> updatePasswordCustomer( @RequestBody User password){
         User user=getUser();
         try {
             userService.updatePassword(user, password.getPassword());
@@ -111,6 +123,16 @@ public class UserController {
     }
     @PostMapping("employee_and_admin/updateAvatar")
     public ResponseEntity<Boolean> updateAvatarErp(@RequestBody User user){
+        try {
+            userService.updateAvatar(user);
+            return ResponseEntity.ok(Boolean.TRUE);
+        }catch (IllegalArgumentException e){
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
+    @PostMapping("customer_only/updateAvatar")
+    public ResponseEntity<Boolean> updateAvatarCustomer(@RequestBody User user){
         try {
             userService.updateAvatar(user);
             return ResponseEntity.ok(Boolean.TRUE);
@@ -153,5 +175,14 @@ public class UserController {
             return user;
         }
         return null;
+    }
+
+    @PostMapping("/customer_only/updateUserProfile")
+    public ResponseEntity<User> updateCustomerProfile(@RequestBody User updatedUser){
+        try {
+            return ResponseEntity.ok(userService.updateCustomer(updatedUser)) ;
+        }catch (Exception e){
+            return ResponseEntity.badRequest().build();
+        }
     }
 }

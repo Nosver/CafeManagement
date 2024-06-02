@@ -16,7 +16,7 @@ import com.cafe.management.service.CartService;
 
 
 @RestController
-@RequestMapping("/public")
+@RequestMapping("/customer_only")
 public class CartController {
     
     @Autowired

@@ -33,6 +33,7 @@ import { NotFoundPage404 } from './pages/Customer/NotFoundPage404';
 import CustomerProfile from './pages/Customer/CustomerProfile';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import VerifyEmailPage from './pages/Customer/VerifyEmailPage';
+import CustomerProfile2 from './pages/Customer/CustomerProfile2';
 
 
 const router = createBrowserRouter(
@@ -49,7 +50,7 @@ const router = createBrowserRouter(
         <Route path='/about-us' element={<AboutUsPage />} />
         <Route path='/success/*' element={<PaymentSuccess />} />
         <Route path='/fail/*' element={<PaymentFail />} />
-        <Route path='/Profile/*' element={<CustomerProfile />} />
+        <Route path='/Profile/*' element={<CustomerProfile2 />} />
         <Route path='*' element={<NotFoundPage404 />} />
         <Route path='/LoginPage' element={<LoginPage />} />
         <Route path='/SignUpPage' element={<SignUpPage />} />
@@ -67,6 +68,7 @@ const router = createBrowserRouter(
 
       </Route>
 
+      <Route path='/test' element={<TestPage/>} />
       
       <Route path='/Welcome' element={<WelcomePage />} />
       <Route path='/Logout' element={<WelcomePage />} />

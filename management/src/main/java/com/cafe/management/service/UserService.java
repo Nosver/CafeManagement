@@ -146,4 +146,18 @@ public class UserService {
         user1.get().setAvatar(user.getAvatar());
         userRepository.save(user1.get());
     }
+
+    public User updateCustomer(User updatedUser) {
+
+        Optional<User> currentUser = userRepository.findById(updatedUser.getId());
+
+        if(currentUser.isEmpty()){
+            throw new IllegalArgumentException("user is not found");
+        }
+        currentUser.get().setFullName(updatedUser.getFullName());
+        currentUser.get().setEmail(updatedUser.getEmail());
+        currentUser.get().setPhoneNumber(updatedUser.getPhoneNumber());
+
+        return userRepository.save(currentUser.get());
+    }
 }
