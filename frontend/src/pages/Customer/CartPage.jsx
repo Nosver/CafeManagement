@@ -10,7 +10,18 @@ export const CartPage = () => {
 
     const [isLoading, setIsLoading] = useState(false);
     const [cart, setCart] = useState([]);
+    const [coupons, setCoupons] = useState([]);
+
     console.log(cart)
+
+    const handleCouponClick = (coupon) => async (event) => {
+        event.preventDefault(); // Prevent default form submission behavior
+        if (cart.totalPrice == 0){
+            return toast.error("No items in the cart")
+        }
+            // apply coupon
+
+    };
 
     if (Cookies.get("role") != "CUSTOMER" || Cookies.get("role") === undefined) {
 
@@ -47,7 +58,35 @@ export const CartPage = () => {
             }
         }
 
+        const fetchCoupons = async () => {
 
+            const token = Cookies.get('token')
+
+            try {
+                setIsLoading(true)
+                const response = await fetch(`http://localhost:8080/customer_only/getMyCoupons`, {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
+                setIsLoading(false)
+                const data = await response.json();
+
+                setCoupons(data);
+
+                console.log("Your Coupons", data)
+
+                if (!response.ok) {
+                    toast.error("Failed to get coupons")
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+            } catch (error) {
+                console.log(error.message);
+            }
+        }
 
         const sizeModifiers = {
             small: 0.9,  // Decrease price by 10%
@@ -57,6 +96,7 @@ export const CartPage = () => {
         useEffect(() => {
 
             fetchCart();
+            fetchCoupons();
             // console.log(updatedProductsArray);
         }, []); // Include sizeModifiers and products in the dependencies array
 
@@ -72,17 +112,12 @@ export const CartPage = () => {
 
         const createOrder = async () => {
 
-            
-
-
-
-
             try {
-                
+
                 const token = Cookies.get('token')
 
                 const cartData = {
-                    id:cart.id,
+                    id: cart.id,
                     totalPrice: cart.totalPrice,
                     cartItems: cart.cartItems.map(item => ({
                         product: {
@@ -100,7 +135,7 @@ export const CartPage = () => {
                         'Authorization': `Bearer ${token}`,
 
                     },
-                    body: JSON.stringify(cartData) 
+                    body: JSON.stringify(cartData)
                 });
                 if (response.ok) {
                     const responseData = await response.json();
@@ -108,7 +143,7 @@ export const CartPage = () => {
                     console.log('Payment URL:', paymentUrl);
                     // Redirect the user to the payment URL
                     window.location.href = paymentUrl;
-                } else if(response.status === 400){
+                } else if (response.status === 400) {
                     toast.error("Not enough stock")
                     console.error('Failed to create order');
                 }
@@ -116,7 +151,6 @@ export const CartPage = () => {
                 console.error('Error creating order:', error);
             }
         };
-
 
 
         return (<section
@@ -239,6 +273,36 @@ export const CartPage = () => {
                                 <div class="flex items-center border-b border-gray-200">
                                     <button
                                         class="rounded-full w-full bg-black py-3 px-4 text-white text-sm font-semibold text-center mb-8 transition-all duration-500 hover:bg-black/80">Apply</button>
+                                </div>
+
+                                <div>
+                                    <h2 className="m-4 font-manrope font-bold text-3xl leading-10 text-black pb-8 border-b border-gray-300">Your Coupons</h2>
+                                    <div className="bg-gradient-to-r from-purple-800 via-pink-700 to-red-600 p-5 rounded shadow-lg text-white">
+                                        {coupons && coupons.length > 0 ? coupons.map(coupon => (
+                                            <div>
+                                                <div className="flex items-center justify-between pb-6 border-b-2 border-white">
+                                                    <p className="font-bold text-xl leading-8">{coupon.title}</p>
+                                                    <p className="font-medium text-lg leading-8">{coupon.expireDate}</p>
+                                                    <div className="p-4 bg-gradient-to-r from-purple-600 via-pink-600 to-red-600 rounded shadow-lg">
+                                                        <p className="font-bold text-2xl leading-9 text-white">{coupon.discountPercent}%</p>
+                                                    </div>
+                                                </div>
+                                                <div>
+                                                    <p className="font-medium text-lg leading-8">{coupon.description}</p>
+                                                    <div className="text-right">
+                                                        <button onClick={handleCouponClick(coupon)}
+                                                        className="mt-4 px-4 py-2 bg-green-500 text-white font-bold rounded hover:bg-green-700">
+                                                            Apply
+                                                        </button>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                        )) : <p className="font-bold text-xl"> No coupons</p>
+                                        }
+                                    </div>
+
                                 </div>
                                 <div class="flex items-center justify-between py-8">
                                     {cart && cart.cartItems ? <p class="font-medium text-xl leading-8 text-black">{cart.cartItems.length} Item(s)</p> : <p class="font-medium text-xl leading-8 text-black">0 Item(s)</p>}

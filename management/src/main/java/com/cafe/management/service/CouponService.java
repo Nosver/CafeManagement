@@ -26,4 +26,5 @@ public class CouponService {
     public List<Coupon> findByUserId(Long customerId) {
         return couponRepository.findByUserId(customerId);
     }
+
 }

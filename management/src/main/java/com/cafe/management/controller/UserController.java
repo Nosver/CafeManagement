@@ -63,6 +63,15 @@ public class UserController {
         }
     }
 
+    @GetMapping("/customer_only/getMyCoupons")
+    public ResponseEntity<List<Coupon>> getMyCoupons(){
+        try {
+            return ResponseEntity.ok(couponService.findByUserId(getUser().getId()));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
     @PostMapping("/employee_and_admin/updateEmployee")
     public ResponseEntity<User> updateEmployee(
             @RequestBody User request) {
@@ -89,6 +98,7 @@ public class UserController {
         }
         return ResponseEntity.ok(userService.updateUser(request));
     }
+
     @PostMapping("employee_and_admin/updatePassword")
     public ResponseEntity<Boolean> updatePasswordErp( @RequestBody User password){
         User user=getUser();
@@ -101,6 +111,7 @@ public class UserController {
         }
 
     }
+
     @PostMapping("customer_only/updatePassword")
     public ResponseEntity<Boolean> updatePasswordCustomer( @RequestBody User password){
         User user=getUser();
@@ -161,6 +172,7 @@ public class UserController {
     }
 
     @GetMapping("customer_only/getAllCoupons/{customerId}")
+    @Deprecated
     public ResponseEntity<List<Coupon>> getCoupon(@PathVariable Long customerId){
         try {
             return ResponseEntity.ok(couponService.findByUserId(customerId));
