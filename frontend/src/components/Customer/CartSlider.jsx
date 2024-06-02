@@ -19,7 +19,7 @@ export const CartSlider = () => {
 
     try {
       setIsLoading(true)
-      const response = await fetch(`http://localhost:8080/public/getActiveCartByToken`, {
+      const response = await fetch(`http://localhost:8080/customer_only/getActiveCartByToken`, {
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${token}`,
