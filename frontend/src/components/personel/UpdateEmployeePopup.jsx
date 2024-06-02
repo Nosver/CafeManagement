@@ -292,9 +292,9 @@ const UpdateEmployeePopup = ({ closePopup, employee }) => {
                             <label>
                                 Position
                             </label>
-                            <StyledSelect value={position.toLowerCase()} onChange={(event) => setPosition(event.target.value)}>
+                            <StyledSelect value={(position || "").toLowerCase()} onChange={(event) => setPosition(event.target.value)}>
                                 {positions.map((position) => (
-                                    <option value={position.toLowerCase()}>{position.toLowerCase()}</option>
+                                    <option value={(position || "").toLowerCase()}>{position.toLowerCase()}</option>
                                 )
                                 )}
                             </StyledSelect>

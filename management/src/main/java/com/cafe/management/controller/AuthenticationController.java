@@ -21,8 +21,7 @@ public class AuthenticationController {
 
     @PostMapping("/register")
     public ResponseEntity<AuthenticationResponse> register(
-            @RequestBody User request
-    ) throws MessagingException {
+            @RequestBody User request) throws MessagingException {
         return ResponseEntity.ok(authService.register(request));
     }
 
@@ -32,30 +31,30 @@ public class AuthenticationController {
             return ResponseEntity.ok(authService.authenticate(request));
         } catch (AuthenticationException e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                    .body(new AuthenticationResponse(null,"Authentication error",null));
+                    .body(new AuthenticationResponse(null, "Authentication error", null));
         }
     }
 
     @PostMapping("/googleRegister")
-    public ResponseEntity<AuthenticationResponse> googleRegister(@RequestBody User request){
-        AuthenticationResponse response=authService.registerWithGoogle(request);
-        if(response.getMessage().equals("User already exist")){
+    public ResponseEntity<AuthenticationResponse> googleRegister(@RequestBody User request) {
+        AuthenticationResponse response = authService.registerWithGoogle(request);
+        if (response.getMessage().equals("User already exist")) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
         }
         return ResponseEntity.ok(response);
     }
 
     @PostMapping("/googleLogin")
-    public ResponseEntity<AuthenticationResponse> googleLogin(@RequestBody User request){
+    public ResponseEntity<AuthenticationResponse> googleLogin(@RequestBody User request) {
 
-        AuthenticationResponse response=authService.loginWithGoogle(request);
+        AuthenticationResponse response = authService.loginWithGoogle(request);
         return ResponseEntity.ok(response);
     }
 
     @GetMapping("/verifyEmail")
-    public ResponseEntity<Boolean> verifyEmail(@RequestParam String token){
-        boolean res= authService.verifyEmail(token);
-        if(res)
+    public ResponseEntity<Boolean> verifyEmail(@RequestParam String token) {
+        boolean res = authService.verifyEmail(token);
+        if (res)
             return ResponseEntity.ok(true);
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(false);
 
