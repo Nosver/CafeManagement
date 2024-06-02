@@ -129,7 +129,7 @@ public class OrderController {
         return ResponseEntity.ok(orderService.getAllOrders());
     }
 
-
+/*
     @PostMapping("employee_and_admin/cancelOrder")
     public ResponseEntity<String> cancelOrder(@RequestBody Order order) {
         // NOT COMPLETED YET
@@ -142,8 +142,17 @@ public class OrderController {
             return ResponseEntity.internalServerError().body("Unable to cancel order");
         }
     }
+*/
 
-
+    @PostMapping("customer_only/cancelOrder")
+    public ResponseEntity<Long> cancelOrder(@RequestParam Long orderId) {
+        try {
+            orderService.cancelOrderByIdCustomer(orderId);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        }
+        return ResponseEntity.ok(orderId);
+    }
 
     @PostMapping("employee_and_admin/updateOrderStatus")
     public ResponseEntity<Order> updateOrderStatusById(@RequestBody Order updatedOrder){

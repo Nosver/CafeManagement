@@ -13,7 +13,9 @@ export const OrderDetailsPopup = ({ order, closePopup }) => {
         ));
     };
 
-    const cancelOrder = () => {
+    const cancelOrder = async() => {
+
+        
         toast.success("Order canceled successfully");
         closePopup();
     };

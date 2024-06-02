@@ -90,11 +90,8 @@ public class OrderService {
         order.setStatus(Status.ORDER_RECEIVED);
         Order savedOrder =orderRepository.save(order);
 
-
         cart.get().setOrder(savedOrder);
         cartService.addCart(cart.get());
-
-
 
         Cart cart1 = new Cart();
         cart1.setTotalPrice(0.0);
@@ -114,7 +111,7 @@ public class OrderService {
         return dtos;
     }
 
-
+/*
     public void cancelOrder(Order order) throws BadRequestException {
         
         Order found = orderRepository.getReferenceById(order.getId());
@@ -132,6 +129,31 @@ public class OrderService {
 
         // Take the stock back
         throw new UnsupportedOperationException("Method not completed");
+    }
+*/
+
+    @Transactional
+    public void cancelOrderByIdCustomer(Long orderId){
+        Optional<Order> existingOrder = orderRepository.findById(orderId);
+
+        if(existingOrder.isEmpty()){
+            return ;
+        }
+
+        existingOrder.get().setStatus(Status.CANCELLED);
+
+        Cart cart = existingOrder.get().getCart();
+
+        //Increase stock
+        for(CartItem c: cart.getCartItems()){
+            for(RequiredStock req: c.getProduct().getRequiredStocks()){
+                req.getStock().setQuantity(req.getStock().getQuantity() + (req.getAmount() * c.getAmount()) );
+                stockService.updateStockById(req.getStock().getId(),req.getStock());
+            }
+        }
+        productService.recalculatePredictedStocks();
+
+        orderRepository.save(existingOrder.get());
     }
 
     @Transactional
