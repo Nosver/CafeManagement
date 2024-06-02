@@ -2,8 +2,11 @@ import React from 'react';
 import OrderDetailsItem from './OrderDetailsItem';
 import { Button } from "flowbite-react";
 import { toast } from 'react-toastify';
+import Cookies from 'js-cookie';
+
 
 export const OrderDetailsPopup = ({ order, closePopup }) => {
+
     const renderOrderItems = () => {
         if (!order || !order.cartItems) {
             return <p>No items available for this order.</p>;
@@ -13,11 +16,38 @@ export const OrderDetailsPopup = ({ order, closePopup }) => {
         ));
     };
 
-    const cancelOrder = async() => {
+    const cancelOrder = async () => {
+        const token = Cookies.get("token");
 
-        
+        try {
+          const response = await fetch(
+            `http://localhost:8080/customer_only/cancelOrder?orderId=${order.id}`,
+            {
+              method: "POST",
+              headers: {
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "application/json",
+              }
+            }
+          );
+
+          if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+          }
+    
+          const data = await response.json();
+
+        } catch (error) {
+          console.log(error.message);
+        }
+    };
+    
+
+    const cancelOrderSubmit = () => {
+        cancelOrder();
         toast.success("Order canceled successfully");
         closePopup();
+        window.location.reload();        
     };
 
     return (
@@ -45,7 +75,7 @@ export const OrderDetailsPopup = ({ order, closePopup }) => {
                     {renderOrderItems()}
                     <div className='flex flex-row w-4/6 items-center justify-between'>
                         <span>Total Price: {order.totalPrice}₺</span>
-                        {order.status === "ORDER_RECEIVED" && <Button className='bg-gray-700 mb-2' onClick={cancelOrder}>Cancel Order</Button>}
+                        {order.status === "ORDER_RECEIVED" && <Button className='bg-gray-700 mb-2' onClick={cancelOrderSubmit}>Cancel Order</Button>}
                     </div>
                 </div>
             </div>
