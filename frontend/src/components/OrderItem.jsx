@@ -29,7 +29,7 @@ const OrderItem = ({order, openPopup}) => {
         <button className="text-grey-500 focus:outline-none" onClick={ () => openPopup(order)}>
           See Details
         </button>
-          <span>
+          <span>  
             <Price price={order.totalPrice}/>
           </span>
       </div>

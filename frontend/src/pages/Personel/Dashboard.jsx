@@ -18,13 +18,60 @@ import { faUsers } from '@fortawesome/free-solid-svg-icons';
 import { faMoneyBill1 } from '@fortawesome/free-regular-svg-icons';
 import Cookies from 'js-cookie';
 import UnauthorizedPage from '../UnauthorizedPage';
+import { useEffect } from 'react';
 
 function Dashboard() {
 
   const ROLE = Cookies.get('role');
   console.log(ROLE);
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [employeeCount, setEmployeeCount] = useState(0);
 
+  const [CustomerCount, setCustomerCount] = useState(0);
+
+  const fetchCompaynData = async () => {
+    const token = Cookies.get('token');
+
+    if (!token) {
+        setError('No token found');
+        return;
+    }
+
+    try {
+        const response = await fetch('http://localhost:8080/employee_and_admin/user-role-count', {
+            method: 'GET',
+            headers: {
+              'Authorization': `Bearer ${token}`,
+              'Content-Type': 'application/json'
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const data = await response.json();
+
+        data.forEach(item => {
+          if (item.role === 'EMPLOYEE') {
+            setEmployeeCount(item.count);
+          } else if (item.role === 'CUSTOMER') {
+            setCustomerCount(item.count);
+          } else if (item.role === 'ADMIN') {
+
+          }
+        });
+
+
+    } catch (error) {
+        console.log(error);
+    }
+};
+
+  useEffect(() => {
+    fetchCompaynData()
+  }, [])
+  
 
 
   const userName = "Dan Joe";
@@ -51,9 +98,9 @@ function Dashboard() {
 
             {ROLE === "ADMIN" && (
               <>
-                <BStats Label={"Customers"} Data={"12.500"} Icon={faUserTie} />
+                <BStats Label={"Customers"} Data={CustomerCount} Icon={faUserTie} />
                 <BStats Label={"Monthly Profit"} Data={"95.550₺"} Icon={faMoneyBill1} />
-                <BStats Label={"Employees"} Data={"27"} Icon={faUsers} />
+                <BStats Label={"Employees"} Data={employeeCount} Icon={faUsers} />
               </>
             )}
 

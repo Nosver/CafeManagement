@@ -1,5 +1,6 @@
 package com.cafe.management.controller;
 
+import com.cafe.management.dto.UserRoleCount;
 import com.cafe.management.model.AuthenticationResponse;
 import com.cafe.management.model.Cart;
 import com.cafe.management.model.Coupon;
@@ -184,5 +185,10 @@ public class UserController {
         }catch (Exception e){
             return ResponseEntity.badRequest().build();
         }
+    }
+
+    @GetMapping("employee_and_admin/user-role-count")
+    public List<UserRoleCount> getUserRoleCounts() {
+        return userService.getCompanyDetails();
     }
 }

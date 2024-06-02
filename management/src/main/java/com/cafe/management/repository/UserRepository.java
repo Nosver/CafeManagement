@@ -1,5 +1,6 @@
 package com.cafe.management.repository;
 
+import com.cafe.management.dto.UserRoleCount;
 import com.cafe.management.model.User;
 import com.cafe.management.model.enums.Role;
 
@@ -16,4 +17,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Query("SELECT u FROM User u WHERE u.role = :role")
     List<User> findAllByRole(@Param("role") Role role);
     Optional<User> findById(Long id);
+
+    @Query("SELECT u.role as role, COUNT(u) as count FROM User u GROUP BY u.role")
+    List<UserRoleCount> getCompanyDetails();
 }

@@ -1,8 +1,8 @@
 package com.cafe.management.controller;
 
 import com.cafe.management.dto.CommentDTO;
+import com.cafe.management.dto.StarCountDTO;
 import com.cafe.management.model.Comment;
-import com.cafe.management.model.Product;
 import com.cafe.management.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -44,4 +44,8 @@ public class CommentController {
     }
 
 
+    @GetMapping("employee_and_admin/starCount")
+    public StarCountDTO getStarCounts(){
+        return commentService.getStarCounts();
+    }
 }
