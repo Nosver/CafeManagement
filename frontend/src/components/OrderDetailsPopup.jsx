@@ -12,7 +12,7 @@ export const OrderDetailsPopup = ({ order, closePopup }) => {
             return <p>No items available for this order.</p>;
         }
         return order.cartItems.map((cartItem, index) => (
-            <OrderDetailsItem cartItem={cartItem} key={index} />
+            <OrderDetailsItem orderStatus = {order.status} cartItem={cartItem} key={index} />
         ));
     };
 
