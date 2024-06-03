@@ -11,6 +11,7 @@ import com.cafe.management.repository.CartRepository;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -19,6 +20,7 @@ public class CartService {
     @Autowired
     private CartRepository cartRepository;
 
+    @Lazy
     @Autowired
     private UserService userService;
 
@@ -50,7 +52,13 @@ public class CartService {
 
     public Double calculateTotalPrice(Cart cart){
         Double totalPrice=0.0;
+        Double discountPercent = 0.0;
 
+        if(cart.getDiscountPercent() != null){
+            discountPercent = cart.getDiscountPercent();
+        }
+
+        System.out.println("------------> Discount Percent: " + discountPercent);
 
         for(CartItem cartItem: cart.getCartItems()){
             if(cartItem.getSize() == ProductSize.MEDIUM){
@@ -63,8 +71,9 @@ public class CartService {
             }
 
         }
-       return totalPrice;
+        System.out.println("------------> Total Price: " + totalPrice);
 
+       return totalPrice * ((100.0 - discountPercent) / 100);
     }
 
     public Cart getCartById(Long id){
