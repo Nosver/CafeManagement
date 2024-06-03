@@ -1,34 +1,45 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { useEffect } from 'react';
+import Cookies from 'js-cookie';
 
 function TopCustomersList() {
 
-  const TopCustomers = [
-    {
-      name: 'Alex Shatov',
-      email: 'alexshatov@gmail.com',
-      spent: 2890.66
-    },
-    {
-      name: 'Philip Harbach',
-      email: 'philip.h@gmail.com',
-      spent: 2767.04
-    },
-    {
-      name: 'Mirko Fisuk',
-      email: 'mirkofisuk@gmail.com',
-      spent: 2596.00
-    },
-    {
-      name: 'Olga Semklo',
-      email: 'olga.s@cool.design',
-      spent: 1220.66
-    },
-    {
-      name: 'Burak Long',
-      email: 'longburak@gmail.com',
-      spent: 1190.66
+  const [TopCustomers,setTopCustomers] = useState([]);
+
+  const fetchTopCustomers = async ()=>{
+
+    try {
+      const token = Cookies.get("token");
+
+      const response = await fetch('http://localhost:8080/employee_and_admin/getTotalSpendings', {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        },
+       
+      });
+
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      const data = await response.json();
+
+
+      setTopCustomers(data);
+
+    } catch (error) {
+      console.log(error.message);
     }
-  ];
+  }
+
+
+  useEffect(() => {
+    fetchTopCustomers()
+    
+  }, [])
+  
 
 
   return (
@@ -64,14 +75,14 @@ function TopCustomersList() {
                       <td className="p-2 whitespace-nowrap">
                         <div className="flex items-center">
                          
-                          <div className="font-medium text-slate-800 dark:text-slate-100">{customer.name}</div>
+                          <div className="font-medium text-slate-800 dark:text-slate-100">{customer.fullName}</div>
                         </div>
                       </td>
                       <td className="p-2 whitespace-nowrap">
                         <div className="text-left">{customer.email}</div>
                       </td>
                       <td className="p-2 whitespace-nowrap">
-                        <div className="text-left font-medium text-green-500">{customer.spent.toFixed(2)}₺</div>
+                        <div className="text-left font-medium text-green-500">{customer.totalSpending.toFixed(2)}₺</div>
                       </td>
                      
                     </tr>

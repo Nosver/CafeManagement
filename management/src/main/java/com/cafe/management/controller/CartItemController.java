@@ -17,9 +17,10 @@ import org.springframework.web.bind.annotation.*;
 import javax.management.RuntimeErrorException;
 import javax.naming.NameNotFoundException;
 import java.util.List;
+import java.util.Map;
 
 @RestController
-@RequestMapping("/customer_only")
+@RequestMapping("")
 public class CartItemController {
 
     @SuppressWarnings("unused")
@@ -28,7 +29,7 @@ public class CartItemController {
 
 
 
-    @PostMapping("/addCartItem")
+    @PostMapping("/customer_only/addCartItem")
     public ResponseEntity<CartItem> addCartItem(@RequestBody CartItem cartItem) {
         /*
         Usage:
@@ -60,7 +61,7 @@ public class CartItemController {
         }
     }
 
-    @PostMapping("/updateCartItem")
+    @PostMapping("/customer_only/updateCartItem")
     public ResponseEntity<CartItem> updateCartItem(@RequestBody CartItem cartItem){
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -78,7 +79,7 @@ public class CartItemController {
         }
     }
 
-    @DeleteMapping("/deleteCartItem/{id}")
+    @DeleteMapping("/customer_only/deleteCartItem/{id}")
     public ResponseEntity<Boolean> deleteCartItemById(@PathVariable("id") Long cartItemId ){
         System.out.println("------------------------> Customer request for" + cartItemId + " cart item deletion!");
         try {
@@ -90,4 +91,8 @@ public class CartItemController {
     }
 
 
+    @GetMapping("employee_and_admin/top-products")
+    public List<Map<String, Object>> getTop3ProductsAndOthers() {
+        return cartItemService.getTop3ProductsAndOthers();
+    }
 }

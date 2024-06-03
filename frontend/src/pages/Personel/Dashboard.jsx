@@ -23,11 +23,12 @@ import { useEffect } from 'react';
 function Dashboard() {
 
   const ROLE = Cookies.get('role');
-  console.log(ROLE);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [employeeCount, setEmployeeCount] = useState(0);
 
   const [CustomerCount, setCustomerCount] = useState(0);
+
+  const [revenue, setRevenue] = useState(0);
 
   const fetchCompaynData = async () => {
     const token = Cookies.get('token');
@@ -68,13 +69,74 @@ function Dashboard() {
     }
 };
 
+const fetchRevenue = async ( )=>{
+  const token = Cookies.get('token');
+
+  try {
+    const response = await fetch('http://localhost:8080/employee_and_admin/getTotalRevenue', {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
+    });
+
+    if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const data = await response.json();
+    let totalRevenue = 0;
+
+    data.forEach(item => {
+      totalRevenue += item.totalSpending;
+    });
+
+    setRevenue(totalRevenue);
+
+
+} catch (error) {
+    console.log(error);
+}
+
+}
+
+const whoAmI = async () => {
+  try {
+    const token = Cookies.get("token");
+
+    const response = await fetch('http://localhost:8080/public/whoami', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+
+      }
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const result = await response.json();
+
+    
+    setUsername(result.fullName);
+    
+
+  } catch (error) {
+    console.log('Error:', error);
+  }
+}
   useEffect(() => {
     fetchCompaynData()
+    fetchRevenue()
+    whoAmI()
   }, [])
   
 
 
-  const userName = "Dan Joe";
+  const [userName,setUsername] = useState("");
   return (
     <div>
 
@@ -99,7 +161,7 @@ function Dashboard() {
             {ROLE === "ADMIN" && (
               <>
                 <BStats Label={"Customers"} Data={CustomerCount} Icon={faUserTie} />
-                <BStats Label={"Monthly Profit"} Data={"95.550₺"} Icon={faMoneyBill1} />
+                <BStats Label={"Revenue"} Data={revenue.toFixed(0) + "₺"} Icon={faMoneyBill1} />
                 <BStats Label={"Employees"} Data={employeeCount} Icon={faUsers} />
               </>
             )}

@@ -1,6 +1,7 @@
 package com.cafe.management.service;
 
 import com.cafe.management.dto.UserRoleCount;
+import com.cafe.management.dto.UserSpendingDTO;
 import com.cafe.management.model.Coupon;
 import com.cafe.management.model.User;
 import com.cafe.management.model.enums.Role;
@@ -12,6 +13,8 @@ import java.util.Optional;
 
 import com.stripe.service.TokenService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -164,5 +167,15 @@ public class UserService {
 
     public List<UserRoleCount> getCompanyDetails() {
         return userRepository.getCompanyDetails();
+    }
+
+    public List<UserSpendingDTO> getTotalSpendings(){
+        Pageable pageable = PageRequest.of(0, 10);
+        return userRepository.findCustomerSpending(pageable);
+    }
+
+    public List<UserSpendingDTO> getTotalRevenue(){
+
+        return userRepository.findCustomerSpending();
     }
 }

@@ -1,6 +1,7 @@
 package com.cafe.management.controller;
 
 import com.cafe.management.dto.UserRoleCount;
+import com.cafe.management.dto.UserSpendingDTO;
 import com.cafe.management.model.AuthenticationResponse;
 import com.cafe.management.model.Cart;
 import com.cafe.management.model.Coupon;
@@ -202,5 +203,15 @@ public class UserController {
     @GetMapping("employee_and_admin/user-role-count")
     public List<UserRoleCount> getUserRoleCounts() {
         return userService.getCompanyDetails();
+    }
+
+    @GetMapping("employee_and_admin/getTotalSpendings")
+    public List<UserSpendingDTO> getTotalSpendings(){
+        return userService.getTotalSpendings();
+    }
+
+    @GetMapping("employee_and_admin/getTotalRevenue")
+    public List<UserSpendingDTO> getTotalRevenue(){
+        return userService.getTotalSpendings();
     }
 }

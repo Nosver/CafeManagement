@@ -8,10 +8,7 @@ import com.cafe.management.model.enums.ProductSize;
 import com.cafe.management.model.enums.Role;
 import com.cafe.management.repository.CartItemRepository;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 
 import javax.management.RuntimeErrorException;
 import javax.naming.NameNotFoundException;
@@ -178,6 +175,22 @@ public class CartItemService {
         // Update first one
         duplicates.get(0).setAmount(amount);
         cartItemRepository.save(duplicates.get(0));
+    }
+
+    public List<Map<String, Object>> getTop3ProductsAndOthers() {
+        List<Object[]> results = cartItemRepository.findTop3ProductsAndOthers();
+        List<Map<String, Object>> resultList = new ArrayList<>();
+
+        for (Object[] result : results) {
+            Map<String, Object> resultMap = new HashMap<>();
+            String name = (String) result[0];
+            Integer totalSales = ((Number) result[1]).intValue(); // Cast to Number first to handle different numeric types
+            resultMap.put("name", name);
+            resultMap.put("amount", totalSales);
+            resultList.add(resultMap);
+        }
+
+        return resultList;
     }
 
 }

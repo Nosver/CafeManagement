@@ -253,6 +253,8 @@ export const Orders = () => {
                               onChange={(event) =>
                                 handleStatusChange(event, index)
                               }
+                              disabled={orderA.status === "CANCELLED"}
+
                             >
                               {statusOptions.map((option) => (
                                 <option value={option}>{option}</option>

@@ -103,6 +103,7 @@ public class OrderController {
     @Value("${STRIPE_SECRET_KEY}")
     private String stripeApiKey;
 
+    //stripe listen --forward-to localhost:8080/stripe/events
     @Hidden
     @GetMapping("admin_only/transactions")
     public List<Session> getTransactions() throws StripeException {
