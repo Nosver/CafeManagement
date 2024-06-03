@@ -32,4 +32,5 @@ public class Coupon {
     @JsonIgnore
     private User user;
 
+
 }

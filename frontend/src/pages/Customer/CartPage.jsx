@@ -11,16 +11,53 @@ export const CartPage = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [cart, setCart] = useState([]);
     const [coupons, setCoupons] = useState([]);
+    const [appliedCoupon, setAppliedCoupon] = useState(0.0);
 
     console.log(cart)
 
     const handleCouponClick = (coupon) => async (event) => {
+
         event.preventDefault(); // Prevent default form submission behavior
-        if (cart.totalPrice == 0){
+        if (cart.totalPrice == 0) {
             return toast.error("No items in the cart")
         }
-            // apply coupon
 
+        if (cart.discountPercent != 0 && cart.discountPercent != null) {
+            return toast.error("You have already applied a coupon")
+        }
+
+        if (coupon.discountPercent == 0 || coupon.discountPercent == null || coupon.discountPercent >= 100) {
+            return toast.error("Coupon is not valid")
+        }
+
+
+        console.log("Applied Coupon", coupon.id)
+
+        try {
+
+            const token = Cookies.get('token')
+
+            const response = await fetch('http://localhost:8080/customer_only/expendCoupon/' + coupon.id, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`,
+                }
+            });
+
+            if (!response.ok) {
+                toast.error("Failed to apply coupon")
+                return;
+            }
+
+            // set coupon to total price
+            setAppliedCoupon(coupon.discountPercent / 100);
+
+            window.location.reload();
+
+        } catch (error) {
+            console.error('Error creating order:', error);
+        }
     };
 
     if (Cookies.get("role") != "CUSTOMER" || Cookies.get("role") === undefined) {
@@ -47,7 +84,7 @@ export const CartPage = () => {
 
                 setCart(data);
 
-                console.log(data)
+                console.log("-----> Your Cart: ", data)
 
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
@@ -57,6 +94,19 @@ export const CartPage = () => {
                 console.log(error.message);
             }
         }
+
+        const gradientColors = [
+            "from-purple-800 via-pink-700 to-red-600",
+            "from-blue-600 to-green-600",
+            "from-red-500 to-yellow-500",
+            "from-green-400 to-blue-500",
+            "from-pink-500 to-purple-600",
+            "from-yellow-400 to-orange-500",
+            "from-red-500 to-pink-500",
+            "from-purple-400 to-blue-500",
+            "from-yellow-600 to-green-500",
+            "from-orange-400 to-red-500"
+        ];
 
         const fetchCoupons = async () => {
 
@@ -244,69 +294,50 @@ export const CartPage = () => {
                             <form>
 
 
-                                <label class="flex items-center mb-1.5 text-gray-400 text-sm font-medium">Promo Code
-                                </label>
-                                <div class="flex pb-4 w-full">
-                                    <div class="relative w-full ">
-                                        <div class=" absolute left-0 top-0 py-2.5 px-4 text-gray-300">
-
-                                        </div>
-                                        <input type="text"
-                                            class="block w-full h-11 pr-11 pl-5 py-2.5 text-base font-normal shadow-xs text-gray-900 bg-white border border-gray-300 rounded-lg placeholder-gray-500 focus:outline-gray-400 "
-                                            placeholder="xxxx xxxx xxxx" />
-                                        <button id="dropdown-button" data-target="dropdown"
-                                            class="dropdown-toggle flex-shrink-0 z-10 inline-flex items-center py-4 px-4 text-base font-medium text-center text-gray-900 bg-transparent  absolute right-0 top-0 pl-2 "
-                                            type="button"><svg class="ml-2 my-auto" width="12" height="7" viewBox="0 0 12 7"
-                                                fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                <path
-                                                    d="M1 1.5L4.58578 5.08578C5.25245 5.75245 5.58579 6.08579 6 6.08579C6.41421 6.08579 6.74755 5.75245 7.41421 5.08579L11 1.5"
-                                                    stroke="#6B7280" stroke-width="1.5" stroke-linecap="round"
-                                                    stroke-linejoin="round"></path>
-                                            </svg>
-                                        </button>
-                                        <div id="dropdown"
-                                            class="absolute top-10 right-0 z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
-
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="flex items-center border-b border-gray-200">
-                                    <button
-                                        class="rounded-full w-full bg-black py-3 px-4 text-white text-sm font-semibold text-center mb-8 transition-all duration-500 hover:bg-black/80">Apply</button>
-                                </div>
-
                                 <div>
-                                    <h2 className="m-4 font-manrope font-bold text-3xl leading-10 text-black pb-8 border-b border-gray-300">Your Coupons</h2>
-                                    <div className="bg-gradient-to-r from-purple-800 via-pink-700 to-red-600 p-5 rounded shadow-lg text-white">
-                                        {coupons && coupons.length > 0 ? coupons.map(coupon => (
-                                            <div>
-                                                <div className="flex items-center justify-between pb-6 border-b-2 border-white">
-                                                    <p className="font-bold text-xl leading-8">{coupon.title}</p>
-                                                    <p className="font-medium text-lg leading-8">{coupon.expireDate}</p>
-                                                    <div className="p-4 bg-gradient-to-r from-purple-600 via-pink-600 to-red-600 rounded shadow-lg">
-                                                        <p className="font-bold text-2xl leading-9 text-white">{coupon.discountPercent}%</p>
-                                                    </div>
-                                                </div>
-                                                <div>
-                                                    <p className="font-medium text-lg leading-8">{coupon.description}</p>
-                                                    <div className="text-right">
-                                                        <button onClick={handleCouponClick(coupon)}
-                                                        className="mt-4 px-4 py-2 bg-green-500 text-white font-bold rounded hover:bg-green-700">
-                                                            Apply
-                                                        </button>
-                                                    </div>
-                                                </div>
-
-                                            </div>
-
-                                        )) : <p className="font-bold text-xl"> No coupons</p>
-                                        }
-                                    </div>
+                                    <h2 className="mb-4 font-manrope font-bold text-3xl leading-10 text-black pb-8 border-b border-gray-300">Your Coupons</h2>
+                                    {coupons && coupons.length > 0 ? (
+    <div className="h-80 overflow-y-auto">
+        {coupons.map(coupon => (
+            <div className="mb-4 bg-gradient-to-r from-purple-800 via-pink-700 to-red-600 p-5 rounded shadow-lg text-white">
+                <div className="flex items-center justify-between pb-6 border-b-2 border-white">
+                    <p className="font-bold text-xl leading-8">{coupon.title}</p>
+                    <p className="font-medium text-lg leading-8">{coupon.expireDate}</p>
+                    <div className="p-4 bg-gradient-to-r from-blue-600 to-green-600 rounded shadow-lg">
+                        <p className="font-bold text-2xl leading-9 text-white">{coupon.discountPercent}%</p>
+                    </div>
+                </div>
+                <div>
+                    <p className="font-medium text-lg leading-8">{coupon.description}</p>
+                    <div className="text-right">
+                        <button onClick={handleCouponClick(coupon)}
+                            className="mt-4 px-4 py-2 bg-green-500 text-white font-bold rounded hover:bg-green-700">
+                            Apply
+                        </button>
+                    </div>
+                </div>
+            </div>
+        ))}
+    </div>
+) : (
+    <div className="h-80 overflow-y-auto">
+        <p>No coupons available.</p>
+    </div>
+)}
 
                                 </div>
-                                <div class="flex items-center justify-between py-8">
-                                    {cart && cart.cartItems ? <p class="font-medium text-xl leading-8 text-black">{cart.cartItems.length} Item(s)</p> : <p class="font-medium text-xl leading-8 text-black">0 Item(s)</p>}
+                                <div class="flex items-center justify-between py-8 bg-blue-50 rounded-lg shadow-lg p-6 m-4">
+                                    {cart && cart.cartItems ?
+                                        <p class="font-medium text-xl leading-8 text-black">{cart.cartItems.length} Item(s)</p>
+                                        :
+                                        <p class="font-medium text-xl leading-8 text-black">0 Item(s)</p>
+                                    }
                                     <p class="font-semibold text-xl leading-8 text-green-700">{cart.totalPrice && cart.totalPrice.toFixed(2)}₺</p>
+                                    {cart && cart.discountPercent ?
+                                        <p class="font-medium text-xl leading-8 text-red-600"> -{cart.discountPercent}%</p>
+                                        :
+                                        <p class="font-medium text-xl leading-8 text-red-600"> </p>
+                                    }
                                 </div>
                                 <button
                                     class="w-full text-center bg-green-700 rounded-full py-4 px-6 font-semibold text-lg text-white transition-all duration-500 hover:bg-green-900" onClick={handleCheckoutClick}>Checkout</button>
