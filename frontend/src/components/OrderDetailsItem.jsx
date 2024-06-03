@@ -6,10 +6,13 @@ import Review from './Customer/Review';
 
 
 const OrderDetailsItem = ({cartItem, orderStatus}) => {
+
   const [openReviewPopup,setOpenReviewPopup] = useState(false);
+
   const closeShowOrderDetailsPopup = () => {
     setOpenReviewPopup(false);
 };
+
   return (
     <div className = "flex justify-center items-center flex-row w-9/12 mb-3 border-2 rounded-lg">
         <div className = "flex flex-col w-2/6 mt-2 ml-4 items-start">
@@ -21,12 +24,13 @@ const OrderDetailsItem = ({cartItem, orderStatus}) => {
           <span>Amount: {cartItem.amount}</span>
           <span>Size: {cartItem.size}</span>
         </div>
-        {orderStatus === "FULFILLED" && <Button className='bg-gray-700 mb-2 mr-10 w-56 h-16 ' onClick={() => setOpenReviewPopup(true)}>Rate the Product</Button>}
+        {orderStatus === "SERVED" && <Button className='bg-gray-700 mb-2 mr-10 w-56 h-16 ' onClick={() => setOpenReviewPopup(true)}>Rate the Product</Button>}
 
 
         {openReviewPopup && 
             
             <Review
+            productId={cartItem.product.id}
             title={cartItem.product.name}
             close= {closeShowOrderDetailsPopup}
             />}

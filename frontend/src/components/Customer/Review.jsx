@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
-import { toast } from 'react-toastify';
+import React, { useState } from "react";
+import { toast } from "react-toastify";
+import Cookies from 'js-cookie';
 
-const Review = ({close, title}) => {
+const Review = ({ productId, close, title }) => {
   const [stars, setStars] = useState(0);
-  const [message, setMessage] = useState('');
+  const [message, setMessage] = useState("");
 
   const handleStarClick = (starValue) => {
     setStars(starValue);
@@ -13,45 +14,93 @@ const Review = ({close, title}) => {
     setMessage(event.target.value);
   };
 
-  const handleSubmit = () => {
-    if(stars<1){
-        toast.warn("review must have at least one star")
-        return;
+  const sendComment = async () => {
+    const token = Cookies.get("token");
+
+    if (!token) {
+      setMessage("No token found. Please login.");
+      return;
     }
-    if(!message){
-        toast.warn("Message field shouln't be empty");
-        return;
+
+    const commentData = {
+      description: message,
+      star: stars,
+      product: {
+        id: productId,
+      }
+    };
+
+    try {
+      const response = await fetch(
+        "http://localhost:8080/customer_only/addComment",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify(commentData),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const result = await response.json();
+      console.log("Success:", result);
+    } catch (error) {
+      console.error("Error:", error);
     }
-    toast.success("Comment added")
-    console.log('Stars:', stars);
-    console.log('Message:', message);
+    window.location.reload();
+  };
+
+  const handleSubmit = (event) => {
+    if (stars < 1) {
+      toast.warn("review must have at least one star");
+      return;
+    }
+    if (!message) {
+      toast.warn("Message field shouln't be empty");
+      return;
+    }
+
+    sendComment(event);
+    toast.success("Comment added");
+    console.log("Stars:", stars);
+    console.log("Message:", message);
 
     setStars(0);
-    setMessage('');
+    setMessage("");
     close();
   };
 
   return (
-    <div className="overlay fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-800/50 bg-opacity-75 z-50 "  >
-
+    <div className="overlay fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-800/50 bg-opacity-75 z-50 ">
       <div className="py-3 sm:max-w-xl sm:mx-auto">
-
         <div className="bg-custom-coffe-brown min-w-1xl flex flex-col rounded-xl shadow-lg">
-
           <div className="px-12 py-5 flex flex-row gap-8">
-            <h2 className="text-white text-center text-3xl font-semibold">Your opinion matters to us!</h2>
-            <button className="bg-gray-700 hover:bg-black  text-white px-4 py-2 rounded-md  "onClick={()=>close()} >X</button>
-
+            <h2 className="text-white text-center text-3xl font-semibold">
+              Your opinion matters to us!
+            </h2>
+            <button
+              className="bg-gray-700 hover:bg-black  text-white px-4 py-2 rounded-md  "
+              onClick={() => close()}
+            >
+              X
+            </button>
           </div>
           <div className="bg-gray-200 w-full flex flex-col items-center">
             <div className="flex flex-col items-center py-6 space-y-3">
-              <span className="text-lg text-gray-800">How was quality of {title}?</span>
+              <span className="text-lg text-gray-800">
+                How was quality of {title}?
+              </span>
               <div className="flex space-x-3">
                 {[1, 2, 3, 4, 5].map((value) => (
                   <svg
                     key={value}
                     className={`w-12 h-12 cursor-pointer ${
-                      value <= stars ? 'text-yellow-300' : 'text-gray-500'
+                      value <= stars ? "text-yellow-300" : "text-gray-500"
                     }`}
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 20 20"
@@ -83,12 +132,9 @@ const Review = ({close, title}) => {
               </button>
             </div>
           </div>
-         
         </div>
-
       </div>
-      </div>
-    
+    </div>
   );
 };
 

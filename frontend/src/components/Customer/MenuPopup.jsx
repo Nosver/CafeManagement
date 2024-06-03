@@ -15,7 +15,7 @@ const MenuPopup = ({
   price,
   imagePath,
   rating,
-  isMultisized
+  isMultisized,
 }) => {
   const navigate = useNavigate();
 
@@ -70,7 +70,6 @@ const MenuPopup = ({
 
       const data = await response.json();
       setCommentArray(data);
-
     } catch (error) {
       console.log(error.message);
     }
@@ -156,7 +155,7 @@ const MenuPopup = ({
 
   useEffect(() => {
     fetchCommentsByProductId();
-  })
+  });
 
   return (
     <div className="overlay fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-800/50 bg-opacity-75 z-50 ">
