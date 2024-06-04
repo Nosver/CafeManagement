@@ -98,7 +98,6 @@ public class UserService {
         nUser.get().setCreatedAt(user.getCreatedAt());
         nUser.get().setTokens(user.getTokens());
 
-        System.out.print(nUser.get());
 
         return userRepository.save(nUser.get());
     }

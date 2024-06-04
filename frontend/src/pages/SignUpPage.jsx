@@ -56,7 +56,7 @@ export const SignUpPage = () => {
         role:"CUSTOMER"
 
     }
-    const response = await fetch('http://localhost:8080/register', {
+    const response = await fetch('http://localhost:8080/registerCustomer', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

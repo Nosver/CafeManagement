@@ -2,6 +2,7 @@ package com.cafe.management.controller;
 
 import com.cafe.management.model.AuthenticationResponse;
 import com.cafe.management.model.User;
+import com.cafe.management.model.enums.Role;
 import com.cafe.management.service.AuthenticationService;
 import jakarta.mail.MessagingException;
 import org.springframework.http.HttpStatus;
@@ -19,10 +20,31 @@ public class AuthenticationController {
         this.authService = authService;
     }
 
-    @PostMapping("/register")
+    @PostMapping("/registerCustomer")
     public ResponseEntity<AuthenticationResponse> register(
             @RequestBody User request) throws MessagingException {
-        return ResponseEntity.ok(authService.register(request));
+        if(request.getRole()== Role.CUSTOMER){
+            return ResponseEntity.ok(authService.register(request));
+        }
+        return ResponseEntity.badRequest().build();
+    }
+
+    @PostMapping("/admin_only/registerAdminAndEmployee")
+    public ResponseEntity<AuthenticationResponse> registerAdminAndEmployee(
+            @RequestBody User request) throws MessagingException {
+            return ResponseEntity.ok(authService.register(request));
+    }
+
+    @PostMapping("/registerFirstAdmin")
+    public ResponseEntity<AuthenticationResponse> registerAdmin(@RequestBody User adminReq) throws MessagingException {
+        // If there is no admin in this state, this method allows anyone to create admin account
+        try {
+            return ResponseEntity.ok(authService.registerFirstAdmin(adminReq));
+        }catch (Exception e){
+            return ResponseEntity.badRequest().build();
+
+        }
+
     }
 
     @PostMapping("/login")

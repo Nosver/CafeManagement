@@ -20,7 +20,7 @@ export const CreateEmployeePopup = ({ closePopup }) => {
     const [address, setAddress] = useState('');
 
 
-    const addEmployee = async () => {
+    const addEmployee = async (event) => {
         
         const token = Cookies.get('token');
         
@@ -41,10 +41,12 @@ export const CreateEmployeePopup = ({ closePopup }) => {
         };
     
         try {
-          const response = await fetch('http://localhost:8080/register', {
+          const response = await fetch('http://localhost:8080/admin_only/registerAdminAndEmployee', {
             method: 'POST',
             headers: {
-              'Content-Type': 'application/json'           
+            'Authorization': `Bearer ${token}`,
+              'Content-Type': 'application/json' ,
+          
             },
             body: JSON.stringify(employeeData)
           });
@@ -56,6 +58,7 @@ export const CreateEmployeePopup = ({ closePopup }) => {
           const result = await response.json();
           console.log('Success:', result);
         } catch (error) {
+            event.preventDefault();
           console.error('Error:', error);
         }
     }
