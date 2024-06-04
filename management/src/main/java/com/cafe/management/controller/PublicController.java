@@ -27,4 +27,5 @@ public class PublicController {
     public ResponseEntity<List<ProductDTO>> getAllProductsWithoutReqStocks(){
         return ResponseEntity.ok(productService.getAllProductsWithoutRequiredStocks());
     }
+
 }

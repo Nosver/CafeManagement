@@ -25,7 +25,7 @@ public class Comment {
 
     private String description;
 
-    private Integer star;
+    private Double star;
 
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id")

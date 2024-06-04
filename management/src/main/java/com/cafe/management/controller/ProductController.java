@@ -57,6 +57,7 @@ public class ProductController {
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
+
     @GetMapping("/getAllProducts")
     public ResponseEntity<List<Product>> getAllProducts(){
         return ResponseEntity.ok(productService.getAllProducts());

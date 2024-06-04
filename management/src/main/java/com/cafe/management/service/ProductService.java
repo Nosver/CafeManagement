@@ -1,6 +1,7 @@
 package com.cafe.management.service;
 
 import com.cafe.management.dto.ProductDTO;
+import com.cafe.management.model.Comment;
 import com.cafe.management.model.Product;
 import com.cafe.management.model.RequiredStock;
 import com.cafe.management.model.Stock;
@@ -11,6 +12,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +28,9 @@ public class ProductService {
     @Autowired
     private StockService stocksService;
 
+    @Autowired
+    private CommentService commentService;
+
     public Product addProduct(Product product){
         
         Optional<Product> existingProduct = productRepository.findProductByName(product.getName());
@@ -40,6 +45,7 @@ public class ProductService {
         Double predictedStock= (double) calculatePredictedStocks(product.getRequiredStocks());
 
         product.setPredictedStock(predictedStock);
+        product.setRating(0.0);
         Product p= productRepository.save(product);
 
 
@@ -75,8 +81,6 @@ public class ProductService {
             }
 
             }
-
-
         return prediction.intValue();
 
     }
@@ -90,18 +94,21 @@ public class ProductService {
         productRepository.deleteById(id);
     }
 
+    @Transactional
     public Product updateProduct(Product updatedProduct){
 
+        /*
         if(productRepository.findProductByName(updatedProduct.getName()).isPresent()){
             throw new IllegalArgumentException("Not possible to change name");
         }
+         */
 
         Long id = updatedProduct.getId();
-        Product product = productRepository.findById(id).orElse(null);
-        if(product == null){
+        Optional<Product> productA = productRepository.findById(id);
+        if(productA.isEmpty()){
             throw new IllegalArgumentException("Product with id " + id + " not found");
         }
-
+        Product product = productA.get();
         // Delete All Required Stock for given product
         requiredStockService.deleteRequiredStocks(product);
 
@@ -115,9 +122,11 @@ public class ProductService {
         product.setImagePath(updatedProduct.getImagePath());
         product.setCategory(updatedProduct.getCategory());
         product.setRequiredStocks(newRequiredStocks);
-        Double predictedStock= (double) calculatePredictedStocks(product.getRequiredStocks());
 
+        Double predictedStock= (double) calculatePredictedStocks(product.getRequiredStocks());
         product.setPredictedStock(predictedStock);
+        product.setRating(updatedProduct.getRating());
+
        return productRepository.save(product);
     }
 
@@ -134,6 +143,7 @@ public class ProductService {
             productdto.setImagePath(p.getImagePath());
             productdto.setIsMultisized(p.getIsMultisized());
             productdto.setPredictedStock(p.getPredictedStock());
+            productdto.setRating(p.getRating());
             res.add(productdto);
         }
         return res;
@@ -164,6 +174,10 @@ public class ProductService {
         response.setCategory(original.getCategory());
         return response;
     }
-    
+
+    public Product updateProductRating(Double rating, Product product){
+        product.setRating(rating);
+        return productRepository.save(product);
+    }
 
 }

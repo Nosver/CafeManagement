@@ -3,8 +3,11 @@ package com.cafe.management.service;
 import com.cafe.management.dto.CommentDTO;
 import com.cafe.management.dto.StarCountDTO;
 import com.cafe.management.model.Comment;
+import com.cafe.management.model.Product;
+import com.cafe.management.model.User;
 import com.cafe.management.repository.CommentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -19,8 +22,21 @@ public class CommentService {
     @Autowired
     private CommentRepository commentRepository;
 
-    public Comment addComment(Comment comment){
-        return commentRepository.save(comment);
+    @Lazy
+    @Autowired
+    private ProductService productService;
+
+    public Comment addComment(Comment comment, User user){
+
+        Double newRating = getProductRatingBasedOnComments(comment.getProduct().getId(),comment.getStar());
+        Product product = productService.getProductById(comment.getProduct().getId());
+
+        comment.setUser(user);
+        Comment c= commentRepository.save(comment);
+        commentRepository.flush();
+        productService.updateProductRating(newRating,product);
+
+        return c;
     }
 
     public Optional<List<Comment>> getCommentsByProductId(Long productId) {
@@ -76,4 +92,28 @@ public class CommentService {
 
         return starCountDTO;
     }
+
+    public Double getProductRatingBasedOnComments(Long id,Double star){
+
+        Optional<List<Comment>> comments = commentRepository.findCommentsByProductId(id);
+        Double productRating = 0.0+star;
+
+        if(comments.isEmpty()){
+            return productRating;
+        }
+
+        for(Comment comment:comments.get()){
+            productRating += comment.getStar();
+        }
+        System.out.println(productRating);
+        System.out.println(comments.get().size());
+
+
+        productRating = productRating / (comments.get().size()+1);
+
+        System.out.println(productRating);
+
+        return productRating;
+    }
+
 }

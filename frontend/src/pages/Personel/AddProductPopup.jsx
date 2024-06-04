@@ -89,7 +89,8 @@ export const AddProductPopup = ({ closePopup }) => {
             })),
             isMultisized: isMultisized,
             category: selectedCategory,
-            imagePath: uploadedImageUrl
+            imagePath: uploadedImageUrl,
+            rating: 0.0
         };
     
         console.log(productData);

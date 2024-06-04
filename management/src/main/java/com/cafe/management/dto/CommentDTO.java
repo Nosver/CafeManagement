@@ -5,7 +5,7 @@ import lombok.Data;
 @Data
 public class CommentDTO {
 
-    private int star;
+    private Double star;
     private String comment;
     private String product;
 }

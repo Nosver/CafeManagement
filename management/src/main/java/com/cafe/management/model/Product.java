@@ -32,6 +32,8 @@ public class Product {
 
     private Double predictedStock;
 
+    private Double rating;
+
     @OneToMany(mappedBy =  "product",cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
     private List<RequiredStock> requiredStocks;
 
@@ -47,5 +49,4 @@ public class Product {
     @OneToMany(mappedBy = "product")
     @JsonIgnore
     private List<Comment> comments;
-
 }

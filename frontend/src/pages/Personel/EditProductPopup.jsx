@@ -79,6 +79,8 @@ export const EditProductPopup = ({ closePopup, selectedProductName }) => {
 
     const [id, setId] = useState('');
 
+    const [rating,setRating] = useState(0);
+
     const handleUpload = async () => {
         const formData = new FormData();
         formData.append('image', selectedFile);
@@ -136,7 +138,8 @@ export const EditProductPopup = ({ closePopup, selectedProductName }) => {
                 })),
                 isMultisized: isMultisized,
                 category: category,
-                imagePath: imgPath
+                imagePath: imgPath,
+                rating: rating
             };
 
 
@@ -188,7 +191,8 @@ export const EditProductPopup = ({ closePopup, selectedProductName }) => {
                 })),
                 isMultisized: isMultisized,
                 category: category,
-                imagePath: uploadedImageUrl
+                imagePath: uploadedImageUrl,
+                rating: rating
             };
 
             console.log(productData);
@@ -247,6 +251,7 @@ export const EditProductPopup = ({ closePopup, selectedProductName }) => {
             setDescription(data.description);
             setImgPath(data.imagePath);
             setCategory(data.category);
+            setRating(data.rating);
             setIsMultisized(data.isMultisized)
             setStocksListParent(prevRequiredStocks => [
                 ...prevRequiredStocks,

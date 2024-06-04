@@ -19,4 +19,5 @@ public class ProductDTO {
     private String imagePath;
     private ProductCategory category;
     private Double predictedStock;
+    private Double rating;
 }

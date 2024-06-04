@@ -14,7 +14,9 @@ const Review = ({ productId, close, title }) => {
     setMessage(event.target.value);
   };
 
-  const sendComment = async () => {
+  const sendComment = async (event) => {
+
+    event.preventDefault();
     const token = Cookies.get("token");
 
     if (!token) {
@@ -30,6 +32,7 @@ const Review = ({ productId, close, title }) => {
       }
     };
 
+    console.log(commentData);
     try {
       const response = await fetch(
         "http://localhost:8080/customer_only/addComment",
@@ -52,7 +55,7 @@ const Review = ({ productId, close, title }) => {
     } catch (error) {
       console.error("Error:", error);
     }
-    window.location.reload();
+    //window.location.reload();
   };
 
   const handleSubmit = (event) => {

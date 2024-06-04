@@ -29,14 +29,15 @@ public class CommentController {
         }
         return null;
     }
-    @PostMapping("/customer_only/addComment")
+    @PostMapping("customer_only/addComment")
     public ResponseEntity<Comment> addComment(@RequestBody Comment comment){
         User user = getUser();
-        comment.setUser(user);
         try{
-            return  ResponseEntity.status(HttpStatus.CREATED).body(commentService.addComment(comment));
+
+            return  ResponseEntity.status(HttpStatus.CREATED).body(commentService.addComment(comment,user));
 
         }catch (Exception e){
+            e.printStackTrace();
             return ResponseEntity.status(HttpStatus.FOUND).build();
         }
     }
