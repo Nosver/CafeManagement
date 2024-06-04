@@ -45,20 +45,16 @@ const MenuPopup = ({
   };
 
   const fetchCommentsByProductId = async () => {
-    const token = Cookies.get("token");
+    //const token = Cookies.get("token");
 
-    if (!token) {
-      setError("No token found");
-      return;
-    }
+    
 
     try {
       const response = await fetch(
-        `http://localhost:8080/customer_only/getCommentsByProductId?id=${id}`,
+        `http://localhost:8080/public/getCommentsByProductId?id=${id}`,
         {
           method: "GET",
           headers: {
-            Authorization: `Bearer ${token}`,
             "Content-Type": "application/json",
           },
         }

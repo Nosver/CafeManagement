@@ -79,7 +79,8 @@ public class UserController {
         if (request.getRole() == Role.CUSTOMER) {
             return ResponseEntity.badRequest().build();
         }
-        return ResponseEntity.ok(userService.updateUser(request));
+        userService.updateUser(request);
+        return ResponseEntity.ok(null);
     }
 
     @PostMapping("/admin_only/updateAdmin")

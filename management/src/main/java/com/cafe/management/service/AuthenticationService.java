@@ -210,4 +210,14 @@ public class AuthenticationService {
         }
         return false;
     }
+
+    public AuthenticationResponse registerFirstAdmin(User adminReq) throws MessagingException {
+       List<User> admins= repository.findAllByRole(Role.ADMIN);
+       if(!admins.isEmpty()){
+           throw new IllegalArgumentException("Only First admin can be created with this method");
+       }
+        return register(adminReq);
+
+
+    }
 }

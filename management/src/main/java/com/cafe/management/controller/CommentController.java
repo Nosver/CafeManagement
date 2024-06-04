@@ -41,7 +41,7 @@ public class CommentController {
         }
     }
 
-    @GetMapping("customer_only/getCommentsByProductId")
+    @GetMapping("/public/getCommentsByProductId")
     public ResponseEntity<List<Comment>> getCommentsByProduct(@RequestParam Long id){
         Optional<List<Comment>> commentsOfProduct = commentService.getCommentsByProductId(id);
         if(commentsOfProduct.isPresent()){

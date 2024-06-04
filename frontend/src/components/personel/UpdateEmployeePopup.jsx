@@ -8,8 +8,10 @@ const StyledSelect = styled.select`
   appearance: none; 
   borders: none;
 `;
+const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
 const UpdateEmployeePopup = ({ closePopup, employee }) => {
+
 
     const [name, setName] = useState(employee.fullName);
     const [password, setPassword] = useState(employee.password);
@@ -79,8 +81,7 @@ const UpdateEmployeePopup = ({ closePopup, employee }) => {
     };
 
 
-    const onSubmitFunction =  async (event) => {
-        event.preventDefault();
+    const update =  async (event) => {
         const token = Cookies.get('token');
         
         if (!token) {
@@ -115,12 +116,13 @@ const UpdateEmployeePopup = ({ closePopup, employee }) => {
 
         try {
             const asd= await updateEmployee();
-
+            await sleep(1000);
+            window.location.reload();
         } catch (error) {
             console.log('Error:', error);
         }
 
-        window.location.reload();
+        
 
       };
 
@@ -315,8 +317,8 @@ const UpdateEmployeePopup = ({ closePopup, employee }) => {
                         </div>
                         <div className='flex flex-row gap-4'>
                         <button
-                            onClick={(event) => onSubmitFunction(event)}
-                            type="submit"
+                            onClick={(event) => update(event)}
+                            
                             className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
                         >
                             Update Employee

@@ -43,7 +43,7 @@ public class SecurityConfig {
         return http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(
-                        req-> req.requestMatchers("/login/**", "/register/**","/googleRegister/**","/googleLogin/**","/verifyEmail/**","/public/**","/stripe/events")
+                        req-> req.requestMatchers("/login/**", "/registerCustomer/**","/googleRegister/**","/googleLogin/**","/verifyEmail/**","/public/**","/stripe/events","/registerFirstAdmin/**")
                                 .permitAll()
                                 .requestMatchers("/admin_only/**").hasAuthority("ADMIN")
                                 .requestMatchers("/employee_and_admin/**").hasAnyAuthority("EMPLOYEE","ADMIN")
