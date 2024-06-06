@@ -122,7 +122,7 @@ public class OrderService {
 
         List<OrderDTO> dtos = new ArrayList<OrderDTO>();
         for (Order order: orders){
-            OrderDTO dto= new OrderDTO(order.getId(),order.getTotalPrice(),order.getCart().getCartItems(),order.getStatus(),order.getCreatedAt(),order.getUser().getFullName());
+            OrderDTO dto= new OrderDTO(order.getId(),order.getTotalPrice(),order.getCart().getCartItems(),order.getStatus(),order.getCreatedAt(),order.getUser().getFullName(), order.getReviewedProducts());
             dtos.add(dto);
         }
         return dtos;

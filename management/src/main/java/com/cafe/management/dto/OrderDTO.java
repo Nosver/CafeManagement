@@ -30,4 +30,6 @@ public class OrderDTO {
 
     private String userName;
 
+    private List<String> reviewedProducts;
+
 }
