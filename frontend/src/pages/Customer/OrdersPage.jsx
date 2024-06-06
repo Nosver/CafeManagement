@@ -33,7 +33,7 @@ const OrdersPage = () => {
     try {
       setIsLoading(true);
       const response = await fetch(
-        "http://localhost:8080/customer_only/getOrdersForCustomer",
+        "http://localhost:8080/customer_only/getOrdersByCustomerId",
         {
           method: "GET",
           headers: {

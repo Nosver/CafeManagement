@@ -111,6 +111,18 @@ public class OrderService {
         return dtos;
     }
 
+    @Transactional
+    public List<OrderDTO> getAllOrdersByCustomerId(Long userId){
+        List<Order> orders = orderRepository.findOrdersByUserId(userId);
+
+        List<OrderDTO> dtos = new ArrayList<OrderDTO>();
+        for (Order order: orders){
+            OrderDTO dto= new OrderDTO(order.getId(),order.getTotalPrice(),order.getCart().getCartItems(),order.getStatus(),order.getCreatedAt(),order.getUser().getFullName());
+            dtos.add(dto);
+        }
+        return dtos;
+    }
+
 
     @Transactional
     public void cancelOrder(Order order) throws BadRequestException {

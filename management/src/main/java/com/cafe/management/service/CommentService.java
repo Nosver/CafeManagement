@@ -108,7 +108,6 @@ public class CommentService {
         System.out.println(productRating);
         System.out.println(comments.get().size());
 
-
         productRating = productRating / (comments.get().size()+1);
 
         System.out.println(productRating);

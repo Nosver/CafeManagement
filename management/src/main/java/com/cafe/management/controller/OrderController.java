@@ -6,6 +6,7 @@ import com.cafe.management.dto.OrderDTO;
 import com.cafe.management.model.Cart;
 import com.cafe.management.model.Order;
 import com.cafe.management.model.Stock;
+import com.cafe.management.model.User;
 import com.cafe.management.response.PaymentResponse;
 import com.cafe.management.service.OrderService;
 import com.cafe.management.service.impl.PaymentService;
@@ -29,6 +30,8 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -96,8 +99,6 @@ public class OrderController {
 
             orderService.processOrder(session.getId());
         }
-
-
     }
 
     @Value("${STRIPE_SECRET_KEY}")
@@ -130,6 +131,21 @@ public class OrderController {
         return ResponseEntity.ok(orderService.getAllOrders());
     }
 
+    @GetMapping("customer_only/getOrdersByCustomerId")
+    public ResponseEntity<List<OrderDTO>> getOrdersByCustomerId() {
+        User user = getUser();
+        return ResponseEntity.ok(orderService.getAllOrdersByCustomerId(user.getId()));
+    }
+
+    private User getUser(){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication.getPrincipal() instanceof User) {
+            User user = (User) authentication.getPrincipal();
+            return user;
+        }
+        return null;
+    }
+
     /*
     @PostMapping("employee_and_admin/cancelOrder")
     public ResponseEntity<String> cancelOrder(@RequestBody Order order) {
@@ -144,7 +160,6 @@ public class OrderController {
         }
     }
     */
-
 
     @PostMapping("customer_only/cancelOrder")
     public ResponseEntity<Long> cancelOrder(@RequestParam Long orderId) {
