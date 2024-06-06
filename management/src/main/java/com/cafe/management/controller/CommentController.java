@@ -29,7 +29,7 @@ public class CommentController {
         }
         return null;
     }
-    
+
     @PostMapping("customer_only/addComment/{orderId}")
     public ResponseEntity<Comment> addComment(@RequestBody Comment comment, @PathVariable("orderId") Long orderId){
         User user = getUser();
@@ -43,7 +43,7 @@ public class CommentController {
         }
     }
 
-    @GetMapping("/public/getCommentsByProductId")
+    @GetMapping("public/getCommentsByProductId")
     public ResponseEntity<List<Comment>> getCommentsByProduct(@RequestParam Long id){
         Optional<List<Comment>> commentsOfProduct = commentService.getCommentsByProductId(id);
         if(commentsOfProduct.isPresent()){

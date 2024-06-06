@@ -56,6 +56,7 @@ public class OrderService {
 
 
     }
+    
     public void processOrder(String sessionId ){
         /*
          * Get cart by session id
@@ -84,6 +85,7 @@ public class OrderService {
         productService.recalculatePredictedStocks();
 
         List<String> reviewedProductEmpty = new ArrayList<String>();
+        reviewedProductEmpty.add(" ");
 
         Order order= new Order();
         order.setUser(cart.get().getUser());
