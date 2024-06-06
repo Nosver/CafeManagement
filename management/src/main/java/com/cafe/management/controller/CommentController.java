@@ -29,12 +29,13 @@ public class CommentController {
         }
         return null;
     }
-    @PostMapping("customer_only/addComment")
-    public ResponseEntity<Comment> addComment(@RequestBody Comment comment){
+    
+    @PostMapping("customer_only/addComment/{orderId}")
+    public ResponseEntity<Comment> addComment(@RequestBody Comment comment, @PathVariable("orderId") Long orderId){
         User user = getUser();
         try{
 
-            return  ResponseEntity.status(HttpStatus.CREATED).body(commentService.addComment(comment,user));
+            return  ResponseEntity.status(HttpStatus.CREATED).body(commentService.addComment(comment, user, orderId));
 
         }catch (Exception e){
             e.printStackTrace();

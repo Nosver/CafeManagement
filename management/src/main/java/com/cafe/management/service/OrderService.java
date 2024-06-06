@@ -83,12 +83,15 @@ public class OrderService {
         //update predicted stocks
         productService.recalculatePredictedStocks();
 
+        List<String> reviewedProductEmpty = new ArrayList<String>();
+
         Order order= new Order();
         order.setUser(cart.get().getUser());
         order.setCart(cart.get());
         order.setTotalPrice(cart.get().getTotalPrice());
         order.setStatus(Status.ORDER_RECEIVED);
-        Order savedOrder =orderRepository.save(order);
+        order.setReviewedProducts(reviewedProductEmpty);
+        Order savedOrder = orderRepository.save(order);
 
         cart.get().setOrder(savedOrder);
         cartService.addCart(cart.get());
@@ -194,6 +197,13 @@ public class OrderService {
         }else {
             throw new IllegalArgumentException("Order with id " + orderId + " not found.");
         }
+    }
+    
+    public Optional<Order> findOrderById(Long orderId) {
+        return orderRepository.findById(orderId);
+    }
+    public void saveOrder(Order order) {
+        orderRepository.save(order);
     }
 
 }

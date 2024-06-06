@@ -5,7 +5,7 @@ import { useState } from 'react';
 import Review from './Customer/Review';
 
 
-const OrderDetailsItem = ({cartItem, orderStatus}) => {
+const OrderDetailsItem = ({cartItem, orderStatus, orderId}) => {
 
   const [openReviewPopup,setOpenReviewPopup] = useState(false);
 
@@ -24,7 +24,9 @@ const OrderDetailsItem = ({cartItem, orderStatus}) => {
           <span>Amount: {cartItem.amount}</span>
           <span>Size: {cartItem.size}</span>
         </div>
-        {orderStatus === "SERVED" && <Button className='bg-gray-700 mb-2 mr-10 w-56 h-16 ' onClick={() => setOpenReviewPopup(true)}>Rate the Product</Button>}
+        {orderStatus === "SERVED" 
+        && true // check if this product is commented
+        && <Button className='bg-gray-700 mb-2 mr-10 w-56 h-16 ' onClick={() => setOpenReviewPopup(true)}>Rate the Product</Button>}
 
 
         {openReviewPopup && 
@@ -33,6 +35,7 @@ const OrderDetailsItem = ({cartItem, orderStatus}) => {
             productId={cartItem.product.id}
             title={cartItem.product.name}
             close= {closeShowOrderDetailsPopup}
+            orderId={orderId}
             />}
 
         </div>
