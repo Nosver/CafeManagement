@@ -4,6 +4,7 @@ import com.cafe.management.dto.CommentDTO;
 import com.cafe.management.dto.StarCountDTO;
 import com.cafe.management.model.Comment;
 import com.cafe.management.model.User;
+import com.cafe.management.repository.CommentRepository;
 import com.cafe.management.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,6 +21,7 @@ public class CommentController {
 
     @Autowired
     private CommentService commentService;
+
 
     private User getUser(){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -63,4 +65,6 @@ public class CommentController {
     public StarCountDTO getStarCounts(){
         return commentService.getStarCounts();
     }
+
+    
 }

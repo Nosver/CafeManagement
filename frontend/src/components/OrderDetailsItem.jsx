@@ -5,7 +5,7 @@ import { useState } from 'react';
 import Review from './Customer/Review';
 
 
-const OrderDetailsItem = ({cartItem, orderStatus, orderId}) => {
+const OrderDetailsItem = ({cartItem, orderStatus, orderId, reviewedProducts}) => {
 
   const [openReviewPopup,setOpenReviewPopup] = useState(false);
 
@@ -25,7 +25,7 @@ const OrderDetailsItem = ({cartItem, orderStatus, orderId}) => {
           <span>Size: {cartItem.size}</span>
         </div>
         {orderStatus === "SERVED" 
-        && true // check if this product is commented
+        && !reviewedProducts.includes(cartItem.product.name)
         && <Button className='bg-gray-700 mb-2 mr-10 w-56 h-16 ' onClick={() => setOpenReviewPopup(true)}>Rate the Product</Button>}
 
 
