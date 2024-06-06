@@ -55,7 +55,7 @@ const Review = ({ productId, close, title, orderId }) => {
     } catch (error) {
       console.error("Error:", error);
     }
-    //window.location.reload();
+    window.location.reload();
   };
 
   const handleSubmit = (event) => {

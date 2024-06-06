@@ -13,7 +13,7 @@ const OrderDetailsItem = ({cartItem, orderStatus, orderId, reviewedProducts}) =>
     setOpenReviewPopup(false);
 };
 
-  alreadyCommented = reviewedProducts.includes(cartItem.product.name);
+  let alreadyCommented = reviewedProducts.includes(cartItem.product.name);
 
   return (
     <div className = "flex justify-center items-center flex-row w-9/12 mb-3 border-2 rounded-lg">
