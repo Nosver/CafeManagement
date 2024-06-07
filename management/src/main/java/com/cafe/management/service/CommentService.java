@@ -63,9 +63,9 @@ public class CommentService {
         StarCountDTO starCountDTO = new StarCountDTO();
 
         for (Object[] starCount : starCounts) {
-            Integer star = (Integer) starCount[0];
+            Double star = (Double) starCount[0];
             Long count = (Long) starCount[1];
-            switch (star) {
+            switch (star.intValue()) {
                 case 1:
                     starCountDTO.setOneStar(count);
                     break;
