@@ -173,8 +173,9 @@ const whoAmI = async () => {
             {ROLE === "ADMIN" && (
               <>
                 <LastTransactions />
+                {/*
                 <ProfitChart />
-                <ExpenditureIncome />
+                <ExpenditureIncome />*/}
               </>
             )}
 

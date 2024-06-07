@@ -159,9 +159,9 @@ export const Customers = () => {
                                             <th scope="col" class="px-6 py-3">
                                                 Customer E-mail
                                             </th>
-                                            <th scope="col" class="px-6 py-3">
+                                           {/* <th scope="col" class="px-6 py-3">
                                                 Total Spendings
-                                            </th>
+                                            </th> */}
                                             <th scope="col" class="px-6 py-3">
                                                 Phone
                                             </th>
@@ -221,9 +221,9 @@ export const Customers = () => {
                                                     <div class="text-sm text-gray-900">{customersArray.email}</div>
                                                 </td>
 
-                                                <td class="px-6 py-4 whitespace-nowrap">
+                                                {/*<td class="px-6 py-4 whitespace-nowrap">
                                                     <div class="text-sm text-gray-500">${customersArray.totalSpendings}</div>
-                                                </td>
+                                                </td> */}
                                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                                                     {customersArray.phone}
                                                 </td>
