@@ -30,4 +30,5 @@ public class CartItem {
     private ProductSize size;
 
     private int amount;
+
 }

@@ -3,6 +3,7 @@ package com.cafe.management.service;
 import com.cafe.management.dto.CommentDTO;
 import com.cafe.management.dto.StarCountDTO;
 import com.cafe.management.model.Comment;
+import com.cafe.management.model.Order;
 import com.cafe.management.model.Product;
 import com.cafe.management.model.User;
 import com.cafe.management.repository.CommentRepository;
@@ -16,6 +17,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import javax.naming.NameNotFoundException;
+
 @Service
 public class CommentService {
 
@@ -26,7 +29,11 @@ public class CommentService {
     @Autowired
     private ProductService productService;
 
-    public Comment addComment(Comment comment, User user){
+    @Lazy
+    @Autowired
+    private OrderService orderService;
+
+    public Comment addComment(Comment comment, User user, Long orderId){
 
         Double newRating = getProductRatingBasedOnComments(comment.getProduct().getId(),comment.getStar());
         Product product = productService.getProductById(comment.getProduct().getId());
@@ -36,7 +43,23 @@ public class CommentService {
         commentRepository.flush();
         productService.updateProductRating(newRating,product);
 
+        // Set cartItems as reviewed
+        addReviewProductToOrder(orderId, product.getName());
+
         return c;
+    }
+
+    public void addReviewProductToOrder(Long orderId, String reviewedProduct){
+        Optional<Order> order = orderService.findOrderById(orderId);
+
+        if(!order.isPresent()){
+            throw new IllegalArgumentException("Given name not found!");
+        }
+
+        order.get().getReviewedProducts().add(reviewedProduct);
+        orderService.saveOrder(order.get());
+
+
     }
 
     public Optional<List<Comment>> getCommentsByProductId(Long productId) {

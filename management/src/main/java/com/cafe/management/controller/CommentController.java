@@ -4,6 +4,7 @@ import com.cafe.management.dto.CommentDTO;
 import com.cafe.management.dto.StarCountDTO;
 import com.cafe.management.model.Comment;
 import com.cafe.management.model.User;
+import com.cafe.management.repository.CommentRepository;
 import com.cafe.management.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,6 +22,7 @@ public class CommentController {
     @Autowired
     private CommentService commentService;
 
+
     private User getUser(){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication.getPrincipal() instanceof User) {
@@ -29,12 +31,13 @@ public class CommentController {
         }
         return null;
     }
-    @PostMapping("customer_only/addComment")
-    public ResponseEntity<Comment> addComment(@RequestBody Comment comment){
+
+    @PostMapping("customer_only/addComment/{orderId}")
+    public ResponseEntity<Comment> addComment(@RequestBody Comment comment, @PathVariable("orderId") Long orderId){
         User user = getUser();
         try{
 
-            return  ResponseEntity.status(HttpStatus.CREATED).body(commentService.addComment(comment,user));
+            return  ResponseEntity.status(HttpStatus.CREATED).body(commentService.addComment(comment, user, orderId));
 
         }catch (Exception e){
             e.printStackTrace();
@@ -42,7 +45,7 @@ public class CommentController {
         }
     }
 
-    @GetMapping("/public/getCommentsByProductId")
+    @GetMapping("public/getCommentsByProductId")
     public ResponseEntity<List<Comment>> getCommentsByProduct(@RequestParam Long id){
         Optional<List<Comment>> commentsOfProduct = commentService.getCommentsByProductId(id);
         if(commentsOfProduct.isPresent()){
@@ -62,4 +65,6 @@ public class CommentController {
     public StarCountDTO getStarCounts(){
         return commentService.getStarCounts();
     }
+
+    
 }

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { toast } from "react-toastify";
 import Cookies from 'js-cookie';
 
-const Review = ({ productId, close, title }) => {
+const Review = ({ productId, close, title, orderId }) => {
   const [stars, setStars] = useState(0);
   const [message, setMessage] = useState("");
 
@@ -35,7 +35,7 @@ const Review = ({ productId, close, title }) => {
     console.log(commentData);
     try {
       const response = await fetch(
-        "http://localhost:8080/customer_only/addComment",
+        "http://localhost:8080/customer_only/addComment/" + orderId,
         {
           method: "POST",
           headers: {
@@ -55,7 +55,7 @@ const Review = ({ productId, close, title }) => {
     } catch (error) {
       console.error("Error:", error);
     }
-    //window.location.reload();
+    window.location.reload();
   };
 
   const handleSubmit = (event) => {

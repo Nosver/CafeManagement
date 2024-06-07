@@ -47,6 +47,8 @@ const OrdersPage = () => {
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
+      
+      console.log("Orders", response);
 
       const data = await response.json();
       setOrdersArray(data);

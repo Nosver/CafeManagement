@@ -29,4 +29,7 @@ public class OrderDTO {
     private Timestamp createdAt;
 
     private String userName;
+
+    private List<String> reviewedProducts;
+
 }

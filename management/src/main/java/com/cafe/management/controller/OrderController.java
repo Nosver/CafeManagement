@@ -7,6 +7,7 @@ import com.cafe.management.model.Cart;
 import com.cafe.management.model.Order;
 import com.cafe.management.model.Stock;
 import com.cafe.management.model.User;
+import com.cafe.management.repository.OrderRepository;
 import com.cafe.management.response.PaymentResponse;
 import com.cafe.management.service.OrderService;
 import com.cafe.management.service.impl.PaymentService;
@@ -35,6 +36,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @PropertySource("classpath:secret.properties")
@@ -44,6 +46,9 @@ public class OrderController {
 
     @Autowired
     private OrderService orderService;
+
+    @Autowired
+    private OrderRepository orderRepository;
 
     @PostMapping("customer_only/order")
     public ResponseEntity<PaymentResponse> createOrder(@RequestBody Cart cart) throws StripeException {
@@ -180,5 +185,12 @@ public class OrderController {
         }
         return ResponseEntity.ok(updatedOrder);
     }
+
+    @GetMapping("public/asd")
+    public List<String> asd(){
+        Optional<Order> asdasd = orderRepository.findById(22);
+        return asdasd.get().getReviewedProducts();
+    }
+
 
 }
