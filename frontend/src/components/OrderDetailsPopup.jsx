@@ -74,7 +74,7 @@ export const OrderDetailsPopup = ({ order, closePopup }) => {
                 <div className='flex flex-col items-center justify-center mt-2'>
                     {renderOrderItems()}
                     <div className='flex flex-row w-4/6 items-center justify-between'>
-                        <span>Total Price: {order.totalPrice}₺</span>
+                        <span>Total Price: {order.totalPrice && order.totalPrice.toFixed(2)}₺</span>
                         {order.status === "ORDER_RECEIVED" && <Button className='bg-gray-700 mb-2' onClick={cancelOrderSubmit}>Cancel Order</Button>}
                     </div>
                 </div>

@@ -266,7 +266,7 @@ export const Orders = () => {
                             .substring(0, 24)}
                         </td>
                         <td class="px-6 py-4">
-                          ${orderA.totalPrice.toFixed(2)}
+                          {orderA.totalPrice.toFixed(2)}₺
                         </td>
                         <td
                           class="px-6 py-4"
