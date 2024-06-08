@@ -62,6 +62,8 @@ const LoginPage = () => {
       const decodedToken = jwtDecode(token);
       const requestBody = {
         email: decodedToken.email,
+        fullName: decodedToken.name,
+        avatar: decodedToken.picture
       };
       const response = await fetch('http://localhost:8080/googleLogin', {
         method: 'POST',
