@@ -9,7 +9,7 @@ const MenuItem = (props) => {
 
   return (
     <div className="menu-item bg-white border border-gray-300 rounded-md overflow-hidden " >
-      <img src={props.imagePath} alt="Item Image" className="mt-5 ml-5 mb-5 w-36 h-36 object-cover float-left mr-8" />
+      <img src={props.imagePath} alt="Item Image" className="mt-5 ml-5 mb-5 w-36 h-36 object-cover float-left mr-8 rounded-lg" />
       <div className="menu-item-info py-5">
         <h2 className="text-xl font-semibold">{props.name}</h2>
         <p className="text-gray-600 mb-2">{props.description}</p>
