@@ -126,7 +126,9 @@ public class CartItemService {
         // check if predicted stock is available
         if (item.get().getProduct().getPredictedStock() > cartItem.getAmount()) {
             item.get().setAmount(cartItem.getAmount());
-            item.get().setSize(cartItem.getSize());
+            if(item.get().getProduct().getIsMultisized()){
+                item.get().setSize(cartItem.getSize());
+            }
             CartItem saved = cartItemRepository.save(item.get());
 
             // recalculate total price of cart

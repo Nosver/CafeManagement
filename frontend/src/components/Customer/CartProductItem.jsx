@@ -9,7 +9,7 @@ import { toast } from 'react-toastify';
 export const CartProductItem = ({ cartItem }) => {
     const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
-    const [isLoading,setIsLoading]= useState(false);
+    const [isLoading, setIsLoading] = useState(false);
 
 
     const updateCartItem = async (cartItem) => {
@@ -28,7 +28,7 @@ export const CartProductItem = ({ cartItem }) => {
                 body: JSON.stringify(cartItem)
             });
             setIsLoading(false)
-           
+
             if (!response.ok) {
                 toast.error("Not enough stock for this product.")
                 await sleep(1000)
@@ -56,7 +56,7 @@ export const CartProductItem = ({ cartItem }) => {
             }
         })
 
-        if(!response.ok) {
+        if (!response.ok) {
             toast.error("An error occurred while removing item from cart")
             return;
         }
@@ -96,11 +96,11 @@ export const CartProductItem = ({ cartItem }) => {
 
     useEffect(() => {
         let sizeConstant = 1.0;
-        if(cartItem.size == 'SMALL')
+        if (cartItem.size == 'SMALL')
             sizeConstant = 0.9;
-        else if(cartItem.size == 'MEDIUM')
+        else if (cartItem.size == 'MEDIUM')
             sizeConstant = 1.0;
-        else if(cartItem.size == 'LARGE')
+        else if (cartItem.size == 'LARGE')
             sizeConstant = 1.1;
 
         setTotalPrice((cartItem.product.price * cartItem.amount * sizeConstant).toFixed(2));
@@ -113,16 +113,20 @@ export const CartProductItem = ({ cartItem }) => {
                 <h6 className="font-semibold text-base leading-7 text-black">{cartItem.product.name}</h6>
 
                 <div>
-                    <select label="Select Version" class="w-28 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        value={selectedSize}
-                        onChange={handleSizeChange}
-                    >
+                    {cartItem.product.isMultisized &&
+                        <select label="Select Version" class="w-28 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            value={selectedSize}
+                            onChange={handleSizeChange}
+                        >
 
-                        <option value="SMALL" {...(cartItem.size === 'SMALL' && { selected: true })}>Small</option>
-                        <option value="MEDIUM" {...(cartItem.size === 'MEDIUM' && { selected: true })}>Medium</option>
-                        <option value="LARGE" {...(cartItem.size === 'LARGE' && { selected: true })}>Large</option>
+                            <option value="SMALL" {...(cartItem.size === 'SMALL' && { selected: true })}>Small</option>
+                            <option value="MEDIUM" {...(cartItem.size === 'MEDIUM' && { selected: true })}>Medium</option>
+                            <option value="LARGE" {...(cartItem.size === 'LARGE' && { selected: true })}>Large</option>
 
-                    </select>
+                        </select>
+                    }
+                    {!cartItem.product.isMultisized && <option disabled value="MEDIUM" {...(cartItem.size === 'MEDIUM' && { selected: true })}>Medium</option>
+                    }
                 </div>
 
                 <h6 className="font-semibold text-base leading-7 text-indigo-600">{totalPrice / cartItem.amount}₺</h6>
