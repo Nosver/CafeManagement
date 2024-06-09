@@ -5,12 +5,15 @@ Welcome to the Cafe Management System project! This repository contains the sour
 ## Contents
 - [Description](#description)
 - [Getting Started](#getting-started)
-  - [Prerequisites](#prerequisites)
-  - [Necessary files for configuration](#necessary-files-for-configuration)
-  - [Running the Application](#running-the-application)
-  - [Running Frontend](#running-frontend)
-  - [Running Backend](#running-backend)
-- [How to configure secret.properties](#how-to-configure-secretproperties)
+   - [Prerequisites](#prerequisites)
+   - [Necessary files for configuration](#necessary-files-for-configuration)
+   - [Running the Application](#running-the-application)
+   - [Running Frontend](#running-frontend)
+   - [Running Backend](#running-backend)
+   - [Running Stripe CLI](#running-stripe-cli)
+- [Configurations](#configurations)
+   - [How to configure secret.properties](#how-to-configure-secretproperties)
+   - [Configuring the .env file](#configuring-the-env-file)
 
 ## Description
 
@@ -23,16 +26,18 @@ The Cafe Management System is aimed at helping cafe owners manage various aspect
 - [Git](https://git-scm.com/)
 - [Java Development Kit (JDK)](https://www.oracle.com/java/technologies/javase-jdk11-downloads.html)
 - [Maven](https://maven.apache.org/) or [Gradle](https://gradle.org/)
+- [Stripe CLI](https://stripe.com/docs/stripe-cli)
 
 ### Necessary files for configuration
 
-- secret.properties
+- `secret.properties`
   - **Project will NOT run without this file.**  
   - This file should be placed in the `management/src/main/resources` directory.
   - How to configure: See [How to configure secret.properties](#how-to-configure-secretproperties)
 
-- .env
+- `.env`
   - This file should be placed in the `frontend` directory.
+  - How to configure: See [Configuring the .env file](#configuring-the-env-file)
   
 ### Running the Application
 
@@ -85,6 +90,13 @@ The Cafe Management System is aimed at helping cafe owners manage various aspect
    ./gradlew bootRun
    ```
 
+### Running Stripe cli
+   ```bash
+   stripe listen --forward-to localhost:8080/stripe/events
+   ```
+
+## Configurations
+
 ### How to configure secret.properties
 
 The application requires a `secret.properties` file for configuration. This file should be placed in the `src/main/resources` directory. Here's what it should contain:
@@ -118,3 +130,16 @@ spring.mail.properties.mail.smtp.starttls.enable=true
 # Azure Blob Storage Configuration
 azure.blob-storage.connection-string=your_azure_blob_storage_connection_string
 spring.cloud.azure.storage.blob.container-name=your_azure_blob_storage_container_name
+```
+
+### Configuring the .env file
+
+The `.env` file is used to set environment variables for your application. The file should be located at `frontend/.env`.
+
+Here's an example of what your `.env` file might look like:
+
+```properties
+VITE_GOOGLE_CLIENT_ID=your-google-client-id
+```
+
+How to get Google Client ID: [Google Developers Console](https://console.developers.google.com/)
