@@ -15,48 +15,47 @@ const predefinedStocks = [
     { name: 'Flour', unit: 'gr' }
 ];
 
-
-
 export const Products = () => {
     const [isLoading, setIsLoading] = useState(false);
 
 
     const fetchProducts = async () => {
         const token = Cookies.get('token');
-        
+
         if (!token) {
-          setError('No token found');
-          return;
+            setError('No token found');
+            return;
         }
-  
+
         try {
             setIsLoading(true);
-          const response = await fetch('http://localhost:8080/employee_and_admin/getAllProductsWithoutRequiredStocks', {
-            method: 'GET',
-            headers: {
-              'Authorization': `Bearer ${token}`,
-              'Content-Type': 'application/json'
+            const response = await fetch('http://localhost:8080/employee_and_admin/getAllProductsWithoutRequiredStocks', {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                }
+            });
+            setIsLoading(false)
+
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
             }
-          });
-          setIsLoading(false)
 
-  
-          if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-          }
-  
-          const data = await response.json();
+            const data = await response.json();
 
-          setProductsArray(data);
-          setProductsShow(data);
+            setProductsArray(data);
+            setProductsShow(data);
+            console.log("Products", data);
 
         } catch (error) {
-          setError(error.message);
+            setError(error.message);
         }
-      };
+    };
 
     useEffect(() => {
-        
+
         fetchProducts();
         console.log("Products useEffect Called!")
     }, []);
@@ -76,18 +75,18 @@ export const Products = () => {
     const openPopup_edit = () => setShowPopup_edit(true);
     const closePopup_edit = () => setShowPopup_edit(false);
 
-    const [selectedProduct, setSelectedProduct]= useState();
+    const [selectedProduct, setSelectedProduct] = useState();
 
     const searchButtonSubmit = (keyword) => {
-        if(keyword == ''){
-            if(productsShow.length != productsArray.length)
+        if (keyword == '') {
+            if (productsShow.length != productsArray.length)
                 setProductsShow(productsArray);
             return;
         }
 
-        let newArr = productsArray.filter( product =>
+        let newArr = productsArray.filter(product =>
             product.name.toLowerCase().includes(keyword.toLowerCase())
-        );   
+        );
         setProductsShow(newArr);
     }
 
@@ -103,7 +102,7 @@ export const Products = () => {
             <div class="p-4 sm:ml-64">
                 <div class="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700">
                     <div class='flex flex-row w-6/6 mb-3'>
-                        <SearchBar searchButtonSubmit = {searchButtonSubmit} class='mr-auto'></SearchBar>
+                        <SearchBar searchButtonSubmit={searchButtonSubmit} class='mr-auto'></SearchBar>
                         <InsertButton description="Add new product" onClick={openPopup} />
                     </div>
                     <div className="flex h-screen overflow-hidden">
@@ -143,12 +142,12 @@ export const Products = () => {
 
                                         {showPopup &&
                                             <AddProductPopup
-                                            closePopup={closePopup}
+                                                closePopup={closePopup}
                                             />
                                         }
 
                                         {showPopup_edit &&
-                                            <EditProductPopup selectedProductName={selectedProduct.name} closePopup={closePopup_edit}/>
+                                            <EditProductPopup selectedProductName={selectedProduct.name} closePopup={closePopup_edit} />
                                         }
 
                                         {productsShow.map((product, index) => (
@@ -156,7 +155,7 @@ export const Products = () => {
                                                 key={index}
                                                 onClick={() => setSelectedProduct(product)}
                                                 class={`
-                                            ${product.quantity == 1 ? 'bg-red-400' : product.quantity < 5 ? 'bg-red-300' : product.quantity < 10 ? 'bg-red-200' : product.quantity < 20 ? 'bg-red-100' : 'bg-white'} border-b dark:bg-gray-800 dark:border-black-700 hover:bg-white dark:hover:bg-gray-600 }`}
+                                            ${product.quantity <= 1 ? 'bg-red-400' : product.quantity < 5 ? 'bg-red-300' : product.quantity < 10 ? 'bg-red-200' : product.quantity < 20 ? 'bg-red-100' : 'bg-white'} border-b dark:bg-gray-800 dark:border-black-700 hover:bg-white dark:hover:bg-gray-600 }`}
                                             >
                                                 <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                                     {product.id}
@@ -211,7 +210,7 @@ export const Products = () => {
                                         </svg>
                                         <span className="sr-only">Loading...</span>
                                     </div>
-                        )}
+                                )}
                             </main>
                         </div>
                     </div>

@@ -16,4 +16,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     @Query("Select p From Product p WHERE p.predictedStock > 0")
     public List<Product> getAllProductsWithStocks();
 
+    @Query("Select p From Product p")
+    public List<Product> getAllProductsWithStocksForERP();
+
 }
