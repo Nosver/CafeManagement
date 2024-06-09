@@ -65,7 +65,7 @@ public class ProductController {
 
     @GetMapping("/getAllProductsWithoutRequiredStocks")
     public ResponseEntity<List<ProductDTO>> getAllProductsWithoutReqStocks(){
-        return ResponseEntity.ok(productService.getAllProductsWithoutRequiredStocks());
+        return ResponseEntity.ok(productService.getAllProductsWithoutRequiredStocksForERP());
     }
 
     @GetMapping("/getProductByName") // Usage: http://XXXX/getProductByName?name=productname
