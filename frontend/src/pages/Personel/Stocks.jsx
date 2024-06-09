@@ -114,7 +114,7 @@ export const Stocks = () => {
                                         Unit Type
                                     </th>
                                     <th scope="col" class="px-6 py-3">
-                                        Unit Price
+                                        Price (KG, L)
                                     </th>
 
                                     <th scope="col" class="px-6 py-3">
@@ -144,6 +144,7 @@ export const Stocks = () => {
                                 
 
                                 {stocksShow.map((stock, index) => (
+                                    
                                     <tr key={index}
                                         class={`${stock.quantity == 1 ? 'bg-red-400' : stock.quantity < 5 ? 'bg-red-300' : stock.quantity < 10 ? 'bg-red-200' : stock.quantity < 20 ? 'bg-red-100' : 'bg-white'} border-b dark:bg-gray-800 dark:border-black-700 hover:bg-white dark:hover:bg-gray-600 }`}>
                                         <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">{stock.id}</th>
@@ -151,8 +152,7 @@ export const Stocks = () => {
                                         <td class="px-6 py-4">{stock.quantity}</td>
                                         <td class="px-6 py-4">{stock.stockUnit ? stock.stockUnit.toLowerCase() : ''}</td>
                                         <td class="px-6 py-4">{stock.unitPrice}₺</td>
-                                        <td class="px-6 py-4">{(stock.quantity * stock.unitPrice).toFixed(2)}₺</td>
-                                        <td class="px-6 py-4">
+                                        <td class="px-6 py-4">{((stock.quantity * stock.unitPrice).toFixed(2) / (stock.stockUnit === "GRAM" || stock.stockUnit === "MILLILITER" ? 1000 : 1))}₺</td>                                        <td class="px-6 py-4">
                                             <div onClick={() => openPopup_edit(stock)} className="font-medium text-blue-600 dark:text-blue-500 hover:underline cursor-pointer">Edit</div>
                                         </td>
                                     </tr>

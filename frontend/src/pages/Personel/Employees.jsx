@@ -168,7 +168,7 @@ export const Employees = () => {
                         <td class="px-6 py-4">{Employee.email || ""}</td>
                         <td class="px-6 py-4">{Employee.phone || ""}</td>
                         <td class="px-6 py-4">{Employee.address || ""}</td>
-                        <td class="px-6 py-4">${Employee.salary || ""}</td>
+                        <td class="px-6 py-4">{Employee.salary || ""} ₺</td>
                         <td class="px-6 py-4">{Employee.position || ""}</td>
                         <td class="px-6 py-4">
                           <div
