@@ -11,25 +11,12 @@ const AdvertiseSection = () => {
 
         <section className = 'flex flex-row w-full items-center justify-center'>
             <AdvertiseBox
-            image= {image2}
+            image= {"https://publiccafein.blob.core.windows.net/publiccafein/Ads 1.jpeg"}
             title="Special Offer"
             description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla vel odio ut urna volutpat vestibulum."
             />
             <AdvertiseBox
-            image= {image2}
-            title="Special Offer"
-            description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla vel odio ut urna volutpat vestibulum."
-            />
-        </section>
-
-        <section className = 'flex flex-row w-full items-center justify-center'>
-            <AdvertiseBox
-            image = {image}
-            title="Special Offer"
-            description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla vel odio ut urna volutpat vestibulum."
-            />
-            <AdvertiseBox
-            image = {image}
+            image= {"https://publiccafein.blob.core.windows.net/publiccafein/Ads 3.jpeg"}
             title="Special Offer"
             description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla vel odio ut urna volutpat vestibulum."
             />
@@ -37,12 +24,25 @@ const AdvertiseSection = () => {
 
         <section className = 'flex flex-row w-full items-center justify-center'>
             <AdvertiseBox
-            image= {image}
+            image = {"https://publiccafein.blob.core.windows.net/publiccafein/Ads 4.jpeg"}
             title="Special Offer"
             description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla vel odio ut urna volutpat vestibulum."
             />
             <AdvertiseBox
-            image= {image2}
+            image = {"https://publiccafein.blob.core.windows.net/publiccafein/Ads 2.jpeg"}
+            title="Special Offer"
+            description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla vel odio ut urna volutpat vestibulum."
+            />
+        </section>
+
+        <section className = 'flex flex-row w-full items-center justify-center'>
+            <AdvertiseBox
+            image= {"https://publiccafein.blob.core.windows.net/publiccafein/Ads 5.jpeg"}
+            title="Special Offer"
+            description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla vel odio ut urna volutpat vestibulum."
+            />
+            <AdvertiseBox
+            image= {"https://publiccafein.blob.core.windows.net/publiccafein/Ads 6.jpeg"}
             title="Special Offer"
             description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla vel odio ut urna volutpat vestibulum."
             />

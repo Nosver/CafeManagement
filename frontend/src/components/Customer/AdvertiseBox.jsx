@@ -1,10 +1,10 @@
 import { Button } from "flowbite-react";
 import { Link, NavLink, Navigate } from "react-router-dom";
 
-const AdvertiseBox = ({ image, title, description }) => {
+const AdvertiseBox = ({ image, title, description,w,h }) => {
   return (
-    <div className="bg-white rounded-lg shadow-md overflow-hidden flex flex-col mx-4 my-4">
-      <img src={image} alt={title} className="w-full h-60 object-cover" />
+    <div className="bg-white rounded-lg shadow-md overflow-hidden flex flex-col w-1/2 mx-4 my-4">
+      <img src={image} alt={title} className="w-full h-full object-cover" />
 
       <div className="p-4 flex flex-row">
         
