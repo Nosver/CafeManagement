@@ -106,7 +106,7 @@ public class OrderService {
     }
 
     public List<OrderDTO> getAllOrders(){
-        List<Order> orders= orderRepository.findAll();
+        List<Order> orders= orderRepository.findAllOrderByCreatedAt();
 
         List<OrderDTO> dtos = new ArrayList<OrderDTO>();
         for (Order order: orders){
