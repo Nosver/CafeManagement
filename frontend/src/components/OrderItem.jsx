@@ -30,7 +30,7 @@ const OrderItem = ({order, openPopup}) => {
           See Details
         </button>
           <span className='text-green-500'>  
-            {order.totalPrice}₺
+            {order.totalPrice && order.totalPrice.toFixed(2)}₺
           </span>
       </div>
 
