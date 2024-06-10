@@ -2,6 +2,7 @@ import React from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
 import StarRating from './StarRaiting';
+import { DateTime } from '../DateTime';
 
 export const Comment = ({comment}) => {
     return (
@@ -17,7 +18,7 @@ export const Comment = ({comment}) => {
             <div class="flex items-center mb-1 space-x-1 rtl:space-x-reverse">
                 <StarRating rating={comment.star} />
             </div>
-            <footer class="mb-5 text-sm text-gray-500 dark:text-gray-400"><p>{comment.createdAt} </p></footer>
+            <footer class="mb-5 text-sm text-gray-500 dark:text-gray-400"><p><DateTime date={comment.createdAt}/></p></footer>
             <p class="mb-2 text-gray-500 dark:text-gray-400">{comment.description}</p>
 
         </article>

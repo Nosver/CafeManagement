@@ -12,39 +12,39 @@ const AdvertiseSection = () => {
         <section className = 'flex flex-row w-full items-center justify-center'>
             <AdvertiseBox
             image= {"https://publiccafein.blob.core.windows.net/publiccafein/Ads 1.jpeg"}
-            title="Special Offer"
-            description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla vel odio ut urna volutpat vestibulum."
+            title="Morning Bliss Combo"
+            description="Enjoy a freshly brewed coffee and a delicious croissant at a special discount! Treat yourself to this delightful combo."
             />
             <AdvertiseBox
             image= {"https://publiccafein.blob.core.windows.net/publiccafein/Ads 3.jpeg"}
-            title="Special Offer"
-            description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla vel odio ut urna volutpat vestibulum."
+            title="Sunshine Sip Special"
+            description="Enjoy a refreshing lemonade at a special discount! Brighten your day with this zesty treat."
             />
         </section>
 
         <section className = 'flex flex-row w-full items-center justify-center'>
             <AdvertiseBox
             image = {"https://publiccafein.blob.core.windows.net/publiccafein/Ads 4.jpeg"}
-            title="Special Offer"
-            description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla vel odio ut urna volutpat vestibulum."
+            title="Cocoa Croissant Craze"
+            description="Dive into decadence with our chocolate croissant at a special discount! Indulge in buttery layers and rich chocolate."
             />
             <AdvertiseBox
             image = {"https://publiccafein.blob.core.windows.net/publiccafein/Ads 2.jpeg"}
-            title="Special Offer"
-            description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla vel odio ut urna volutpat vestibulum."
+            title="Velvet Vanilla Delight"
+            description="Enjoy a rich and creamy vanilla latte at a special discount! Indulge in this smooth, aromatic treat."
             />
         </section>
 
         <section className = 'flex flex-row w-full items-center justify-center'>
             <AdvertiseBox
             image= {"https://publiccafein.blob.core.windows.net/publiccafein/Ads 5.jpeg"}
-            title="Special Offer"
-            description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla vel odio ut urna volutpat vestibulum."
+            title="Turkish Delight Deal"
+            description="Enjoy a rich, authentic Turkish coffee at a special discount! Elevate your coffee experience."
             />
             <AdvertiseBox
             image= {"https://publiccafein.blob.core.windows.net/publiccafein/Ads 6.jpeg"}
-            title="Special Offer"
-            description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla vel odio ut urna volutpat vestibulum."
+            title="Basque Bliss Special"
+            description="Indulge in our exquisite San Sebastian cake at a special discount! Treat yourself to this creamy, caramelized delight."
             />
         </section>
 

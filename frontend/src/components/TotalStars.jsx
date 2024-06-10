@@ -26,7 +26,7 @@ const TotalStars = ({ rating }) => {
     return (
       <div className="flex items-center">
         {stars}
-        <p className="ms-2 mt-6 text-sm  font-medium text-gray-500 dark:text-gray-400">{rating} out of 5</p>
+        <p className="ms-2 mt-6 text-sm  font-medium text-gray-500 dark:text-gray-400">{rating && rating.toFixed(2)} out of 5</p>
       </div>
     );  
   };
