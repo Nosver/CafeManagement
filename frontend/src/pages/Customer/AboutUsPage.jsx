@@ -88,7 +88,7 @@ export const AboutUsPage = () => {
                     </div>
                     <div class="items-center bg-gray-50 rounded-lg shadow sm:flex dark:bg-gray-800 dark:border-gray-700">
                         <a href="#">
-                            <img style={{ width: '200px', height: '200px' }} class="w-full rounded-lg sm:rounded-none sm:rounded-l-lg" src='https://media.licdn.com/dms/image/D4D03AQEB2uxeUexPEA/profile-displayphoto-shrink_400_400/0/1690285973970?e=1717632000&v=beta&t=WMhrSPYmlrMvdVczlFhxpWDfgfmGzeDntd-_L4XPzA4' alt="Guney Avatar" />
+                            <img style={{ width: '200px', height: '200px' }} class="w-full rounded-lg sm:rounded-none sm:rounded-l-lg" src='https://publiccafein.blob.core.windows.net/publiccafein/Güney.jpeg' alt="Guney Avatar" />
                         </a>
                         <div class="p-5">
                             <h3 class="text-xl font-bold tracking-tight text-gray-900 dark:text-white">
