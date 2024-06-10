@@ -24,12 +24,12 @@ public interface UserRepository extends JpaRepository<User, Long> {
     List<UserRoleCount> getCompanyDetails();
 
 
-    @Query("SELECT new com.cafe.management.dto.UserSpendingDTO(u.id, u.fullName, u.email, SUM(o.totalPrice)) " +
-            "FROM User u " +
-            "JOIN u.orders o " +
-            "WHERE u.role = 'CUSTOMER' " +
-            "GROUP BY u.id, u.fullName, u.email " +
-            "ORDER BY SUM(o.totalPrice) DESC")
+    @Query("SELECT new com.cafe.management.dto.UserSpendingDTO(u.id, u.fullName, u.email, SUM(o.totalPrice)) \n" +
+            "FROM User u \n" +
+            "JOIN u.orders o \n" +
+            "WHERE u.role = 'CUSTOMER' AND o.status = 'SERVED' \n" +
+            "GROUP BY u.id, u.fullName, u.email \n" +
+            "ORDER BY SUM(o.totalPrice) DESC\n")
     List<UserSpendingDTO> findCustomerSpending(Pageable pageable);
 
     @Query("SELECT new com.cafe.management.dto.UserSpendingDTO(u.id, u.fullName, u.email, SUM(o.totalPrice)) " +
