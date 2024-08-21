@@ -19,6 +19,14 @@ Welcome to the Cafe Management System project! This repository contains the sour
 
 The Cafe Management System is aimed at helping cafe owners manage various aspects of their business, including orders, inventory, and customer management.
 
+![image](https://github.com/user-attachments/assets/331e8b9c-2c95-468f-9b46-d23e2dd7a158)
+![image](https://github.com/user-attachments/assets/31794ba5-2754-4549-aae7-054c7a573712)
+![image](https://github.com/user-attachments/assets/56cfb35f-2943-40d3-89b8-5da1efb69259)
+![image](https://github.com/user-attachments/assets/4f18fba8-540d-4a83-81ef-2a48dc0a1952)
+![image](https://github.com/user-attachments/assets/414337f7-4f1c-48cc-9678-2a104e00615f)
+![image](https://github.com/user-attachments/assets/41aceacc-57f4-4610-9465-2994a0bb43e2)
+
+
 ## Getting Started
 
 ### Prerequisites
