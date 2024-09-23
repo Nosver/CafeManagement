@@ -21,7 +21,7 @@
     "@react-oauth/google": "^0.12.1",
     "@windmill/react-ui": "^0.6.0",
     "apexcharts": "^3.48.0",
-    "axios": "^1.6.8",
+    "axios": "^1.7.4",
     "chart.js": "^4.4.2",
     "chartjs-adapter-moment": "^1.0.1",
     "decimal.js": "^10.4.3",
